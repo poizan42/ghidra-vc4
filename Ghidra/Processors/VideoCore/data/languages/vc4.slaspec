@@ -3,6 +3,19 @@
 ## TODO:
 ## - vector registers and instructions
 
+## Vector instructions are all `unimpl` because there is no VRF model here yet. Hardware
+## measurements that constrain what they do are recorded as comments next to the relevant
+## constructors -- see the block above "# Vector memory ops", and the note on the PCTL
+## `mov` pair. They come from running payloads on a Pi 4 VPU via the mailbox EXECUTE_CODE
+## tag; the method, the failed hypotheses and the controls are in vpu-probe/ in the
+## rpi-hacking repo. Everything still unverified is labelled as such rather than guessed.
+##
+## The encoding side of this spec has been cross-checked against those measurements and
+## against a CGEN description of the same ISA, and was correct in every particular that
+## could be tested: the widthcode/offset tables, widthcode 7 meaning an absent operand,
+## Vselb=7 selecting a scalar B, Vhasimm selecting an immediate B, and Vrep (including
+## value 7 = "REP r0") existing only in the 80-bit forms.
+
 define endian=little;
 define alignment=2;
 
@@ -524,6 +537,17 @@ define pcodeop version;
 :sleep is Op16=0x0002
 	{ }	# provisional
 
+# Both directions confirmed on hardware, 2026-07-26: `mov r6,p0` assembles to 26 cc 00 00,
+# i.e. word0 = 0xcc00 | (OpAux << 5) | Rd and word1 = Pb, exactly as modelled here. Reading
+# p0..p15 on a Pi 4 returns p0=8, p10=3, p15=7 and zero elsewhere.
+#
+# HAZARD: reading p16 hard-wedges the VPU, reproducibly, taking the firmware with it. Do not
+# sweep p16..p31. The write direction is untested.
+#
+# Worth knowing when cross-referencing with binutils: gas cannot express either form. Its
+# CGEN description defines the register file (h-preg in cpu/vc4.cpu) but no instruction
+# references it, so `mov r6,p0` silently mis-assembles as `mov r6,0x0`. This spec is the
+# only place these instructions exist.
 :mov Pd, Rb is Op8=0xcc & OpAux=0 & Pd ; argOp11=0 & Rb
 	{ Pd = Rb; }
 :mov Rd, Pb is Op8=0xcc & OpAux=1 & Rd ; argOp11=0 & Pb
@@ -1730,6 +1754,63 @@ vflags: Vrep^vsetf^vpred^vsru
 	is (Vopsize=1 & Vrep) ... & vsetf & vpred & vsru {}
 
 # Vector memory ops
+#
+# These are all `unimpl`: modelling them needs a vector register file, which this spec
+# does not define (see the TODO at the top). What follows is what has been *measured on
+# hardware* -- a Pi 4 (VideoCore VI) running payloads through the mailbox EXECUTE_CODE
+# tag, 2026-07-26 -- so that anyone reading a disassembly here knows what the operands
+# mean even though there is no p-code. Anything not verified is called out as unknown.
+#
+# Operand shape. The three 9-bit specifiers (D, A, B) each encode `row | (widthcode << 7)`,
+# and widthcode 7 means THE OPERAND IS ABSENT, which this spec already prints as "-".
+# The width/offset decoding in vbased/vbasea/vbaseb above matches hardware exactly:
+#   widthcode 0..3 = 8-bit, byte-in-lane 0..3   (H(y,0) H(y,16) H(y,32) H(y,48))
+#   widthcode 4,5  = 16-bit, x=0 / x=32         (HX(y,0) HX(y,32))
+#   widthcode 6    = 32-bit                     (HY(y,0))
+# A VRF row is 16 lanes x 4 bytes; element x lives in lane (x % 16), byte-in-lane (x / 16).
+#
+# The absent operand really is ignored by the hardware, not merely unprinted. For the
+# ld family the A specifier -- all 9 bits plus its Vinca auto-increment -- was varied over
+# 12 values (rows, byte-in-lane bits, and every widthcode) with byte-identical results.
+# Symmetrically, the D specifier is inert for the st family. So the 2-operand forms below
+# are right, and the bits are free rather than reserved.
+#
+# ld  / st            Verified: a contiguous 16-element transfer between a VRF row and
+#                     memory at the B address. `v8ld H(20,0),(r3)` reads 16 consecutive
+#                     bytes; `v8st` writes 16.
+#
+# lookupm / lookupml  A GATHER: element i is read from base + index[i]. indexwritem /
+# indexwritem /       indexwriteml are the matching SCATTER: element i of A is written to
+# indexwriteml        base + index[i].
+#
+#                     WHERE THE INDEX VECTOR COMES FROM IS UNKNOWN. In a harness that
+#                     controls the whole register file it reads as all zeros, so a gather
+#                     degenerates to broadcasting base[0] to all 16 lanes and a scatter
+#                     collapses onto one address. That the scatter really performs 16
+#                     writes (rather than storing one element) was established with the
+#                     row auto-increment: `v8indexwritem H(20++,0),(r3)` consumes 16 rows
+#                     and leaves the *last* one's byte, i.e. 16 writes collided.
+#
+#                     Ruled out as the index source, each with a positive control: the A
+#                     operand, any VRF row, the accumulator (settable via `CLRA UACC` and
+#                     readable via vgetacc -- verified 5 and 3 round-tripping), the D
+#                     operand, a vector B, and the REP count. Firmware always precedes
+#                     these with `bitplanes … SETF` + `v32mov -,0 CLRA UACC` and predicates
+#                     them `IFNZ`, which looks like stream compaction; predication is the
+#                     most likely remaining source and is not yet properly tested.
+#
+# vgetacc             Verified to read the accumulator into the D row. The accumulator is
+#                     zero at entry, is not disturbed by ordinary vector ops, and is loaded
+#                     by an `ACC`-modified op (`CLRA UACC`); `UADD` does not load it.
+#
+# REP (80-bit only; the 48-bit forms have no repeat field -- Vrep sits where the 48-bit
+# encodings keep their scalar-register selector) iterates the instruction. The operand
+# `++` forms advance a row per iteration, but the memory address does NOT advance unless
+# an explicit `+=rN` is given. Note the ld/st family honours the REP count while lookupm
+# and indexwritem appeared to iterate 16 times regardless of it -- unexplained.
+#
+# Full write-up, including the failed hypotheses and the controls that make the negative
+# results meaningful: vpu-probe/findings-lookup.md in the rpi-hacking repo.
 with : (Vop=0x3c | Vop=0x3e) ... {
   :v^Vmwidth^"ld" vargd, vmemargb^vflags
 	is (Vmop=0 & Vmwidth) ... & vargd & vmemargb & vflags unimpl

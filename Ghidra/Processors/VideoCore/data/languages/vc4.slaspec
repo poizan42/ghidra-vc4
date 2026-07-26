@@ -2241,6 +2241,10 @@ with : (Vop=0x3c | Vop=0x3e) ... {
 # Generated -- see vpu-sem/gen-vecmem.py for the measurements and the omissions.
 @include "vc4-vecmem.sinc"
 
+# Real p-code for the vector ALU operations identified from hardware -- 16-bit width with all
+# three operands at widthcode 4, the shape that was probed. Generated; see vpu-sem/gen-alu.py.
+@include "vc4-vecalu.sinc"
+
 # Vector ALU ops
 with : (Vop=0x3d | Vop=0x3f) ... {
   :v^Vawidth^"mov" vargd, vargb^vflags

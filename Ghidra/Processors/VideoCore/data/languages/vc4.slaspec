@@ -555,8 +555,25 @@ macro exception(num) {
   call [intloc];
 }
 
+# PROVISIONAL, and the marker matters. Hermitage's videocoreiv.arch:106 reads
+#     0000 0000 0000 0000    "; bkpt"    # provisional: raises exception 0x0e
+# -- its own author marked it provisional. Both the name and the exception number come from that
+# single line; nothing independent attests either, and the "provisional" note was lost when it was
+# transcribed here (`:sleep` below kept its marker, this did not). NOT measured, and not casually
+# measurable: the probe harness installs no exception handler, so a trap would run the firmware's
+# vector table with our register state -- the same class of hazard as reading p17, which wedges the
+# VPU 3/3.
+#
+# What IS established, by flow analysis rather than by probing: bkpt is used DELIBERATELY, not just
+# as how 0x0000 padding renders. In start.elf, 81 isolated bkpt instructions are reached by
+# fall-through inside a function, most in the assert idiom -- a conditional branch over the trap:
+#     beq  <after>
+#     bkpt              <- taken only when the assertion fails
+#   <after>:
+# So flow termination here is almost certainly right even though the vector number is a guess, which
+# is why the call is kept rather than replaced with a bare pcodeop.
 :bkpt is Op16=0x0000
-	{ exception(0x0e); }
+	{ exception(0x0e); }	# provisional -- see above
 :nop is Op16=0x0001 {}
 
 define pcodeop version;

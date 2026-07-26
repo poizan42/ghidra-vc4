@@ -1834,9 +1834,14 @@ vflags: Vrep^vsetf^vpred^vsru
 #                       - `indexwriteml` does NOT advance it, so it indexes rather than acting
 #                         as a moving write pointer.
 #                       - `UADD` does not load it; the ACC modifiers are not interchangeable.
-#                       - `UACCH` is UNRESOLVED: it reads back zero in every case tried, and not
-#                         through truncation, since a horizontal total would be 0x50 for a
-#                         uniform 5 and 0x1e0 for the ramp.
+#                       - `UACCH` is the SAME accumulator's HIGH HALF: it scales by 0x10000, so
+#                         a value of 5 reads back as 0x50000. The `H` is "high", not
+#                         "horizontal". `vgetacc H` reads the low byte of the accumulator and
+#                         `vgetacc HY` the full 32-bit word -- there is one accumulator, not a
+#                         bank per width.
+#                       - Nothing observed clears or shifts it: a value survives 0/1/2/4/8 nops,
+#                         a scalar ALU op, a scalar load, a scalar store, a read of sr, and an
+#                         intervening vector op.
 #
 #                     Firmware's idiom reads as stream compaction:
 #                       v16bitplanes -,rN SETF            enable the lanes in the bitmask

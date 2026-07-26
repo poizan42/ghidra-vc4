@@ -57,6 +57,19 @@ define register offset=$(PCTL_REG_BASE) size=4 [
 
 define register offset=0x2000 size=4 contextreg;
 
+# Vector register file: P(64,64) -- 64 rows of 64 bytes. A row is 16 lanes x 4 bytes, and an
+# element of width w at index i lives at byte 4*i (lane-major), which is why a vector load is a
+# series of stride-4 assignments rather than a block move.
+define register offset=0x8000 size=64 [
+  VR0  VR1  VR2  VR3  VR4  VR5  VR6  VR7  VR8  VR9  VR10 VR11 VR12 VR13 VR14 VR15
+  VR16 VR17 VR18 VR19 VR20 VR21 VR22 VR23 VR24 VR25 VR26 VR27 VR28 VR29 VR30 VR31
+  VR32 VR33 VR34 VR35 VR36 VR37 VR38 VR39 VR40 VR41 VR42 VR43 VR44 VR45 VR46 VR47
+  VR48 VR49 VR50 VR51 VR52 VR53 VR54 VR55 VR56 VR57 VR58 VR59 VR60 VR61 VR62 VR63 ];
+
+# Per-lane accumulator, the index source for lookupml/indexwriteml (measured -- see
+# vpu-probe/findings-lookup.md). 16 lanes x 32 bits; UACC writes the low half, UACCH the high.
+define register offset=0x9000 size=64 [ VACC ];
+
 define context contextreg
   # common fields
   chkcc    = (28,31)	# condition code to be checked
@@ -217,6 +230,7 @@ define token vec48(48)
   VseldHi  = (30,31)
   Vdir     = (28,28)
   Vd       = (22,27)
+  VdRow    = (22,27)   # same bits as Vd; attached to VRF rows for semantics only
   VdHi     = (26,27)
   VdLo     = (22,25)
   Vbasea   = (19,21)
@@ -309,6 +323,14 @@ attach variables [ Rd16 ] [
 attach variables [ Rd24 ] [
 	gp sp lr r27 r28 r29 sr pc r0 r1 r2 r3 r4 r5 r6 r7
 	r8 r9 r10 r11 r12 r13 r14 r15 r16 r17 r18 r19 r20 r21 r22 r23 ];
+
+attach variables [ VdRow ]
+[
+  VR0  VR1  VR2  VR3  VR4  VR5  VR6  VR7  VR8  VR9  VR10 VR11 VR12 VR13 VR14 VR15
+  VR16 VR17 VR18 VR19 VR20 VR21 VR22 VR23 VR24 VR25 VR26 VR27 VR28 VR29 VR30 VR31
+  VR32 VR33 VR34 VR35 VR36 VR37 VR38 VR39 VR40 VR41 VR42 VR43 VR44 VR45 VR46 VR47
+  VR48 VR49 VR50 VR51 VR52 VR53 VR54 VR55 VR56 VR57 VR58 VR59 VR60 VR61 VR62 VR63
+];
 
 attach variables [ Pd Pb ] [
 	p0 p1 p2 p3 p4 p5 p6 p7 p8 p9 p10 p11 p12 p13 p14 p15
@@ -1898,6 +1920,51 @@ with : Vopsize=0 ... {
 }
 vflags: Vrep^vsetf^vpred^vsru
 	is (Vopsize=1 & Vrep) ... & vsetf & vpred & vsru {}
+
+
+
+# ---------------------------------------------------------------------------------------------
+# Toward real semantics for the vector unit: what is needed, and the two obstacles found
+#
+# The registers above (VR0..VR63, VACC) are declared and compile, and VdRow attaches the
+# H-direction row field to them, so the storage a semantic model needs now exists. Writing the
+# p-code itself is not done. How other Ghidra modules handle the same problem, for reference:
+#
+#   * Lane-wise ALU with STATIC lane addressing -> unroll. AARCH64's NEON writes a 16-byte vector
+#     add as 16 explicit bit-range assignments (AARCH64neon.sinc, 1.36 MB, machine-generated with
+#     per-instruction tests). That is the accepted approach, not a workaround.
+#   * Runtime-indexed gather/scatter -> `define pcodeop`. Ghidra's own x86 module does exactly
+#     this for AVX2 VPGATHERDD (avx2_manual.sinc), with the comment "TODO full semantics necessary
+#     for VSIB memory data access, leave out of data flow for now". Their pcodeops are however
+#     WIRED INTO DATAFLOW -- `XmmReg1 = vpgatherdd(XmmReg1, vexVVVV_XmmReg)` -- where ours are
+#     bare calls. Giving ours real arguments and destinations is the cheapest real improvement.
+#
+# Two obstacles specific to VideoCore, neither present in NEON:
+#
+#   1. VERTICAL OPERANDS SPAN 16 REGISTERS. In the H direction a row is one register: Vd is
+#      6 bits, so VdRow attaches cleanly. In the V direction the row coordinate is VdHi << 4,
+#      i.e. one of {0,16,32,48}, and the lane comes from VdLo/Vbased -- so a V operand addresses
+#      ONE LANE ACROSS 16 ROWS. That is 16 different registers, and SLEIGH's attach mechanism
+#      binds a field to one register per value, not to a set. Modelling it needs either 16
+#      explicit register names per constructor (a subtable of 4 base groups x lane positions) or
+#      a pcodeop.
+#
+#   2. EVEN A LOAD IS NOT A BLOCK MOVE. Element i of a row lives at byte 4*i (lane-major,
+#      measured -- v8ld H(20,0),(r3) puts consecutive memory bytes 40,41,42,43,... into row
+#      bytes 0,4,8,12,...). So a v8 load is 16 stride-4 bit-range assignments, a v16 load 16
+#      2-byte ones, and so on. Expressible, but per-width and per-direction.
+#
+# A first attempt at (2) for the H-direction 8-bit scalar-base case failed to compile with
+# "Pattern size cannot vary (missing ... ?)": the constructor referenced fields from several token
+# words and SLEIGH needs the `...` placed to match the spec's existing pattern algebra. That is
+# solvable but needs iteration against the token layout, so it is left undone rather than half
+# done -- a semantic model that is subtly wrong is worse than an honest black box, because the
+# decompiler will present it with confidence.
+#
+# Order of work when this is picked up: wire the existing pcodeops into dataflow first (cheap,
+# no new modelling); then H-direction ld/st per width; then the ALU ops by generation rather than
+# by hand; V-direction and the accumulator-indexed gather last.
+# ---------------------------------------------------------------------------------------------
 
 # Vector memory ops
 #

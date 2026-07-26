@@ -1,18 +1,21 @@
 # sleigh specification file for Broadcom VideoCore IV
 
 ## TODO:
-## - vector registers and instructions
+## - vector ALU semantics (only the mnemonics are known -- nothing measured yet)
+## - the V direction, the vector-B address forms, and the accumulator-indexed gather/scatter
 
-## Vector instructions carry no real semantics -- there is no VRF model here yet -- but they are
-## `define pcodeop` black boxes rather than `unimpl`, so the decompiler walks through vector code
-## instead of stopping at the first instruction of it. On a sample of 14 small functions
-## containing vector instructions, that took the count decompiling without
+## The vector register file IS modelled (VR0..VR63, VACC below), and the H-direction loads and
+## stores with a scalar base have real p-code in vc4-vecmem.sinc. Every other vector constructor
+## is a `define pcodeop` black box rather than `unimpl`, so the decompiler still walks through
+## vector code instead of stopping at the first instruction of it: on a sample of 14 small
+## functions containing vector instructions, that took the count decompiling without
 ## "Truncating control flow" from 1/14 to 14/14. Hardware
 ## measurements that constrain what they do are recorded as comments next to the relevant
 ## constructors -- see the block above "# Vector memory ops", and the note on the PCTL
 ## `mov` pair. They come from running payloads on a Pi 4 VPU via the mailbox EXECUTE_CODE
 ## tag; the method, the failed hypotheses and the controls are in vpu-probe/ in the
-## rpi-hacking repo. Everything still unverified is labelled as such rather than guessed.
+## rpi-hacking repo. Everything still unverified is labelled as such rather than guessed, and
+## vpu-sem/ re-runs the modelled ones against silicon so the distinction cannot rot.
 ##
 ## The encoding side of this spec has been cross-checked against those measurements and
 ## against a CGEN description of the same ISA, and was correct in every particular that
@@ -1924,54 +1927,69 @@ vflags: Vrep^vsetf^vpred^vsru
 
 
 # ---------------------------------------------------------------------------------------------
-# Toward real semantics for the vector unit: what is needed, and the two obstacles found
+# Semantics for the vector unit: what is done, how it is checked, and what is left
 #
-# The registers above (VR0..VR63, VACC) are declared and compile, and VdRow attaches the
-# H-direction row field to them, so the storage a semantic model needs now exists. Writing the
-# p-code itself is not done. How other Ghidra modules handle the same problem, for reference:
+# DONE: the H-direction loads and stores with a scalar base address have real p-code, generated
+# into vc4-vecmem.sinc (see @include below). All 42 of those constructors -- 3 memory widths x 7
+# widthcodes x {ld,st} -- have been executed on VideoCore VI silicon and on Ghidra's p-code
+# emulator from the same seeded state, and agree on all 4096 VRF bytes, 24 scalar registers, sr
+# and the 2 KB memory window. The harness that does the comparing is vpu-sem/ in the rpi-hacking
+# repo; it reports a constructor with no p-code as `unmodelled` rather than as passing, so what
+# is verified and what is merely present stay distinguishable.
 #
-#   * Lane-wise ALU with STATIC lane addressing -> unroll. AARCH64's NEON writes a 16-byte vector
-#     add as 16 explicit bit-range assignments (AARCH64neon.sinc, 1.36 MB, machine-generated with
-#     per-instruction tests). That is the accepted approach, not a workaround.
-#   * Runtime-indexed gather/scatter -> `define pcodeop`. Ghidra's own x86 module does exactly
-#     this for AVX2 VPGATHERDD (avx2_manual.sinc), with the comment "TODO full semantics necessary
-#     for VSIB memory data access, leave out of data flow for now". Their pcodeops are however
-#     WIRED INTO DATAFLOW -- `XmmReg1 = vpgatherdd(XmmReg1, vexVVVV_XmmReg)` -- where ours are
-#     bare calls. Giving ours real arguments and destinations is the cheapest real improvement.
+# Two facts that had to be measured, not inferred, and that a reader of a disassembly needs:
 #
-# Two obstacles specific to VideoCore, neither present in NEON:
+#   1. A LOAD IS NOT A BLOCK MOVE. Element i of a row lives at byte 4*i (lane-major), so a
+#      transfer is 16 stride-4 assignments. `v8ld H(20,0),(r3)` puts consecutive memory bytes
+#      into row bytes 0,4,8,12,...
 #
-#   1. VERTICAL OPERANDS SPAN 16 REGISTERS. In the H direction a row is one register: Vd is
-#      6 bits, so VdRow attaches cleanly. In the V direction the row coordinate is VdHi << 4,
-#      i.e. one of {0,16,32,48}, and the lane comes from VdLo/Vbased -- so a V operand addresses
-#      ONE LANE ACROSS 16 ROWS. That is 16 different registers, and SLEIGH's attach mechanism
-#      binds a field to one register per value, not to a set. Modelling it needs either 16
-#      explicit register names per constructor (a subtable of 4 base groups x lane positions) or
-#      a pcodeop.
+#   2. THE MNEMONIC WIDTH AND THE OPERAND WIDTHCODE ARE INDEPENDENT, and the assembler encodes
+#      them disagreeing quite happily. The mnemonic (Vmwidth) gives the memory element size and
+#      the per-lane stride; the widthcode (Vseld/Vsela) gives the register element size and its
+#      byte-in-lane. When they differ the value is converted, and the conversion is asymmetric:
+#      widening from 8 bits ZERO-extends, widening from 16 bits SIGN-extends, narrowing
+#      truncates. So an 8-bit element is unsigned and a 16-bit one signed -- unsurprising for a
+#      video codec engine, but not guessable. Measured in all four combinations, both directions.
 #
-#   2. EVEN A LOAD IS NOT A BLOCK MOVE. Element i of a row lives at byte 4*i (lane-major,
-#      measured -- v8ld H(20,0),(r3) puts consecutive memory bytes 40,41,42,43,... into row
-#      bytes 0,4,8,12,...). So a v8 load is 16 stride-4 bit-range assignments, a v16 load 16
-#      2-byte ones, and so on. Expressible, but per-width and per-direction.
+# NOT DONE, and each left as a pcodeop rather than guessed:
 #
-# A first attempt at (2) for the H-direction 8-bit scalar-base case failed to compile with
-# "Pattern size cannot vary (missing ... ?)": the constructor referenced fields from several token
-# words and SLEIGH needs the `...` placed to match the spec's existing pattern algebra. That is
-# solvable but needs iteration against the token layout, so it is left undone rather than half
-# done -- a semantic model that is subtly wrong is worse than an honest black box, because the
-# decompiler will present it with confidence.
+#   * VERTICAL OPERANDS SPAN 16 REGISTERS. In the H direction a row is one register: Vd is
+#     6 bits, so VdRow attaches cleanly. In the V direction the row coordinate is VdHi << 4,
+#     i.e. one of {0,16,32,48}, and the lane comes from VdLo/Vbased -- so a V operand addresses
+#     ONE LANE ACROSS 16 ROWS. SLEIGH's attach binds a field to one register per value, not to a
+#     set. Three shipped Ghidra idioms would express it: rotated `attach variables` tables on
+#     duplicated same-bit fields (AARCH64instructions.sinc:1666), a recursive subtable driven by
+#     context fields holding a register cursor and a stride (ARMneon.sinc:3160, the only shipped
+#     place a variable stride appears), or `&Dreg + n*8` with `*[register]` indirect stores
+#     (ARMneon.sinc:3075) -- the last trades away the decompiler dataflow that is the point.
 #
-# Order of work when this is picked up: wire the existing pcodeops into dataflow first (cheap,
-# no new modelling); then H-direction ld/st per width; then the ALU ops by generation rather than
-# by hand; V-direction and the accumulator-indexed gather last.
+#   * THE VECTOR-B FORMS, whose address every probe reads as the constant 40,05,00,58 no matter
+#     which row is named. Unexplained, so unmodelled.
+#
+#   * lookupm / lookupml / indexwritem / indexwriteml. Measured (see below), but the
+#     accumulator-indexed address needs per-lane VACC reads; next step, not this one.
+#
+#   * The ALU ops. Only their mnemonics are known -- no hardware measurement at all yet -- so
+#     they stay black boxes until probed. That is the largest remaining piece.
+#
+# One SLEIGH trap worth recording, because it stalled an earlier attempt and the diagnosis was
+# wrong for a while: `Pattern size cannot vary (missing ... ?)` here is NOT about fields crossing
+# token words -- a 48-bit vector instruction is a single token. It is that a bare token field
+# left OUTSIDE the ellipsis group fixes the pattern at 48 bits while the subtables beside it can
+# still be 80. Put the bare fields inside the group: `(fields & VdRow & VRm) ... & vargd & ...`.
+# Also, a field cannot appear in the display AND be constrained in the same constructor
+# ("Constraining currently undefined operand"), so a pinned Vmwidth is written into the mnemonic
+# text instead; the rendered listing is identical either way, which was verified by diffing the
+# full disassembly of start.elf before and against after.
 # ---------------------------------------------------------------------------------------------
 
 # Vector memory ops
 #
-# These are all `unimpl`: modelling them needs a vector register file, which this spec
-# does not define (see the TODO at the top). What follows is what has been *measured on
-# hardware* -- a Pi 4 (VideoCore VI) running payloads through the mailbox EXECUTE_CODE
-# tag, 2026-07-26 -- so that anyone reading a disassembly here knows what the operands
+# The constructors below are `define pcodeop` black boxes. The H-direction ld/st subset has real
+# p-code in vc4-vecmem.sinc, included after this block with strictly more specific patterns, so
+# sleigh prefers it there and falls back to these everywhere else. What follows is what has been
+# *measured on hardware* -- a Pi 4 (VideoCore VI) running payloads through the mailbox
+# EXECUTE_CODE tag, 2026-07-26 -- so that anyone reading a disassembly here knows what the operands
 # mean even though there is no p-code. Anything not verified is called out as unknown.
 #
 # Operand shape. The three 9-bit specifiers (D, A, B) each encode `row | (widthcode << 7)`,
@@ -2216,6 +2234,12 @@ with : (Vop=0x3c | Vop=0x3e) ... {
     vmem31();
   }
 }
+
+# Real p-code for the subset of the above that has been measured AND can be expressed: the
+# H-direction loads and stores with a scalar base. These constructors are strictly more specific
+# than the pcodeop ones above, so sleigh prefers them and everything else keeps its black box.
+# Generated -- see vpu-sem/gen-vecmem.py for the measurements and the omissions.
+@include "vc4-vecmem.sinc"
 
 # Vector ALU ops
 with : (Vop=0x3d | Vop=0x3f) ... {

@@ -1818,14 +1818,34 @@ vflags: Vrep^vsetf^vpred^vsru
 #                     `v8indexwritem H(20++,0),(r3)` consumes 16 rows and leaves the last
 #                     one's byte, i.e. 16 writes collided.
 #
-#                     Firmware's idiom now reads directly as stream compaction:
+#                     Demonstrated end to end: with the accumulator holding a per-lane ramp
+#                     (0,4,8,...,60) and every lane live, `v8indexwriteml` performs 16 separate
+#                     writes at stride 4 and `v8lookupml` reads 16 distinct addresses, against
+#                     one byte and a broadcast when the accumulator is uniform.
+#
+# The accumulator     `CLRA` clears it, `UACC` accumulates into it, `vgetacc` reads it back
+#                     (written `vgetacc D,-,-`, though it prints as `-,r15`).
+#                       - It is PER LANE. A per-lane source gives a per-lane accumulator; an
+#                         immediate gives a uniform one, which is why an early test of this
+#                         looked like the accumulator could not hold a vector.
+#                       - It accumulates ACROSS REP ITERATIONS: `v16mov -,1 CLRA UACC REP4`
+#                         leaves 4. This matches the architecture note that CLRA applies on
+#                         execution but is ignored on repetitions.
+#                       - `indexwriteml` does NOT advance it, so it indexes rather than acting
+#                         as a moving write pointer.
+#                       - `UADD` does not load it; the ACC modifiers are not interchangeable.
+#                       - `UACCH` is UNRESOLVED: it reads back zero in every case tried, and not
+#                         through truncation, since a horizontal total would be 0x50 for a
+#                         uniform 5 and 0x1e0 for the ramp.
+#
+#                     Firmware's idiom reads as stream compaction:
 #                       v16bitplanes -,rN SETF            enable the lanes in the bitmask
-#                       v32mov -,0 CLRA UACC              accumulator := per-lane prefix count
+#                       v32mov -,0 CLRA UACC              reset the per-lane index
 #                       v32indexwriteml HY(8,0),(r2) IFNZ enabled lanes -> consecutive slots
-#                     `UACC`'s exact across-lane behaviour is the one piece still unmeasured:
-#                     loading from an immediate yields a *uniform* accumulator, so the ramp a
-#                     compaction needs must come from a non-uniform source or from the
-#                     interaction with predication.
+#                     but note the reset is to a *uniform* zero, which on its own would collapse
+#                     every write onto `base`. So those three instructions are not the whole
+#                     story; the real code must build the per-lane index across loop iterations,
+#                     which is what UACC accumulating over repetitions provides.
 #
 # Predication         Only exists in the 80-bit forms -- adding IFNZ turns a 6-byte
 #                     v32indexwriteml into a 10-byte one. It gates which lanes access memory:

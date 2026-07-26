@@ -100,9 +100,121 @@ with : Vop=0x3d ... {
     VdRow[480,16] = srcA[480,16] + srcB[480,16];
   }
 
+  # v16addc
+  :v16addc vargd, varga, vargb^vflags
+	is (Vaop=34 & Vawidth=0 & Vdir=0 & Vseld=4 & Vselb=4 & Vsetf48=0 & Vhasimm=0 & Vhasoffd=0 & VdRow & vbrow & Vsela=4 & Vhasoffa=0 & varow) ...
+	   & vargd & varga & vargb & vflags {
+    local srcA:64 = varow;
+    local srcB:64 = vbrow;
+    VdRow[0,16] = srcA[0,16] + srcB[0,16];
+    VdRow[32,16] = srcA[32,16] + srcB[32,16];
+    VdRow[64,16] = srcA[64,16] + srcB[64,16];
+    VdRow[96,16] = srcA[96,16] + srcB[96,16];
+    VdRow[128,16] = srcA[128,16] + srcB[128,16];
+    VdRow[160,16] = srcA[160,16] + srcB[160,16];
+    VdRow[192,16] = srcA[192,16] + srcB[192,16];
+    VdRow[224,16] = srcA[224,16] + srcB[224,16];
+    VdRow[256,16] = srcA[256,16] + srcB[256,16];
+    VdRow[288,16] = srcA[288,16] + srcB[288,16];
+    VdRow[320,16] = srcA[320,16] + srcB[320,16];
+    VdRow[352,16] = srcA[352,16] + srcB[352,16];
+    VdRow[384,16] = srcA[384,16] + srcB[384,16];
+    VdRow[416,16] = srcA[416,16] + srcB[416,16];
+    VdRow[448,16] = srcA[448,16] + srcB[448,16];
+    VdRow[480,16] = srcA[480,16] + srcB[480,16];
+  }
+
   # v16adds
   :v16adds vargd, varga, vargb^vflags
 	is (Vaop=33 & Vawidth=0 & Vdir=0 & Vseld=4 & Vselb=4 & Vsetf48=0 & Vhasimm=0 & Vhasoffd=0 & VdRow & vbrow & Vsela=4 & Vhasoffa=0 & varow) ...
+	   & vargd & varga & vargb & vflags {
+    local srcA:64 = varow;
+    local srcB:64 = vbrow;
+    local w_16_0:4 = sext(srcA[0,16]) + sext(srcB[0,16]);
+    local hi_16_0:1 = w_16_0 s> 0x7fff:4;
+    local lo_16_0:1 = w_16_0 s< 0xffff8000:4;
+    local ok_16_0:1 = !hi_16_0 && !lo_16_0;
+    VdRow[0,16] = (w_16_0:2 * zext(ok_16_0)) + (0x7fff:2 * zext(hi_16_0)) + (0x8000:2 * zext(lo_16_0));
+    local w_16_1:4 = sext(srcA[32,16]) + sext(srcB[32,16]);
+    local hi_16_1:1 = w_16_1 s> 0x7fff:4;
+    local lo_16_1:1 = w_16_1 s< 0xffff8000:4;
+    local ok_16_1:1 = !hi_16_1 && !lo_16_1;
+    VdRow[32,16] = (w_16_1:2 * zext(ok_16_1)) + (0x7fff:2 * zext(hi_16_1)) + (0x8000:2 * zext(lo_16_1));
+    local w_16_2:4 = sext(srcA[64,16]) + sext(srcB[64,16]);
+    local hi_16_2:1 = w_16_2 s> 0x7fff:4;
+    local lo_16_2:1 = w_16_2 s< 0xffff8000:4;
+    local ok_16_2:1 = !hi_16_2 && !lo_16_2;
+    VdRow[64,16] = (w_16_2:2 * zext(ok_16_2)) + (0x7fff:2 * zext(hi_16_2)) + (0x8000:2 * zext(lo_16_2));
+    local w_16_3:4 = sext(srcA[96,16]) + sext(srcB[96,16]);
+    local hi_16_3:1 = w_16_3 s> 0x7fff:4;
+    local lo_16_3:1 = w_16_3 s< 0xffff8000:4;
+    local ok_16_3:1 = !hi_16_3 && !lo_16_3;
+    VdRow[96,16] = (w_16_3:2 * zext(ok_16_3)) + (0x7fff:2 * zext(hi_16_3)) + (0x8000:2 * zext(lo_16_3));
+    local w_16_4:4 = sext(srcA[128,16]) + sext(srcB[128,16]);
+    local hi_16_4:1 = w_16_4 s> 0x7fff:4;
+    local lo_16_4:1 = w_16_4 s< 0xffff8000:4;
+    local ok_16_4:1 = !hi_16_4 && !lo_16_4;
+    VdRow[128,16] = (w_16_4:2 * zext(ok_16_4)) + (0x7fff:2 * zext(hi_16_4)) + (0x8000:2 * zext(lo_16_4));
+    local w_16_5:4 = sext(srcA[160,16]) + sext(srcB[160,16]);
+    local hi_16_5:1 = w_16_5 s> 0x7fff:4;
+    local lo_16_5:1 = w_16_5 s< 0xffff8000:4;
+    local ok_16_5:1 = !hi_16_5 && !lo_16_5;
+    VdRow[160,16] = (w_16_5:2 * zext(ok_16_5)) + (0x7fff:2 * zext(hi_16_5)) + (0x8000:2 * zext(lo_16_5));
+    local w_16_6:4 = sext(srcA[192,16]) + sext(srcB[192,16]);
+    local hi_16_6:1 = w_16_6 s> 0x7fff:4;
+    local lo_16_6:1 = w_16_6 s< 0xffff8000:4;
+    local ok_16_6:1 = !hi_16_6 && !lo_16_6;
+    VdRow[192,16] = (w_16_6:2 * zext(ok_16_6)) + (0x7fff:2 * zext(hi_16_6)) + (0x8000:2 * zext(lo_16_6));
+    local w_16_7:4 = sext(srcA[224,16]) + sext(srcB[224,16]);
+    local hi_16_7:1 = w_16_7 s> 0x7fff:4;
+    local lo_16_7:1 = w_16_7 s< 0xffff8000:4;
+    local ok_16_7:1 = !hi_16_7 && !lo_16_7;
+    VdRow[224,16] = (w_16_7:2 * zext(ok_16_7)) + (0x7fff:2 * zext(hi_16_7)) + (0x8000:2 * zext(lo_16_7));
+    local w_16_8:4 = sext(srcA[256,16]) + sext(srcB[256,16]);
+    local hi_16_8:1 = w_16_8 s> 0x7fff:4;
+    local lo_16_8:1 = w_16_8 s< 0xffff8000:4;
+    local ok_16_8:1 = !hi_16_8 && !lo_16_8;
+    VdRow[256,16] = (w_16_8:2 * zext(ok_16_8)) + (0x7fff:2 * zext(hi_16_8)) + (0x8000:2 * zext(lo_16_8));
+    local w_16_9:4 = sext(srcA[288,16]) + sext(srcB[288,16]);
+    local hi_16_9:1 = w_16_9 s> 0x7fff:4;
+    local lo_16_9:1 = w_16_9 s< 0xffff8000:4;
+    local ok_16_9:1 = !hi_16_9 && !lo_16_9;
+    VdRow[288,16] = (w_16_9:2 * zext(ok_16_9)) + (0x7fff:2 * zext(hi_16_9)) + (0x8000:2 * zext(lo_16_9));
+    local w_16_10:4 = sext(srcA[320,16]) + sext(srcB[320,16]);
+    local hi_16_10:1 = w_16_10 s> 0x7fff:4;
+    local lo_16_10:1 = w_16_10 s< 0xffff8000:4;
+    local ok_16_10:1 = !hi_16_10 && !lo_16_10;
+    VdRow[320,16] = (w_16_10:2 * zext(ok_16_10)) + (0x7fff:2 * zext(hi_16_10)) + (0x8000:2 * zext(lo_16_10));
+    local w_16_11:4 = sext(srcA[352,16]) + sext(srcB[352,16]);
+    local hi_16_11:1 = w_16_11 s> 0x7fff:4;
+    local lo_16_11:1 = w_16_11 s< 0xffff8000:4;
+    local ok_16_11:1 = !hi_16_11 && !lo_16_11;
+    VdRow[352,16] = (w_16_11:2 * zext(ok_16_11)) + (0x7fff:2 * zext(hi_16_11)) + (0x8000:2 * zext(lo_16_11));
+    local w_16_12:4 = sext(srcA[384,16]) + sext(srcB[384,16]);
+    local hi_16_12:1 = w_16_12 s> 0x7fff:4;
+    local lo_16_12:1 = w_16_12 s< 0xffff8000:4;
+    local ok_16_12:1 = !hi_16_12 && !lo_16_12;
+    VdRow[384,16] = (w_16_12:2 * zext(ok_16_12)) + (0x7fff:2 * zext(hi_16_12)) + (0x8000:2 * zext(lo_16_12));
+    local w_16_13:4 = sext(srcA[416,16]) + sext(srcB[416,16]);
+    local hi_16_13:1 = w_16_13 s> 0x7fff:4;
+    local lo_16_13:1 = w_16_13 s< 0xffff8000:4;
+    local ok_16_13:1 = !hi_16_13 && !lo_16_13;
+    VdRow[416,16] = (w_16_13:2 * zext(ok_16_13)) + (0x7fff:2 * zext(hi_16_13)) + (0x8000:2 * zext(lo_16_13));
+    local w_16_14:4 = sext(srcA[448,16]) + sext(srcB[448,16]);
+    local hi_16_14:1 = w_16_14 s> 0x7fff:4;
+    local lo_16_14:1 = w_16_14 s< 0xffff8000:4;
+    local ok_16_14:1 = !hi_16_14 && !lo_16_14;
+    VdRow[448,16] = (w_16_14:2 * zext(ok_16_14)) + (0x7fff:2 * zext(hi_16_14)) + (0x8000:2 * zext(lo_16_14));
+    local w_16_15:4 = sext(srcA[480,16]) + sext(srcB[480,16]);
+    local hi_16_15:1 = w_16_15 s> 0x7fff:4;
+    local lo_16_15:1 = w_16_15 s< 0xffff8000:4;
+    local ok_16_15:1 = !hi_16_15 && !lo_16_15;
+    VdRow[480,16] = (w_16_15:2 * zext(ok_16_15)) + (0x7fff:2 * zext(hi_16_15)) + (0x8000:2 * zext(lo_16_15));
+  }
+
+  # v16addsc
+  :v16addsc vargd, varga, vargb^vflags
+	is (Vaop=35 & Vawidth=0 & Vdir=0 & Vseld=4 & Vselb=4 & Vsetf48=0 & Vhasimm=0 & Vhasoffd=0 & VdRow & vbrow & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vflags {
     local srcA:64 = varow;
     local srcB:64 = vbrow;
@@ -851,9 +963,121 @@ with : Vop=0x3d ... {
     VdRow[480,16] = srcB[480,16] - srcA[480,16];
   }
 
+  # v16rsubc
+  :v16rsubc vargd, varga, vargb^vflags
+	is (Vaop=42 & Vawidth=0 & Vdir=0 & Vseld=4 & Vselb=4 & Vsetf48=0 & Vhasimm=0 & Vhasoffd=0 & VdRow & vbrow & Vsela=4 & Vhasoffa=0 & varow) ...
+	   & vargd & varga & vargb & vflags {
+    local srcA:64 = varow;
+    local srcB:64 = vbrow;
+    VdRow[0,16] = srcB[0,16] - srcA[0,16];
+    VdRow[32,16] = srcB[32,16] - srcA[32,16];
+    VdRow[64,16] = srcB[64,16] - srcA[64,16];
+    VdRow[96,16] = srcB[96,16] - srcA[96,16];
+    VdRow[128,16] = srcB[128,16] - srcA[128,16];
+    VdRow[160,16] = srcB[160,16] - srcA[160,16];
+    VdRow[192,16] = srcB[192,16] - srcA[192,16];
+    VdRow[224,16] = srcB[224,16] - srcA[224,16];
+    VdRow[256,16] = srcB[256,16] - srcA[256,16];
+    VdRow[288,16] = srcB[288,16] - srcA[288,16];
+    VdRow[320,16] = srcB[320,16] - srcA[320,16];
+    VdRow[352,16] = srcB[352,16] - srcA[352,16];
+    VdRow[384,16] = srcB[384,16] - srcA[384,16];
+    VdRow[416,16] = srcB[416,16] - srcA[416,16];
+    VdRow[448,16] = srcB[448,16] - srcA[448,16];
+    VdRow[480,16] = srcB[480,16] - srcA[480,16];
+  }
+
   # v16rsubs
   :v16rsubs vargd, varga, vargb^vflags
 	is (Vaop=41 & Vawidth=0 & Vdir=0 & Vseld=4 & Vselb=4 & Vsetf48=0 & Vhasimm=0 & Vhasoffd=0 & VdRow & vbrow & Vsela=4 & Vhasoffa=0 & varow) ...
+	   & vargd & varga & vargb & vflags {
+    local srcA:64 = varow;
+    local srcB:64 = vbrow;
+    local w_16_0:4 = sext(srcB[0,16]) - sext(srcA[0,16]);
+    local hi_16_0:1 = w_16_0 s> 0x7fff:4;
+    local lo_16_0:1 = w_16_0 s< 0xffff8000:4;
+    local ok_16_0:1 = !hi_16_0 && !lo_16_0;
+    VdRow[0,16] = (w_16_0:2 * zext(ok_16_0)) + (0x7fff:2 * zext(hi_16_0)) + (0x8000:2 * zext(lo_16_0));
+    local w_16_1:4 = sext(srcB[32,16]) - sext(srcA[32,16]);
+    local hi_16_1:1 = w_16_1 s> 0x7fff:4;
+    local lo_16_1:1 = w_16_1 s< 0xffff8000:4;
+    local ok_16_1:1 = !hi_16_1 && !lo_16_1;
+    VdRow[32,16] = (w_16_1:2 * zext(ok_16_1)) + (0x7fff:2 * zext(hi_16_1)) + (0x8000:2 * zext(lo_16_1));
+    local w_16_2:4 = sext(srcB[64,16]) - sext(srcA[64,16]);
+    local hi_16_2:1 = w_16_2 s> 0x7fff:4;
+    local lo_16_2:1 = w_16_2 s< 0xffff8000:4;
+    local ok_16_2:1 = !hi_16_2 && !lo_16_2;
+    VdRow[64,16] = (w_16_2:2 * zext(ok_16_2)) + (0x7fff:2 * zext(hi_16_2)) + (0x8000:2 * zext(lo_16_2));
+    local w_16_3:4 = sext(srcB[96,16]) - sext(srcA[96,16]);
+    local hi_16_3:1 = w_16_3 s> 0x7fff:4;
+    local lo_16_3:1 = w_16_3 s< 0xffff8000:4;
+    local ok_16_3:1 = !hi_16_3 && !lo_16_3;
+    VdRow[96,16] = (w_16_3:2 * zext(ok_16_3)) + (0x7fff:2 * zext(hi_16_3)) + (0x8000:2 * zext(lo_16_3));
+    local w_16_4:4 = sext(srcB[128,16]) - sext(srcA[128,16]);
+    local hi_16_4:1 = w_16_4 s> 0x7fff:4;
+    local lo_16_4:1 = w_16_4 s< 0xffff8000:4;
+    local ok_16_4:1 = !hi_16_4 && !lo_16_4;
+    VdRow[128,16] = (w_16_4:2 * zext(ok_16_4)) + (0x7fff:2 * zext(hi_16_4)) + (0x8000:2 * zext(lo_16_4));
+    local w_16_5:4 = sext(srcB[160,16]) - sext(srcA[160,16]);
+    local hi_16_5:1 = w_16_5 s> 0x7fff:4;
+    local lo_16_5:1 = w_16_5 s< 0xffff8000:4;
+    local ok_16_5:1 = !hi_16_5 && !lo_16_5;
+    VdRow[160,16] = (w_16_5:2 * zext(ok_16_5)) + (0x7fff:2 * zext(hi_16_5)) + (0x8000:2 * zext(lo_16_5));
+    local w_16_6:4 = sext(srcB[192,16]) - sext(srcA[192,16]);
+    local hi_16_6:1 = w_16_6 s> 0x7fff:4;
+    local lo_16_6:1 = w_16_6 s< 0xffff8000:4;
+    local ok_16_6:1 = !hi_16_6 && !lo_16_6;
+    VdRow[192,16] = (w_16_6:2 * zext(ok_16_6)) + (0x7fff:2 * zext(hi_16_6)) + (0x8000:2 * zext(lo_16_6));
+    local w_16_7:4 = sext(srcB[224,16]) - sext(srcA[224,16]);
+    local hi_16_7:1 = w_16_7 s> 0x7fff:4;
+    local lo_16_7:1 = w_16_7 s< 0xffff8000:4;
+    local ok_16_7:1 = !hi_16_7 && !lo_16_7;
+    VdRow[224,16] = (w_16_7:2 * zext(ok_16_7)) + (0x7fff:2 * zext(hi_16_7)) + (0x8000:2 * zext(lo_16_7));
+    local w_16_8:4 = sext(srcB[256,16]) - sext(srcA[256,16]);
+    local hi_16_8:1 = w_16_8 s> 0x7fff:4;
+    local lo_16_8:1 = w_16_8 s< 0xffff8000:4;
+    local ok_16_8:1 = !hi_16_8 && !lo_16_8;
+    VdRow[256,16] = (w_16_8:2 * zext(ok_16_8)) + (0x7fff:2 * zext(hi_16_8)) + (0x8000:2 * zext(lo_16_8));
+    local w_16_9:4 = sext(srcB[288,16]) - sext(srcA[288,16]);
+    local hi_16_9:1 = w_16_9 s> 0x7fff:4;
+    local lo_16_9:1 = w_16_9 s< 0xffff8000:4;
+    local ok_16_9:1 = !hi_16_9 && !lo_16_9;
+    VdRow[288,16] = (w_16_9:2 * zext(ok_16_9)) + (0x7fff:2 * zext(hi_16_9)) + (0x8000:2 * zext(lo_16_9));
+    local w_16_10:4 = sext(srcB[320,16]) - sext(srcA[320,16]);
+    local hi_16_10:1 = w_16_10 s> 0x7fff:4;
+    local lo_16_10:1 = w_16_10 s< 0xffff8000:4;
+    local ok_16_10:1 = !hi_16_10 && !lo_16_10;
+    VdRow[320,16] = (w_16_10:2 * zext(ok_16_10)) + (0x7fff:2 * zext(hi_16_10)) + (0x8000:2 * zext(lo_16_10));
+    local w_16_11:4 = sext(srcB[352,16]) - sext(srcA[352,16]);
+    local hi_16_11:1 = w_16_11 s> 0x7fff:4;
+    local lo_16_11:1 = w_16_11 s< 0xffff8000:4;
+    local ok_16_11:1 = !hi_16_11 && !lo_16_11;
+    VdRow[352,16] = (w_16_11:2 * zext(ok_16_11)) + (0x7fff:2 * zext(hi_16_11)) + (0x8000:2 * zext(lo_16_11));
+    local w_16_12:4 = sext(srcB[384,16]) - sext(srcA[384,16]);
+    local hi_16_12:1 = w_16_12 s> 0x7fff:4;
+    local lo_16_12:1 = w_16_12 s< 0xffff8000:4;
+    local ok_16_12:1 = !hi_16_12 && !lo_16_12;
+    VdRow[384,16] = (w_16_12:2 * zext(ok_16_12)) + (0x7fff:2 * zext(hi_16_12)) + (0x8000:2 * zext(lo_16_12));
+    local w_16_13:4 = sext(srcB[416,16]) - sext(srcA[416,16]);
+    local hi_16_13:1 = w_16_13 s> 0x7fff:4;
+    local lo_16_13:1 = w_16_13 s< 0xffff8000:4;
+    local ok_16_13:1 = !hi_16_13 && !lo_16_13;
+    VdRow[416,16] = (w_16_13:2 * zext(ok_16_13)) + (0x7fff:2 * zext(hi_16_13)) + (0x8000:2 * zext(lo_16_13));
+    local w_16_14:4 = sext(srcB[448,16]) - sext(srcA[448,16]);
+    local hi_16_14:1 = w_16_14 s> 0x7fff:4;
+    local lo_16_14:1 = w_16_14 s< 0xffff8000:4;
+    local ok_16_14:1 = !hi_16_14 && !lo_16_14;
+    VdRow[448,16] = (w_16_14:2 * zext(ok_16_14)) + (0x7fff:2 * zext(hi_16_14)) + (0x8000:2 * zext(lo_16_14));
+    local w_16_15:4 = sext(srcB[480,16]) - sext(srcA[480,16]);
+    local hi_16_15:1 = w_16_15 s> 0x7fff:4;
+    local lo_16_15:1 = w_16_15 s< 0xffff8000:4;
+    local ok_16_15:1 = !hi_16_15 && !lo_16_15;
+    VdRow[480,16] = (w_16_15:2 * zext(ok_16_15)) + (0x7fff:2 * zext(hi_16_15)) + (0x8000:2 * zext(lo_16_15));
+  }
+
+  # v16rsubsc
+  :v16rsubsc vargd, varga, vargb^vflags
+	is (Vaop=43 & Vawidth=0 & Vdir=0 & Vseld=4 & Vselb=4 & Vsetf48=0 & Vhasimm=0 & Vhasoffd=0 & VdRow & vbrow & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vflags {
     local srcA:64 = varow;
     local srcB:64 = vbrow;
@@ -1699,9 +1923,121 @@ with : Vop=0x3d ... {
     VdRow[480,16] = srcA[480,16] - srcB[480,16];
   }
 
+  # v16subc
+  :v16subc vargd, varga, vargb^vflags
+	is (Vaop=38 & Vawidth=0 & Vdir=0 & Vseld=4 & Vselb=4 & Vsetf48=0 & Vhasimm=0 & Vhasoffd=0 & VdRow & vbrow & Vsela=4 & Vhasoffa=0 & varow) ...
+	   & vargd & varga & vargb & vflags {
+    local srcA:64 = varow;
+    local srcB:64 = vbrow;
+    VdRow[0,16] = srcA[0,16] - srcB[0,16];
+    VdRow[32,16] = srcA[32,16] - srcB[32,16];
+    VdRow[64,16] = srcA[64,16] - srcB[64,16];
+    VdRow[96,16] = srcA[96,16] - srcB[96,16];
+    VdRow[128,16] = srcA[128,16] - srcB[128,16];
+    VdRow[160,16] = srcA[160,16] - srcB[160,16];
+    VdRow[192,16] = srcA[192,16] - srcB[192,16];
+    VdRow[224,16] = srcA[224,16] - srcB[224,16];
+    VdRow[256,16] = srcA[256,16] - srcB[256,16];
+    VdRow[288,16] = srcA[288,16] - srcB[288,16];
+    VdRow[320,16] = srcA[320,16] - srcB[320,16];
+    VdRow[352,16] = srcA[352,16] - srcB[352,16];
+    VdRow[384,16] = srcA[384,16] - srcB[384,16];
+    VdRow[416,16] = srcA[416,16] - srcB[416,16];
+    VdRow[448,16] = srcA[448,16] - srcB[448,16];
+    VdRow[480,16] = srcA[480,16] - srcB[480,16];
+  }
+
   # v16subs
   :v16subs vargd, varga, vargb^vflags
 	is (Vaop=37 & Vawidth=0 & Vdir=0 & Vseld=4 & Vselb=4 & Vsetf48=0 & Vhasimm=0 & Vhasoffd=0 & VdRow & vbrow & Vsela=4 & Vhasoffa=0 & varow) ...
+	   & vargd & varga & vargb & vflags {
+    local srcA:64 = varow;
+    local srcB:64 = vbrow;
+    local w_16_0:4 = sext(srcA[0,16]) - sext(srcB[0,16]);
+    local hi_16_0:1 = w_16_0 s> 0x7fff:4;
+    local lo_16_0:1 = w_16_0 s< 0xffff8000:4;
+    local ok_16_0:1 = !hi_16_0 && !lo_16_0;
+    VdRow[0,16] = (w_16_0:2 * zext(ok_16_0)) + (0x7fff:2 * zext(hi_16_0)) + (0x8000:2 * zext(lo_16_0));
+    local w_16_1:4 = sext(srcA[32,16]) - sext(srcB[32,16]);
+    local hi_16_1:1 = w_16_1 s> 0x7fff:4;
+    local lo_16_1:1 = w_16_1 s< 0xffff8000:4;
+    local ok_16_1:1 = !hi_16_1 && !lo_16_1;
+    VdRow[32,16] = (w_16_1:2 * zext(ok_16_1)) + (0x7fff:2 * zext(hi_16_1)) + (0x8000:2 * zext(lo_16_1));
+    local w_16_2:4 = sext(srcA[64,16]) - sext(srcB[64,16]);
+    local hi_16_2:1 = w_16_2 s> 0x7fff:4;
+    local lo_16_2:1 = w_16_2 s< 0xffff8000:4;
+    local ok_16_2:1 = !hi_16_2 && !lo_16_2;
+    VdRow[64,16] = (w_16_2:2 * zext(ok_16_2)) + (0x7fff:2 * zext(hi_16_2)) + (0x8000:2 * zext(lo_16_2));
+    local w_16_3:4 = sext(srcA[96,16]) - sext(srcB[96,16]);
+    local hi_16_3:1 = w_16_3 s> 0x7fff:4;
+    local lo_16_3:1 = w_16_3 s< 0xffff8000:4;
+    local ok_16_3:1 = !hi_16_3 && !lo_16_3;
+    VdRow[96,16] = (w_16_3:2 * zext(ok_16_3)) + (0x7fff:2 * zext(hi_16_3)) + (0x8000:2 * zext(lo_16_3));
+    local w_16_4:4 = sext(srcA[128,16]) - sext(srcB[128,16]);
+    local hi_16_4:1 = w_16_4 s> 0x7fff:4;
+    local lo_16_4:1 = w_16_4 s< 0xffff8000:4;
+    local ok_16_4:1 = !hi_16_4 && !lo_16_4;
+    VdRow[128,16] = (w_16_4:2 * zext(ok_16_4)) + (0x7fff:2 * zext(hi_16_4)) + (0x8000:2 * zext(lo_16_4));
+    local w_16_5:4 = sext(srcA[160,16]) - sext(srcB[160,16]);
+    local hi_16_5:1 = w_16_5 s> 0x7fff:4;
+    local lo_16_5:1 = w_16_5 s< 0xffff8000:4;
+    local ok_16_5:1 = !hi_16_5 && !lo_16_5;
+    VdRow[160,16] = (w_16_5:2 * zext(ok_16_5)) + (0x7fff:2 * zext(hi_16_5)) + (0x8000:2 * zext(lo_16_5));
+    local w_16_6:4 = sext(srcA[192,16]) - sext(srcB[192,16]);
+    local hi_16_6:1 = w_16_6 s> 0x7fff:4;
+    local lo_16_6:1 = w_16_6 s< 0xffff8000:4;
+    local ok_16_6:1 = !hi_16_6 && !lo_16_6;
+    VdRow[192,16] = (w_16_6:2 * zext(ok_16_6)) + (0x7fff:2 * zext(hi_16_6)) + (0x8000:2 * zext(lo_16_6));
+    local w_16_7:4 = sext(srcA[224,16]) - sext(srcB[224,16]);
+    local hi_16_7:1 = w_16_7 s> 0x7fff:4;
+    local lo_16_7:1 = w_16_7 s< 0xffff8000:4;
+    local ok_16_7:1 = !hi_16_7 && !lo_16_7;
+    VdRow[224,16] = (w_16_7:2 * zext(ok_16_7)) + (0x7fff:2 * zext(hi_16_7)) + (0x8000:2 * zext(lo_16_7));
+    local w_16_8:4 = sext(srcA[256,16]) - sext(srcB[256,16]);
+    local hi_16_8:1 = w_16_8 s> 0x7fff:4;
+    local lo_16_8:1 = w_16_8 s< 0xffff8000:4;
+    local ok_16_8:1 = !hi_16_8 && !lo_16_8;
+    VdRow[256,16] = (w_16_8:2 * zext(ok_16_8)) + (0x7fff:2 * zext(hi_16_8)) + (0x8000:2 * zext(lo_16_8));
+    local w_16_9:4 = sext(srcA[288,16]) - sext(srcB[288,16]);
+    local hi_16_9:1 = w_16_9 s> 0x7fff:4;
+    local lo_16_9:1 = w_16_9 s< 0xffff8000:4;
+    local ok_16_9:1 = !hi_16_9 && !lo_16_9;
+    VdRow[288,16] = (w_16_9:2 * zext(ok_16_9)) + (0x7fff:2 * zext(hi_16_9)) + (0x8000:2 * zext(lo_16_9));
+    local w_16_10:4 = sext(srcA[320,16]) - sext(srcB[320,16]);
+    local hi_16_10:1 = w_16_10 s> 0x7fff:4;
+    local lo_16_10:1 = w_16_10 s< 0xffff8000:4;
+    local ok_16_10:1 = !hi_16_10 && !lo_16_10;
+    VdRow[320,16] = (w_16_10:2 * zext(ok_16_10)) + (0x7fff:2 * zext(hi_16_10)) + (0x8000:2 * zext(lo_16_10));
+    local w_16_11:4 = sext(srcA[352,16]) - sext(srcB[352,16]);
+    local hi_16_11:1 = w_16_11 s> 0x7fff:4;
+    local lo_16_11:1 = w_16_11 s< 0xffff8000:4;
+    local ok_16_11:1 = !hi_16_11 && !lo_16_11;
+    VdRow[352,16] = (w_16_11:2 * zext(ok_16_11)) + (0x7fff:2 * zext(hi_16_11)) + (0x8000:2 * zext(lo_16_11));
+    local w_16_12:4 = sext(srcA[384,16]) - sext(srcB[384,16]);
+    local hi_16_12:1 = w_16_12 s> 0x7fff:4;
+    local lo_16_12:1 = w_16_12 s< 0xffff8000:4;
+    local ok_16_12:1 = !hi_16_12 && !lo_16_12;
+    VdRow[384,16] = (w_16_12:2 * zext(ok_16_12)) + (0x7fff:2 * zext(hi_16_12)) + (0x8000:2 * zext(lo_16_12));
+    local w_16_13:4 = sext(srcA[416,16]) - sext(srcB[416,16]);
+    local hi_16_13:1 = w_16_13 s> 0x7fff:4;
+    local lo_16_13:1 = w_16_13 s< 0xffff8000:4;
+    local ok_16_13:1 = !hi_16_13 && !lo_16_13;
+    VdRow[416,16] = (w_16_13:2 * zext(ok_16_13)) + (0x7fff:2 * zext(hi_16_13)) + (0x8000:2 * zext(lo_16_13));
+    local w_16_14:4 = sext(srcA[448,16]) - sext(srcB[448,16]);
+    local hi_16_14:1 = w_16_14 s> 0x7fff:4;
+    local lo_16_14:1 = w_16_14 s< 0xffff8000:4;
+    local ok_16_14:1 = !hi_16_14 && !lo_16_14;
+    VdRow[448,16] = (w_16_14:2 * zext(ok_16_14)) + (0x7fff:2 * zext(hi_16_14)) + (0x8000:2 * zext(lo_16_14));
+    local w_16_15:4 = sext(srcA[480,16]) - sext(srcB[480,16]);
+    local hi_16_15:1 = w_16_15 s> 0x7fff:4;
+    local lo_16_15:1 = w_16_15 s< 0xffff8000:4;
+    local ok_16_15:1 = !hi_16_15 && !lo_16_15;
+    VdRow[480,16] = (w_16_15:2 * zext(ok_16_15)) + (0x7fff:2 * zext(hi_16_15)) + (0x8000:2 * zext(lo_16_15));
+  }
+
+  # v16subsc
+  :v16subsc vargd, varga, vargb^vflags
+	is (Vaop=39 & Vawidth=0 & Vdir=0 & Vseld=4 & Vselb=4 & Vsetf48=0 & Vhasimm=0 & Vhasoffd=0 & VdRow & vbrow & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vflags {
     local srcA:64 = varow;
     local srcB:64 = vbrow;
@@ -1907,9 +2243,121 @@ with : Vop=0x3d ... {
     VdRow[480,32] = srcA[480,32] + srcB[480,32];
   }
 
+  # v32addc
+  :v32addc vargd, varga, vargb^vflags
+	is (Vaop=34 & Vawidth=1 & Vdir=0 & Vseld=6 & Vselb=6 & Vsetf48=0 & Vhasimm=0 & Vhasoffd=0 & VdRow & vbrow & Vsela=6 & Vhasoffa=0 & varow) ...
+	   & vargd & varga & vargb & vflags {
+    local srcA:64 = varow;
+    local srcB:64 = vbrow;
+    VdRow[0,32] = srcA[0,32] + srcB[0,32];
+    VdRow[32,32] = srcA[32,32] + srcB[32,32];
+    VdRow[64,32] = srcA[64,32] + srcB[64,32];
+    VdRow[96,32] = srcA[96,32] + srcB[96,32];
+    VdRow[128,32] = srcA[128,32] + srcB[128,32];
+    VdRow[160,32] = srcA[160,32] + srcB[160,32];
+    VdRow[192,32] = srcA[192,32] + srcB[192,32];
+    VdRow[224,32] = srcA[224,32] + srcB[224,32];
+    VdRow[256,32] = srcA[256,32] + srcB[256,32];
+    VdRow[288,32] = srcA[288,32] + srcB[288,32];
+    VdRow[320,32] = srcA[320,32] + srcB[320,32];
+    VdRow[352,32] = srcA[352,32] + srcB[352,32];
+    VdRow[384,32] = srcA[384,32] + srcB[384,32];
+    VdRow[416,32] = srcA[416,32] + srcB[416,32];
+    VdRow[448,32] = srcA[448,32] + srcB[448,32];
+    VdRow[480,32] = srcA[480,32] + srcB[480,32];
+  }
+
   # v32adds
   :v32adds vargd, varga, vargb^vflags
 	is (Vaop=33 & Vawidth=1 & Vdir=0 & Vseld=6 & Vselb=6 & Vsetf48=0 & Vhasimm=0 & Vhasoffd=0 & VdRow & vbrow & Vsela=6 & Vhasoffa=0 & varow) ...
+	   & vargd & varga & vargb & vflags {
+    local srcA:64 = varow;
+    local srcB:64 = vbrow;
+    local w_32_0:8 = sext(srcA[0,32]) + sext(srcB[0,32]);
+    local hi_32_0:1 = w_32_0 s> 0x7fffffff:8;
+    local lo_32_0:1 = w_32_0 s< 0xffffffff80000000:8;
+    local ok_32_0:1 = !hi_32_0 && !lo_32_0;
+    VdRow[0,32] = (w_32_0:4 * zext(ok_32_0)) + (0x7fffffff:4 * zext(hi_32_0)) + (0x80000000:4 * zext(lo_32_0));
+    local w_32_1:8 = sext(srcA[32,32]) + sext(srcB[32,32]);
+    local hi_32_1:1 = w_32_1 s> 0x7fffffff:8;
+    local lo_32_1:1 = w_32_1 s< 0xffffffff80000000:8;
+    local ok_32_1:1 = !hi_32_1 && !lo_32_1;
+    VdRow[32,32] = (w_32_1:4 * zext(ok_32_1)) + (0x7fffffff:4 * zext(hi_32_1)) + (0x80000000:4 * zext(lo_32_1));
+    local w_32_2:8 = sext(srcA[64,32]) + sext(srcB[64,32]);
+    local hi_32_2:1 = w_32_2 s> 0x7fffffff:8;
+    local lo_32_2:1 = w_32_2 s< 0xffffffff80000000:8;
+    local ok_32_2:1 = !hi_32_2 && !lo_32_2;
+    VdRow[64,32] = (w_32_2:4 * zext(ok_32_2)) + (0x7fffffff:4 * zext(hi_32_2)) + (0x80000000:4 * zext(lo_32_2));
+    local w_32_3:8 = sext(srcA[96,32]) + sext(srcB[96,32]);
+    local hi_32_3:1 = w_32_3 s> 0x7fffffff:8;
+    local lo_32_3:1 = w_32_3 s< 0xffffffff80000000:8;
+    local ok_32_3:1 = !hi_32_3 && !lo_32_3;
+    VdRow[96,32] = (w_32_3:4 * zext(ok_32_3)) + (0x7fffffff:4 * zext(hi_32_3)) + (0x80000000:4 * zext(lo_32_3));
+    local w_32_4:8 = sext(srcA[128,32]) + sext(srcB[128,32]);
+    local hi_32_4:1 = w_32_4 s> 0x7fffffff:8;
+    local lo_32_4:1 = w_32_4 s< 0xffffffff80000000:8;
+    local ok_32_4:1 = !hi_32_4 && !lo_32_4;
+    VdRow[128,32] = (w_32_4:4 * zext(ok_32_4)) + (0x7fffffff:4 * zext(hi_32_4)) + (0x80000000:4 * zext(lo_32_4));
+    local w_32_5:8 = sext(srcA[160,32]) + sext(srcB[160,32]);
+    local hi_32_5:1 = w_32_5 s> 0x7fffffff:8;
+    local lo_32_5:1 = w_32_5 s< 0xffffffff80000000:8;
+    local ok_32_5:1 = !hi_32_5 && !lo_32_5;
+    VdRow[160,32] = (w_32_5:4 * zext(ok_32_5)) + (0x7fffffff:4 * zext(hi_32_5)) + (0x80000000:4 * zext(lo_32_5));
+    local w_32_6:8 = sext(srcA[192,32]) + sext(srcB[192,32]);
+    local hi_32_6:1 = w_32_6 s> 0x7fffffff:8;
+    local lo_32_6:1 = w_32_6 s< 0xffffffff80000000:8;
+    local ok_32_6:1 = !hi_32_6 && !lo_32_6;
+    VdRow[192,32] = (w_32_6:4 * zext(ok_32_6)) + (0x7fffffff:4 * zext(hi_32_6)) + (0x80000000:4 * zext(lo_32_6));
+    local w_32_7:8 = sext(srcA[224,32]) + sext(srcB[224,32]);
+    local hi_32_7:1 = w_32_7 s> 0x7fffffff:8;
+    local lo_32_7:1 = w_32_7 s< 0xffffffff80000000:8;
+    local ok_32_7:1 = !hi_32_7 && !lo_32_7;
+    VdRow[224,32] = (w_32_7:4 * zext(ok_32_7)) + (0x7fffffff:4 * zext(hi_32_7)) + (0x80000000:4 * zext(lo_32_7));
+    local w_32_8:8 = sext(srcA[256,32]) + sext(srcB[256,32]);
+    local hi_32_8:1 = w_32_8 s> 0x7fffffff:8;
+    local lo_32_8:1 = w_32_8 s< 0xffffffff80000000:8;
+    local ok_32_8:1 = !hi_32_8 && !lo_32_8;
+    VdRow[256,32] = (w_32_8:4 * zext(ok_32_8)) + (0x7fffffff:4 * zext(hi_32_8)) + (0x80000000:4 * zext(lo_32_8));
+    local w_32_9:8 = sext(srcA[288,32]) + sext(srcB[288,32]);
+    local hi_32_9:1 = w_32_9 s> 0x7fffffff:8;
+    local lo_32_9:1 = w_32_9 s< 0xffffffff80000000:8;
+    local ok_32_9:1 = !hi_32_9 && !lo_32_9;
+    VdRow[288,32] = (w_32_9:4 * zext(ok_32_9)) + (0x7fffffff:4 * zext(hi_32_9)) + (0x80000000:4 * zext(lo_32_9));
+    local w_32_10:8 = sext(srcA[320,32]) + sext(srcB[320,32]);
+    local hi_32_10:1 = w_32_10 s> 0x7fffffff:8;
+    local lo_32_10:1 = w_32_10 s< 0xffffffff80000000:8;
+    local ok_32_10:1 = !hi_32_10 && !lo_32_10;
+    VdRow[320,32] = (w_32_10:4 * zext(ok_32_10)) + (0x7fffffff:4 * zext(hi_32_10)) + (0x80000000:4 * zext(lo_32_10));
+    local w_32_11:8 = sext(srcA[352,32]) + sext(srcB[352,32]);
+    local hi_32_11:1 = w_32_11 s> 0x7fffffff:8;
+    local lo_32_11:1 = w_32_11 s< 0xffffffff80000000:8;
+    local ok_32_11:1 = !hi_32_11 && !lo_32_11;
+    VdRow[352,32] = (w_32_11:4 * zext(ok_32_11)) + (0x7fffffff:4 * zext(hi_32_11)) + (0x80000000:4 * zext(lo_32_11));
+    local w_32_12:8 = sext(srcA[384,32]) + sext(srcB[384,32]);
+    local hi_32_12:1 = w_32_12 s> 0x7fffffff:8;
+    local lo_32_12:1 = w_32_12 s< 0xffffffff80000000:8;
+    local ok_32_12:1 = !hi_32_12 && !lo_32_12;
+    VdRow[384,32] = (w_32_12:4 * zext(ok_32_12)) + (0x7fffffff:4 * zext(hi_32_12)) + (0x80000000:4 * zext(lo_32_12));
+    local w_32_13:8 = sext(srcA[416,32]) + sext(srcB[416,32]);
+    local hi_32_13:1 = w_32_13 s> 0x7fffffff:8;
+    local lo_32_13:1 = w_32_13 s< 0xffffffff80000000:8;
+    local ok_32_13:1 = !hi_32_13 && !lo_32_13;
+    VdRow[416,32] = (w_32_13:4 * zext(ok_32_13)) + (0x7fffffff:4 * zext(hi_32_13)) + (0x80000000:4 * zext(lo_32_13));
+    local w_32_14:8 = sext(srcA[448,32]) + sext(srcB[448,32]);
+    local hi_32_14:1 = w_32_14 s> 0x7fffffff:8;
+    local lo_32_14:1 = w_32_14 s< 0xffffffff80000000:8;
+    local ok_32_14:1 = !hi_32_14 && !lo_32_14;
+    VdRow[448,32] = (w_32_14:4 * zext(ok_32_14)) + (0x7fffffff:4 * zext(hi_32_14)) + (0x80000000:4 * zext(lo_32_14));
+    local w_32_15:8 = sext(srcA[480,32]) + sext(srcB[480,32]);
+    local hi_32_15:1 = w_32_15 s> 0x7fffffff:8;
+    local lo_32_15:1 = w_32_15 s< 0xffffffff80000000:8;
+    local ok_32_15:1 = !hi_32_15 && !lo_32_15;
+    VdRow[480,32] = (w_32_15:4 * zext(ok_32_15)) + (0x7fffffff:4 * zext(hi_32_15)) + (0x80000000:4 * zext(lo_32_15));
+  }
+
+  # v32addsc
+  :v32addsc vargd, varga, vargb^vflags
+	is (Vaop=35 & Vawidth=1 & Vdir=0 & Vseld=6 & Vselb=6 & Vsetf48=0 & Vhasimm=0 & Vhasoffd=0 & VdRow & vbrow & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vflags {
     local srcA:64 = varow;
     local srcB:64 = vbrow;
@@ -2602,9 +3050,121 @@ with : Vop=0x3d ... {
     VdRow[480,32] = srcB[480,32] - srcA[480,32];
   }
 
+  # v32rsubc
+  :v32rsubc vargd, varga, vargb^vflags
+	is (Vaop=42 & Vawidth=1 & Vdir=0 & Vseld=6 & Vselb=6 & Vsetf48=0 & Vhasimm=0 & Vhasoffd=0 & VdRow & vbrow & Vsela=6 & Vhasoffa=0 & varow) ...
+	   & vargd & varga & vargb & vflags {
+    local srcA:64 = varow;
+    local srcB:64 = vbrow;
+    VdRow[0,32] = srcB[0,32] - srcA[0,32];
+    VdRow[32,32] = srcB[32,32] - srcA[32,32];
+    VdRow[64,32] = srcB[64,32] - srcA[64,32];
+    VdRow[96,32] = srcB[96,32] - srcA[96,32];
+    VdRow[128,32] = srcB[128,32] - srcA[128,32];
+    VdRow[160,32] = srcB[160,32] - srcA[160,32];
+    VdRow[192,32] = srcB[192,32] - srcA[192,32];
+    VdRow[224,32] = srcB[224,32] - srcA[224,32];
+    VdRow[256,32] = srcB[256,32] - srcA[256,32];
+    VdRow[288,32] = srcB[288,32] - srcA[288,32];
+    VdRow[320,32] = srcB[320,32] - srcA[320,32];
+    VdRow[352,32] = srcB[352,32] - srcA[352,32];
+    VdRow[384,32] = srcB[384,32] - srcA[384,32];
+    VdRow[416,32] = srcB[416,32] - srcA[416,32];
+    VdRow[448,32] = srcB[448,32] - srcA[448,32];
+    VdRow[480,32] = srcB[480,32] - srcA[480,32];
+  }
+
   # v32rsubs
   :v32rsubs vargd, varga, vargb^vflags
 	is (Vaop=41 & Vawidth=1 & Vdir=0 & Vseld=6 & Vselb=6 & Vsetf48=0 & Vhasimm=0 & Vhasoffd=0 & VdRow & vbrow & Vsela=6 & Vhasoffa=0 & varow) ...
+	   & vargd & varga & vargb & vflags {
+    local srcA:64 = varow;
+    local srcB:64 = vbrow;
+    local w_32_0:8 = sext(srcB[0,32]) - sext(srcA[0,32]);
+    local hi_32_0:1 = w_32_0 s> 0x7fffffff:8;
+    local lo_32_0:1 = w_32_0 s< 0xffffffff80000000:8;
+    local ok_32_0:1 = !hi_32_0 && !lo_32_0;
+    VdRow[0,32] = (w_32_0:4 * zext(ok_32_0)) + (0x7fffffff:4 * zext(hi_32_0)) + (0x80000000:4 * zext(lo_32_0));
+    local w_32_1:8 = sext(srcB[32,32]) - sext(srcA[32,32]);
+    local hi_32_1:1 = w_32_1 s> 0x7fffffff:8;
+    local lo_32_1:1 = w_32_1 s< 0xffffffff80000000:8;
+    local ok_32_1:1 = !hi_32_1 && !lo_32_1;
+    VdRow[32,32] = (w_32_1:4 * zext(ok_32_1)) + (0x7fffffff:4 * zext(hi_32_1)) + (0x80000000:4 * zext(lo_32_1));
+    local w_32_2:8 = sext(srcB[64,32]) - sext(srcA[64,32]);
+    local hi_32_2:1 = w_32_2 s> 0x7fffffff:8;
+    local lo_32_2:1 = w_32_2 s< 0xffffffff80000000:8;
+    local ok_32_2:1 = !hi_32_2 && !lo_32_2;
+    VdRow[64,32] = (w_32_2:4 * zext(ok_32_2)) + (0x7fffffff:4 * zext(hi_32_2)) + (0x80000000:4 * zext(lo_32_2));
+    local w_32_3:8 = sext(srcB[96,32]) - sext(srcA[96,32]);
+    local hi_32_3:1 = w_32_3 s> 0x7fffffff:8;
+    local lo_32_3:1 = w_32_3 s< 0xffffffff80000000:8;
+    local ok_32_3:1 = !hi_32_3 && !lo_32_3;
+    VdRow[96,32] = (w_32_3:4 * zext(ok_32_3)) + (0x7fffffff:4 * zext(hi_32_3)) + (0x80000000:4 * zext(lo_32_3));
+    local w_32_4:8 = sext(srcB[128,32]) - sext(srcA[128,32]);
+    local hi_32_4:1 = w_32_4 s> 0x7fffffff:8;
+    local lo_32_4:1 = w_32_4 s< 0xffffffff80000000:8;
+    local ok_32_4:1 = !hi_32_4 && !lo_32_4;
+    VdRow[128,32] = (w_32_4:4 * zext(ok_32_4)) + (0x7fffffff:4 * zext(hi_32_4)) + (0x80000000:4 * zext(lo_32_4));
+    local w_32_5:8 = sext(srcB[160,32]) - sext(srcA[160,32]);
+    local hi_32_5:1 = w_32_5 s> 0x7fffffff:8;
+    local lo_32_5:1 = w_32_5 s< 0xffffffff80000000:8;
+    local ok_32_5:1 = !hi_32_5 && !lo_32_5;
+    VdRow[160,32] = (w_32_5:4 * zext(ok_32_5)) + (0x7fffffff:4 * zext(hi_32_5)) + (0x80000000:4 * zext(lo_32_5));
+    local w_32_6:8 = sext(srcB[192,32]) - sext(srcA[192,32]);
+    local hi_32_6:1 = w_32_6 s> 0x7fffffff:8;
+    local lo_32_6:1 = w_32_6 s< 0xffffffff80000000:8;
+    local ok_32_6:1 = !hi_32_6 && !lo_32_6;
+    VdRow[192,32] = (w_32_6:4 * zext(ok_32_6)) + (0x7fffffff:4 * zext(hi_32_6)) + (0x80000000:4 * zext(lo_32_6));
+    local w_32_7:8 = sext(srcB[224,32]) - sext(srcA[224,32]);
+    local hi_32_7:1 = w_32_7 s> 0x7fffffff:8;
+    local lo_32_7:1 = w_32_7 s< 0xffffffff80000000:8;
+    local ok_32_7:1 = !hi_32_7 && !lo_32_7;
+    VdRow[224,32] = (w_32_7:4 * zext(ok_32_7)) + (0x7fffffff:4 * zext(hi_32_7)) + (0x80000000:4 * zext(lo_32_7));
+    local w_32_8:8 = sext(srcB[256,32]) - sext(srcA[256,32]);
+    local hi_32_8:1 = w_32_8 s> 0x7fffffff:8;
+    local lo_32_8:1 = w_32_8 s< 0xffffffff80000000:8;
+    local ok_32_8:1 = !hi_32_8 && !lo_32_8;
+    VdRow[256,32] = (w_32_8:4 * zext(ok_32_8)) + (0x7fffffff:4 * zext(hi_32_8)) + (0x80000000:4 * zext(lo_32_8));
+    local w_32_9:8 = sext(srcB[288,32]) - sext(srcA[288,32]);
+    local hi_32_9:1 = w_32_9 s> 0x7fffffff:8;
+    local lo_32_9:1 = w_32_9 s< 0xffffffff80000000:8;
+    local ok_32_9:1 = !hi_32_9 && !lo_32_9;
+    VdRow[288,32] = (w_32_9:4 * zext(ok_32_9)) + (0x7fffffff:4 * zext(hi_32_9)) + (0x80000000:4 * zext(lo_32_9));
+    local w_32_10:8 = sext(srcB[320,32]) - sext(srcA[320,32]);
+    local hi_32_10:1 = w_32_10 s> 0x7fffffff:8;
+    local lo_32_10:1 = w_32_10 s< 0xffffffff80000000:8;
+    local ok_32_10:1 = !hi_32_10 && !lo_32_10;
+    VdRow[320,32] = (w_32_10:4 * zext(ok_32_10)) + (0x7fffffff:4 * zext(hi_32_10)) + (0x80000000:4 * zext(lo_32_10));
+    local w_32_11:8 = sext(srcB[352,32]) - sext(srcA[352,32]);
+    local hi_32_11:1 = w_32_11 s> 0x7fffffff:8;
+    local lo_32_11:1 = w_32_11 s< 0xffffffff80000000:8;
+    local ok_32_11:1 = !hi_32_11 && !lo_32_11;
+    VdRow[352,32] = (w_32_11:4 * zext(ok_32_11)) + (0x7fffffff:4 * zext(hi_32_11)) + (0x80000000:4 * zext(lo_32_11));
+    local w_32_12:8 = sext(srcB[384,32]) - sext(srcA[384,32]);
+    local hi_32_12:1 = w_32_12 s> 0x7fffffff:8;
+    local lo_32_12:1 = w_32_12 s< 0xffffffff80000000:8;
+    local ok_32_12:1 = !hi_32_12 && !lo_32_12;
+    VdRow[384,32] = (w_32_12:4 * zext(ok_32_12)) + (0x7fffffff:4 * zext(hi_32_12)) + (0x80000000:4 * zext(lo_32_12));
+    local w_32_13:8 = sext(srcB[416,32]) - sext(srcA[416,32]);
+    local hi_32_13:1 = w_32_13 s> 0x7fffffff:8;
+    local lo_32_13:1 = w_32_13 s< 0xffffffff80000000:8;
+    local ok_32_13:1 = !hi_32_13 && !lo_32_13;
+    VdRow[416,32] = (w_32_13:4 * zext(ok_32_13)) + (0x7fffffff:4 * zext(hi_32_13)) + (0x80000000:4 * zext(lo_32_13));
+    local w_32_14:8 = sext(srcB[448,32]) - sext(srcA[448,32]);
+    local hi_32_14:1 = w_32_14 s> 0x7fffffff:8;
+    local lo_32_14:1 = w_32_14 s< 0xffffffff80000000:8;
+    local ok_32_14:1 = !hi_32_14 && !lo_32_14;
+    VdRow[448,32] = (w_32_14:4 * zext(ok_32_14)) + (0x7fffffff:4 * zext(hi_32_14)) + (0x80000000:4 * zext(lo_32_14));
+    local w_32_15:8 = sext(srcB[480,32]) - sext(srcA[480,32]);
+    local hi_32_15:1 = w_32_15 s> 0x7fffffff:8;
+    local lo_32_15:1 = w_32_15 s< 0xffffffff80000000:8;
+    local ok_32_15:1 = !hi_32_15 && !lo_32_15;
+    VdRow[480,32] = (w_32_15:4 * zext(ok_32_15)) + (0x7fffffff:4 * zext(hi_32_15)) + (0x80000000:4 * zext(lo_32_15));
+  }
+
+  # v32rsubsc
+  :v32rsubsc vargd, varga, vargb^vflags
+	is (Vaop=43 & Vawidth=1 & Vdir=0 & Vseld=6 & Vselb=6 & Vsetf48=0 & Vhasimm=0 & Vhasoffd=0 & VdRow & vbrow & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vflags {
     local srcA:64 = varow;
     local srcB:64 = vbrow;
@@ -3450,9 +4010,121 @@ with : Vop=0x3d ... {
     VdRow[480,32] = srcA[480,32] - srcB[480,32];
   }
 
+  # v32subc
+  :v32subc vargd, varga, vargb^vflags
+	is (Vaop=38 & Vawidth=1 & Vdir=0 & Vseld=6 & Vselb=6 & Vsetf48=0 & Vhasimm=0 & Vhasoffd=0 & VdRow & vbrow & Vsela=6 & Vhasoffa=0 & varow) ...
+	   & vargd & varga & vargb & vflags {
+    local srcA:64 = varow;
+    local srcB:64 = vbrow;
+    VdRow[0,32] = srcA[0,32] - srcB[0,32];
+    VdRow[32,32] = srcA[32,32] - srcB[32,32];
+    VdRow[64,32] = srcA[64,32] - srcB[64,32];
+    VdRow[96,32] = srcA[96,32] - srcB[96,32];
+    VdRow[128,32] = srcA[128,32] - srcB[128,32];
+    VdRow[160,32] = srcA[160,32] - srcB[160,32];
+    VdRow[192,32] = srcA[192,32] - srcB[192,32];
+    VdRow[224,32] = srcA[224,32] - srcB[224,32];
+    VdRow[256,32] = srcA[256,32] - srcB[256,32];
+    VdRow[288,32] = srcA[288,32] - srcB[288,32];
+    VdRow[320,32] = srcA[320,32] - srcB[320,32];
+    VdRow[352,32] = srcA[352,32] - srcB[352,32];
+    VdRow[384,32] = srcA[384,32] - srcB[384,32];
+    VdRow[416,32] = srcA[416,32] - srcB[416,32];
+    VdRow[448,32] = srcA[448,32] - srcB[448,32];
+    VdRow[480,32] = srcA[480,32] - srcB[480,32];
+  }
+
   # v32subs
   :v32subs vargd, varga, vargb^vflags
 	is (Vaop=37 & Vawidth=1 & Vdir=0 & Vseld=6 & Vselb=6 & Vsetf48=0 & Vhasimm=0 & Vhasoffd=0 & VdRow & vbrow & Vsela=6 & Vhasoffa=0 & varow) ...
+	   & vargd & varga & vargb & vflags {
+    local srcA:64 = varow;
+    local srcB:64 = vbrow;
+    local w_32_0:8 = sext(srcA[0,32]) - sext(srcB[0,32]);
+    local hi_32_0:1 = w_32_0 s> 0x7fffffff:8;
+    local lo_32_0:1 = w_32_0 s< 0xffffffff80000000:8;
+    local ok_32_0:1 = !hi_32_0 && !lo_32_0;
+    VdRow[0,32] = (w_32_0:4 * zext(ok_32_0)) + (0x7fffffff:4 * zext(hi_32_0)) + (0x80000000:4 * zext(lo_32_0));
+    local w_32_1:8 = sext(srcA[32,32]) - sext(srcB[32,32]);
+    local hi_32_1:1 = w_32_1 s> 0x7fffffff:8;
+    local lo_32_1:1 = w_32_1 s< 0xffffffff80000000:8;
+    local ok_32_1:1 = !hi_32_1 && !lo_32_1;
+    VdRow[32,32] = (w_32_1:4 * zext(ok_32_1)) + (0x7fffffff:4 * zext(hi_32_1)) + (0x80000000:4 * zext(lo_32_1));
+    local w_32_2:8 = sext(srcA[64,32]) - sext(srcB[64,32]);
+    local hi_32_2:1 = w_32_2 s> 0x7fffffff:8;
+    local lo_32_2:1 = w_32_2 s< 0xffffffff80000000:8;
+    local ok_32_2:1 = !hi_32_2 && !lo_32_2;
+    VdRow[64,32] = (w_32_2:4 * zext(ok_32_2)) + (0x7fffffff:4 * zext(hi_32_2)) + (0x80000000:4 * zext(lo_32_2));
+    local w_32_3:8 = sext(srcA[96,32]) - sext(srcB[96,32]);
+    local hi_32_3:1 = w_32_3 s> 0x7fffffff:8;
+    local lo_32_3:1 = w_32_3 s< 0xffffffff80000000:8;
+    local ok_32_3:1 = !hi_32_3 && !lo_32_3;
+    VdRow[96,32] = (w_32_3:4 * zext(ok_32_3)) + (0x7fffffff:4 * zext(hi_32_3)) + (0x80000000:4 * zext(lo_32_3));
+    local w_32_4:8 = sext(srcA[128,32]) - sext(srcB[128,32]);
+    local hi_32_4:1 = w_32_4 s> 0x7fffffff:8;
+    local lo_32_4:1 = w_32_4 s< 0xffffffff80000000:8;
+    local ok_32_4:1 = !hi_32_4 && !lo_32_4;
+    VdRow[128,32] = (w_32_4:4 * zext(ok_32_4)) + (0x7fffffff:4 * zext(hi_32_4)) + (0x80000000:4 * zext(lo_32_4));
+    local w_32_5:8 = sext(srcA[160,32]) - sext(srcB[160,32]);
+    local hi_32_5:1 = w_32_5 s> 0x7fffffff:8;
+    local lo_32_5:1 = w_32_5 s< 0xffffffff80000000:8;
+    local ok_32_5:1 = !hi_32_5 && !lo_32_5;
+    VdRow[160,32] = (w_32_5:4 * zext(ok_32_5)) + (0x7fffffff:4 * zext(hi_32_5)) + (0x80000000:4 * zext(lo_32_5));
+    local w_32_6:8 = sext(srcA[192,32]) - sext(srcB[192,32]);
+    local hi_32_6:1 = w_32_6 s> 0x7fffffff:8;
+    local lo_32_6:1 = w_32_6 s< 0xffffffff80000000:8;
+    local ok_32_6:1 = !hi_32_6 && !lo_32_6;
+    VdRow[192,32] = (w_32_6:4 * zext(ok_32_6)) + (0x7fffffff:4 * zext(hi_32_6)) + (0x80000000:4 * zext(lo_32_6));
+    local w_32_7:8 = sext(srcA[224,32]) - sext(srcB[224,32]);
+    local hi_32_7:1 = w_32_7 s> 0x7fffffff:8;
+    local lo_32_7:1 = w_32_7 s< 0xffffffff80000000:8;
+    local ok_32_7:1 = !hi_32_7 && !lo_32_7;
+    VdRow[224,32] = (w_32_7:4 * zext(ok_32_7)) + (0x7fffffff:4 * zext(hi_32_7)) + (0x80000000:4 * zext(lo_32_7));
+    local w_32_8:8 = sext(srcA[256,32]) - sext(srcB[256,32]);
+    local hi_32_8:1 = w_32_8 s> 0x7fffffff:8;
+    local lo_32_8:1 = w_32_8 s< 0xffffffff80000000:8;
+    local ok_32_8:1 = !hi_32_8 && !lo_32_8;
+    VdRow[256,32] = (w_32_8:4 * zext(ok_32_8)) + (0x7fffffff:4 * zext(hi_32_8)) + (0x80000000:4 * zext(lo_32_8));
+    local w_32_9:8 = sext(srcA[288,32]) - sext(srcB[288,32]);
+    local hi_32_9:1 = w_32_9 s> 0x7fffffff:8;
+    local lo_32_9:1 = w_32_9 s< 0xffffffff80000000:8;
+    local ok_32_9:1 = !hi_32_9 && !lo_32_9;
+    VdRow[288,32] = (w_32_9:4 * zext(ok_32_9)) + (0x7fffffff:4 * zext(hi_32_9)) + (0x80000000:4 * zext(lo_32_9));
+    local w_32_10:8 = sext(srcA[320,32]) - sext(srcB[320,32]);
+    local hi_32_10:1 = w_32_10 s> 0x7fffffff:8;
+    local lo_32_10:1 = w_32_10 s< 0xffffffff80000000:8;
+    local ok_32_10:1 = !hi_32_10 && !lo_32_10;
+    VdRow[320,32] = (w_32_10:4 * zext(ok_32_10)) + (0x7fffffff:4 * zext(hi_32_10)) + (0x80000000:4 * zext(lo_32_10));
+    local w_32_11:8 = sext(srcA[352,32]) - sext(srcB[352,32]);
+    local hi_32_11:1 = w_32_11 s> 0x7fffffff:8;
+    local lo_32_11:1 = w_32_11 s< 0xffffffff80000000:8;
+    local ok_32_11:1 = !hi_32_11 && !lo_32_11;
+    VdRow[352,32] = (w_32_11:4 * zext(ok_32_11)) + (0x7fffffff:4 * zext(hi_32_11)) + (0x80000000:4 * zext(lo_32_11));
+    local w_32_12:8 = sext(srcA[384,32]) - sext(srcB[384,32]);
+    local hi_32_12:1 = w_32_12 s> 0x7fffffff:8;
+    local lo_32_12:1 = w_32_12 s< 0xffffffff80000000:8;
+    local ok_32_12:1 = !hi_32_12 && !lo_32_12;
+    VdRow[384,32] = (w_32_12:4 * zext(ok_32_12)) + (0x7fffffff:4 * zext(hi_32_12)) + (0x80000000:4 * zext(lo_32_12));
+    local w_32_13:8 = sext(srcA[416,32]) - sext(srcB[416,32]);
+    local hi_32_13:1 = w_32_13 s> 0x7fffffff:8;
+    local lo_32_13:1 = w_32_13 s< 0xffffffff80000000:8;
+    local ok_32_13:1 = !hi_32_13 && !lo_32_13;
+    VdRow[416,32] = (w_32_13:4 * zext(ok_32_13)) + (0x7fffffff:4 * zext(hi_32_13)) + (0x80000000:4 * zext(lo_32_13));
+    local w_32_14:8 = sext(srcA[448,32]) - sext(srcB[448,32]);
+    local hi_32_14:1 = w_32_14 s> 0x7fffffff:8;
+    local lo_32_14:1 = w_32_14 s< 0xffffffff80000000:8;
+    local ok_32_14:1 = !hi_32_14 && !lo_32_14;
+    VdRow[448,32] = (w_32_14:4 * zext(ok_32_14)) + (0x7fffffff:4 * zext(hi_32_14)) + (0x80000000:4 * zext(lo_32_14));
+    local w_32_15:8 = sext(srcA[480,32]) - sext(srcB[480,32]);
+    local hi_32_15:1 = w_32_15 s> 0x7fffffff:8;
+    local lo_32_15:1 = w_32_15 s< 0xffffffff80000000:8;
+    local ok_32_15:1 = !hi_32_15 && !lo_32_15;
+    VdRow[480,32] = (w_32_15:4 * zext(ok_32_15)) + (0x7fffffff:4 * zext(hi_32_15)) + (0x80000000:4 * zext(lo_32_15));
+  }
+
+  # v32subsc
+  :v32subsc vargd, varga, vargb^vflags
+	is (Vaop=39 & Vawidth=1 & Vdir=0 & Vseld=6 & Vselb=6 & Vsetf48=0 & Vhasimm=0 & Vhasoffd=0 & VdRow & vbrow & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vflags {
     local srcA:64 = varow;
     local srcB:64 = vbrow;

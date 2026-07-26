@@ -1288,4 +1288,158 @@ with : Vop=0x3c ... {
     *:4 (base + 56:4) = src[448,32];
     *:4 (base + 60:4) = src[480,32];
   }
+
+  # vgetacc into a 8-bit register element at byte-in-lane 0
+  :vgetacc vargd, varga, vmemargb^vflags
+	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=0 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VdRow & Vhasoffd=0) ... & vargd & varga & vmemargb & vflags {
+    VdRow[0,8] = VACC[0,8];
+    VdRow[32,8] = VACC[32,8];
+    VdRow[64,8] = VACC[64,8];
+    VdRow[96,8] = VACC[96,8];
+    VdRow[128,8] = VACC[128,8];
+    VdRow[160,8] = VACC[160,8];
+    VdRow[192,8] = VACC[192,8];
+    VdRow[224,8] = VACC[224,8];
+    VdRow[256,8] = VACC[256,8];
+    VdRow[288,8] = VACC[288,8];
+    VdRow[320,8] = VACC[320,8];
+    VdRow[352,8] = VACC[352,8];
+    VdRow[384,8] = VACC[384,8];
+    VdRow[416,8] = VACC[416,8];
+    VdRow[448,8] = VACC[448,8];
+    VdRow[480,8] = VACC[480,8];
+  }
+
+  # vgetacc into a 8-bit register element at byte-in-lane 1
+  :vgetacc vargd, varga, vmemargb^vflags
+	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=1 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VdRow & Vhasoffd=0) ... & vargd & varga & vmemargb & vflags {
+    VdRow[8,8] = VACC[0,8];
+    VdRow[40,8] = VACC[32,8];
+    VdRow[72,8] = VACC[64,8];
+    VdRow[104,8] = VACC[96,8];
+    VdRow[136,8] = VACC[128,8];
+    VdRow[168,8] = VACC[160,8];
+    VdRow[200,8] = VACC[192,8];
+    VdRow[232,8] = VACC[224,8];
+    VdRow[264,8] = VACC[256,8];
+    VdRow[296,8] = VACC[288,8];
+    VdRow[328,8] = VACC[320,8];
+    VdRow[360,8] = VACC[352,8];
+    VdRow[392,8] = VACC[384,8];
+    VdRow[424,8] = VACC[416,8];
+    VdRow[456,8] = VACC[448,8];
+    VdRow[488,8] = VACC[480,8];
+  }
+
+  # vgetacc into a 8-bit register element at byte-in-lane 2
+  :vgetacc vargd, varga, vmemargb^vflags
+	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=2 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VdRow & Vhasoffd=0) ... & vargd & varga & vmemargb & vflags {
+    VdRow[16,8] = VACC[0,8];
+    VdRow[48,8] = VACC[32,8];
+    VdRow[80,8] = VACC[64,8];
+    VdRow[112,8] = VACC[96,8];
+    VdRow[144,8] = VACC[128,8];
+    VdRow[176,8] = VACC[160,8];
+    VdRow[208,8] = VACC[192,8];
+    VdRow[240,8] = VACC[224,8];
+    VdRow[272,8] = VACC[256,8];
+    VdRow[304,8] = VACC[288,8];
+    VdRow[336,8] = VACC[320,8];
+    VdRow[368,8] = VACC[352,8];
+    VdRow[400,8] = VACC[384,8];
+    VdRow[432,8] = VACC[416,8];
+    VdRow[464,8] = VACC[448,8];
+    VdRow[496,8] = VACC[480,8];
+  }
+
+  # vgetacc into a 8-bit register element at byte-in-lane 3
+  :vgetacc vargd, varga, vmemargb^vflags
+	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=3 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VdRow & Vhasoffd=0) ... & vargd & varga & vmemargb & vflags {
+    VdRow[24,8] = VACC[0,8];
+    VdRow[56,8] = VACC[32,8];
+    VdRow[88,8] = VACC[64,8];
+    VdRow[120,8] = VACC[96,8];
+    VdRow[152,8] = VACC[128,8];
+    VdRow[184,8] = VACC[160,8];
+    VdRow[216,8] = VACC[192,8];
+    VdRow[248,8] = VACC[224,8];
+    VdRow[280,8] = VACC[256,8];
+    VdRow[312,8] = VACC[288,8];
+    VdRow[344,8] = VACC[320,8];
+    VdRow[376,8] = VACC[352,8];
+    VdRow[408,8] = VACC[384,8];
+    VdRow[440,8] = VACC[416,8];
+    VdRow[472,8] = VACC[448,8];
+    VdRow[504,8] = VACC[480,8];
+  }
+
+  # vgetacc into a 16-bit register element at byte-in-lane 0
+  :vgetacc vargd, varga, vmemargb^vflags
+	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=4 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VdRow & Vhasoffd=0) ... & vargd & varga & vmemargb & vflags {
+    VdRow[0,16] = VACC[0,16];
+    VdRow[32,16] = VACC[32,16];
+    VdRow[64,16] = VACC[64,16];
+    VdRow[96,16] = VACC[96,16];
+    VdRow[128,16] = VACC[128,16];
+    VdRow[160,16] = VACC[160,16];
+    VdRow[192,16] = VACC[192,16];
+    VdRow[224,16] = VACC[224,16];
+    VdRow[256,16] = VACC[256,16];
+    VdRow[288,16] = VACC[288,16];
+    VdRow[320,16] = VACC[320,16];
+    VdRow[352,16] = VACC[352,16];
+    VdRow[384,16] = VACC[384,16];
+    VdRow[416,16] = VACC[416,16];
+    VdRow[448,16] = VACC[448,16];
+    VdRow[480,16] = VACC[480,16];
+  }
+
+  # vgetacc into a 16-bit register element at byte-in-lane 2
+  :vgetacc vargd, varga, vmemargb^vflags
+	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=5 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VdRow & Vhasoffd=0) ... & vargd & varga & vmemargb & vflags {
+    VdRow[16,16] = VACC[0,16];
+    VdRow[48,16] = VACC[32,16];
+    VdRow[80,16] = VACC[64,16];
+    VdRow[112,16] = VACC[96,16];
+    VdRow[144,16] = VACC[128,16];
+    VdRow[176,16] = VACC[160,16];
+    VdRow[208,16] = VACC[192,16];
+    VdRow[240,16] = VACC[224,16];
+    VdRow[272,16] = VACC[256,16];
+    VdRow[304,16] = VACC[288,16];
+    VdRow[336,16] = VACC[320,16];
+    VdRow[368,16] = VACC[352,16];
+    VdRow[400,16] = VACC[384,16];
+    VdRow[432,16] = VACC[416,16];
+    VdRow[464,16] = VACC[448,16];
+    VdRow[496,16] = VACC[480,16];
+  }
+
+  # vgetacc into a 32-bit register element at byte-in-lane 0
+  :vgetacc vargd, varga, vmemargb^vflags
+	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=6 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VdRow & Vhasoffd=0) ... & vargd & varga & vmemargb & vflags {
+    VdRow[0,32] = VACC[0,32];
+    VdRow[32,32] = VACC[32,32];
+    VdRow[64,32] = VACC[64,32];
+    VdRow[96,32] = VACC[96,32];
+    VdRow[128,32] = VACC[128,32];
+    VdRow[160,32] = VACC[160,32];
+    VdRow[192,32] = VACC[192,32];
+    VdRow[224,32] = VACC[224,32];
+    VdRow[256,32] = VACC[256,32];
+    VdRow[288,32] = VACC[288,32];
+    VdRow[320,32] = VACC[320,32];
+    VdRow[352,32] = VACC[352,32];
+    VdRow[384,32] = VACC[384,32];
+    VdRow[416,32] = VACC[416,32];
+    VdRow[448,32] = VACC[448,32];
+    VdRow[480,32] = VACC[480,32];
+  }
 }

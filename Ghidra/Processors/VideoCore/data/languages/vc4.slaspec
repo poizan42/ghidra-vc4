@@ -1792,25 +1792,47 @@ vflags: Vrep^vsetf^vpred^vsru
 #                     memory at the B address. `v8ld H(20,0),(r3)` reads 16 consecutive
 #                     bytes; `v8st` writes 16.
 #
-# lookupm / lookupml  A GATHER: element i is read from base + index[i]. indexwritem /
-# indexwritem /       indexwriteml are the matching SCATTER: element i of A is written to
-# indexwriteml        base + index[i].
+# lookupml /          A GATHER and the matching SCATTER, indexed PER LANE BY THE
+# indexwriteml        ACCUMULATOR:
 #
-#                     WHERE THE INDEX VECTOR COMES FROM IS UNKNOWN. In a harness that
-#                     controls the whole register file it reads as all zeros, so a gather
-#                     degenerates to broadcasting base[0] to all 16 lanes and a scatter
-#                     collapses onto one address. That the scatter really performs 16
-#                     writes (rather than storing one element) was established with the
-#                     row auto-increment: `v8indexwritem H(20++,0),(r3)` consumes 16 rows
-#                     and leaves the *last* one's byte, i.e. 16 writes collided.
+#                         address(lane) = base + accumulator(lane) * element_size
 #
-#                     Ruled out as the index source, each with a positive control: the A
-#                     operand, any VRF row, the accumulator (settable via `CLRA UACC` and
-#                     readable via vgetacc -- verified 5 and 3 round-tripping), the D
-#                     operand, a vector B, and the REP count. Firmware always precedes
-#                     these with `bitplanes … SETF` + `v32mov -,0 CLRA UACC` and predicates
-#                     them `IFNZ`, which looks like stream compaction; predication is the
-#                     most likely remaining source and is not yet properly tested.
+#                     Verified by prediction rather than just observation. With the
+#                     accumulator loaded to 5 (`v32mov -,5 CLRA UACC`) and predication
+#                     enabling lane 0 only, the scatter writes at base+0x05 for v8,
+#                     base+0x0a for v16 and base+0x14 for v32 -- i.e. scaled by element
+#                     size -- and `v32lookupml` returns the four bytes at base+0x14, the
+#                     right address and the right length. acc=0/5/9 give base+0/+0x14/+0x24.
+#
+# lookupm /           The SAME ops with the accumulator ignored: every lane addresses
+# indexwritem         `base`. So a gather broadcasts base[0] to all 16 lanes and a scatter
+#                     aims all 16 writes at one address, where the last enabled lane wins.
+#                     Measured directly: with acc=5, `v8indexwriteml` writes at base+5 while
+#                     `v8indexwritem` writes at base+0, and likewise for the gathers.
+#
+#                     So the `L` suffix means "index by the accumulator" and nothing else
+#                     distinguishes the pairs.
+#
+#                     That the no-index scatter really performs 16 writes rather than storing
+#                     one element was established with the row auto-increment:
+#                     `v8indexwritem H(20++,0),(r3)` consumes 16 rows and leaves the last
+#                     one's byte, i.e. 16 writes collided.
+#
+#                     Firmware's idiom now reads directly as stream compaction:
+#                       v16bitplanes -,rN SETF            enable the lanes in the bitmask
+#                       v32mov -,0 CLRA UACC              accumulator := per-lane prefix count
+#                       v32indexwriteml HY(8,0),(r2) IFNZ enabled lanes -> consecutive slots
+#                     `UACC`'s exact across-lane behaviour is the one piece still unmeasured:
+#                     loading from an immediate yields a *uniform* accumulator, so the ramp a
+#                     compaction needs must come from a non-uniform source or from the
+#                     interaction with predication.
+#
+# Predication         Only exists in the 80-bit forms -- adding IFNZ turns a 6-byte
+#                     v32indexwriteml into a 10-byte one. It gates which lanes access memory:
+#                     a mask of 1 writes element 0, a mask enabling every lane leaves element
+#                     15 (the last), and a mask of 0 performs NO memory access at all. Note
+#                     `v16bitplanes -,imm SETF` sign-extends its 6-bit immediate, so 63 acts
+#                     as all-ones rather than as lanes 0..5.
 #
 # vgetacc             Verified to read the accumulator into the D row. The accumulator is
 #                     zero at entry, is not disturbed by ordinary vector ops, and is loaded

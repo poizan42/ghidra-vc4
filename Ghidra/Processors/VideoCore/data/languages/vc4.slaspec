@@ -1843,14 +1843,17 @@ vflags: Vrep^vsetf^vpred^vsru
 #                         a scalar ALU op, a scalar load, a scalar store, a read of sr, and an
 #                         intervening vector op.
 #
-#                     Firmware's idiom reads as stream compaction:
-#                       v16bitplanes -,rN SETF            enable the lanes in the bitmask
-#                       v32mov -,0 CLRA UACC              reset the per-lane index
-#                       v32indexwriteml HY(8,0),(r2) IFNZ enabled lanes -> consecutive slots
-#                     but note the reset is to a *uniform* zero, which on its own would collapse
-#                     every write onto `base`. So those three instructions are not the whole
-#                     story; the real code must build the per-lane index across loop iterations,
-#                     which is what UACC accumulating over repetitions provides.
+#                     Firmware's idiom is NOT a compaction, though it looks like one:
+#                       v16bitplanes -,rN SETF            enable the lanes named by a mask
+#                       v32mov -,0 CLRA UACC              index := 0, UNIFORM
+#                       v32indexwriteml HY(8,0),(r2) IFNZ one word lands at (r2)
+#                     Basic-block analysis shows all 208 sites in start4.elf are straight-line
+#                     with no back edge, so there is no loop and no per-lane ramp. With a uniform
+#                     zero index every enabled lane targets base+0 and exactly one word is
+#                     written -- the highest enabled lane's element. The mask is built as
+#                     (1 << 2*rN) - 1 and walked 16 lanes at a time (`lsr r3,0x10`), and the
+#                     destination is a computed peripheral address, so this reads as a
+#                     mask-selected single-element store to MMIO.
 #
 # Predication         Only exists in the 80-bit forms -- adding IFNZ turns a 6-byte
 #                     v32indexwriteml into a 10-byte one. It gates which lanes access memory:

@@ -538,11 +538,24 @@ define pcodeop version;
 	{ }	# provisional
 
 # Both directions confirmed on hardware, 2026-07-26: `mov r6,p0` assembles to 26 cc 00 00,
-# i.e. word0 = 0xcc00 | (OpAux << 5) | Rd and word1 = Pb, exactly as modelled here. Reading
-# p0..p15 on a Pi 4 returns p0=8, p10=3, p15=7 and zero elsewhere.
+# i.e. word0 = 0xcc00 | (OpAux << 5) | Rd and word1 = Pb, exactly as modelled here. Read on a
+# Pi 4 under running firmware, one register per EXECUTE_CODE call, p0..p31 return
+# p0=8, p10=3, p15=7 and zero everywhere else.
 #
-# HAZARD: reading p16 hard-wedges the VPU, reproducibly, taking the firmware with it. Do not
-# sweep p16..p31. The write direction is untested.
+# HAZARDS, all observed rather than inferred:
+#  - Reading p17 hard-wedges the VPU and takes the firmware with it. Reproduced 3/3.
+#  - Reading p16 wedged once in three attempts, so it is unreliable rather than fatal.
+#    (An earlier note here blamed p16 for the reproducible wedge; that was a misattribution
+#    from a batch run in which the failing probe was mislabelled. p17 is the reliable one.)
+#  - Reads are NOT freely composable: a single probe reading p12,p13,p14,p15,p16,p18 in
+#    sequence wedged, although every one of those registers reads fine on its own.
+#  - p18..p31 do not carry a stable value. From a fresh boot the first execution reads 0 and
+#    every execution after it reads 1, whatever the probe contains -- a nop does it. So it is
+#    a once-per-boot latch, not a counter and not tied to any instruction class. Two of them
+#    read in one probe gave 1 then 0, so they neither alias nor hold independent state.
+#
+# The write direction (mov Pd,Rb) is untested and is a better way to break the board than to
+# learn from it.
 #
 # Worth knowing when cross-referencing with binutils: gas cannot express either form. Its
 # CGEN description defines the register file (h-preg in cpu/vc4.cpu) but no instruction

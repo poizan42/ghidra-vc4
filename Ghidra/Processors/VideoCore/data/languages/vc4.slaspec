@@ -3,7 +3,11 @@
 ## TODO:
 ## - vector registers and instructions
 
-## Vector instructions are all `unimpl` because there is no VRF model here yet. Hardware
+## Vector instructions carry no real semantics -- there is no VRF model here yet -- but they are
+## `define pcodeop` black boxes rather than `unimpl`, so the decompiler walks through vector code
+## instead of stopping at the first instruction of it. On a sample of 14 small functions
+## containing vector instructions, that took the count decompiling without
+## "Truncating control flow" from 1/14 to 14/14. Hardware
 ## measurements that constrain what they do are recorded as comments next to the relevant
 ## constructors -- see the block above "# Vector memory ops", and the note on the PCTL
 ## `mov` pair. They come from running payloads on a Pi 4 VPU via the mailbox EXECUTE_CODE
@@ -1530,6 +1534,135 @@ with finst: {
 	{ build cond; build finst; }
 
 ################################################################
+
+# Every vector constructor below was `unimpl`, which makes the decompiler stop dead:
+# "Unimplemented instruction - Truncating control flow here". Measured effect of that --
+# giving `ld` alone a p-code operation took one codec function from 650 to 6,701 characters
+# of decompiled output, with real parameters and locals appearing.
+#
+# These are `define pcodeop` black boxes, not semantics. Each one asserts only "an
+# operation by this name happens here" -- deliberately, because SLEIGH has no loops, so a
+# 16-lane gather whose per-lane address comes from a runtime accumulator cannot be written
+# faithfully at all. What is actually known about these operations is recorded in the
+# comments by the vector memory ops and in vpu-probe/findings-lookup.md; encoding them as
+# p-code would require a VRF storage model this spec does not have.
+#
+# The win is that the decompiler now walks through vector code instead of stopping at it.
+
+define pcodeop vld;
+define pcodeop vlookupm;
+define pcodeop vlookupml;
+define pcodeop vmem03;
+define pcodeop vst;
+define pcodeop vindexwritem;
+define pcodeop vindexwriteml;
+define pcodeop vmem07;
+define pcodeop vmemread;
+define pcodeop vmemwrite;
+define pcodeop vmem10;
+define pcodeop vmem11;
+define pcodeop vmem12;
+define pcodeop vmem13;
+define pcodeop vmem14;
+define pcodeop vmem15;
+define pcodeop vmem16;
+define pcodeop vmem17;
+define pcodeop vmem18;
+define pcodeop vmem19;
+define pcodeop vmem20;
+define pcodeop vmem21;
+define pcodeop vmem22;
+define pcodeop vmem23;
+define pcodeop vgetacc;
+define pcodeop vgetaccs32;
+define pcodeop vgetaccunk;
+define pcodeop vgetaccs16;
+define pcodeop vmem25;
+define pcodeop vmem26;
+define pcodeop vmem27;
+define pcodeop vmem28;
+define pcodeop vmem29;
+define pcodeop vmem30;
+define pcodeop vmem31;
+define pcodeop vmov;
+define pcodeop vbitplanes;
+define pcodeop veven;
+define pcodeop vodd;
+define pcodeop vinterl;
+define pcodeop vinterh;
+define pcodeop vbrev;
+define pcodeop vror;
+define pcodeop vshl;
+define pcodeop vshls;
+define pcodeop vlsr;
+define pcodeop vasr;
+define pcodeop vsignshl;
+define pcodeop vop13;
+define pcodeop vsignasl;
+define pcodeop vsignasls;
+define pcodeop vand;
+define pcodeop vor;
+define pcodeop veor;
+define pcodeop vbic;
+define pcodeop vcount;
+define pcodeop vmsb;
+define pcodeop vop22;
+define pcodeop vop23;
+define pcodeop vmin;
+define pcodeop vmax;
+define pcodeop vdist;
+define pcodeop vdists;
+define pcodeop vclip;
+define pcodeop vsign;
+define pcodeop vclips;
+define pcodeop vtestmag;
+define pcodeop vadd;
+define pcodeop vadds;
+define pcodeop vaddc;
+define pcodeop vaddsc;
+define pcodeop vsub;
+define pcodeop vsubs;
+define pcodeop vsubc;
+define pcodeop vsubsc;
+define pcodeop vrsub;
+define pcodeop vrsubs;
+define pcodeop vrsubc;
+define pcodeop vrsubsc;
+define pcodeop vop44;
+define pcodeop vop45;
+define pcodeop vop46;
+define pcodeop vop47;
+define pcodeop vmull_ss;
+define pcodeop vop48_1;
+define pcodeop vmulls_ss;
+define pcodeop vop49_1;
+define pcodeop vmulm_ss;
+define pcodeop vop50_1;
+define pcodeop vmulms_ss;
+define pcodeop vop51_1;
+define pcodeop vmulhd_ss;
+define pcodeop vmul32_ss;
+define pcodeop vmulhd_su;
+define pcodeop vmul32_su;
+define pcodeop vmulhd_us;
+define pcodeop vmul32_us;
+define pcodeop vmulhd_uu;
+define pcodeop vmul32_uu;
+define pcodeop vmulhn_ss;
+define pcodeop vop56_1;
+define pcodeop vmulhn_su;
+define pcodeop vop57_1;
+define pcodeop vmulhn_us;
+define pcodeop vop58_1;
+define pcodeop vmulhn_uu;
+define pcodeop vop59_1;
+define pcodeop vmulht_ss;
+define pcodeop vop60_1;
+define pcodeop vmulht_su;
+define pcodeop vop61_1;
+define pcodeop vop62;
+define pcodeop vop63;
+
 # Vector Instructions
 ################################################################
 
@@ -1876,233 +2009,459 @@ vflags: Vrep^vsetf^vpred^vsru
 # results meaningful: vpu-probe/findings-lookup.md in the rpi-hacking repo.
 with : (Vop=0x3c | Vop=0x3e) ... {
   :v^Vmwidth^"ld" vargd, vmemargb^vflags
-	is (Vmop=0 & Vmwidth) ... & vargd & vmemargb & vflags unimpl
+	is (Vmop=0 & Vmwidth) ... & vargd & vmemargb & vflags {
+    vld();
+  }
   :v^Vmwidth^"lookupm" vargd, vmemargb^vflags
-	is (Vmop=1 & Vmwidth) ... & vargd & vmemargb & vflags unimpl
+	is (Vmop=1 & Vmwidth) ... & vargd & vmemargb & vflags {
+    vlookupm();
+  }
   :v^Vmwidth^"lookupml" vargd, vmemargb^vflags
-	is (Vmop=2 & Vmwidth) ... & vargd & vmemargb & vflags unimpl
+	is (Vmop=2 & Vmwidth) ... & vargd & vmemargb & vflags {
+    vlookupml();
+  }
   :v^Vmwidth^"mem03" vargd, varga, vmemargb^vflags
-	is (Vmop=3 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=3 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmem03();
+  }
   :v^Vmwidth^"st" varga, vmemargb^vflags
-	is (Vmop=4 & Vmwidth) ... & varga & vmemargb & vflags unimpl
+	is (Vmop=4 & Vmwidth) ... & varga & vmemargb & vflags {
+    vst();
+  }
   :v^Vmwidth^"indexwritem" varga, vmemargb^vflags
-	is (Vmop=5 & Vmwidth) ... & varga & vmemargb & vflags unimpl
+	is (Vmop=5 & Vmwidth) ... & varga & vmemargb & vflags {
+    vindexwritem();
+  }
   :v^Vmwidth^"indexwriteml" varga, vmemargb^vflags
-	is (Vmop=6 & Vmwidth) ... & varga & vmemargb & vflags unimpl
+	is (Vmop=6 & Vmwidth) ... & varga & vmemargb & vflags {
+    vindexwriteml();
+  }
   :v^Vmwidth^"mem07" vargd, varga, vmemargb^vflags
-	is (Vmop=7 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=7 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmem07();
+  }
   :v^Vmwidth^"memread" vargd, varga, vmemargb^vflags
-	is (Vmop=8 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=8 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmemread();
+  }
   :v^Vmwidth^"memwrite" vargd, varga, vmemargb^vflags
-	is (Vmop=9 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=9 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmemwrite();
+  }
   :v^Vmwidth^"mem10" vargd, varga, vmemargb^vflags
-	is (Vmop=10 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=10 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmem10();
+  }
   :v^Vmwidth^"mem11" vargd, varga, vmemargb^vflags
-	is (Vmop=11 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=11 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmem11();
+  }
   :v^Vmwidth^"mem12" vargd, varga, vmemargb^vflags
-	is (Vmop=12 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=12 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmem12();
+  }
   :v^Vmwidth^"mem13" vargd, varga, vmemargb^vflags
-	is (Vmop=13 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=13 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmem13();
+  }
   :v^Vmwidth^"mem14" vargd, varga, vmemargb^vflags
-	is (Vmop=14 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=14 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmem14();
+  }
   :v^Vmwidth^"mem15" vargd, varga, vmemargb^vflags
-	is (Vmop=15 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=15 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmem15();
+  }
   :v^Vmwidth^"mem16" vargd, varga, vmemargb^vflags
-	is (Vmop=16 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=16 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmem16();
+  }
   :v^Vmwidth^"mem17" vargd, varga, vmemargb^vflags
-	is (Vmop=17 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=17 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmem17();
+  }
   :v^Vmwidth^"mem18" vargd, varga, vmemargb^vflags
-	is (Vmop=18 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=18 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmem18();
+  }
   :v^Vmwidth^"mem19" vargd, varga, vmemargb^vflags
-	is (Vmop=19 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=19 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmem19();
+  }
   :v^Vmwidth^"mem20" vargd, varga, vmemargb^vflags
-	is (Vmop=20 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=20 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmem20();
+  }
   :v^Vmwidth^"mem21" vargd, varga, vmemargb^vflags
-	is (Vmop=21 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=21 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmem21();
+  }
   :v^Vmwidth^"mem22" vargd, varga, vmemargb^vflags
-	is (Vmop=22 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=22 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmem22();
+  }
   :v^Vmwidth^"mem23" vargd, varga, vmemargb^vflags
-	is (Vmop=23 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=23 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmem23();
+  }
   :vgetacc vargd, varga, vmemargb^vflags is (Vmop=24 & Vmwidth=0) ...
-	& vargd & varga & vmemargb & vflags unimpl
+	& vargd & varga & vmemargb & vflags {
+    vgetacc();
+  }
   :vgetaccs32 vargd, varga, vmemargb^vflags
-	is (Vmop=24 & Vmwidth=1) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=24 & Vmwidth=1) ... & vargd & varga & vmemargb & vflags {
+    vgetaccs32();
+  }
   :vgetaccunk vargd, varga, vmemargb^vflags
-	is (Vmop=24 & Vmwidth=2) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=24 & Vmwidth=2) ... & vargd & varga & vmemargb & vflags {
+    vgetaccunk();
+  }
   :vgetaccs16 vargd, varga, vmemargb^vflags
-	is (Vmop=24 & Vmwidth=3) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=24 & Vmwidth=3) ... & vargd & varga & vmemargb & vflags {
+    vgetaccs16();
+  }
   :v^Vmwidth^"mem25" vargd, varga, vmemargb^vflags
-	is (Vmop=25 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=25 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmem25();
+  }
   :v^Vmwidth^"mem26" vargd, varga, vmemargb^vflags
-	is (Vmop=26 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=26 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmem26();
+  }
   :v^Vmwidth^"mem27" vargd, varga, vmemargb^vflags
-	is (Vmop=27 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=27 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmem27();
+  }
   :v^Vmwidth^"mem28" vargd, varga, vmemargb^vflags
-	is (Vmop=28 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=28 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmem28();
+  }
   :v^Vmwidth^"mem29" vargd, varga, vmemargb^vflags
-	is (Vmop=29 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=29 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmem29();
+  }
   :v^Vmwidth^"mem30" vargd, varga, vmemargb^vflags
-	is (Vmop=30 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=30 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmem30();
+  }
   :v^Vmwidth^"mem31" vargd, varga, vmemargb^vflags
-	is (Vmop=31 & Vmwidth) ... & vargd & varga & vmemargb & vflags unimpl
+	is (Vmop=31 & Vmwidth) ... & vargd & varga & vmemargb & vflags {
+    vmem31();
+  }
 }
 
 # Vector ALU ops
 with : (Vop=0x3d | Vop=0x3f) ... {
   :v^Vawidth^"mov" vargd, vargb^vflags
-	is (Vaop=0 & Vawidth) ... & vargd & vargb & vflags unimpl
+	is (Vaop=0 & Vawidth) ... & vargd & vargb & vflags {
+    vmov();
+  }
   :v^Vawidth^"bitplanes" vargd, vargb^vflags
-	is (Vaop=1 & Vawidth) ... & vargd & vargb & vflags unimpl
+	is (Vaop=1 & Vawidth) ... & vargd & vargb & vflags {
+    vbitplanes();
+  }
   :v^Vawidth^"even" vargd, varga, vargb^vflags
-	is (Vaop=2 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=2 & Vawidth) ... & vargd & varga & vargb & vflags {
+    veven();
+  }
   :v^Vawidth^"odd" vargd, varga, vargb^vflags
-	is (Vaop=3 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=3 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vodd();
+  }
   :v^Vawidth^"interl" vargd, varga, vargb^vflags
-	is (Vaop=4 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=4 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vinterl();
+  }
   :v^Vawidth^"interh" vargd, varga, vargb^vflags
-	is (Vaop=5 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=5 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vinterh();
+  }
   :v^Vawidth^"brev" vargd, varga, vargb^vflags
-	is (Vaop=6 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=6 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vbrev();
+  }
   :v^Vawidth^"ror" vargd, varga, vargb^vflags
-	is (Vaop=7 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=7 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vror();
+  }
   :v^Vawidth^"shl" vargd, varga, vargb^vflags
-	is (Vaop=8 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=8 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vshl();
+  }
   :v^Vawidth^"shls" vargd, varga, vargb^vflags
-	is (Vaop=9 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=9 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vshls();
+  }
   :v^Vawidth^"lsr" vargd, varga, vargb^vflags
-	is (Vaop=10 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=10 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vlsr();
+  }
   :v^Vawidth^"asr" vargd, varga, vargb^vflags
-	is (Vaop=11 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=11 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vasr();
+  }
   :v^Vawidth^"signshl" vargd, varga, vargb^vflags
-	is (Vaop=12 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=12 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vsignshl();
+  }
   :v^Vawidth^"op13" vargd, varga, vargb^vflags
-	is (Vaop=13 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=13 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vop13();
+  }
   :v^Vawidth^"signasl" vargd, varga, vargb^vflags
-	is (Vaop=14 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=14 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vsignasl();
+  }
   :v^Vawidth^"signasls" vargd, varga, vargb^vflags
-	is (Vaop=15 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=15 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vsignasls();
+  }
   :v^Vawidth^"and" vargd, varga, vargb^vflags
-	is (Vaop=16 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=16 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vand();
+  }
   :v^Vawidth^"or" vargd, varga, vargb^vflags
-	is (Vaop=17 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=17 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vor();
+  }
   :v^Vawidth^"eor" vargd, varga, vargb^vflags
-	is (Vaop=18 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=18 & Vawidth) ... & vargd & varga & vargb & vflags {
+    veor();
+  }
   :v^Vawidth^"bic" vargd, varga, vargb^vflags
-	is (Vaop=19 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=19 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vbic();
+  }
   :v^Vawidth^"count" vargd, varga, vargb^vflags
-	is (Vaop=20 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=20 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vcount();
+  }
   :v^Vawidth^"msb" vargd, varga, vargb^vflags
-	is (Vaop=21 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=21 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vmsb();
+  }
   :v^Vawidth^"op22" vargd, varga, vargb^vflags
-	is (Vaop=22 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=22 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vop22();
+  }
   :v^Vawidth^"op23" vargd, varga, vargb^vflags
-	is (Vaop=23 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=23 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vop23();
+  }
   :v^Vawidth^"min" vargd, varga, vargb^vflags
-	is (Vaop=24 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=24 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vmin();
+  }
   :v^Vawidth^"max" vargd, varga, vargb^vflags
-	is (Vaop=25 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=25 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vmax();
+  }
   :v^Vawidth^"dist" vargd, varga, vargb^vflags
-	is (Vaop=26 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=26 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vdist();
+  }
   :v^Vawidth^"dists" vargd, varga, vargb^vflags
-	is (Vaop=27 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=27 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vdists();
+  }
   :v^Vawidth^"clip" vargd, varga, vargb^vflags
-	is (Vaop=28 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=28 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vclip();
+  }
   :v^Vawidth^"sign" vargd, varga, vargb^vflags
-	is (Vaop=29 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=29 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vsign();
+  }
   :v^Vawidth^"clips" vargd, varga, vargb^vflags
-	is (Vaop=30 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=30 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vclips();
+  }
   :v^Vawidth^"testmag" vargd, varga, vargb^vflags
-	is (Vaop=31 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=31 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vtestmag();
+  }
   :v^Vawidth^"add" vargd, varga, vargb^vflags
-	is (Vaop=32 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=32 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vadd();
+  }
   :v^Vawidth^"adds" vargd, varga, vargb^vflags
-	is (Vaop=33 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=33 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vadds();
+  }
   :v^Vawidth^"addc" vargd, varga, vargb^vflags
-	is (Vaop=34 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=34 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vaddc();
+  }
   :v^Vawidth^"addsc" vargd, varga, vargb^vflags
-	is (Vaop=35 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=35 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vaddsc();
+  }
   :v^Vawidth^"sub" vargd, varga, vargb^vflags
-	is (Vaop=36 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=36 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vsub();
+  }
   :v^Vawidth^"subs" vargd, varga, vargb^vflags
-	is (Vaop=37 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=37 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vsubs();
+  }
   :v^Vawidth^"subc" vargd, varga, vargb^vflags
-	is (Vaop=38 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=38 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vsubc();
+  }
   :v^Vawidth^"subsc" vargd, varga, vargb^vflags
-	is (Vaop=39 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=39 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vsubsc();
+  }
   :v^Vawidth^"rsub" vargd, varga, vargb^vflags
-	is (Vaop=40 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=40 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vrsub();
+  }
   :v^Vawidth^"rsubs" vargd, varga, vargb^vflags
-	is (Vaop=41 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=41 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vrsubs();
+  }
   :v^Vawidth^"rsubc" vargd, varga, vargb^vflags
-	is (Vaop=42 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=42 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vrsubc();
+  }
   :v^Vawidth^"rsubsc" vargd, varga, vargb^vflags
-	is (Vaop=43 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=43 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vrsubsc();
+  }
   :v^Vawidth^"op44" vargd, varga, vargb^vflags
-	is (Vaop=44 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=44 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vop44();
+  }
   :v^Vawidth^"op45" vargd, varga, vargb^vflags
-	is (Vaop=45 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=45 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vop45();
+  }
   :v^Vawidth^"op46" vargd, varga, vargb^vflags
-	is (Vaop=46 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=46 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vop46();
+  }
   :v^Vawidth^"op47" vargd, varga, vargb^vflags
-	is (Vaop=47 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=47 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vop47();
+  }
   :vmull.ss vargd, varga, vargb^vflags
-	is (Vaop=48 & Vawidth=0) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=48 & Vawidth=0) ... & vargd & varga & vargb & vflags {
+    vmull_ss();
+  }
   :vop48.1 vargd, varga, vargb^vflags
-	is (Vaop=48 & Vawidth=1) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=48 & Vawidth=1) ... & vargd & varga & vargb & vflags {
+    vop48_1();
+  }
   :vmulls.ss vargd, varga, vargb^vflags
-	is (Vaop=49 & Vawidth=0) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=49 & Vawidth=0) ... & vargd & varga & vargb & vflags {
+    vmulls_ss();
+  }
   :vop49.1 vargd, varga, vargb^vflags
-	is (Vaop=49 & Vawidth=1) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=49 & Vawidth=1) ... & vargd & varga & vargb & vflags {
+    vop49_1();
+  }
   :vmulm.ss vargd, varga, vargb^vflags
-	is (Vaop=50 & Vawidth=0) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=50 & Vawidth=0) ... & vargd & varga & vargb & vflags {
+    vmulm_ss();
+  }
   :vop50.1 vargd, varga, vargb^vflags
-	is (Vaop=50 & Vawidth=1) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=50 & Vawidth=1) ... & vargd & varga & vargb & vflags {
+    vop50_1();
+  }
   :vmulms.ss vargd, varga, vargb^vflags
-	is (Vaop=51 & Vawidth=0) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=51 & Vawidth=0) ... & vargd & varga & vargb & vflags {
+    vmulms_ss();
+  }
   :vop51.1 vargd, varga, vargb^vflags
-	is (Vaop=51 & Vawidth=1) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=51 & Vawidth=1) ... & vargd & varga & vargb & vflags {
+    vop51_1();
+  }
   :vmulhd.ss vargd, varga, vargb^vflags
-	is (Vaop=52 & Vawidth=0) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=52 & Vawidth=0) ... & vargd & varga & vargb & vflags {
+    vmulhd_ss();
+  }
   :vmul32.ss vargd, varga, vargb^vflags
-	is (Vaop=52 & Vawidth=1) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=52 & Vawidth=1) ... & vargd & varga & vargb & vflags {
+    vmul32_ss();
+  }
   :vmulhd.su vargd, varga, vargb^vflags
-	is (Vaop=53 & Vawidth=0) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=53 & Vawidth=0) ... & vargd & varga & vargb & vflags {
+    vmulhd_su();
+  }
   :vmul32.su vargd, varga, vargb^vflags
-	is (Vaop=53 & Vawidth=1) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=53 & Vawidth=1) ... & vargd & varga & vargb & vflags {
+    vmul32_su();
+  }
   :vmulhd.us vargd, varga, vargb^vflags
-	is (Vaop=54 & Vawidth=0) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=54 & Vawidth=0) ... & vargd & varga & vargb & vflags {
+    vmulhd_us();
+  }
   :vmul32.us vargd, varga, vargb^vflags
-	is (Vaop=54 & Vawidth=1) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=54 & Vawidth=1) ... & vargd & varga & vargb & vflags {
+    vmul32_us();
+  }
   :vmulhd.uu vargd, varga, vargb^vflags
-	is (Vaop=55 & Vawidth=0) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=55 & Vawidth=0) ... & vargd & varga & vargb & vflags {
+    vmulhd_uu();
+  }
   :vmul32.uu vargd, varga, vargb^vflags
-	is (Vaop=55 & Vawidth=1) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=55 & Vawidth=1) ... & vargd & varga & vargb & vflags {
+    vmul32_uu();
+  }
   :vmulhn.ss vargd, varga, vargb^vflags
-	is (Vaop=56 & Vawidth=0) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=56 & Vawidth=0) ... & vargd & varga & vargb & vflags {
+    vmulhn_ss();
+  }
   :vop56.1 vargd, varga, vargb^vflags
-	is (Vaop=56 & Vawidth=1) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=56 & Vawidth=1) ... & vargd & varga & vargb & vflags {
+    vop56_1();
+  }
   :vmulhn.su vargd, varga, vargb^vflags
-	is (Vaop=57 & Vawidth=0) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=57 & Vawidth=0) ... & vargd & varga & vargb & vflags {
+    vmulhn_su();
+  }
   :vop57.1 vargd, varga, vargb^vflags
-	is (Vaop=57 & Vawidth=1) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=57 & Vawidth=1) ... & vargd & varga & vargb & vflags {
+    vop57_1();
+  }
   :vmulhn.us vargd, varga, vargb^vflags
-	is (Vaop=58 & Vawidth=0) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=58 & Vawidth=0) ... & vargd & varga & vargb & vflags {
+    vmulhn_us();
+  }
   :vop58.1 vargd, varga, vargb^vflags
-	is (Vaop=58 & Vawidth=1) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=58 & Vawidth=1) ... & vargd & varga & vargb & vflags {
+    vop58_1();
+  }
   :vmulhn.uu vargd, varga, vargb^vflags
-	is (Vaop=59 & Vawidth=0) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=59 & Vawidth=0) ... & vargd & varga & vargb & vflags {
+    vmulhn_uu();
+  }
   :vop59.1 vargd, varga, vargb^vflags
-	is (Vaop=59 & Vawidth=1) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=59 & Vawidth=1) ... & vargd & varga & vargb & vflags {
+    vop59_1();
+  }
   :vmulht.ss vargd, varga, vargb^vflags
-	is (Vaop=60 & Vawidth=0) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=60 & Vawidth=0) ... & vargd & varga & vargb & vflags {
+    vmulht_ss();
+  }
   :vop60.1 vargd, varga, vargb^vflags
-	is (Vaop=60 & Vawidth=1) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=60 & Vawidth=1) ... & vargd & varga & vargb & vflags {
+    vop60_1();
+  }
   :vmulht.su vargd, varga, vargb^vflags
-	is (Vaop=61 & Vawidth=0) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=61 & Vawidth=0) ... & vargd & varga & vargb & vflags {
+    vmulht_su();
+  }
   :vop61.1 vargd, varga, vargb^vflags
-	is (Vaop=61 & Vawidth=1) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=61 & Vawidth=1) ... & vargd & varga & vargb & vflags {
+    vop61_1();
+  }
   :v^Vawidth^"op62" vargd, varga, vargb^vflags
-	is (Vaop=62 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=62 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vop62();
+  }
   :v^Vawidth^"op63" vargd, varga, vargb^vflags
-	is (Vaop=63 & Vawidth) ... & vargd & varga & vargb & vflags unimpl
+	is (Vaop=63 & Vawidth) ... & vargd & varga & vargb & vflags {
+    vop63();
+  }
 }

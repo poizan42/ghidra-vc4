@@ -721,6 +721,1628 @@ with : Vop=0x3c ... {
     VdRow[480,32] = *:4 (base + 60:4);
   }
 
+  # v8lookupm with a 8-bit register element at byte-in-lane 0
+  :v8lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=0 & Vdir=0 & Vseld=0 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    VdRow[0,8] = *:1 (base);
+    VdRow[32,8] = *:1 (base);
+    VdRow[64,8] = *:1 (base);
+    VdRow[96,8] = *:1 (base);
+    VdRow[128,8] = *:1 (base);
+    VdRow[160,8] = *:1 (base);
+    VdRow[192,8] = *:1 (base);
+    VdRow[224,8] = *:1 (base);
+    VdRow[256,8] = *:1 (base);
+    VdRow[288,8] = *:1 (base);
+    VdRow[320,8] = *:1 (base);
+    VdRow[352,8] = *:1 (base);
+    VdRow[384,8] = *:1 (base);
+    VdRow[416,8] = *:1 (base);
+    VdRow[448,8] = *:1 (base);
+    VdRow[480,8] = *:1 (base);
+  }
+
+  # v8lookupm with a 8-bit register element at byte-in-lane 1
+  :v8lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=0 & Vdir=0 & Vseld=1 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    VdRow[8,8] = *:1 (base);
+    VdRow[40,8] = *:1 (base);
+    VdRow[72,8] = *:1 (base);
+    VdRow[104,8] = *:1 (base);
+    VdRow[136,8] = *:1 (base);
+    VdRow[168,8] = *:1 (base);
+    VdRow[200,8] = *:1 (base);
+    VdRow[232,8] = *:1 (base);
+    VdRow[264,8] = *:1 (base);
+    VdRow[296,8] = *:1 (base);
+    VdRow[328,8] = *:1 (base);
+    VdRow[360,8] = *:1 (base);
+    VdRow[392,8] = *:1 (base);
+    VdRow[424,8] = *:1 (base);
+    VdRow[456,8] = *:1 (base);
+    VdRow[488,8] = *:1 (base);
+  }
+
+  # v8lookupm with a 8-bit register element at byte-in-lane 2
+  :v8lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=0 & Vdir=0 & Vseld=2 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    VdRow[16,8] = *:1 (base);
+    VdRow[48,8] = *:1 (base);
+    VdRow[80,8] = *:1 (base);
+    VdRow[112,8] = *:1 (base);
+    VdRow[144,8] = *:1 (base);
+    VdRow[176,8] = *:1 (base);
+    VdRow[208,8] = *:1 (base);
+    VdRow[240,8] = *:1 (base);
+    VdRow[272,8] = *:1 (base);
+    VdRow[304,8] = *:1 (base);
+    VdRow[336,8] = *:1 (base);
+    VdRow[368,8] = *:1 (base);
+    VdRow[400,8] = *:1 (base);
+    VdRow[432,8] = *:1 (base);
+    VdRow[464,8] = *:1 (base);
+    VdRow[496,8] = *:1 (base);
+  }
+
+  # v8lookupm with a 8-bit register element at byte-in-lane 3
+  :v8lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=0 & Vdir=0 & Vseld=3 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    VdRow[24,8] = *:1 (base);
+    VdRow[56,8] = *:1 (base);
+    VdRow[88,8] = *:1 (base);
+    VdRow[120,8] = *:1 (base);
+    VdRow[152,8] = *:1 (base);
+    VdRow[184,8] = *:1 (base);
+    VdRow[216,8] = *:1 (base);
+    VdRow[248,8] = *:1 (base);
+    VdRow[280,8] = *:1 (base);
+    VdRow[312,8] = *:1 (base);
+    VdRow[344,8] = *:1 (base);
+    VdRow[376,8] = *:1 (base);
+    VdRow[408,8] = *:1 (base);
+    VdRow[440,8] = *:1 (base);
+    VdRow[472,8] = *:1 (base);
+    VdRow[504,8] = *:1 (base);
+  }
+
+  # v8lookupm with a 16-bit register element at byte-in-lane 0
+  :v8lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=0 & Vdir=0 & Vseld=4 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    VdRow[0,16] = zext(*:1 (base));
+    VdRow[32,16] = zext(*:1 (base));
+    VdRow[64,16] = zext(*:1 (base));
+    VdRow[96,16] = zext(*:1 (base));
+    VdRow[128,16] = zext(*:1 (base));
+    VdRow[160,16] = zext(*:1 (base));
+    VdRow[192,16] = zext(*:1 (base));
+    VdRow[224,16] = zext(*:1 (base));
+    VdRow[256,16] = zext(*:1 (base));
+    VdRow[288,16] = zext(*:1 (base));
+    VdRow[320,16] = zext(*:1 (base));
+    VdRow[352,16] = zext(*:1 (base));
+    VdRow[384,16] = zext(*:1 (base));
+    VdRow[416,16] = zext(*:1 (base));
+    VdRow[448,16] = zext(*:1 (base));
+    VdRow[480,16] = zext(*:1 (base));
+  }
+
+  # v8lookupm with a 16-bit register element at byte-in-lane 2
+  :v8lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=0 & Vdir=0 & Vseld=5 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    VdRow[16,16] = zext(*:1 (base));
+    VdRow[48,16] = zext(*:1 (base));
+    VdRow[80,16] = zext(*:1 (base));
+    VdRow[112,16] = zext(*:1 (base));
+    VdRow[144,16] = zext(*:1 (base));
+    VdRow[176,16] = zext(*:1 (base));
+    VdRow[208,16] = zext(*:1 (base));
+    VdRow[240,16] = zext(*:1 (base));
+    VdRow[272,16] = zext(*:1 (base));
+    VdRow[304,16] = zext(*:1 (base));
+    VdRow[336,16] = zext(*:1 (base));
+    VdRow[368,16] = zext(*:1 (base));
+    VdRow[400,16] = zext(*:1 (base));
+    VdRow[432,16] = zext(*:1 (base));
+    VdRow[464,16] = zext(*:1 (base));
+    VdRow[496,16] = zext(*:1 (base));
+  }
+
+  # v8lookupm with a 32-bit register element at byte-in-lane 0
+  :v8lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=0 & Vdir=0 & Vseld=6 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    VdRow[0,32] = zext(*:1 (base));
+    VdRow[32,32] = zext(*:1 (base));
+    VdRow[64,32] = zext(*:1 (base));
+    VdRow[96,32] = zext(*:1 (base));
+    VdRow[128,32] = zext(*:1 (base));
+    VdRow[160,32] = zext(*:1 (base));
+    VdRow[192,32] = zext(*:1 (base));
+    VdRow[224,32] = zext(*:1 (base));
+    VdRow[256,32] = zext(*:1 (base));
+    VdRow[288,32] = zext(*:1 (base));
+    VdRow[320,32] = zext(*:1 (base));
+    VdRow[352,32] = zext(*:1 (base));
+    VdRow[384,32] = zext(*:1 (base));
+    VdRow[416,32] = zext(*:1 (base));
+    VdRow[448,32] = zext(*:1 (base));
+    VdRow[480,32] = zext(*:1 (base));
+  }
+
+  # v16lookupm with a 8-bit register element at byte-in-lane 0
+  :v16lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=1 & Vdir=0 & Vseld=0 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local t0:2 = *:2 (base);
+    VdRow[0,8] = t0:1;
+    local t1:2 = *:2 (base);
+    VdRow[32,8] = t1:1;
+    local t2:2 = *:2 (base);
+    VdRow[64,8] = t2:1;
+    local t3:2 = *:2 (base);
+    VdRow[96,8] = t3:1;
+    local t4:2 = *:2 (base);
+    VdRow[128,8] = t4:1;
+    local t5:2 = *:2 (base);
+    VdRow[160,8] = t5:1;
+    local t6:2 = *:2 (base);
+    VdRow[192,8] = t6:1;
+    local t7:2 = *:2 (base);
+    VdRow[224,8] = t7:1;
+    local t8:2 = *:2 (base);
+    VdRow[256,8] = t8:1;
+    local t9:2 = *:2 (base);
+    VdRow[288,8] = t9:1;
+    local t10:2 = *:2 (base);
+    VdRow[320,8] = t10:1;
+    local t11:2 = *:2 (base);
+    VdRow[352,8] = t11:1;
+    local t12:2 = *:2 (base);
+    VdRow[384,8] = t12:1;
+    local t13:2 = *:2 (base);
+    VdRow[416,8] = t13:1;
+    local t14:2 = *:2 (base);
+    VdRow[448,8] = t14:1;
+    local t15:2 = *:2 (base);
+    VdRow[480,8] = t15:1;
+  }
+
+  # v16lookupm with a 8-bit register element at byte-in-lane 1
+  :v16lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=1 & Vdir=0 & Vseld=1 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local t0:2 = *:2 (base);
+    VdRow[8,8] = t0:1;
+    local t1:2 = *:2 (base);
+    VdRow[40,8] = t1:1;
+    local t2:2 = *:2 (base);
+    VdRow[72,8] = t2:1;
+    local t3:2 = *:2 (base);
+    VdRow[104,8] = t3:1;
+    local t4:2 = *:2 (base);
+    VdRow[136,8] = t4:1;
+    local t5:2 = *:2 (base);
+    VdRow[168,8] = t5:1;
+    local t6:2 = *:2 (base);
+    VdRow[200,8] = t6:1;
+    local t7:2 = *:2 (base);
+    VdRow[232,8] = t7:1;
+    local t8:2 = *:2 (base);
+    VdRow[264,8] = t8:1;
+    local t9:2 = *:2 (base);
+    VdRow[296,8] = t9:1;
+    local t10:2 = *:2 (base);
+    VdRow[328,8] = t10:1;
+    local t11:2 = *:2 (base);
+    VdRow[360,8] = t11:1;
+    local t12:2 = *:2 (base);
+    VdRow[392,8] = t12:1;
+    local t13:2 = *:2 (base);
+    VdRow[424,8] = t13:1;
+    local t14:2 = *:2 (base);
+    VdRow[456,8] = t14:1;
+    local t15:2 = *:2 (base);
+    VdRow[488,8] = t15:1;
+  }
+
+  # v16lookupm with a 8-bit register element at byte-in-lane 2
+  :v16lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=1 & Vdir=0 & Vseld=2 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local t0:2 = *:2 (base);
+    VdRow[16,8] = t0:1;
+    local t1:2 = *:2 (base);
+    VdRow[48,8] = t1:1;
+    local t2:2 = *:2 (base);
+    VdRow[80,8] = t2:1;
+    local t3:2 = *:2 (base);
+    VdRow[112,8] = t3:1;
+    local t4:2 = *:2 (base);
+    VdRow[144,8] = t4:1;
+    local t5:2 = *:2 (base);
+    VdRow[176,8] = t5:1;
+    local t6:2 = *:2 (base);
+    VdRow[208,8] = t6:1;
+    local t7:2 = *:2 (base);
+    VdRow[240,8] = t7:1;
+    local t8:2 = *:2 (base);
+    VdRow[272,8] = t8:1;
+    local t9:2 = *:2 (base);
+    VdRow[304,8] = t9:1;
+    local t10:2 = *:2 (base);
+    VdRow[336,8] = t10:1;
+    local t11:2 = *:2 (base);
+    VdRow[368,8] = t11:1;
+    local t12:2 = *:2 (base);
+    VdRow[400,8] = t12:1;
+    local t13:2 = *:2 (base);
+    VdRow[432,8] = t13:1;
+    local t14:2 = *:2 (base);
+    VdRow[464,8] = t14:1;
+    local t15:2 = *:2 (base);
+    VdRow[496,8] = t15:1;
+  }
+
+  # v16lookupm with a 8-bit register element at byte-in-lane 3
+  :v16lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=1 & Vdir=0 & Vseld=3 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local t0:2 = *:2 (base);
+    VdRow[24,8] = t0:1;
+    local t1:2 = *:2 (base);
+    VdRow[56,8] = t1:1;
+    local t2:2 = *:2 (base);
+    VdRow[88,8] = t2:1;
+    local t3:2 = *:2 (base);
+    VdRow[120,8] = t3:1;
+    local t4:2 = *:2 (base);
+    VdRow[152,8] = t4:1;
+    local t5:2 = *:2 (base);
+    VdRow[184,8] = t5:1;
+    local t6:2 = *:2 (base);
+    VdRow[216,8] = t6:1;
+    local t7:2 = *:2 (base);
+    VdRow[248,8] = t7:1;
+    local t8:2 = *:2 (base);
+    VdRow[280,8] = t8:1;
+    local t9:2 = *:2 (base);
+    VdRow[312,8] = t9:1;
+    local t10:2 = *:2 (base);
+    VdRow[344,8] = t10:1;
+    local t11:2 = *:2 (base);
+    VdRow[376,8] = t11:1;
+    local t12:2 = *:2 (base);
+    VdRow[408,8] = t12:1;
+    local t13:2 = *:2 (base);
+    VdRow[440,8] = t13:1;
+    local t14:2 = *:2 (base);
+    VdRow[472,8] = t14:1;
+    local t15:2 = *:2 (base);
+    VdRow[504,8] = t15:1;
+  }
+
+  # v16lookupm with a 16-bit register element at byte-in-lane 0
+  :v16lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=1 & Vdir=0 & Vseld=4 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    VdRow[0,16] = *:2 (base);
+    VdRow[32,16] = *:2 (base);
+    VdRow[64,16] = *:2 (base);
+    VdRow[96,16] = *:2 (base);
+    VdRow[128,16] = *:2 (base);
+    VdRow[160,16] = *:2 (base);
+    VdRow[192,16] = *:2 (base);
+    VdRow[224,16] = *:2 (base);
+    VdRow[256,16] = *:2 (base);
+    VdRow[288,16] = *:2 (base);
+    VdRow[320,16] = *:2 (base);
+    VdRow[352,16] = *:2 (base);
+    VdRow[384,16] = *:2 (base);
+    VdRow[416,16] = *:2 (base);
+    VdRow[448,16] = *:2 (base);
+    VdRow[480,16] = *:2 (base);
+  }
+
+  # v16lookupm with a 16-bit register element at byte-in-lane 2
+  :v16lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=1 & Vdir=0 & Vseld=5 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    VdRow[16,16] = *:2 (base);
+    VdRow[48,16] = *:2 (base);
+    VdRow[80,16] = *:2 (base);
+    VdRow[112,16] = *:2 (base);
+    VdRow[144,16] = *:2 (base);
+    VdRow[176,16] = *:2 (base);
+    VdRow[208,16] = *:2 (base);
+    VdRow[240,16] = *:2 (base);
+    VdRow[272,16] = *:2 (base);
+    VdRow[304,16] = *:2 (base);
+    VdRow[336,16] = *:2 (base);
+    VdRow[368,16] = *:2 (base);
+    VdRow[400,16] = *:2 (base);
+    VdRow[432,16] = *:2 (base);
+    VdRow[464,16] = *:2 (base);
+    VdRow[496,16] = *:2 (base);
+  }
+
+  # v16lookupm with a 32-bit register element at byte-in-lane 0
+  :v16lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=1 & Vdir=0 & Vseld=6 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    VdRow[0,32] = sext(*:2 (base));
+    VdRow[32,32] = sext(*:2 (base));
+    VdRow[64,32] = sext(*:2 (base));
+    VdRow[96,32] = sext(*:2 (base));
+    VdRow[128,32] = sext(*:2 (base));
+    VdRow[160,32] = sext(*:2 (base));
+    VdRow[192,32] = sext(*:2 (base));
+    VdRow[224,32] = sext(*:2 (base));
+    VdRow[256,32] = sext(*:2 (base));
+    VdRow[288,32] = sext(*:2 (base));
+    VdRow[320,32] = sext(*:2 (base));
+    VdRow[352,32] = sext(*:2 (base));
+    VdRow[384,32] = sext(*:2 (base));
+    VdRow[416,32] = sext(*:2 (base));
+    VdRow[448,32] = sext(*:2 (base));
+    VdRow[480,32] = sext(*:2 (base));
+  }
+
+  # v32lookupm with a 8-bit register element at byte-in-lane 0
+  :v32lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=2 & Vdir=0 & Vseld=0 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local t0:4 = *:4 (base);
+    VdRow[0,8] = t0:1;
+    local t1:4 = *:4 (base);
+    VdRow[32,8] = t1:1;
+    local t2:4 = *:4 (base);
+    VdRow[64,8] = t2:1;
+    local t3:4 = *:4 (base);
+    VdRow[96,8] = t3:1;
+    local t4:4 = *:4 (base);
+    VdRow[128,8] = t4:1;
+    local t5:4 = *:4 (base);
+    VdRow[160,8] = t5:1;
+    local t6:4 = *:4 (base);
+    VdRow[192,8] = t6:1;
+    local t7:4 = *:4 (base);
+    VdRow[224,8] = t7:1;
+    local t8:4 = *:4 (base);
+    VdRow[256,8] = t8:1;
+    local t9:4 = *:4 (base);
+    VdRow[288,8] = t9:1;
+    local t10:4 = *:4 (base);
+    VdRow[320,8] = t10:1;
+    local t11:4 = *:4 (base);
+    VdRow[352,8] = t11:1;
+    local t12:4 = *:4 (base);
+    VdRow[384,8] = t12:1;
+    local t13:4 = *:4 (base);
+    VdRow[416,8] = t13:1;
+    local t14:4 = *:4 (base);
+    VdRow[448,8] = t14:1;
+    local t15:4 = *:4 (base);
+    VdRow[480,8] = t15:1;
+  }
+
+  # v32lookupm with a 8-bit register element at byte-in-lane 1
+  :v32lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=2 & Vdir=0 & Vseld=1 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local t0:4 = *:4 (base);
+    VdRow[8,8] = t0:1;
+    local t1:4 = *:4 (base);
+    VdRow[40,8] = t1:1;
+    local t2:4 = *:4 (base);
+    VdRow[72,8] = t2:1;
+    local t3:4 = *:4 (base);
+    VdRow[104,8] = t3:1;
+    local t4:4 = *:4 (base);
+    VdRow[136,8] = t4:1;
+    local t5:4 = *:4 (base);
+    VdRow[168,8] = t5:1;
+    local t6:4 = *:4 (base);
+    VdRow[200,8] = t6:1;
+    local t7:4 = *:4 (base);
+    VdRow[232,8] = t7:1;
+    local t8:4 = *:4 (base);
+    VdRow[264,8] = t8:1;
+    local t9:4 = *:4 (base);
+    VdRow[296,8] = t9:1;
+    local t10:4 = *:4 (base);
+    VdRow[328,8] = t10:1;
+    local t11:4 = *:4 (base);
+    VdRow[360,8] = t11:1;
+    local t12:4 = *:4 (base);
+    VdRow[392,8] = t12:1;
+    local t13:4 = *:4 (base);
+    VdRow[424,8] = t13:1;
+    local t14:4 = *:4 (base);
+    VdRow[456,8] = t14:1;
+    local t15:4 = *:4 (base);
+    VdRow[488,8] = t15:1;
+  }
+
+  # v32lookupm with a 8-bit register element at byte-in-lane 2
+  :v32lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=2 & Vdir=0 & Vseld=2 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local t0:4 = *:4 (base);
+    VdRow[16,8] = t0:1;
+    local t1:4 = *:4 (base);
+    VdRow[48,8] = t1:1;
+    local t2:4 = *:4 (base);
+    VdRow[80,8] = t2:1;
+    local t3:4 = *:4 (base);
+    VdRow[112,8] = t3:1;
+    local t4:4 = *:4 (base);
+    VdRow[144,8] = t4:1;
+    local t5:4 = *:4 (base);
+    VdRow[176,8] = t5:1;
+    local t6:4 = *:4 (base);
+    VdRow[208,8] = t6:1;
+    local t7:4 = *:4 (base);
+    VdRow[240,8] = t7:1;
+    local t8:4 = *:4 (base);
+    VdRow[272,8] = t8:1;
+    local t9:4 = *:4 (base);
+    VdRow[304,8] = t9:1;
+    local t10:4 = *:4 (base);
+    VdRow[336,8] = t10:1;
+    local t11:4 = *:4 (base);
+    VdRow[368,8] = t11:1;
+    local t12:4 = *:4 (base);
+    VdRow[400,8] = t12:1;
+    local t13:4 = *:4 (base);
+    VdRow[432,8] = t13:1;
+    local t14:4 = *:4 (base);
+    VdRow[464,8] = t14:1;
+    local t15:4 = *:4 (base);
+    VdRow[496,8] = t15:1;
+  }
+
+  # v32lookupm with a 8-bit register element at byte-in-lane 3
+  :v32lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=2 & Vdir=0 & Vseld=3 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local t0:4 = *:4 (base);
+    VdRow[24,8] = t0:1;
+    local t1:4 = *:4 (base);
+    VdRow[56,8] = t1:1;
+    local t2:4 = *:4 (base);
+    VdRow[88,8] = t2:1;
+    local t3:4 = *:4 (base);
+    VdRow[120,8] = t3:1;
+    local t4:4 = *:4 (base);
+    VdRow[152,8] = t4:1;
+    local t5:4 = *:4 (base);
+    VdRow[184,8] = t5:1;
+    local t6:4 = *:4 (base);
+    VdRow[216,8] = t6:1;
+    local t7:4 = *:4 (base);
+    VdRow[248,8] = t7:1;
+    local t8:4 = *:4 (base);
+    VdRow[280,8] = t8:1;
+    local t9:4 = *:4 (base);
+    VdRow[312,8] = t9:1;
+    local t10:4 = *:4 (base);
+    VdRow[344,8] = t10:1;
+    local t11:4 = *:4 (base);
+    VdRow[376,8] = t11:1;
+    local t12:4 = *:4 (base);
+    VdRow[408,8] = t12:1;
+    local t13:4 = *:4 (base);
+    VdRow[440,8] = t13:1;
+    local t14:4 = *:4 (base);
+    VdRow[472,8] = t14:1;
+    local t15:4 = *:4 (base);
+    VdRow[504,8] = t15:1;
+  }
+
+  # v32lookupm with a 16-bit register element at byte-in-lane 0
+  :v32lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=2 & Vdir=0 & Vseld=4 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local t0:4 = *:4 (base);
+    VdRow[0,16] = t0:2;
+    local t1:4 = *:4 (base);
+    VdRow[32,16] = t1:2;
+    local t2:4 = *:4 (base);
+    VdRow[64,16] = t2:2;
+    local t3:4 = *:4 (base);
+    VdRow[96,16] = t3:2;
+    local t4:4 = *:4 (base);
+    VdRow[128,16] = t4:2;
+    local t5:4 = *:4 (base);
+    VdRow[160,16] = t5:2;
+    local t6:4 = *:4 (base);
+    VdRow[192,16] = t6:2;
+    local t7:4 = *:4 (base);
+    VdRow[224,16] = t7:2;
+    local t8:4 = *:4 (base);
+    VdRow[256,16] = t8:2;
+    local t9:4 = *:4 (base);
+    VdRow[288,16] = t9:2;
+    local t10:4 = *:4 (base);
+    VdRow[320,16] = t10:2;
+    local t11:4 = *:4 (base);
+    VdRow[352,16] = t11:2;
+    local t12:4 = *:4 (base);
+    VdRow[384,16] = t12:2;
+    local t13:4 = *:4 (base);
+    VdRow[416,16] = t13:2;
+    local t14:4 = *:4 (base);
+    VdRow[448,16] = t14:2;
+    local t15:4 = *:4 (base);
+    VdRow[480,16] = t15:2;
+  }
+
+  # v32lookupm with a 16-bit register element at byte-in-lane 2
+  :v32lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=2 & Vdir=0 & Vseld=5 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local t0:4 = *:4 (base);
+    VdRow[16,16] = t0:2;
+    local t1:4 = *:4 (base);
+    VdRow[48,16] = t1:2;
+    local t2:4 = *:4 (base);
+    VdRow[80,16] = t2:2;
+    local t3:4 = *:4 (base);
+    VdRow[112,16] = t3:2;
+    local t4:4 = *:4 (base);
+    VdRow[144,16] = t4:2;
+    local t5:4 = *:4 (base);
+    VdRow[176,16] = t5:2;
+    local t6:4 = *:4 (base);
+    VdRow[208,16] = t6:2;
+    local t7:4 = *:4 (base);
+    VdRow[240,16] = t7:2;
+    local t8:4 = *:4 (base);
+    VdRow[272,16] = t8:2;
+    local t9:4 = *:4 (base);
+    VdRow[304,16] = t9:2;
+    local t10:4 = *:4 (base);
+    VdRow[336,16] = t10:2;
+    local t11:4 = *:4 (base);
+    VdRow[368,16] = t11:2;
+    local t12:4 = *:4 (base);
+    VdRow[400,16] = t12:2;
+    local t13:4 = *:4 (base);
+    VdRow[432,16] = t13:2;
+    local t14:4 = *:4 (base);
+    VdRow[464,16] = t14:2;
+    local t15:4 = *:4 (base);
+    VdRow[496,16] = t15:2;
+  }
+
+  # v32lookupm with a 32-bit register element at byte-in-lane 0
+  :v32lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=2 & Vdir=0 & Vseld=6 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    VdRow[0,32] = *:4 (base);
+    VdRow[32,32] = *:4 (base);
+    VdRow[64,32] = *:4 (base);
+    VdRow[96,32] = *:4 (base);
+    VdRow[128,32] = *:4 (base);
+    VdRow[160,32] = *:4 (base);
+    VdRow[192,32] = *:4 (base);
+    VdRow[224,32] = *:4 (base);
+    VdRow[256,32] = *:4 (base);
+    VdRow[288,32] = *:4 (base);
+    VdRow[320,32] = *:4 (base);
+    VdRow[352,32] = *:4 (base);
+    VdRow[384,32] = *:4 (base);
+    VdRow[416,32] = *:4 (base);
+    VdRow[448,32] = *:4 (base);
+    VdRow[480,32] = *:4 (base);
+  }
+
+  # v8lookupml with a 8-bit register element at byte-in-lane 0
+  :v8lookupml vargd, vmemargb^vflags
+	is (Vmop=2 & Vmwidth=0 & Vdir=0 & Vseld=0 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local a0:4 = base + VACC[0,32];
+    VdRow[0,8] = *:1 (a0);
+    local a1:4 = base + VACC[32,32];
+    VdRow[32,8] = *:1 (a1);
+    local a2:4 = base + VACC[64,32];
+    VdRow[64,8] = *:1 (a2);
+    local a3:4 = base + VACC[96,32];
+    VdRow[96,8] = *:1 (a3);
+    local a4:4 = base + VACC[128,32];
+    VdRow[128,8] = *:1 (a4);
+    local a5:4 = base + VACC[160,32];
+    VdRow[160,8] = *:1 (a5);
+    local a6:4 = base + VACC[192,32];
+    VdRow[192,8] = *:1 (a6);
+    local a7:4 = base + VACC[224,32];
+    VdRow[224,8] = *:1 (a7);
+    local a8:4 = base + VACC[256,32];
+    VdRow[256,8] = *:1 (a8);
+    local a9:4 = base + VACC[288,32];
+    VdRow[288,8] = *:1 (a9);
+    local a10:4 = base + VACC[320,32];
+    VdRow[320,8] = *:1 (a10);
+    local a11:4 = base + VACC[352,32];
+    VdRow[352,8] = *:1 (a11);
+    local a12:4 = base + VACC[384,32];
+    VdRow[384,8] = *:1 (a12);
+    local a13:4 = base + VACC[416,32];
+    VdRow[416,8] = *:1 (a13);
+    local a14:4 = base + VACC[448,32];
+    VdRow[448,8] = *:1 (a14);
+    local a15:4 = base + VACC[480,32];
+    VdRow[480,8] = *:1 (a15);
+  }
+
+  # v8lookupml with a 8-bit register element at byte-in-lane 1
+  :v8lookupml vargd, vmemargb^vflags
+	is (Vmop=2 & Vmwidth=0 & Vdir=0 & Vseld=1 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local a0:4 = base + VACC[0,32];
+    VdRow[8,8] = *:1 (a0);
+    local a1:4 = base + VACC[32,32];
+    VdRow[40,8] = *:1 (a1);
+    local a2:4 = base + VACC[64,32];
+    VdRow[72,8] = *:1 (a2);
+    local a3:4 = base + VACC[96,32];
+    VdRow[104,8] = *:1 (a3);
+    local a4:4 = base + VACC[128,32];
+    VdRow[136,8] = *:1 (a4);
+    local a5:4 = base + VACC[160,32];
+    VdRow[168,8] = *:1 (a5);
+    local a6:4 = base + VACC[192,32];
+    VdRow[200,8] = *:1 (a6);
+    local a7:4 = base + VACC[224,32];
+    VdRow[232,8] = *:1 (a7);
+    local a8:4 = base + VACC[256,32];
+    VdRow[264,8] = *:1 (a8);
+    local a9:4 = base + VACC[288,32];
+    VdRow[296,8] = *:1 (a9);
+    local a10:4 = base + VACC[320,32];
+    VdRow[328,8] = *:1 (a10);
+    local a11:4 = base + VACC[352,32];
+    VdRow[360,8] = *:1 (a11);
+    local a12:4 = base + VACC[384,32];
+    VdRow[392,8] = *:1 (a12);
+    local a13:4 = base + VACC[416,32];
+    VdRow[424,8] = *:1 (a13);
+    local a14:4 = base + VACC[448,32];
+    VdRow[456,8] = *:1 (a14);
+    local a15:4 = base + VACC[480,32];
+    VdRow[488,8] = *:1 (a15);
+  }
+
+  # v8lookupml with a 8-bit register element at byte-in-lane 2
+  :v8lookupml vargd, vmemargb^vflags
+	is (Vmop=2 & Vmwidth=0 & Vdir=0 & Vseld=2 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local a0:4 = base + VACC[0,32];
+    VdRow[16,8] = *:1 (a0);
+    local a1:4 = base + VACC[32,32];
+    VdRow[48,8] = *:1 (a1);
+    local a2:4 = base + VACC[64,32];
+    VdRow[80,8] = *:1 (a2);
+    local a3:4 = base + VACC[96,32];
+    VdRow[112,8] = *:1 (a3);
+    local a4:4 = base + VACC[128,32];
+    VdRow[144,8] = *:1 (a4);
+    local a5:4 = base + VACC[160,32];
+    VdRow[176,8] = *:1 (a5);
+    local a6:4 = base + VACC[192,32];
+    VdRow[208,8] = *:1 (a6);
+    local a7:4 = base + VACC[224,32];
+    VdRow[240,8] = *:1 (a7);
+    local a8:4 = base + VACC[256,32];
+    VdRow[272,8] = *:1 (a8);
+    local a9:4 = base + VACC[288,32];
+    VdRow[304,8] = *:1 (a9);
+    local a10:4 = base + VACC[320,32];
+    VdRow[336,8] = *:1 (a10);
+    local a11:4 = base + VACC[352,32];
+    VdRow[368,8] = *:1 (a11);
+    local a12:4 = base + VACC[384,32];
+    VdRow[400,8] = *:1 (a12);
+    local a13:4 = base + VACC[416,32];
+    VdRow[432,8] = *:1 (a13);
+    local a14:4 = base + VACC[448,32];
+    VdRow[464,8] = *:1 (a14);
+    local a15:4 = base + VACC[480,32];
+    VdRow[496,8] = *:1 (a15);
+  }
+
+  # v8lookupml with a 8-bit register element at byte-in-lane 3
+  :v8lookupml vargd, vmemargb^vflags
+	is (Vmop=2 & Vmwidth=0 & Vdir=0 & Vseld=3 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local a0:4 = base + VACC[0,32];
+    VdRow[24,8] = *:1 (a0);
+    local a1:4 = base + VACC[32,32];
+    VdRow[56,8] = *:1 (a1);
+    local a2:4 = base + VACC[64,32];
+    VdRow[88,8] = *:1 (a2);
+    local a3:4 = base + VACC[96,32];
+    VdRow[120,8] = *:1 (a3);
+    local a4:4 = base + VACC[128,32];
+    VdRow[152,8] = *:1 (a4);
+    local a5:4 = base + VACC[160,32];
+    VdRow[184,8] = *:1 (a5);
+    local a6:4 = base + VACC[192,32];
+    VdRow[216,8] = *:1 (a6);
+    local a7:4 = base + VACC[224,32];
+    VdRow[248,8] = *:1 (a7);
+    local a8:4 = base + VACC[256,32];
+    VdRow[280,8] = *:1 (a8);
+    local a9:4 = base + VACC[288,32];
+    VdRow[312,8] = *:1 (a9);
+    local a10:4 = base + VACC[320,32];
+    VdRow[344,8] = *:1 (a10);
+    local a11:4 = base + VACC[352,32];
+    VdRow[376,8] = *:1 (a11);
+    local a12:4 = base + VACC[384,32];
+    VdRow[408,8] = *:1 (a12);
+    local a13:4 = base + VACC[416,32];
+    VdRow[440,8] = *:1 (a13);
+    local a14:4 = base + VACC[448,32];
+    VdRow[472,8] = *:1 (a14);
+    local a15:4 = base + VACC[480,32];
+    VdRow[504,8] = *:1 (a15);
+  }
+
+  # v8lookupml with a 16-bit register element at byte-in-lane 0
+  :v8lookupml vargd, vmemargb^vflags
+	is (Vmop=2 & Vmwidth=0 & Vdir=0 & Vseld=4 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local a0:4 = base + VACC[0,32];
+    VdRow[0,16] = zext(*:1 (a0));
+    local a1:4 = base + VACC[32,32];
+    VdRow[32,16] = zext(*:1 (a1));
+    local a2:4 = base + VACC[64,32];
+    VdRow[64,16] = zext(*:1 (a2));
+    local a3:4 = base + VACC[96,32];
+    VdRow[96,16] = zext(*:1 (a3));
+    local a4:4 = base + VACC[128,32];
+    VdRow[128,16] = zext(*:1 (a4));
+    local a5:4 = base + VACC[160,32];
+    VdRow[160,16] = zext(*:1 (a5));
+    local a6:4 = base + VACC[192,32];
+    VdRow[192,16] = zext(*:1 (a6));
+    local a7:4 = base + VACC[224,32];
+    VdRow[224,16] = zext(*:1 (a7));
+    local a8:4 = base + VACC[256,32];
+    VdRow[256,16] = zext(*:1 (a8));
+    local a9:4 = base + VACC[288,32];
+    VdRow[288,16] = zext(*:1 (a9));
+    local a10:4 = base + VACC[320,32];
+    VdRow[320,16] = zext(*:1 (a10));
+    local a11:4 = base + VACC[352,32];
+    VdRow[352,16] = zext(*:1 (a11));
+    local a12:4 = base + VACC[384,32];
+    VdRow[384,16] = zext(*:1 (a12));
+    local a13:4 = base + VACC[416,32];
+    VdRow[416,16] = zext(*:1 (a13));
+    local a14:4 = base + VACC[448,32];
+    VdRow[448,16] = zext(*:1 (a14));
+    local a15:4 = base + VACC[480,32];
+    VdRow[480,16] = zext(*:1 (a15));
+  }
+
+  # v8lookupml with a 16-bit register element at byte-in-lane 2
+  :v8lookupml vargd, vmemargb^vflags
+	is (Vmop=2 & Vmwidth=0 & Vdir=0 & Vseld=5 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local a0:4 = base + VACC[0,32];
+    VdRow[16,16] = zext(*:1 (a0));
+    local a1:4 = base + VACC[32,32];
+    VdRow[48,16] = zext(*:1 (a1));
+    local a2:4 = base + VACC[64,32];
+    VdRow[80,16] = zext(*:1 (a2));
+    local a3:4 = base + VACC[96,32];
+    VdRow[112,16] = zext(*:1 (a3));
+    local a4:4 = base + VACC[128,32];
+    VdRow[144,16] = zext(*:1 (a4));
+    local a5:4 = base + VACC[160,32];
+    VdRow[176,16] = zext(*:1 (a5));
+    local a6:4 = base + VACC[192,32];
+    VdRow[208,16] = zext(*:1 (a6));
+    local a7:4 = base + VACC[224,32];
+    VdRow[240,16] = zext(*:1 (a7));
+    local a8:4 = base + VACC[256,32];
+    VdRow[272,16] = zext(*:1 (a8));
+    local a9:4 = base + VACC[288,32];
+    VdRow[304,16] = zext(*:1 (a9));
+    local a10:4 = base + VACC[320,32];
+    VdRow[336,16] = zext(*:1 (a10));
+    local a11:4 = base + VACC[352,32];
+    VdRow[368,16] = zext(*:1 (a11));
+    local a12:4 = base + VACC[384,32];
+    VdRow[400,16] = zext(*:1 (a12));
+    local a13:4 = base + VACC[416,32];
+    VdRow[432,16] = zext(*:1 (a13));
+    local a14:4 = base + VACC[448,32];
+    VdRow[464,16] = zext(*:1 (a14));
+    local a15:4 = base + VACC[480,32];
+    VdRow[496,16] = zext(*:1 (a15));
+  }
+
+  # v8lookupml with a 32-bit register element at byte-in-lane 0
+  :v8lookupml vargd, vmemargb^vflags
+	is (Vmop=2 & Vmwidth=0 & Vdir=0 & Vseld=6 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local a0:4 = base + VACC[0,32];
+    VdRow[0,32] = zext(*:1 (a0));
+    local a1:4 = base + VACC[32,32];
+    VdRow[32,32] = zext(*:1 (a1));
+    local a2:4 = base + VACC[64,32];
+    VdRow[64,32] = zext(*:1 (a2));
+    local a3:4 = base + VACC[96,32];
+    VdRow[96,32] = zext(*:1 (a3));
+    local a4:4 = base + VACC[128,32];
+    VdRow[128,32] = zext(*:1 (a4));
+    local a5:4 = base + VACC[160,32];
+    VdRow[160,32] = zext(*:1 (a5));
+    local a6:4 = base + VACC[192,32];
+    VdRow[192,32] = zext(*:1 (a6));
+    local a7:4 = base + VACC[224,32];
+    VdRow[224,32] = zext(*:1 (a7));
+    local a8:4 = base + VACC[256,32];
+    VdRow[256,32] = zext(*:1 (a8));
+    local a9:4 = base + VACC[288,32];
+    VdRow[288,32] = zext(*:1 (a9));
+    local a10:4 = base + VACC[320,32];
+    VdRow[320,32] = zext(*:1 (a10));
+    local a11:4 = base + VACC[352,32];
+    VdRow[352,32] = zext(*:1 (a11));
+    local a12:4 = base + VACC[384,32];
+    VdRow[384,32] = zext(*:1 (a12));
+    local a13:4 = base + VACC[416,32];
+    VdRow[416,32] = zext(*:1 (a13));
+    local a14:4 = base + VACC[448,32];
+    VdRow[448,32] = zext(*:1 (a14));
+    local a15:4 = base + VACC[480,32];
+    VdRow[480,32] = zext(*:1 (a15));
+  }
+
+  # v16lookupml with a 8-bit register element at byte-in-lane 0
+  :v16lookupml vargd, vmemargb^vflags
+	is (Vmop=2 & Vmwidth=1 & Vdir=0 & Vseld=0 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local a0:4 = base + VACC[0,32] * 2:4;
+    local t0:2 = *:2 (a0);
+    VdRow[0,8] = t0:1;
+    local a1:4 = base + VACC[32,32] * 2:4;
+    local t1:2 = *:2 (a1);
+    VdRow[32,8] = t1:1;
+    local a2:4 = base + VACC[64,32] * 2:4;
+    local t2:2 = *:2 (a2);
+    VdRow[64,8] = t2:1;
+    local a3:4 = base + VACC[96,32] * 2:4;
+    local t3:2 = *:2 (a3);
+    VdRow[96,8] = t3:1;
+    local a4:4 = base + VACC[128,32] * 2:4;
+    local t4:2 = *:2 (a4);
+    VdRow[128,8] = t4:1;
+    local a5:4 = base + VACC[160,32] * 2:4;
+    local t5:2 = *:2 (a5);
+    VdRow[160,8] = t5:1;
+    local a6:4 = base + VACC[192,32] * 2:4;
+    local t6:2 = *:2 (a6);
+    VdRow[192,8] = t6:1;
+    local a7:4 = base + VACC[224,32] * 2:4;
+    local t7:2 = *:2 (a7);
+    VdRow[224,8] = t7:1;
+    local a8:4 = base + VACC[256,32] * 2:4;
+    local t8:2 = *:2 (a8);
+    VdRow[256,8] = t8:1;
+    local a9:4 = base + VACC[288,32] * 2:4;
+    local t9:2 = *:2 (a9);
+    VdRow[288,8] = t9:1;
+    local a10:4 = base + VACC[320,32] * 2:4;
+    local t10:2 = *:2 (a10);
+    VdRow[320,8] = t10:1;
+    local a11:4 = base + VACC[352,32] * 2:4;
+    local t11:2 = *:2 (a11);
+    VdRow[352,8] = t11:1;
+    local a12:4 = base + VACC[384,32] * 2:4;
+    local t12:2 = *:2 (a12);
+    VdRow[384,8] = t12:1;
+    local a13:4 = base + VACC[416,32] * 2:4;
+    local t13:2 = *:2 (a13);
+    VdRow[416,8] = t13:1;
+    local a14:4 = base + VACC[448,32] * 2:4;
+    local t14:2 = *:2 (a14);
+    VdRow[448,8] = t14:1;
+    local a15:4 = base + VACC[480,32] * 2:4;
+    local t15:2 = *:2 (a15);
+    VdRow[480,8] = t15:1;
+  }
+
+  # v16lookupml with a 8-bit register element at byte-in-lane 1
+  :v16lookupml vargd, vmemargb^vflags
+	is (Vmop=2 & Vmwidth=1 & Vdir=0 & Vseld=1 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local a0:4 = base + VACC[0,32] * 2:4;
+    local t0:2 = *:2 (a0);
+    VdRow[8,8] = t0:1;
+    local a1:4 = base + VACC[32,32] * 2:4;
+    local t1:2 = *:2 (a1);
+    VdRow[40,8] = t1:1;
+    local a2:4 = base + VACC[64,32] * 2:4;
+    local t2:2 = *:2 (a2);
+    VdRow[72,8] = t2:1;
+    local a3:4 = base + VACC[96,32] * 2:4;
+    local t3:2 = *:2 (a3);
+    VdRow[104,8] = t3:1;
+    local a4:4 = base + VACC[128,32] * 2:4;
+    local t4:2 = *:2 (a4);
+    VdRow[136,8] = t4:1;
+    local a5:4 = base + VACC[160,32] * 2:4;
+    local t5:2 = *:2 (a5);
+    VdRow[168,8] = t5:1;
+    local a6:4 = base + VACC[192,32] * 2:4;
+    local t6:2 = *:2 (a6);
+    VdRow[200,8] = t6:1;
+    local a7:4 = base + VACC[224,32] * 2:4;
+    local t7:2 = *:2 (a7);
+    VdRow[232,8] = t7:1;
+    local a8:4 = base + VACC[256,32] * 2:4;
+    local t8:2 = *:2 (a8);
+    VdRow[264,8] = t8:1;
+    local a9:4 = base + VACC[288,32] * 2:4;
+    local t9:2 = *:2 (a9);
+    VdRow[296,8] = t9:1;
+    local a10:4 = base + VACC[320,32] * 2:4;
+    local t10:2 = *:2 (a10);
+    VdRow[328,8] = t10:1;
+    local a11:4 = base + VACC[352,32] * 2:4;
+    local t11:2 = *:2 (a11);
+    VdRow[360,8] = t11:1;
+    local a12:4 = base + VACC[384,32] * 2:4;
+    local t12:2 = *:2 (a12);
+    VdRow[392,8] = t12:1;
+    local a13:4 = base + VACC[416,32] * 2:4;
+    local t13:2 = *:2 (a13);
+    VdRow[424,8] = t13:1;
+    local a14:4 = base + VACC[448,32] * 2:4;
+    local t14:2 = *:2 (a14);
+    VdRow[456,8] = t14:1;
+    local a15:4 = base + VACC[480,32] * 2:4;
+    local t15:2 = *:2 (a15);
+    VdRow[488,8] = t15:1;
+  }
+
+  # v16lookupml with a 8-bit register element at byte-in-lane 2
+  :v16lookupml vargd, vmemargb^vflags
+	is (Vmop=2 & Vmwidth=1 & Vdir=0 & Vseld=2 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local a0:4 = base + VACC[0,32] * 2:4;
+    local t0:2 = *:2 (a0);
+    VdRow[16,8] = t0:1;
+    local a1:4 = base + VACC[32,32] * 2:4;
+    local t1:2 = *:2 (a1);
+    VdRow[48,8] = t1:1;
+    local a2:4 = base + VACC[64,32] * 2:4;
+    local t2:2 = *:2 (a2);
+    VdRow[80,8] = t2:1;
+    local a3:4 = base + VACC[96,32] * 2:4;
+    local t3:2 = *:2 (a3);
+    VdRow[112,8] = t3:1;
+    local a4:4 = base + VACC[128,32] * 2:4;
+    local t4:2 = *:2 (a4);
+    VdRow[144,8] = t4:1;
+    local a5:4 = base + VACC[160,32] * 2:4;
+    local t5:2 = *:2 (a5);
+    VdRow[176,8] = t5:1;
+    local a6:4 = base + VACC[192,32] * 2:4;
+    local t6:2 = *:2 (a6);
+    VdRow[208,8] = t6:1;
+    local a7:4 = base + VACC[224,32] * 2:4;
+    local t7:2 = *:2 (a7);
+    VdRow[240,8] = t7:1;
+    local a8:4 = base + VACC[256,32] * 2:4;
+    local t8:2 = *:2 (a8);
+    VdRow[272,8] = t8:1;
+    local a9:4 = base + VACC[288,32] * 2:4;
+    local t9:2 = *:2 (a9);
+    VdRow[304,8] = t9:1;
+    local a10:4 = base + VACC[320,32] * 2:4;
+    local t10:2 = *:2 (a10);
+    VdRow[336,8] = t10:1;
+    local a11:4 = base + VACC[352,32] * 2:4;
+    local t11:2 = *:2 (a11);
+    VdRow[368,8] = t11:1;
+    local a12:4 = base + VACC[384,32] * 2:4;
+    local t12:2 = *:2 (a12);
+    VdRow[400,8] = t12:1;
+    local a13:4 = base + VACC[416,32] * 2:4;
+    local t13:2 = *:2 (a13);
+    VdRow[432,8] = t13:1;
+    local a14:4 = base + VACC[448,32] * 2:4;
+    local t14:2 = *:2 (a14);
+    VdRow[464,8] = t14:1;
+    local a15:4 = base + VACC[480,32] * 2:4;
+    local t15:2 = *:2 (a15);
+    VdRow[496,8] = t15:1;
+  }
+
+  # v16lookupml with a 8-bit register element at byte-in-lane 3
+  :v16lookupml vargd, vmemargb^vflags
+	is (Vmop=2 & Vmwidth=1 & Vdir=0 & Vseld=3 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local a0:4 = base + VACC[0,32] * 2:4;
+    local t0:2 = *:2 (a0);
+    VdRow[24,8] = t0:1;
+    local a1:4 = base + VACC[32,32] * 2:4;
+    local t1:2 = *:2 (a1);
+    VdRow[56,8] = t1:1;
+    local a2:4 = base + VACC[64,32] * 2:4;
+    local t2:2 = *:2 (a2);
+    VdRow[88,8] = t2:1;
+    local a3:4 = base + VACC[96,32] * 2:4;
+    local t3:2 = *:2 (a3);
+    VdRow[120,8] = t3:1;
+    local a4:4 = base + VACC[128,32] * 2:4;
+    local t4:2 = *:2 (a4);
+    VdRow[152,8] = t4:1;
+    local a5:4 = base + VACC[160,32] * 2:4;
+    local t5:2 = *:2 (a5);
+    VdRow[184,8] = t5:1;
+    local a6:4 = base + VACC[192,32] * 2:4;
+    local t6:2 = *:2 (a6);
+    VdRow[216,8] = t6:1;
+    local a7:4 = base + VACC[224,32] * 2:4;
+    local t7:2 = *:2 (a7);
+    VdRow[248,8] = t7:1;
+    local a8:4 = base + VACC[256,32] * 2:4;
+    local t8:2 = *:2 (a8);
+    VdRow[280,8] = t8:1;
+    local a9:4 = base + VACC[288,32] * 2:4;
+    local t9:2 = *:2 (a9);
+    VdRow[312,8] = t9:1;
+    local a10:4 = base + VACC[320,32] * 2:4;
+    local t10:2 = *:2 (a10);
+    VdRow[344,8] = t10:1;
+    local a11:4 = base + VACC[352,32] * 2:4;
+    local t11:2 = *:2 (a11);
+    VdRow[376,8] = t11:1;
+    local a12:4 = base + VACC[384,32] * 2:4;
+    local t12:2 = *:2 (a12);
+    VdRow[408,8] = t12:1;
+    local a13:4 = base + VACC[416,32] * 2:4;
+    local t13:2 = *:2 (a13);
+    VdRow[440,8] = t13:1;
+    local a14:4 = base + VACC[448,32] * 2:4;
+    local t14:2 = *:2 (a14);
+    VdRow[472,8] = t14:1;
+    local a15:4 = base + VACC[480,32] * 2:4;
+    local t15:2 = *:2 (a15);
+    VdRow[504,8] = t15:1;
+  }
+
+  # v16lookupml with a 16-bit register element at byte-in-lane 0
+  :v16lookupml vargd, vmemargb^vflags
+	is (Vmop=2 & Vmwidth=1 & Vdir=0 & Vseld=4 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local a0:4 = base + VACC[0,32] * 2:4;
+    VdRow[0,16] = *:2 (a0);
+    local a1:4 = base + VACC[32,32] * 2:4;
+    VdRow[32,16] = *:2 (a1);
+    local a2:4 = base + VACC[64,32] * 2:4;
+    VdRow[64,16] = *:2 (a2);
+    local a3:4 = base + VACC[96,32] * 2:4;
+    VdRow[96,16] = *:2 (a3);
+    local a4:4 = base + VACC[128,32] * 2:4;
+    VdRow[128,16] = *:2 (a4);
+    local a5:4 = base + VACC[160,32] * 2:4;
+    VdRow[160,16] = *:2 (a5);
+    local a6:4 = base + VACC[192,32] * 2:4;
+    VdRow[192,16] = *:2 (a6);
+    local a7:4 = base + VACC[224,32] * 2:4;
+    VdRow[224,16] = *:2 (a7);
+    local a8:4 = base + VACC[256,32] * 2:4;
+    VdRow[256,16] = *:2 (a8);
+    local a9:4 = base + VACC[288,32] * 2:4;
+    VdRow[288,16] = *:2 (a9);
+    local a10:4 = base + VACC[320,32] * 2:4;
+    VdRow[320,16] = *:2 (a10);
+    local a11:4 = base + VACC[352,32] * 2:4;
+    VdRow[352,16] = *:2 (a11);
+    local a12:4 = base + VACC[384,32] * 2:4;
+    VdRow[384,16] = *:2 (a12);
+    local a13:4 = base + VACC[416,32] * 2:4;
+    VdRow[416,16] = *:2 (a13);
+    local a14:4 = base + VACC[448,32] * 2:4;
+    VdRow[448,16] = *:2 (a14);
+    local a15:4 = base + VACC[480,32] * 2:4;
+    VdRow[480,16] = *:2 (a15);
+  }
+
+  # v16lookupml with a 16-bit register element at byte-in-lane 2
+  :v16lookupml vargd, vmemargb^vflags
+	is (Vmop=2 & Vmwidth=1 & Vdir=0 & Vseld=5 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local a0:4 = base + VACC[0,32] * 2:4;
+    VdRow[16,16] = *:2 (a0);
+    local a1:4 = base + VACC[32,32] * 2:4;
+    VdRow[48,16] = *:2 (a1);
+    local a2:4 = base + VACC[64,32] * 2:4;
+    VdRow[80,16] = *:2 (a2);
+    local a3:4 = base + VACC[96,32] * 2:4;
+    VdRow[112,16] = *:2 (a3);
+    local a4:4 = base + VACC[128,32] * 2:4;
+    VdRow[144,16] = *:2 (a4);
+    local a5:4 = base + VACC[160,32] * 2:4;
+    VdRow[176,16] = *:2 (a5);
+    local a6:4 = base + VACC[192,32] * 2:4;
+    VdRow[208,16] = *:2 (a6);
+    local a7:4 = base + VACC[224,32] * 2:4;
+    VdRow[240,16] = *:2 (a7);
+    local a8:4 = base + VACC[256,32] * 2:4;
+    VdRow[272,16] = *:2 (a8);
+    local a9:4 = base + VACC[288,32] * 2:4;
+    VdRow[304,16] = *:2 (a9);
+    local a10:4 = base + VACC[320,32] * 2:4;
+    VdRow[336,16] = *:2 (a10);
+    local a11:4 = base + VACC[352,32] * 2:4;
+    VdRow[368,16] = *:2 (a11);
+    local a12:4 = base + VACC[384,32] * 2:4;
+    VdRow[400,16] = *:2 (a12);
+    local a13:4 = base + VACC[416,32] * 2:4;
+    VdRow[432,16] = *:2 (a13);
+    local a14:4 = base + VACC[448,32] * 2:4;
+    VdRow[464,16] = *:2 (a14);
+    local a15:4 = base + VACC[480,32] * 2:4;
+    VdRow[496,16] = *:2 (a15);
+  }
+
+  # v16lookupml with a 32-bit register element at byte-in-lane 0
+  :v16lookupml vargd, vmemargb^vflags
+	is (Vmop=2 & Vmwidth=1 & Vdir=0 & Vseld=6 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local a0:4 = base + VACC[0,32] * 2:4;
+    VdRow[0,32] = sext(*:2 (a0));
+    local a1:4 = base + VACC[32,32] * 2:4;
+    VdRow[32,32] = sext(*:2 (a1));
+    local a2:4 = base + VACC[64,32] * 2:4;
+    VdRow[64,32] = sext(*:2 (a2));
+    local a3:4 = base + VACC[96,32] * 2:4;
+    VdRow[96,32] = sext(*:2 (a3));
+    local a4:4 = base + VACC[128,32] * 2:4;
+    VdRow[128,32] = sext(*:2 (a4));
+    local a5:4 = base + VACC[160,32] * 2:4;
+    VdRow[160,32] = sext(*:2 (a5));
+    local a6:4 = base + VACC[192,32] * 2:4;
+    VdRow[192,32] = sext(*:2 (a6));
+    local a7:4 = base + VACC[224,32] * 2:4;
+    VdRow[224,32] = sext(*:2 (a7));
+    local a8:4 = base + VACC[256,32] * 2:4;
+    VdRow[256,32] = sext(*:2 (a8));
+    local a9:4 = base + VACC[288,32] * 2:4;
+    VdRow[288,32] = sext(*:2 (a9));
+    local a10:4 = base + VACC[320,32] * 2:4;
+    VdRow[320,32] = sext(*:2 (a10));
+    local a11:4 = base + VACC[352,32] * 2:4;
+    VdRow[352,32] = sext(*:2 (a11));
+    local a12:4 = base + VACC[384,32] * 2:4;
+    VdRow[384,32] = sext(*:2 (a12));
+    local a13:4 = base + VACC[416,32] * 2:4;
+    VdRow[416,32] = sext(*:2 (a13));
+    local a14:4 = base + VACC[448,32] * 2:4;
+    VdRow[448,32] = sext(*:2 (a14));
+    local a15:4 = base + VACC[480,32] * 2:4;
+    VdRow[480,32] = sext(*:2 (a15));
+  }
+
+  # v32lookupml with a 8-bit register element at byte-in-lane 0
+  :v32lookupml vargd, vmemargb^vflags
+	is (Vmop=2 & Vmwidth=2 & Vdir=0 & Vseld=0 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local a0:4 = base + VACC[0,32] * 4:4;
+    local t0:4 = *:4 (a0);
+    VdRow[0,8] = t0:1;
+    local a1:4 = base + VACC[32,32] * 4:4;
+    local t1:4 = *:4 (a1);
+    VdRow[32,8] = t1:1;
+    local a2:4 = base + VACC[64,32] * 4:4;
+    local t2:4 = *:4 (a2);
+    VdRow[64,8] = t2:1;
+    local a3:4 = base + VACC[96,32] * 4:4;
+    local t3:4 = *:4 (a3);
+    VdRow[96,8] = t3:1;
+    local a4:4 = base + VACC[128,32] * 4:4;
+    local t4:4 = *:4 (a4);
+    VdRow[128,8] = t4:1;
+    local a5:4 = base + VACC[160,32] * 4:4;
+    local t5:4 = *:4 (a5);
+    VdRow[160,8] = t5:1;
+    local a6:4 = base + VACC[192,32] * 4:4;
+    local t6:4 = *:4 (a6);
+    VdRow[192,8] = t6:1;
+    local a7:4 = base + VACC[224,32] * 4:4;
+    local t7:4 = *:4 (a7);
+    VdRow[224,8] = t7:1;
+    local a8:4 = base + VACC[256,32] * 4:4;
+    local t8:4 = *:4 (a8);
+    VdRow[256,8] = t8:1;
+    local a9:4 = base + VACC[288,32] * 4:4;
+    local t9:4 = *:4 (a9);
+    VdRow[288,8] = t9:1;
+    local a10:4 = base + VACC[320,32] * 4:4;
+    local t10:4 = *:4 (a10);
+    VdRow[320,8] = t10:1;
+    local a11:4 = base + VACC[352,32] * 4:4;
+    local t11:4 = *:4 (a11);
+    VdRow[352,8] = t11:1;
+    local a12:4 = base + VACC[384,32] * 4:4;
+    local t12:4 = *:4 (a12);
+    VdRow[384,8] = t12:1;
+    local a13:4 = base + VACC[416,32] * 4:4;
+    local t13:4 = *:4 (a13);
+    VdRow[416,8] = t13:1;
+    local a14:4 = base + VACC[448,32] * 4:4;
+    local t14:4 = *:4 (a14);
+    VdRow[448,8] = t14:1;
+    local a15:4 = base + VACC[480,32] * 4:4;
+    local t15:4 = *:4 (a15);
+    VdRow[480,8] = t15:1;
+  }
+
+  # v32lookupml with a 8-bit register element at byte-in-lane 1
+  :v32lookupml vargd, vmemargb^vflags
+	is (Vmop=2 & Vmwidth=2 & Vdir=0 & Vseld=1 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local a0:4 = base + VACC[0,32] * 4:4;
+    local t0:4 = *:4 (a0);
+    VdRow[8,8] = t0:1;
+    local a1:4 = base + VACC[32,32] * 4:4;
+    local t1:4 = *:4 (a1);
+    VdRow[40,8] = t1:1;
+    local a2:4 = base + VACC[64,32] * 4:4;
+    local t2:4 = *:4 (a2);
+    VdRow[72,8] = t2:1;
+    local a3:4 = base + VACC[96,32] * 4:4;
+    local t3:4 = *:4 (a3);
+    VdRow[104,8] = t3:1;
+    local a4:4 = base + VACC[128,32] * 4:4;
+    local t4:4 = *:4 (a4);
+    VdRow[136,8] = t4:1;
+    local a5:4 = base + VACC[160,32] * 4:4;
+    local t5:4 = *:4 (a5);
+    VdRow[168,8] = t5:1;
+    local a6:4 = base + VACC[192,32] * 4:4;
+    local t6:4 = *:4 (a6);
+    VdRow[200,8] = t6:1;
+    local a7:4 = base + VACC[224,32] * 4:4;
+    local t7:4 = *:4 (a7);
+    VdRow[232,8] = t7:1;
+    local a8:4 = base + VACC[256,32] * 4:4;
+    local t8:4 = *:4 (a8);
+    VdRow[264,8] = t8:1;
+    local a9:4 = base + VACC[288,32] * 4:4;
+    local t9:4 = *:4 (a9);
+    VdRow[296,8] = t9:1;
+    local a10:4 = base + VACC[320,32] * 4:4;
+    local t10:4 = *:4 (a10);
+    VdRow[328,8] = t10:1;
+    local a11:4 = base + VACC[352,32] * 4:4;
+    local t11:4 = *:4 (a11);
+    VdRow[360,8] = t11:1;
+    local a12:4 = base + VACC[384,32] * 4:4;
+    local t12:4 = *:4 (a12);
+    VdRow[392,8] = t12:1;
+    local a13:4 = base + VACC[416,32] * 4:4;
+    local t13:4 = *:4 (a13);
+    VdRow[424,8] = t13:1;
+    local a14:4 = base + VACC[448,32] * 4:4;
+    local t14:4 = *:4 (a14);
+    VdRow[456,8] = t14:1;
+    local a15:4 = base + VACC[480,32] * 4:4;
+    local t15:4 = *:4 (a15);
+    VdRow[488,8] = t15:1;
+  }
+
+  # v32lookupml with a 8-bit register element at byte-in-lane 2
+  :v32lookupml vargd, vmemargb^vflags
+	is (Vmop=2 & Vmwidth=2 & Vdir=0 & Vseld=2 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local a0:4 = base + VACC[0,32] * 4:4;
+    local t0:4 = *:4 (a0);
+    VdRow[16,8] = t0:1;
+    local a1:4 = base + VACC[32,32] * 4:4;
+    local t1:4 = *:4 (a1);
+    VdRow[48,8] = t1:1;
+    local a2:4 = base + VACC[64,32] * 4:4;
+    local t2:4 = *:4 (a2);
+    VdRow[80,8] = t2:1;
+    local a3:4 = base + VACC[96,32] * 4:4;
+    local t3:4 = *:4 (a3);
+    VdRow[112,8] = t3:1;
+    local a4:4 = base + VACC[128,32] * 4:4;
+    local t4:4 = *:4 (a4);
+    VdRow[144,8] = t4:1;
+    local a5:4 = base + VACC[160,32] * 4:4;
+    local t5:4 = *:4 (a5);
+    VdRow[176,8] = t5:1;
+    local a6:4 = base + VACC[192,32] * 4:4;
+    local t6:4 = *:4 (a6);
+    VdRow[208,8] = t6:1;
+    local a7:4 = base + VACC[224,32] * 4:4;
+    local t7:4 = *:4 (a7);
+    VdRow[240,8] = t7:1;
+    local a8:4 = base + VACC[256,32] * 4:4;
+    local t8:4 = *:4 (a8);
+    VdRow[272,8] = t8:1;
+    local a9:4 = base + VACC[288,32] * 4:4;
+    local t9:4 = *:4 (a9);
+    VdRow[304,8] = t9:1;
+    local a10:4 = base + VACC[320,32] * 4:4;
+    local t10:4 = *:4 (a10);
+    VdRow[336,8] = t10:1;
+    local a11:4 = base + VACC[352,32] * 4:4;
+    local t11:4 = *:4 (a11);
+    VdRow[368,8] = t11:1;
+    local a12:4 = base + VACC[384,32] * 4:4;
+    local t12:4 = *:4 (a12);
+    VdRow[400,8] = t12:1;
+    local a13:4 = base + VACC[416,32] * 4:4;
+    local t13:4 = *:4 (a13);
+    VdRow[432,8] = t13:1;
+    local a14:4 = base + VACC[448,32] * 4:4;
+    local t14:4 = *:4 (a14);
+    VdRow[464,8] = t14:1;
+    local a15:4 = base + VACC[480,32] * 4:4;
+    local t15:4 = *:4 (a15);
+    VdRow[496,8] = t15:1;
+  }
+
+  # v32lookupml with a 8-bit register element at byte-in-lane 3
+  :v32lookupml vargd, vmemargb^vflags
+	is (Vmop=2 & Vmwidth=2 & Vdir=0 & Vseld=3 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local a0:4 = base + VACC[0,32] * 4:4;
+    local t0:4 = *:4 (a0);
+    VdRow[24,8] = t0:1;
+    local a1:4 = base + VACC[32,32] * 4:4;
+    local t1:4 = *:4 (a1);
+    VdRow[56,8] = t1:1;
+    local a2:4 = base + VACC[64,32] * 4:4;
+    local t2:4 = *:4 (a2);
+    VdRow[88,8] = t2:1;
+    local a3:4 = base + VACC[96,32] * 4:4;
+    local t3:4 = *:4 (a3);
+    VdRow[120,8] = t3:1;
+    local a4:4 = base + VACC[128,32] * 4:4;
+    local t4:4 = *:4 (a4);
+    VdRow[152,8] = t4:1;
+    local a5:4 = base + VACC[160,32] * 4:4;
+    local t5:4 = *:4 (a5);
+    VdRow[184,8] = t5:1;
+    local a6:4 = base + VACC[192,32] * 4:4;
+    local t6:4 = *:4 (a6);
+    VdRow[216,8] = t6:1;
+    local a7:4 = base + VACC[224,32] * 4:4;
+    local t7:4 = *:4 (a7);
+    VdRow[248,8] = t7:1;
+    local a8:4 = base + VACC[256,32] * 4:4;
+    local t8:4 = *:4 (a8);
+    VdRow[280,8] = t8:1;
+    local a9:4 = base + VACC[288,32] * 4:4;
+    local t9:4 = *:4 (a9);
+    VdRow[312,8] = t9:1;
+    local a10:4 = base + VACC[320,32] * 4:4;
+    local t10:4 = *:4 (a10);
+    VdRow[344,8] = t10:1;
+    local a11:4 = base + VACC[352,32] * 4:4;
+    local t11:4 = *:4 (a11);
+    VdRow[376,8] = t11:1;
+    local a12:4 = base + VACC[384,32] * 4:4;
+    local t12:4 = *:4 (a12);
+    VdRow[408,8] = t12:1;
+    local a13:4 = base + VACC[416,32] * 4:4;
+    local t13:4 = *:4 (a13);
+    VdRow[440,8] = t13:1;
+    local a14:4 = base + VACC[448,32] * 4:4;
+    local t14:4 = *:4 (a14);
+    VdRow[472,8] = t14:1;
+    local a15:4 = base + VACC[480,32] * 4:4;
+    local t15:4 = *:4 (a15);
+    VdRow[504,8] = t15:1;
+  }
+
+  # v32lookupml with a 16-bit register element at byte-in-lane 0
+  :v32lookupml vargd, vmemargb^vflags
+	is (Vmop=2 & Vmwidth=2 & Vdir=0 & Vseld=4 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local a0:4 = base + VACC[0,32] * 4:4;
+    local t0:4 = *:4 (a0);
+    VdRow[0,16] = t0:2;
+    local a1:4 = base + VACC[32,32] * 4:4;
+    local t1:4 = *:4 (a1);
+    VdRow[32,16] = t1:2;
+    local a2:4 = base + VACC[64,32] * 4:4;
+    local t2:4 = *:4 (a2);
+    VdRow[64,16] = t2:2;
+    local a3:4 = base + VACC[96,32] * 4:4;
+    local t3:4 = *:4 (a3);
+    VdRow[96,16] = t3:2;
+    local a4:4 = base + VACC[128,32] * 4:4;
+    local t4:4 = *:4 (a4);
+    VdRow[128,16] = t4:2;
+    local a5:4 = base + VACC[160,32] * 4:4;
+    local t5:4 = *:4 (a5);
+    VdRow[160,16] = t5:2;
+    local a6:4 = base + VACC[192,32] * 4:4;
+    local t6:4 = *:4 (a6);
+    VdRow[192,16] = t6:2;
+    local a7:4 = base + VACC[224,32] * 4:4;
+    local t7:4 = *:4 (a7);
+    VdRow[224,16] = t7:2;
+    local a8:4 = base + VACC[256,32] * 4:4;
+    local t8:4 = *:4 (a8);
+    VdRow[256,16] = t8:2;
+    local a9:4 = base + VACC[288,32] * 4:4;
+    local t9:4 = *:4 (a9);
+    VdRow[288,16] = t9:2;
+    local a10:4 = base + VACC[320,32] * 4:4;
+    local t10:4 = *:4 (a10);
+    VdRow[320,16] = t10:2;
+    local a11:4 = base + VACC[352,32] * 4:4;
+    local t11:4 = *:4 (a11);
+    VdRow[352,16] = t11:2;
+    local a12:4 = base + VACC[384,32] * 4:4;
+    local t12:4 = *:4 (a12);
+    VdRow[384,16] = t12:2;
+    local a13:4 = base + VACC[416,32] * 4:4;
+    local t13:4 = *:4 (a13);
+    VdRow[416,16] = t13:2;
+    local a14:4 = base + VACC[448,32] * 4:4;
+    local t14:4 = *:4 (a14);
+    VdRow[448,16] = t14:2;
+    local a15:4 = base + VACC[480,32] * 4:4;
+    local t15:4 = *:4 (a15);
+    VdRow[480,16] = t15:2;
+  }
+
+  # v32lookupml with a 16-bit register element at byte-in-lane 2
+  :v32lookupml vargd, vmemargb^vflags
+	is (Vmop=2 & Vmwidth=2 & Vdir=0 & Vseld=5 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local a0:4 = base + VACC[0,32] * 4:4;
+    local t0:4 = *:4 (a0);
+    VdRow[16,16] = t0:2;
+    local a1:4 = base + VACC[32,32] * 4:4;
+    local t1:4 = *:4 (a1);
+    VdRow[48,16] = t1:2;
+    local a2:4 = base + VACC[64,32] * 4:4;
+    local t2:4 = *:4 (a2);
+    VdRow[80,16] = t2:2;
+    local a3:4 = base + VACC[96,32] * 4:4;
+    local t3:4 = *:4 (a3);
+    VdRow[112,16] = t3:2;
+    local a4:4 = base + VACC[128,32] * 4:4;
+    local t4:4 = *:4 (a4);
+    VdRow[144,16] = t4:2;
+    local a5:4 = base + VACC[160,32] * 4:4;
+    local t5:4 = *:4 (a5);
+    VdRow[176,16] = t5:2;
+    local a6:4 = base + VACC[192,32] * 4:4;
+    local t6:4 = *:4 (a6);
+    VdRow[208,16] = t6:2;
+    local a7:4 = base + VACC[224,32] * 4:4;
+    local t7:4 = *:4 (a7);
+    VdRow[240,16] = t7:2;
+    local a8:4 = base + VACC[256,32] * 4:4;
+    local t8:4 = *:4 (a8);
+    VdRow[272,16] = t8:2;
+    local a9:4 = base + VACC[288,32] * 4:4;
+    local t9:4 = *:4 (a9);
+    VdRow[304,16] = t9:2;
+    local a10:4 = base + VACC[320,32] * 4:4;
+    local t10:4 = *:4 (a10);
+    VdRow[336,16] = t10:2;
+    local a11:4 = base + VACC[352,32] * 4:4;
+    local t11:4 = *:4 (a11);
+    VdRow[368,16] = t11:2;
+    local a12:4 = base + VACC[384,32] * 4:4;
+    local t12:4 = *:4 (a12);
+    VdRow[400,16] = t12:2;
+    local a13:4 = base + VACC[416,32] * 4:4;
+    local t13:4 = *:4 (a13);
+    VdRow[432,16] = t13:2;
+    local a14:4 = base + VACC[448,32] * 4:4;
+    local t14:4 = *:4 (a14);
+    VdRow[464,16] = t14:2;
+    local a15:4 = base + VACC[480,32] * 4:4;
+    local t15:4 = *:4 (a15);
+    VdRow[496,16] = t15:2;
+  }
+
+  # v32lookupml with a 32-bit register element at byte-in-lane 0
+  :v32lookupml vargd, vmemargb^vflags
+	is (Vmop=2 & Vmwidth=2 & Vdir=0 & Vseld=6 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags {
+    local base:4 = VRm;
+    local a0:4 = base + VACC[0,32] * 4:4;
+    VdRow[0,32] = *:4 (a0);
+    local a1:4 = base + VACC[32,32] * 4:4;
+    VdRow[32,32] = *:4 (a1);
+    local a2:4 = base + VACC[64,32] * 4:4;
+    VdRow[64,32] = *:4 (a2);
+    local a3:4 = base + VACC[96,32] * 4:4;
+    VdRow[96,32] = *:4 (a3);
+    local a4:4 = base + VACC[128,32] * 4:4;
+    VdRow[128,32] = *:4 (a4);
+    local a5:4 = base + VACC[160,32] * 4:4;
+    VdRow[160,32] = *:4 (a5);
+    local a6:4 = base + VACC[192,32] * 4:4;
+    VdRow[192,32] = *:4 (a6);
+    local a7:4 = base + VACC[224,32] * 4:4;
+    VdRow[224,32] = *:4 (a7);
+    local a8:4 = base + VACC[256,32] * 4:4;
+    VdRow[256,32] = *:4 (a8);
+    local a9:4 = base + VACC[288,32] * 4:4;
+    VdRow[288,32] = *:4 (a9);
+    local a10:4 = base + VACC[320,32] * 4:4;
+    VdRow[320,32] = *:4 (a10);
+    local a11:4 = base + VACC[352,32] * 4:4;
+    VdRow[352,32] = *:4 (a11);
+    local a12:4 = base + VACC[384,32] * 4:4;
+    VdRow[384,32] = *:4 (a12);
+    local a13:4 = base + VACC[416,32] * 4:4;
+    VdRow[416,32] = *:4 (a13);
+    local a14:4 = base + VACC[448,32] * 4:4;
+    VdRow[448,32] = *:4 (a14);
+    local a15:4 = base + VACC[480,32] * 4:4;
+    VdRow[480,32] = *:4 (a15);
+  }
+
   # v8st with a 8-bit register element at byte-in-lane 0
   :v8st varga, vmemargb^vflags
 	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=0 & Vsetf48=0
@@ -1287,6 +2909,1478 @@ with : Vop=0x3c ... {
     *:4 (base + 52:4) = src[416,32];
     *:4 (base + 56:4) = src[448,32];
     *:4 (base + 60:4) = src[480,32];
+  }
+
+  # v8indexwritem with a 8-bit register element at byte-in-lane 0
+  :v8indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=0 & Vdir=0 & Vsela=0 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    *:1 (base) = src[0,8];
+    *:1 (base) = src[32,8];
+    *:1 (base) = src[64,8];
+    *:1 (base) = src[96,8];
+    *:1 (base) = src[128,8];
+    *:1 (base) = src[160,8];
+    *:1 (base) = src[192,8];
+    *:1 (base) = src[224,8];
+    *:1 (base) = src[256,8];
+    *:1 (base) = src[288,8];
+    *:1 (base) = src[320,8];
+    *:1 (base) = src[352,8];
+    *:1 (base) = src[384,8];
+    *:1 (base) = src[416,8];
+    *:1 (base) = src[448,8];
+    *:1 (base) = src[480,8];
+  }
+
+  # v8indexwritem with a 8-bit register element at byte-in-lane 1
+  :v8indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=0 & Vdir=0 & Vsela=1 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    *:1 (base) = src[8,8];
+    *:1 (base) = src[40,8];
+    *:1 (base) = src[72,8];
+    *:1 (base) = src[104,8];
+    *:1 (base) = src[136,8];
+    *:1 (base) = src[168,8];
+    *:1 (base) = src[200,8];
+    *:1 (base) = src[232,8];
+    *:1 (base) = src[264,8];
+    *:1 (base) = src[296,8];
+    *:1 (base) = src[328,8];
+    *:1 (base) = src[360,8];
+    *:1 (base) = src[392,8];
+    *:1 (base) = src[424,8];
+    *:1 (base) = src[456,8];
+    *:1 (base) = src[488,8];
+  }
+
+  # v8indexwritem with a 8-bit register element at byte-in-lane 2
+  :v8indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=0 & Vdir=0 & Vsela=2 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    *:1 (base) = src[16,8];
+    *:1 (base) = src[48,8];
+    *:1 (base) = src[80,8];
+    *:1 (base) = src[112,8];
+    *:1 (base) = src[144,8];
+    *:1 (base) = src[176,8];
+    *:1 (base) = src[208,8];
+    *:1 (base) = src[240,8];
+    *:1 (base) = src[272,8];
+    *:1 (base) = src[304,8];
+    *:1 (base) = src[336,8];
+    *:1 (base) = src[368,8];
+    *:1 (base) = src[400,8];
+    *:1 (base) = src[432,8];
+    *:1 (base) = src[464,8];
+    *:1 (base) = src[496,8];
+  }
+
+  # v8indexwritem with a 8-bit register element at byte-in-lane 3
+  :v8indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=0 & Vdir=0 & Vsela=3 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    *:1 (base) = src[24,8];
+    *:1 (base) = src[56,8];
+    *:1 (base) = src[88,8];
+    *:1 (base) = src[120,8];
+    *:1 (base) = src[152,8];
+    *:1 (base) = src[184,8];
+    *:1 (base) = src[216,8];
+    *:1 (base) = src[248,8];
+    *:1 (base) = src[280,8];
+    *:1 (base) = src[312,8];
+    *:1 (base) = src[344,8];
+    *:1 (base) = src[376,8];
+    *:1 (base) = src[408,8];
+    *:1 (base) = src[440,8];
+    *:1 (base) = src[472,8];
+    *:1 (base) = src[504,8];
+  }
+
+  # v8indexwritem with a 16-bit register element at byte-in-lane 0
+  :v8indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=0 & Vdir=0 & Vsela=4 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local t0:2 = src[0,16];
+    *:1 (base) = t0:1;
+    local t1:2 = src[32,16];
+    *:1 (base) = t1:1;
+    local t2:2 = src[64,16];
+    *:1 (base) = t2:1;
+    local t3:2 = src[96,16];
+    *:1 (base) = t3:1;
+    local t4:2 = src[128,16];
+    *:1 (base) = t4:1;
+    local t5:2 = src[160,16];
+    *:1 (base) = t5:1;
+    local t6:2 = src[192,16];
+    *:1 (base) = t6:1;
+    local t7:2 = src[224,16];
+    *:1 (base) = t7:1;
+    local t8:2 = src[256,16];
+    *:1 (base) = t8:1;
+    local t9:2 = src[288,16];
+    *:1 (base) = t9:1;
+    local t10:2 = src[320,16];
+    *:1 (base) = t10:1;
+    local t11:2 = src[352,16];
+    *:1 (base) = t11:1;
+    local t12:2 = src[384,16];
+    *:1 (base) = t12:1;
+    local t13:2 = src[416,16];
+    *:1 (base) = t13:1;
+    local t14:2 = src[448,16];
+    *:1 (base) = t14:1;
+    local t15:2 = src[480,16];
+    *:1 (base) = t15:1;
+  }
+
+  # v8indexwritem with a 16-bit register element at byte-in-lane 2
+  :v8indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=0 & Vdir=0 & Vsela=5 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local t0:2 = src[16,16];
+    *:1 (base) = t0:1;
+    local t1:2 = src[48,16];
+    *:1 (base) = t1:1;
+    local t2:2 = src[80,16];
+    *:1 (base) = t2:1;
+    local t3:2 = src[112,16];
+    *:1 (base) = t3:1;
+    local t4:2 = src[144,16];
+    *:1 (base) = t4:1;
+    local t5:2 = src[176,16];
+    *:1 (base) = t5:1;
+    local t6:2 = src[208,16];
+    *:1 (base) = t6:1;
+    local t7:2 = src[240,16];
+    *:1 (base) = t7:1;
+    local t8:2 = src[272,16];
+    *:1 (base) = t8:1;
+    local t9:2 = src[304,16];
+    *:1 (base) = t9:1;
+    local t10:2 = src[336,16];
+    *:1 (base) = t10:1;
+    local t11:2 = src[368,16];
+    *:1 (base) = t11:1;
+    local t12:2 = src[400,16];
+    *:1 (base) = t12:1;
+    local t13:2 = src[432,16];
+    *:1 (base) = t13:1;
+    local t14:2 = src[464,16];
+    *:1 (base) = t14:1;
+    local t15:2 = src[496,16];
+    *:1 (base) = t15:1;
+  }
+
+  # v8indexwritem with a 32-bit register element at byte-in-lane 0
+  :v8indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=0 & Vdir=0 & Vsela=6 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local t0:4 = src[0,32];
+    *:1 (base) = t0:1;
+    local t1:4 = src[32,32];
+    *:1 (base) = t1:1;
+    local t2:4 = src[64,32];
+    *:1 (base) = t2:1;
+    local t3:4 = src[96,32];
+    *:1 (base) = t3:1;
+    local t4:4 = src[128,32];
+    *:1 (base) = t4:1;
+    local t5:4 = src[160,32];
+    *:1 (base) = t5:1;
+    local t6:4 = src[192,32];
+    *:1 (base) = t6:1;
+    local t7:4 = src[224,32];
+    *:1 (base) = t7:1;
+    local t8:4 = src[256,32];
+    *:1 (base) = t8:1;
+    local t9:4 = src[288,32];
+    *:1 (base) = t9:1;
+    local t10:4 = src[320,32];
+    *:1 (base) = t10:1;
+    local t11:4 = src[352,32];
+    *:1 (base) = t11:1;
+    local t12:4 = src[384,32];
+    *:1 (base) = t12:1;
+    local t13:4 = src[416,32];
+    *:1 (base) = t13:1;
+    local t14:4 = src[448,32];
+    *:1 (base) = t14:1;
+    local t15:4 = src[480,32];
+    *:1 (base) = t15:1;
+  }
+
+  # v16indexwritem with a 8-bit register element at byte-in-lane 0
+  :v16indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=1 & Vdir=0 & Vsela=0 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    *:2 (base) = zext(src[0,8]);
+    *:2 (base) = zext(src[32,8]);
+    *:2 (base) = zext(src[64,8]);
+    *:2 (base) = zext(src[96,8]);
+    *:2 (base) = zext(src[128,8]);
+    *:2 (base) = zext(src[160,8]);
+    *:2 (base) = zext(src[192,8]);
+    *:2 (base) = zext(src[224,8]);
+    *:2 (base) = zext(src[256,8]);
+    *:2 (base) = zext(src[288,8]);
+    *:2 (base) = zext(src[320,8]);
+    *:2 (base) = zext(src[352,8]);
+    *:2 (base) = zext(src[384,8]);
+    *:2 (base) = zext(src[416,8]);
+    *:2 (base) = zext(src[448,8]);
+    *:2 (base) = zext(src[480,8]);
+  }
+
+  # v16indexwritem with a 8-bit register element at byte-in-lane 1
+  :v16indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=1 & Vdir=0 & Vsela=1 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    *:2 (base) = zext(src[8,8]);
+    *:2 (base) = zext(src[40,8]);
+    *:2 (base) = zext(src[72,8]);
+    *:2 (base) = zext(src[104,8]);
+    *:2 (base) = zext(src[136,8]);
+    *:2 (base) = zext(src[168,8]);
+    *:2 (base) = zext(src[200,8]);
+    *:2 (base) = zext(src[232,8]);
+    *:2 (base) = zext(src[264,8]);
+    *:2 (base) = zext(src[296,8]);
+    *:2 (base) = zext(src[328,8]);
+    *:2 (base) = zext(src[360,8]);
+    *:2 (base) = zext(src[392,8]);
+    *:2 (base) = zext(src[424,8]);
+    *:2 (base) = zext(src[456,8]);
+    *:2 (base) = zext(src[488,8]);
+  }
+
+  # v16indexwritem with a 8-bit register element at byte-in-lane 2
+  :v16indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=1 & Vdir=0 & Vsela=2 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    *:2 (base) = zext(src[16,8]);
+    *:2 (base) = zext(src[48,8]);
+    *:2 (base) = zext(src[80,8]);
+    *:2 (base) = zext(src[112,8]);
+    *:2 (base) = zext(src[144,8]);
+    *:2 (base) = zext(src[176,8]);
+    *:2 (base) = zext(src[208,8]);
+    *:2 (base) = zext(src[240,8]);
+    *:2 (base) = zext(src[272,8]);
+    *:2 (base) = zext(src[304,8]);
+    *:2 (base) = zext(src[336,8]);
+    *:2 (base) = zext(src[368,8]);
+    *:2 (base) = zext(src[400,8]);
+    *:2 (base) = zext(src[432,8]);
+    *:2 (base) = zext(src[464,8]);
+    *:2 (base) = zext(src[496,8]);
+  }
+
+  # v16indexwritem with a 8-bit register element at byte-in-lane 3
+  :v16indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=1 & Vdir=0 & Vsela=3 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    *:2 (base) = zext(src[24,8]);
+    *:2 (base) = zext(src[56,8]);
+    *:2 (base) = zext(src[88,8]);
+    *:2 (base) = zext(src[120,8]);
+    *:2 (base) = zext(src[152,8]);
+    *:2 (base) = zext(src[184,8]);
+    *:2 (base) = zext(src[216,8]);
+    *:2 (base) = zext(src[248,8]);
+    *:2 (base) = zext(src[280,8]);
+    *:2 (base) = zext(src[312,8]);
+    *:2 (base) = zext(src[344,8]);
+    *:2 (base) = zext(src[376,8]);
+    *:2 (base) = zext(src[408,8]);
+    *:2 (base) = zext(src[440,8]);
+    *:2 (base) = zext(src[472,8]);
+    *:2 (base) = zext(src[504,8]);
+  }
+
+  # v16indexwritem with a 16-bit register element at byte-in-lane 0
+  :v16indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=1 & Vdir=0 & Vsela=4 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    *:2 (base) = src[0,16];
+    *:2 (base) = src[32,16];
+    *:2 (base) = src[64,16];
+    *:2 (base) = src[96,16];
+    *:2 (base) = src[128,16];
+    *:2 (base) = src[160,16];
+    *:2 (base) = src[192,16];
+    *:2 (base) = src[224,16];
+    *:2 (base) = src[256,16];
+    *:2 (base) = src[288,16];
+    *:2 (base) = src[320,16];
+    *:2 (base) = src[352,16];
+    *:2 (base) = src[384,16];
+    *:2 (base) = src[416,16];
+    *:2 (base) = src[448,16];
+    *:2 (base) = src[480,16];
+  }
+
+  # v16indexwritem with a 16-bit register element at byte-in-lane 2
+  :v16indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=1 & Vdir=0 & Vsela=5 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    *:2 (base) = src[16,16];
+    *:2 (base) = src[48,16];
+    *:2 (base) = src[80,16];
+    *:2 (base) = src[112,16];
+    *:2 (base) = src[144,16];
+    *:2 (base) = src[176,16];
+    *:2 (base) = src[208,16];
+    *:2 (base) = src[240,16];
+    *:2 (base) = src[272,16];
+    *:2 (base) = src[304,16];
+    *:2 (base) = src[336,16];
+    *:2 (base) = src[368,16];
+    *:2 (base) = src[400,16];
+    *:2 (base) = src[432,16];
+    *:2 (base) = src[464,16];
+    *:2 (base) = src[496,16];
+  }
+
+  # v16indexwritem with a 32-bit register element at byte-in-lane 0
+  :v16indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=1 & Vdir=0 & Vsela=6 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local t0:4 = src[0,32];
+    *:2 (base) = t0:2;
+    local t1:4 = src[32,32];
+    *:2 (base) = t1:2;
+    local t2:4 = src[64,32];
+    *:2 (base) = t2:2;
+    local t3:4 = src[96,32];
+    *:2 (base) = t3:2;
+    local t4:4 = src[128,32];
+    *:2 (base) = t4:2;
+    local t5:4 = src[160,32];
+    *:2 (base) = t5:2;
+    local t6:4 = src[192,32];
+    *:2 (base) = t6:2;
+    local t7:4 = src[224,32];
+    *:2 (base) = t7:2;
+    local t8:4 = src[256,32];
+    *:2 (base) = t8:2;
+    local t9:4 = src[288,32];
+    *:2 (base) = t9:2;
+    local t10:4 = src[320,32];
+    *:2 (base) = t10:2;
+    local t11:4 = src[352,32];
+    *:2 (base) = t11:2;
+    local t12:4 = src[384,32];
+    *:2 (base) = t12:2;
+    local t13:4 = src[416,32];
+    *:2 (base) = t13:2;
+    local t14:4 = src[448,32];
+    *:2 (base) = t14:2;
+    local t15:4 = src[480,32];
+    *:2 (base) = t15:2;
+  }
+
+  # v32indexwritem with a 8-bit register element at byte-in-lane 0
+  :v32indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=2 & Vdir=0 & Vsela=0 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    *:4 (base) = zext(src[0,8]);
+    *:4 (base) = zext(src[32,8]);
+    *:4 (base) = zext(src[64,8]);
+    *:4 (base) = zext(src[96,8]);
+    *:4 (base) = zext(src[128,8]);
+    *:4 (base) = zext(src[160,8]);
+    *:4 (base) = zext(src[192,8]);
+    *:4 (base) = zext(src[224,8]);
+    *:4 (base) = zext(src[256,8]);
+    *:4 (base) = zext(src[288,8]);
+    *:4 (base) = zext(src[320,8]);
+    *:4 (base) = zext(src[352,8]);
+    *:4 (base) = zext(src[384,8]);
+    *:4 (base) = zext(src[416,8]);
+    *:4 (base) = zext(src[448,8]);
+    *:4 (base) = zext(src[480,8]);
+  }
+
+  # v32indexwritem with a 8-bit register element at byte-in-lane 1
+  :v32indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=2 & Vdir=0 & Vsela=1 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    *:4 (base) = zext(src[8,8]);
+    *:4 (base) = zext(src[40,8]);
+    *:4 (base) = zext(src[72,8]);
+    *:4 (base) = zext(src[104,8]);
+    *:4 (base) = zext(src[136,8]);
+    *:4 (base) = zext(src[168,8]);
+    *:4 (base) = zext(src[200,8]);
+    *:4 (base) = zext(src[232,8]);
+    *:4 (base) = zext(src[264,8]);
+    *:4 (base) = zext(src[296,8]);
+    *:4 (base) = zext(src[328,8]);
+    *:4 (base) = zext(src[360,8]);
+    *:4 (base) = zext(src[392,8]);
+    *:4 (base) = zext(src[424,8]);
+    *:4 (base) = zext(src[456,8]);
+    *:4 (base) = zext(src[488,8]);
+  }
+
+  # v32indexwritem with a 8-bit register element at byte-in-lane 2
+  :v32indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=2 & Vdir=0 & Vsela=2 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    *:4 (base) = zext(src[16,8]);
+    *:4 (base) = zext(src[48,8]);
+    *:4 (base) = zext(src[80,8]);
+    *:4 (base) = zext(src[112,8]);
+    *:4 (base) = zext(src[144,8]);
+    *:4 (base) = zext(src[176,8]);
+    *:4 (base) = zext(src[208,8]);
+    *:4 (base) = zext(src[240,8]);
+    *:4 (base) = zext(src[272,8]);
+    *:4 (base) = zext(src[304,8]);
+    *:4 (base) = zext(src[336,8]);
+    *:4 (base) = zext(src[368,8]);
+    *:4 (base) = zext(src[400,8]);
+    *:4 (base) = zext(src[432,8]);
+    *:4 (base) = zext(src[464,8]);
+    *:4 (base) = zext(src[496,8]);
+  }
+
+  # v32indexwritem with a 8-bit register element at byte-in-lane 3
+  :v32indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=2 & Vdir=0 & Vsela=3 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    *:4 (base) = zext(src[24,8]);
+    *:4 (base) = zext(src[56,8]);
+    *:4 (base) = zext(src[88,8]);
+    *:4 (base) = zext(src[120,8]);
+    *:4 (base) = zext(src[152,8]);
+    *:4 (base) = zext(src[184,8]);
+    *:4 (base) = zext(src[216,8]);
+    *:4 (base) = zext(src[248,8]);
+    *:4 (base) = zext(src[280,8]);
+    *:4 (base) = zext(src[312,8]);
+    *:4 (base) = zext(src[344,8]);
+    *:4 (base) = zext(src[376,8]);
+    *:4 (base) = zext(src[408,8]);
+    *:4 (base) = zext(src[440,8]);
+    *:4 (base) = zext(src[472,8]);
+    *:4 (base) = zext(src[504,8]);
+  }
+
+  # v32indexwritem with a 16-bit register element at byte-in-lane 0
+  :v32indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=2 & Vdir=0 & Vsela=4 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    *:4 (base) = sext(src[0,16]);
+    *:4 (base) = sext(src[32,16]);
+    *:4 (base) = sext(src[64,16]);
+    *:4 (base) = sext(src[96,16]);
+    *:4 (base) = sext(src[128,16]);
+    *:4 (base) = sext(src[160,16]);
+    *:4 (base) = sext(src[192,16]);
+    *:4 (base) = sext(src[224,16]);
+    *:4 (base) = sext(src[256,16]);
+    *:4 (base) = sext(src[288,16]);
+    *:4 (base) = sext(src[320,16]);
+    *:4 (base) = sext(src[352,16]);
+    *:4 (base) = sext(src[384,16]);
+    *:4 (base) = sext(src[416,16]);
+    *:4 (base) = sext(src[448,16]);
+    *:4 (base) = sext(src[480,16]);
+  }
+
+  # v32indexwritem with a 16-bit register element at byte-in-lane 2
+  :v32indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=2 & Vdir=0 & Vsela=5 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    *:4 (base) = sext(src[16,16]);
+    *:4 (base) = sext(src[48,16]);
+    *:4 (base) = sext(src[80,16]);
+    *:4 (base) = sext(src[112,16]);
+    *:4 (base) = sext(src[144,16]);
+    *:4 (base) = sext(src[176,16]);
+    *:4 (base) = sext(src[208,16]);
+    *:4 (base) = sext(src[240,16]);
+    *:4 (base) = sext(src[272,16]);
+    *:4 (base) = sext(src[304,16]);
+    *:4 (base) = sext(src[336,16]);
+    *:4 (base) = sext(src[368,16]);
+    *:4 (base) = sext(src[400,16]);
+    *:4 (base) = sext(src[432,16]);
+    *:4 (base) = sext(src[464,16]);
+    *:4 (base) = sext(src[496,16]);
+  }
+
+  # v32indexwritem with a 32-bit register element at byte-in-lane 0
+  :v32indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=2 & Vdir=0 & Vsela=6 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    *:4 (base) = src[0,32];
+    *:4 (base) = src[32,32];
+    *:4 (base) = src[64,32];
+    *:4 (base) = src[96,32];
+    *:4 (base) = src[128,32];
+    *:4 (base) = src[160,32];
+    *:4 (base) = src[192,32];
+    *:4 (base) = src[224,32];
+    *:4 (base) = src[256,32];
+    *:4 (base) = src[288,32];
+    *:4 (base) = src[320,32];
+    *:4 (base) = src[352,32];
+    *:4 (base) = src[384,32];
+    *:4 (base) = src[416,32];
+    *:4 (base) = src[448,32];
+    *:4 (base) = src[480,32];
+  }
+
+  # v8indexwriteml with a 8-bit register element at byte-in-lane 0
+  :v8indexwriteml varga, vmemargb^vflags
+	is (Vmop=6 & Vmwidth=0 & Vdir=0 & Vsela=0 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local a0:4 = base + VACC[0,32];
+    *:1 (a0) = src[0,8];
+    local a1:4 = base + VACC[32,32];
+    *:1 (a1) = src[32,8];
+    local a2:4 = base + VACC[64,32];
+    *:1 (a2) = src[64,8];
+    local a3:4 = base + VACC[96,32];
+    *:1 (a3) = src[96,8];
+    local a4:4 = base + VACC[128,32];
+    *:1 (a4) = src[128,8];
+    local a5:4 = base + VACC[160,32];
+    *:1 (a5) = src[160,8];
+    local a6:4 = base + VACC[192,32];
+    *:1 (a6) = src[192,8];
+    local a7:4 = base + VACC[224,32];
+    *:1 (a7) = src[224,8];
+    local a8:4 = base + VACC[256,32];
+    *:1 (a8) = src[256,8];
+    local a9:4 = base + VACC[288,32];
+    *:1 (a9) = src[288,8];
+    local a10:4 = base + VACC[320,32];
+    *:1 (a10) = src[320,8];
+    local a11:4 = base + VACC[352,32];
+    *:1 (a11) = src[352,8];
+    local a12:4 = base + VACC[384,32];
+    *:1 (a12) = src[384,8];
+    local a13:4 = base + VACC[416,32];
+    *:1 (a13) = src[416,8];
+    local a14:4 = base + VACC[448,32];
+    *:1 (a14) = src[448,8];
+    local a15:4 = base + VACC[480,32];
+    *:1 (a15) = src[480,8];
+  }
+
+  # v8indexwriteml with a 8-bit register element at byte-in-lane 1
+  :v8indexwriteml varga, vmemargb^vflags
+	is (Vmop=6 & Vmwidth=0 & Vdir=0 & Vsela=1 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local a0:4 = base + VACC[0,32];
+    *:1 (a0) = src[8,8];
+    local a1:4 = base + VACC[32,32];
+    *:1 (a1) = src[40,8];
+    local a2:4 = base + VACC[64,32];
+    *:1 (a2) = src[72,8];
+    local a3:4 = base + VACC[96,32];
+    *:1 (a3) = src[104,8];
+    local a4:4 = base + VACC[128,32];
+    *:1 (a4) = src[136,8];
+    local a5:4 = base + VACC[160,32];
+    *:1 (a5) = src[168,8];
+    local a6:4 = base + VACC[192,32];
+    *:1 (a6) = src[200,8];
+    local a7:4 = base + VACC[224,32];
+    *:1 (a7) = src[232,8];
+    local a8:4 = base + VACC[256,32];
+    *:1 (a8) = src[264,8];
+    local a9:4 = base + VACC[288,32];
+    *:1 (a9) = src[296,8];
+    local a10:4 = base + VACC[320,32];
+    *:1 (a10) = src[328,8];
+    local a11:4 = base + VACC[352,32];
+    *:1 (a11) = src[360,8];
+    local a12:4 = base + VACC[384,32];
+    *:1 (a12) = src[392,8];
+    local a13:4 = base + VACC[416,32];
+    *:1 (a13) = src[424,8];
+    local a14:4 = base + VACC[448,32];
+    *:1 (a14) = src[456,8];
+    local a15:4 = base + VACC[480,32];
+    *:1 (a15) = src[488,8];
+  }
+
+  # v8indexwriteml with a 8-bit register element at byte-in-lane 2
+  :v8indexwriteml varga, vmemargb^vflags
+	is (Vmop=6 & Vmwidth=0 & Vdir=0 & Vsela=2 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local a0:4 = base + VACC[0,32];
+    *:1 (a0) = src[16,8];
+    local a1:4 = base + VACC[32,32];
+    *:1 (a1) = src[48,8];
+    local a2:4 = base + VACC[64,32];
+    *:1 (a2) = src[80,8];
+    local a3:4 = base + VACC[96,32];
+    *:1 (a3) = src[112,8];
+    local a4:4 = base + VACC[128,32];
+    *:1 (a4) = src[144,8];
+    local a5:4 = base + VACC[160,32];
+    *:1 (a5) = src[176,8];
+    local a6:4 = base + VACC[192,32];
+    *:1 (a6) = src[208,8];
+    local a7:4 = base + VACC[224,32];
+    *:1 (a7) = src[240,8];
+    local a8:4 = base + VACC[256,32];
+    *:1 (a8) = src[272,8];
+    local a9:4 = base + VACC[288,32];
+    *:1 (a9) = src[304,8];
+    local a10:4 = base + VACC[320,32];
+    *:1 (a10) = src[336,8];
+    local a11:4 = base + VACC[352,32];
+    *:1 (a11) = src[368,8];
+    local a12:4 = base + VACC[384,32];
+    *:1 (a12) = src[400,8];
+    local a13:4 = base + VACC[416,32];
+    *:1 (a13) = src[432,8];
+    local a14:4 = base + VACC[448,32];
+    *:1 (a14) = src[464,8];
+    local a15:4 = base + VACC[480,32];
+    *:1 (a15) = src[496,8];
+  }
+
+  # v8indexwriteml with a 8-bit register element at byte-in-lane 3
+  :v8indexwriteml varga, vmemargb^vflags
+	is (Vmop=6 & Vmwidth=0 & Vdir=0 & Vsela=3 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local a0:4 = base + VACC[0,32];
+    *:1 (a0) = src[24,8];
+    local a1:4 = base + VACC[32,32];
+    *:1 (a1) = src[56,8];
+    local a2:4 = base + VACC[64,32];
+    *:1 (a2) = src[88,8];
+    local a3:4 = base + VACC[96,32];
+    *:1 (a3) = src[120,8];
+    local a4:4 = base + VACC[128,32];
+    *:1 (a4) = src[152,8];
+    local a5:4 = base + VACC[160,32];
+    *:1 (a5) = src[184,8];
+    local a6:4 = base + VACC[192,32];
+    *:1 (a6) = src[216,8];
+    local a7:4 = base + VACC[224,32];
+    *:1 (a7) = src[248,8];
+    local a8:4 = base + VACC[256,32];
+    *:1 (a8) = src[280,8];
+    local a9:4 = base + VACC[288,32];
+    *:1 (a9) = src[312,8];
+    local a10:4 = base + VACC[320,32];
+    *:1 (a10) = src[344,8];
+    local a11:4 = base + VACC[352,32];
+    *:1 (a11) = src[376,8];
+    local a12:4 = base + VACC[384,32];
+    *:1 (a12) = src[408,8];
+    local a13:4 = base + VACC[416,32];
+    *:1 (a13) = src[440,8];
+    local a14:4 = base + VACC[448,32];
+    *:1 (a14) = src[472,8];
+    local a15:4 = base + VACC[480,32];
+    *:1 (a15) = src[504,8];
+  }
+
+  # v8indexwriteml with a 16-bit register element at byte-in-lane 0
+  :v8indexwriteml varga, vmemargb^vflags
+	is (Vmop=6 & Vmwidth=0 & Vdir=0 & Vsela=4 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local a0:4 = base + VACC[0,32];
+    local t0:2 = src[0,16];
+    *:1 (a0) = t0:1;
+    local a1:4 = base + VACC[32,32];
+    local t1:2 = src[32,16];
+    *:1 (a1) = t1:1;
+    local a2:4 = base + VACC[64,32];
+    local t2:2 = src[64,16];
+    *:1 (a2) = t2:1;
+    local a3:4 = base + VACC[96,32];
+    local t3:2 = src[96,16];
+    *:1 (a3) = t3:1;
+    local a4:4 = base + VACC[128,32];
+    local t4:2 = src[128,16];
+    *:1 (a4) = t4:1;
+    local a5:4 = base + VACC[160,32];
+    local t5:2 = src[160,16];
+    *:1 (a5) = t5:1;
+    local a6:4 = base + VACC[192,32];
+    local t6:2 = src[192,16];
+    *:1 (a6) = t6:1;
+    local a7:4 = base + VACC[224,32];
+    local t7:2 = src[224,16];
+    *:1 (a7) = t7:1;
+    local a8:4 = base + VACC[256,32];
+    local t8:2 = src[256,16];
+    *:1 (a8) = t8:1;
+    local a9:4 = base + VACC[288,32];
+    local t9:2 = src[288,16];
+    *:1 (a9) = t9:1;
+    local a10:4 = base + VACC[320,32];
+    local t10:2 = src[320,16];
+    *:1 (a10) = t10:1;
+    local a11:4 = base + VACC[352,32];
+    local t11:2 = src[352,16];
+    *:1 (a11) = t11:1;
+    local a12:4 = base + VACC[384,32];
+    local t12:2 = src[384,16];
+    *:1 (a12) = t12:1;
+    local a13:4 = base + VACC[416,32];
+    local t13:2 = src[416,16];
+    *:1 (a13) = t13:1;
+    local a14:4 = base + VACC[448,32];
+    local t14:2 = src[448,16];
+    *:1 (a14) = t14:1;
+    local a15:4 = base + VACC[480,32];
+    local t15:2 = src[480,16];
+    *:1 (a15) = t15:1;
+  }
+
+  # v8indexwriteml with a 16-bit register element at byte-in-lane 2
+  :v8indexwriteml varga, vmemargb^vflags
+	is (Vmop=6 & Vmwidth=0 & Vdir=0 & Vsela=5 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local a0:4 = base + VACC[0,32];
+    local t0:2 = src[16,16];
+    *:1 (a0) = t0:1;
+    local a1:4 = base + VACC[32,32];
+    local t1:2 = src[48,16];
+    *:1 (a1) = t1:1;
+    local a2:4 = base + VACC[64,32];
+    local t2:2 = src[80,16];
+    *:1 (a2) = t2:1;
+    local a3:4 = base + VACC[96,32];
+    local t3:2 = src[112,16];
+    *:1 (a3) = t3:1;
+    local a4:4 = base + VACC[128,32];
+    local t4:2 = src[144,16];
+    *:1 (a4) = t4:1;
+    local a5:4 = base + VACC[160,32];
+    local t5:2 = src[176,16];
+    *:1 (a5) = t5:1;
+    local a6:4 = base + VACC[192,32];
+    local t6:2 = src[208,16];
+    *:1 (a6) = t6:1;
+    local a7:4 = base + VACC[224,32];
+    local t7:2 = src[240,16];
+    *:1 (a7) = t7:1;
+    local a8:4 = base + VACC[256,32];
+    local t8:2 = src[272,16];
+    *:1 (a8) = t8:1;
+    local a9:4 = base + VACC[288,32];
+    local t9:2 = src[304,16];
+    *:1 (a9) = t9:1;
+    local a10:4 = base + VACC[320,32];
+    local t10:2 = src[336,16];
+    *:1 (a10) = t10:1;
+    local a11:4 = base + VACC[352,32];
+    local t11:2 = src[368,16];
+    *:1 (a11) = t11:1;
+    local a12:4 = base + VACC[384,32];
+    local t12:2 = src[400,16];
+    *:1 (a12) = t12:1;
+    local a13:4 = base + VACC[416,32];
+    local t13:2 = src[432,16];
+    *:1 (a13) = t13:1;
+    local a14:4 = base + VACC[448,32];
+    local t14:2 = src[464,16];
+    *:1 (a14) = t14:1;
+    local a15:4 = base + VACC[480,32];
+    local t15:2 = src[496,16];
+    *:1 (a15) = t15:1;
+  }
+
+  # v8indexwriteml with a 32-bit register element at byte-in-lane 0
+  :v8indexwriteml varga, vmemargb^vflags
+	is (Vmop=6 & Vmwidth=0 & Vdir=0 & Vsela=6 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local a0:4 = base + VACC[0,32];
+    local t0:4 = src[0,32];
+    *:1 (a0) = t0:1;
+    local a1:4 = base + VACC[32,32];
+    local t1:4 = src[32,32];
+    *:1 (a1) = t1:1;
+    local a2:4 = base + VACC[64,32];
+    local t2:4 = src[64,32];
+    *:1 (a2) = t2:1;
+    local a3:4 = base + VACC[96,32];
+    local t3:4 = src[96,32];
+    *:1 (a3) = t3:1;
+    local a4:4 = base + VACC[128,32];
+    local t4:4 = src[128,32];
+    *:1 (a4) = t4:1;
+    local a5:4 = base + VACC[160,32];
+    local t5:4 = src[160,32];
+    *:1 (a5) = t5:1;
+    local a6:4 = base + VACC[192,32];
+    local t6:4 = src[192,32];
+    *:1 (a6) = t6:1;
+    local a7:4 = base + VACC[224,32];
+    local t7:4 = src[224,32];
+    *:1 (a7) = t7:1;
+    local a8:4 = base + VACC[256,32];
+    local t8:4 = src[256,32];
+    *:1 (a8) = t8:1;
+    local a9:4 = base + VACC[288,32];
+    local t9:4 = src[288,32];
+    *:1 (a9) = t9:1;
+    local a10:4 = base + VACC[320,32];
+    local t10:4 = src[320,32];
+    *:1 (a10) = t10:1;
+    local a11:4 = base + VACC[352,32];
+    local t11:4 = src[352,32];
+    *:1 (a11) = t11:1;
+    local a12:4 = base + VACC[384,32];
+    local t12:4 = src[384,32];
+    *:1 (a12) = t12:1;
+    local a13:4 = base + VACC[416,32];
+    local t13:4 = src[416,32];
+    *:1 (a13) = t13:1;
+    local a14:4 = base + VACC[448,32];
+    local t14:4 = src[448,32];
+    *:1 (a14) = t14:1;
+    local a15:4 = base + VACC[480,32];
+    local t15:4 = src[480,32];
+    *:1 (a15) = t15:1;
+  }
+
+  # v16indexwriteml with a 8-bit register element at byte-in-lane 0
+  :v16indexwriteml varga, vmemargb^vflags
+	is (Vmop=6 & Vmwidth=1 & Vdir=0 & Vsela=0 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local a0:4 = base + VACC[0,32] * 2:4;
+    *:2 (a0) = zext(src[0,8]);
+    local a1:4 = base + VACC[32,32] * 2:4;
+    *:2 (a1) = zext(src[32,8]);
+    local a2:4 = base + VACC[64,32] * 2:4;
+    *:2 (a2) = zext(src[64,8]);
+    local a3:4 = base + VACC[96,32] * 2:4;
+    *:2 (a3) = zext(src[96,8]);
+    local a4:4 = base + VACC[128,32] * 2:4;
+    *:2 (a4) = zext(src[128,8]);
+    local a5:4 = base + VACC[160,32] * 2:4;
+    *:2 (a5) = zext(src[160,8]);
+    local a6:4 = base + VACC[192,32] * 2:4;
+    *:2 (a6) = zext(src[192,8]);
+    local a7:4 = base + VACC[224,32] * 2:4;
+    *:2 (a7) = zext(src[224,8]);
+    local a8:4 = base + VACC[256,32] * 2:4;
+    *:2 (a8) = zext(src[256,8]);
+    local a9:4 = base + VACC[288,32] * 2:4;
+    *:2 (a9) = zext(src[288,8]);
+    local a10:4 = base + VACC[320,32] * 2:4;
+    *:2 (a10) = zext(src[320,8]);
+    local a11:4 = base + VACC[352,32] * 2:4;
+    *:2 (a11) = zext(src[352,8]);
+    local a12:4 = base + VACC[384,32] * 2:4;
+    *:2 (a12) = zext(src[384,8]);
+    local a13:4 = base + VACC[416,32] * 2:4;
+    *:2 (a13) = zext(src[416,8]);
+    local a14:4 = base + VACC[448,32] * 2:4;
+    *:2 (a14) = zext(src[448,8]);
+    local a15:4 = base + VACC[480,32] * 2:4;
+    *:2 (a15) = zext(src[480,8]);
+  }
+
+  # v16indexwriteml with a 8-bit register element at byte-in-lane 1
+  :v16indexwriteml varga, vmemargb^vflags
+	is (Vmop=6 & Vmwidth=1 & Vdir=0 & Vsela=1 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local a0:4 = base + VACC[0,32] * 2:4;
+    *:2 (a0) = zext(src[8,8]);
+    local a1:4 = base + VACC[32,32] * 2:4;
+    *:2 (a1) = zext(src[40,8]);
+    local a2:4 = base + VACC[64,32] * 2:4;
+    *:2 (a2) = zext(src[72,8]);
+    local a3:4 = base + VACC[96,32] * 2:4;
+    *:2 (a3) = zext(src[104,8]);
+    local a4:4 = base + VACC[128,32] * 2:4;
+    *:2 (a4) = zext(src[136,8]);
+    local a5:4 = base + VACC[160,32] * 2:4;
+    *:2 (a5) = zext(src[168,8]);
+    local a6:4 = base + VACC[192,32] * 2:4;
+    *:2 (a6) = zext(src[200,8]);
+    local a7:4 = base + VACC[224,32] * 2:4;
+    *:2 (a7) = zext(src[232,8]);
+    local a8:4 = base + VACC[256,32] * 2:4;
+    *:2 (a8) = zext(src[264,8]);
+    local a9:4 = base + VACC[288,32] * 2:4;
+    *:2 (a9) = zext(src[296,8]);
+    local a10:4 = base + VACC[320,32] * 2:4;
+    *:2 (a10) = zext(src[328,8]);
+    local a11:4 = base + VACC[352,32] * 2:4;
+    *:2 (a11) = zext(src[360,8]);
+    local a12:4 = base + VACC[384,32] * 2:4;
+    *:2 (a12) = zext(src[392,8]);
+    local a13:4 = base + VACC[416,32] * 2:4;
+    *:2 (a13) = zext(src[424,8]);
+    local a14:4 = base + VACC[448,32] * 2:4;
+    *:2 (a14) = zext(src[456,8]);
+    local a15:4 = base + VACC[480,32] * 2:4;
+    *:2 (a15) = zext(src[488,8]);
+  }
+
+  # v16indexwriteml with a 8-bit register element at byte-in-lane 2
+  :v16indexwriteml varga, vmemargb^vflags
+	is (Vmop=6 & Vmwidth=1 & Vdir=0 & Vsela=2 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local a0:4 = base + VACC[0,32] * 2:4;
+    *:2 (a0) = zext(src[16,8]);
+    local a1:4 = base + VACC[32,32] * 2:4;
+    *:2 (a1) = zext(src[48,8]);
+    local a2:4 = base + VACC[64,32] * 2:4;
+    *:2 (a2) = zext(src[80,8]);
+    local a3:4 = base + VACC[96,32] * 2:4;
+    *:2 (a3) = zext(src[112,8]);
+    local a4:4 = base + VACC[128,32] * 2:4;
+    *:2 (a4) = zext(src[144,8]);
+    local a5:4 = base + VACC[160,32] * 2:4;
+    *:2 (a5) = zext(src[176,8]);
+    local a6:4 = base + VACC[192,32] * 2:4;
+    *:2 (a6) = zext(src[208,8]);
+    local a7:4 = base + VACC[224,32] * 2:4;
+    *:2 (a7) = zext(src[240,8]);
+    local a8:4 = base + VACC[256,32] * 2:4;
+    *:2 (a8) = zext(src[272,8]);
+    local a9:4 = base + VACC[288,32] * 2:4;
+    *:2 (a9) = zext(src[304,8]);
+    local a10:4 = base + VACC[320,32] * 2:4;
+    *:2 (a10) = zext(src[336,8]);
+    local a11:4 = base + VACC[352,32] * 2:4;
+    *:2 (a11) = zext(src[368,8]);
+    local a12:4 = base + VACC[384,32] * 2:4;
+    *:2 (a12) = zext(src[400,8]);
+    local a13:4 = base + VACC[416,32] * 2:4;
+    *:2 (a13) = zext(src[432,8]);
+    local a14:4 = base + VACC[448,32] * 2:4;
+    *:2 (a14) = zext(src[464,8]);
+    local a15:4 = base + VACC[480,32] * 2:4;
+    *:2 (a15) = zext(src[496,8]);
+  }
+
+  # v16indexwriteml with a 8-bit register element at byte-in-lane 3
+  :v16indexwriteml varga, vmemargb^vflags
+	is (Vmop=6 & Vmwidth=1 & Vdir=0 & Vsela=3 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local a0:4 = base + VACC[0,32] * 2:4;
+    *:2 (a0) = zext(src[24,8]);
+    local a1:4 = base + VACC[32,32] * 2:4;
+    *:2 (a1) = zext(src[56,8]);
+    local a2:4 = base + VACC[64,32] * 2:4;
+    *:2 (a2) = zext(src[88,8]);
+    local a3:4 = base + VACC[96,32] * 2:4;
+    *:2 (a3) = zext(src[120,8]);
+    local a4:4 = base + VACC[128,32] * 2:4;
+    *:2 (a4) = zext(src[152,8]);
+    local a5:4 = base + VACC[160,32] * 2:4;
+    *:2 (a5) = zext(src[184,8]);
+    local a6:4 = base + VACC[192,32] * 2:4;
+    *:2 (a6) = zext(src[216,8]);
+    local a7:4 = base + VACC[224,32] * 2:4;
+    *:2 (a7) = zext(src[248,8]);
+    local a8:4 = base + VACC[256,32] * 2:4;
+    *:2 (a8) = zext(src[280,8]);
+    local a9:4 = base + VACC[288,32] * 2:4;
+    *:2 (a9) = zext(src[312,8]);
+    local a10:4 = base + VACC[320,32] * 2:4;
+    *:2 (a10) = zext(src[344,8]);
+    local a11:4 = base + VACC[352,32] * 2:4;
+    *:2 (a11) = zext(src[376,8]);
+    local a12:4 = base + VACC[384,32] * 2:4;
+    *:2 (a12) = zext(src[408,8]);
+    local a13:4 = base + VACC[416,32] * 2:4;
+    *:2 (a13) = zext(src[440,8]);
+    local a14:4 = base + VACC[448,32] * 2:4;
+    *:2 (a14) = zext(src[472,8]);
+    local a15:4 = base + VACC[480,32] * 2:4;
+    *:2 (a15) = zext(src[504,8]);
+  }
+
+  # v16indexwriteml with a 16-bit register element at byte-in-lane 0
+  :v16indexwriteml varga, vmemargb^vflags
+	is (Vmop=6 & Vmwidth=1 & Vdir=0 & Vsela=4 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local a0:4 = base + VACC[0,32] * 2:4;
+    *:2 (a0) = src[0,16];
+    local a1:4 = base + VACC[32,32] * 2:4;
+    *:2 (a1) = src[32,16];
+    local a2:4 = base + VACC[64,32] * 2:4;
+    *:2 (a2) = src[64,16];
+    local a3:4 = base + VACC[96,32] * 2:4;
+    *:2 (a3) = src[96,16];
+    local a4:4 = base + VACC[128,32] * 2:4;
+    *:2 (a4) = src[128,16];
+    local a5:4 = base + VACC[160,32] * 2:4;
+    *:2 (a5) = src[160,16];
+    local a6:4 = base + VACC[192,32] * 2:4;
+    *:2 (a6) = src[192,16];
+    local a7:4 = base + VACC[224,32] * 2:4;
+    *:2 (a7) = src[224,16];
+    local a8:4 = base + VACC[256,32] * 2:4;
+    *:2 (a8) = src[256,16];
+    local a9:4 = base + VACC[288,32] * 2:4;
+    *:2 (a9) = src[288,16];
+    local a10:4 = base + VACC[320,32] * 2:4;
+    *:2 (a10) = src[320,16];
+    local a11:4 = base + VACC[352,32] * 2:4;
+    *:2 (a11) = src[352,16];
+    local a12:4 = base + VACC[384,32] * 2:4;
+    *:2 (a12) = src[384,16];
+    local a13:4 = base + VACC[416,32] * 2:4;
+    *:2 (a13) = src[416,16];
+    local a14:4 = base + VACC[448,32] * 2:4;
+    *:2 (a14) = src[448,16];
+    local a15:4 = base + VACC[480,32] * 2:4;
+    *:2 (a15) = src[480,16];
+  }
+
+  # v16indexwriteml with a 16-bit register element at byte-in-lane 2
+  :v16indexwriteml varga, vmemargb^vflags
+	is (Vmop=6 & Vmwidth=1 & Vdir=0 & Vsela=5 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local a0:4 = base + VACC[0,32] * 2:4;
+    *:2 (a0) = src[16,16];
+    local a1:4 = base + VACC[32,32] * 2:4;
+    *:2 (a1) = src[48,16];
+    local a2:4 = base + VACC[64,32] * 2:4;
+    *:2 (a2) = src[80,16];
+    local a3:4 = base + VACC[96,32] * 2:4;
+    *:2 (a3) = src[112,16];
+    local a4:4 = base + VACC[128,32] * 2:4;
+    *:2 (a4) = src[144,16];
+    local a5:4 = base + VACC[160,32] * 2:4;
+    *:2 (a5) = src[176,16];
+    local a6:4 = base + VACC[192,32] * 2:4;
+    *:2 (a6) = src[208,16];
+    local a7:4 = base + VACC[224,32] * 2:4;
+    *:2 (a7) = src[240,16];
+    local a8:4 = base + VACC[256,32] * 2:4;
+    *:2 (a8) = src[272,16];
+    local a9:4 = base + VACC[288,32] * 2:4;
+    *:2 (a9) = src[304,16];
+    local a10:4 = base + VACC[320,32] * 2:4;
+    *:2 (a10) = src[336,16];
+    local a11:4 = base + VACC[352,32] * 2:4;
+    *:2 (a11) = src[368,16];
+    local a12:4 = base + VACC[384,32] * 2:4;
+    *:2 (a12) = src[400,16];
+    local a13:4 = base + VACC[416,32] * 2:4;
+    *:2 (a13) = src[432,16];
+    local a14:4 = base + VACC[448,32] * 2:4;
+    *:2 (a14) = src[464,16];
+    local a15:4 = base + VACC[480,32] * 2:4;
+    *:2 (a15) = src[496,16];
+  }
+
+  # v16indexwriteml with a 32-bit register element at byte-in-lane 0
+  :v16indexwriteml varga, vmemargb^vflags
+	is (Vmop=6 & Vmwidth=1 & Vdir=0 & Vsela=6 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local a0:4 = base + VACC[0,32] * 2:4;
+    local t0:4 = src[0,32];
+    *:2 (a0) = t0:2;
+    local a1:4 = base + VACC[32,32] * 2:4;
+    local t1:4 = src[32,32];
+    *:2 (a1) = t1:2;
+    local a2:4 = base + VACC[64,32] * 2:4;
+    local t2:4 = src[64,32];
+    *:2 (a2) = t2:2;
+    local a3:4 = base + VACC[96,32] * 2:4;
+    local t3:4 = src[96,32];
+    *:2 (a3) = t3:2;
+    local a4:4 = base + VACC[128,32] * 2:4;
+    local t4:4 = src[128,32];
+    *:2 (a4) = t4:2;
+    local a5:4 = base + VACC[160,32] * 2:4;
+    local t5:4 = src[160,32];
+    *:2 (a5) = t5:2;
+    local a6:4 = base + VACC[192,32] * 2:4;
+    local t6:4 = src[192,32];
+    *:2 (a6) = t6:2;
+    local a7:4 = base + VACC[224,32] * 2:4;
+    local t7:4 = src[224,32];
+    *:2 (a7) = t7:2;
+    local a8:4 = base + VACC[256,32] * 2:4;
+    local t8:4 = src[256,32];
+    *:2 (a8) = t8:2;
+    local a9:4 = base + VACC[288,32] * 2:4;
+    local t9:4 = src[288,32];
+    *:2 (a9) = t9:2;
+    local a10:4 = base + VACC[320,32] * 2:4;
+    local t10:4 = src[320,32];
+    *:2 (a10) = t10:2;
+    local a11:4 = base + VACC[352,32] * 2:4;
+    local t11:4 = src[352,32];
+    *:2 (a11) = t11:2;
+    local a12:4 = base + VACC[384,32] * 2:4;
+    local t12:4 = src[384,32];
+    *:2 (a12) = t12:2;
+    local a13:4 = base + VACC[416,32] * 2:4;
+    local t13:4 = src[416,32];
+    *:2 (a13) = t13:2;
+    local a14:4 = base + VACC[448,32] * 2:4;
+    local t14:4 = src[448,32];
+    *:2 (a14) = t14:2;
+    local a15:4 = base + VACC[480,32] * 2:4;
+    local t15:4 = src[480,32];
+    *:2 (a15) = t15:2;
+  }
+
+  # v32indexwriteml with a 8-bit register element at byte-in-lane 0
+  :v32indexwriteml varga, vmemargb^vflags
+	is (Vmop=6 & Vmwidth=2 & Vdir=0 & Vsela=0 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local a0:4 = base + VACC[0,32] * 4:4;
+    *:4 (a0) = zext(src[0,8]);
+    local a1:4 = base + VACC[32,32] * 4:4;
+    *:4 (a1) = zext(src[32,8]);
+    local a2:4 = base + VACC[64,32] * 4:4;
+    *:4 (a2) = zext(src[64,8]);
+    local a3:4 = base + VACC[96,32] * 4:4;
+    *:4 (a3) = zext(src[96,8]);
+    local a4:4 = base + VACC[128,32] * 4:4;
+    *:4 (a4) = zext(src[128,8]);
+    local a5:4 = base + VACC[160,32] * 4:4;
+    *:4 (a5) = zext(src[160,8]);
+    local a6:4 = base + VACC[192,32] * 4:4;
+    *:4 (a6) = zext(src[192,8]);
+    local a7:4 = base + VACC[224,32] * 4:4;
+    *:4 (a7) = zext(src[224,8]);
+    local a8:4 = base + VACC[256,32] * 4:4;
+    *:4 (a8) = zext(src[256,8]);
+    local a9:4 = base + VACC[288,32] * 4:4;
+    *:4 (a9) = zext(src[288,8]);
+    local a10:4 = base + VACC[320,32] * 4:4;
+    *:4 (a10) = zext(src[320,8]);
+    local a11:4 = base + VACC[352,32] * 4:4;
+    *:4 (a11) = zext(src[352,8]);
+    local a12:4 = base + VACC[384,32] * 4:4;
+    *:4 (a12) = zext(src[384,8]);
+    local a13:4 = base + VACC[416,32] * 4:4;
+    *:4 (a13) = zext(src[416,8]);
+    local a14:4 = base + VACC[448,32] * 4:4;
+    *:4 (a14) = zext(src[448,8]);
+    local a15:4 = base + VACC[480,32] * 4:4;
+    *:4 (a15) = zext(src[480,8]);
+  }
+
+  # v32indexwriteml with a 8-bit register element at byte-in-lane 1
+  :v32indexwriteml varga, vmemargb^vflags
+	is (Vmop=6 & Vmwidth=2 & Vdir=0 & Vsela=1 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local a0:4 = base + VACC[0,32] * 4:4;
+    *:4 (a0) = zext(src[8,8]);
+    local a1:4 = base + VACC[32,32] * 4:4;
+    *:4 (a1) = zext(src[40,8]);
+    local a2:4 = base + VACC[64,32] * 4:4;
+    *:4 (a2) = zext(src[72,8]);
+    local a3:4 = base + VACC[96,32] * 4:4;
+    *:4 (a3) = zext(src[104,8]);
+    local a4:4 = base + VACC[128,32] * 4:4;
+    *:4 (a4) = zext(src[136,8]);
+    local a5:4 = base + VACC[160,32] * 4:4;
+    *:4 (a5) = zext(src[168,8]);
+    local a6:4 = base + VACC[192,32] * 4:4;
+    *:4 (a6) = zext(src[200,8]);
+    local a7:4 = base + VACC[224,32] * 4:4;
+    *:4 (a7) = zext(src[232,8]);
+    local a8:4 = base + VACC[256,32] * 4:4;
+    *:4 (a8) = zext(src[264,8]);
+    local a9:4 = base + VACC[288,32] * 4:4;
+    *:4 (a9) = zext(src[296,8]);
+    local a10:4 = base + VACC[320,32] * 4:4;
+    *:4 (a10) = zext(src[328,8]);
+    local a11:4 = base + VACC[352,32] * 4:4;
+    *:4 (a11) = zext(src[360,8]);
+    local a12:4 = base + VACC[384,32] * 4:4;
+    *:4 (a12) = zext(src[392,8]);
+    local a13:4 = base + VACC[416,32] * 4:4;
+    *:4 (a13) = zext(src[424,8]);
+    local a14:4 = base + VACC[448,32] * 4:4;
+    *:4 (a14) = zext(src[456,8]);
+    local a15:4 = base + VACC[480,32] * 4:4;
+    *:4 (a15) = zext(src[488,8]);
+  }
+
+  # v32indexwriteml with a 8-bit register element at byte-in-lane 2
+  :v32indexwriteml varga, vmemargb^vflags
+	is (Vmop=6 & Vmwidth=2 & Vdir=0 & Vsela=2 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local a0:4 = base + VACC[0,32] * 4:4;
+    *:4 (a0) = zext(src[16,8]);
+    local a1:4 = base + VACC[32,32] * 4:4;
+    *:4 (a1) = zext(src[48,8]);
+    local a2:4 = base + VACC[64,32] * 4:4;
+    *:4 (a2) = zext(src[80,8]);
+    local a3:4 = base + VACC[96,32] * 4:4;
+    *:4 (a3) = zext(src[112,8]);
+    local a4:4 = base + VACC[128,32] * 4:4;
+    *:4 (a4) = zext(src[144,8]);
+    local a5:4 = base + VACC[160,32] * 4:4;
+    *:4 (a5) = zext(src[176,8]);
+    local a6:4 = base + VACC[192,32] * 4:4;
+    *:4 (a6) = zext(src[208,8]);
+    local a7:4 = base + VACC[224,32] * 4:4;
+    *:4 (a7) = zext(src[240,8]);
+    local a8:4 = base + VACC[256,32] * 4:4;
+    *:4 (a8) = zext(src[272,8]);
+    local a9:4 = base + VACC[288,32] * 4:4;
+    *:4 (a9) = zext(src[304,8]);
+    local a10:4 = base + VACC[320,32] * 4:4;
+    *:4 (a10) = zext(src[336,8]);
+    local a11:4 = base + VACC[352,32] * 4:4;
+    *:4 (a11) = zext(src[368,8]);
+    local a12:4 = base + VACC[384,32] * 4:4;
+    *:4 (a12) = zext(src[400,8]);
+    local a13:4 = base + VACC[416,32] * 4:4;
+    *:4 (a13) = zext(src[432,8]);
+    local a14:4 = base + VACC[448,32] * 4:4;
+    *:4 (a14) = zext(src[464,8]);
+    local a15:4 = base + VACC[480,32] * 4:4;
+    *:4 (a15) = zext(src[496,8]);
+  }
+
+  # v32indexwriteml with a 8-bit register element at byte-in-lane 3
+  :v32indexwriteml varga, vmemargb^vflags
+	is (Vmop=6 & Vmwidth=2 & Vdir=0 & Vsela=3 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local a0:4 = base + VACC[0,32] * 4:4;
+    *:4 (a0) = zext(src[24,8]);
+    local a1:4 = base + VACC[32,32] * 4:4;
+    *:4 (a1) = zext(src[56,8]);
+    local a2:4 = base + VACC[64,32] * 4:4;
+    *:4 (a2) = zext(src[88,8]);
+    local a3:4 = base + VACC[96,32] * 4:4;
+    *:4 (a3) = zext(src[120,8]);
+    local a4:4 = base + VACC[128,32] * 4:4;
+    *:4 (a4) = zext(src[152,8]);
+    local a5:4 = base + VACC[160,32] * 4:4;
+    *:4 (a5) = zext(src[184,8]);
+    local a6:4 = base + VACC[192,32] * 4:4;
+    *:4 (a6) = zext(src[216,8]);
+    local a7:4 = base + VACC[224,32] * 4:4;
+    *:4 (a7) = zext(src[248,8]);
+    local a8:4 = base + VACC[256,32] * 4:4;
+    *:4 (a8) = zext(src[280,8]);
+    local a9:4 = base + VACC[288,32] * 4:4;
+    *:4 (a9) = zext(src[312,8]);
+    local a10:4 = base + VACC[320,32] * 4:4;
+    *:4 (a10) = zext(src[344,8]);
+    local a11:4 = base + VACC[352,32] * 4:4;
+    *:4 (a11) = zext(src[376,8]);
+    local a12:4 = base + VACC[384,32] * 4:4;
+    *:4 (a12) = zext(src[408,8]);
+    local a13:4 = base + VACC[416,32] * 4:4;
+    *:4 (a13) = zext(src[440,8]);
+    local a14:4 = base + VACC[448,32] * 4:4;
+    *:4 (a14) = zext(src[472,8]);
+    local a15:4 = base + VACC[480,32] * 4:4;
+    *:4 (a15) = zext(src[504,8]);
+  }
+
+  # v32indexwriteml with a 16-bit register element at byte-in-lane 0
+  :v32indexwriteml varga, vmemargb^vflags
+	is (Vmop=6 & Vmwidth=2 & Vdir=0 & Vsela=4 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local a0:4 = base + VACC[0,32] * 4:4;
+    *:4 (a0) = sext(src[0,16]);
+    local a1:4 = base + VACC[32,32] * 4:4;
+    *:4 (a1) = sext(src[32,16]);
+    local a2:4 = base + VACC[64,32] * 4:4;
+    *:4 (a2) = sext(src[64,16]);
+    local a3:4 = base + VACC[96,32] * 4:4;
+    *:4 (a3) = sext(src[96,16]);
+    local a4:4 = base + VACC[128,32] * 4:4;
+    *:4 (a4) = sext(src[128,16]);
+    local a5:4 = base + VACC[160,32] * 4:4;
+    *:4 (a5) = sext(src[160,16]);
+    local a6:4 = base + VACC[192,32] * 4:4;
+    *:4 (a6) = sext(src[192,16]);
+    local a7:4 = base + VACC[224,32] * 4:4;
+    *:4 (a7) = sext(src[224,16]);
+    local a8:4 = base + VACC[256,32] * 4:4;
+    *:4 (a8) = sext(src[256,16]);
+    local a9:4 = base + VACC[288,32] * 4:4;
+    *:4 (a9) = sext(src[288,16]);
+    local a10:4 = base + VACC[320,32] * 4:4;
+    *:4 (a10) = sext(src[320,16]);
+    local a11:4 = base + VACC[352,32] * 4:4;
+    *:4 (a11) = sext(src[352,16]);
+    local a12:4 = base + VACC[384,32] * 4:4;
+    *:4 (a12) = sext(src[384,16]);
+    local a13:4 = base + VACC[416,32] * 4:4;
+    *:4 (a13) = sext(src[416,16]);
+    local a14:4 = base + VACC[448,32] * 4:4;
+    *:4 (a14) = sext(src[448,16]);
+    local a15:4 = base + VACC[480,32] * 4:4;
+    *:4 (a15) = sext(src[480,16]);
+  }
+
+  # v32indexwriteml with a 16-bit register element at byte-in-lane 2
+  :v32indexwriteml varga, vmemargb^vflags
+	is (Vmop=6 & Vmwidth=2 & Vdir=0 & Vsela=5 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local a0:4 = base + VACC[0,32] * 4:4;
+    *:4 (a0) = sext(src[16,16]);
+    local a1:4 = base + VACC[32,32] * 4:4;
+    *:4 (a1) = sext(src[48,16]);
+    local a2:4 = base + VACC[64,32] * 4:4;
+    *:4 (a2) = sext(src[80,16]);
+    local a3:4 = base + VACC[96,32] * 4:4;
+    *:4 (a3) = sext(src[112,16]);
+    local a4:4 = base + VACC[128,32] * 4:4;
+    *:4 (a4) = sext(src[144,16]);
+    local a5:4 = base + VACC[160,32] * 4:4;
+    *:4 (a5) = sext(src[176,16]);
+    local a6:4 = base + VACC[192,32] * 4:4;
+    *:4 (a6) = sext(src[208,16]);
+    local a7:4 = base + VACC[224,32] * 4:4;
+    *:4 (a7) = sext(src[240,16]);
+    local a8:4 = base + VACC[256,32] * 4:4;
+    *:4 (a8) = sext(src[272,16]);
+    local a9:4 = base + VACC[288,32] * 4:4;
+    *:4 (a9) = sext(src[304,16]);
+    local a10:4 = base + VACC[320,32] * 4:4;
+    *:4 (a10) = sext(src[336,16]);
+    local a11:4 = base + VACC[352,32] * 4:4;
+    *:4 (a11) = sext(src[368,16]);
+    local a12:4 = base + VACC[384,32] * 4:4;
+    *:4 (a12) = sext(src[400,16]);
+    local a13:4 = base + VACC[416,32] * 4:4;
+    *:4 (a13) = sext(src[432,16]);
+    local a14:4 = base + VACC[448,32] * 4:4;
+    *:4 (a14) = sext(src[464,16]);
+    local a15:4 = base + VACC[480,32] * 4:4;
+    *:4 (a15) = sext(src[496,16]);
+  }
+
+  # v32indexwriteml with a 32-bit register element at byte-in-lane 0
+  :v32indexwriteml varga, vmemargb^vflags
+	is (Vmop=6 & Vmwidth=2 & Vdir=0 & Vsela=6 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags {
+    local base:4 = VRm;
+    local src:64 = varow;
+    local a0:4 = base + VACC[0,32] * 4:4;
+    *:4 (a0) = src[0,32];
+    local a1:4 = base + VACC[32,32] * 4:4;
+    *:4 (a1) = src[32,32];
+    local a2:4 = base + VACC[64,32] * 4:4;
+    *:4 (a2) = src[64,32];
+    local a3:4 = base + VACC[96,32] * 4:4;
+    *:4 (a3) = src[96,32];
+    local a4:4 = base + VACC[128,32] * 4:4;
+    *:4 (a4) = src[128,32];
+    local a5:4 = base + VACC[160,32] * 4:4;
+    *:4 (a5) = src[160,32];
+    local a6:4 = base + VACC[192,32] * 4:4;
+    *:4 (a6) = src[192,32];
+    local a7:4 = base + VACC[224,32] * 4:4;
+    *:4 (a7) = src[224,32];
+    local a8:4 = base + VACC[256,32] * 4:4;
+    *:4 (a8) = src[256,32];
+    local a9:4 = base + VACC[288,32] * 4:4;
+    *:4 (a9) = src[288,32];
+    local a10:4 = base + VACC[320,32] * 4:4;
+    *:4 (a10) = src[320,32];
+    local a11:4 = base + VACC[352,32] * 4:4;
+    *:4 (a11) = src[352,32];
+    local a12:4 = base + VACC[384,32] * 4:4;
+    *:4 (a12) = src[384,32];
+    local a13:4 = base + VACC[416,32] * 4:4;
+    *:4 (a13) = src[416,32];
+    local a14:4 = base + VACC[448,32] * 4:4;
+    *:4 (a14) = src[448,32];
+    local a15:4 = base + VACC[480,32] * 4:4;
+    *:4 (a15) = src[480,32];
   }
 
   # vgetacc into a 8-bit register element at byte-in-lane 0

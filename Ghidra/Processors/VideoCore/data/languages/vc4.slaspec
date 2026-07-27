@@ -1896,9 +1896,16 @@ vsetf: Vsetf80 is (Vopsize=1 & Vsetf80) ...
 # Field values come from the display table above: 0 unconditional, 1 NV (never), then IFZ, IFNZ,
 # IFN, IFNN, IFC, IFNC.
 #
-# Note the token CONCATENATION (`;`) rather than `&`: Vopsize lives in a different token from
-# Vpredm, and combining them with `&` fails with "Pattern size cannot vary (missing ... ?)" on every
-# constructor. The spec's own vpred80 does the same thing for the same reason.
+# Note the token CONCATENATION (`;`) rather than `&`. An 80-bit instruction is `vec48 ; vecaux`, two
+# separate tokens; Vopsize is in vec48 and Vpredm in vecaux, so `&` between them fails with "Pattern
+# size cannot vary". Concatenating makes the pattern a full 80 bits wide, which is also what lets it
+# compose with `&` at the reference site -- the spec's own vpred80 and vflags do exactly this.
+#
+# COROLLARY FOR CALLERS: a constructor must NOT put vecaux fields in its own `&` group alongside
+# vec48 fields; that is "Mismatched tokens when combining patterns". Constrain them through a
+# concatenated helper subtable instead -- see vmem80d/vmem80a below.
+vmem80d: is Vopsize=1 ; (Vsru=0 & Vincd=0) { }
+vmem80a: is Vopsize=1 ; (Vsru=0 & Vinca=0) { }
 #
 # CONSUMERS MUST USE A PER-LANE CONDITIONAL BRANCH, not a branch-free select. A disabled lane
 # performs NO memory access at all (measured, findings-lookup.md), so a predicated store cannot be
@@ -1911,11 +1918,11 @@ vpmask: is Vopsize=1 ; Vpredm=2 { export VFZ; }
 vpmask: is Vopsize=1 ; Vpredm=3 { local m:2 = ~VFZ; export m; }
 vpmask: is Vopsize=1 ; Vpredm=4 { export VFN; }
 vpmask: is Vopsize=1 ; Vpredm=5 { local m:2 = ~VFN; export m; }
-# IFC/IFNC read a flag no measurement covers, so they export all-enabled rather than a guess: that
-# keeps such an instruction from being silently modelled as a no-op. Constructors using vpmask must
-# still fall back to a pcodeop for these two until the carry flag is probed.
-vpmask: is Vopsize=1 ; Vpredm=6 { local m:2 = 0xffff; export m; }
-vpmask: is Vopsize=1 ; Vpredm=7 { local m:2 = 0xffff; export m; }
+# Vpredm 6 and 7 (IFC/IFNC) are DELIBERATELY ABSENT. They read a carry flag no measurement covers,
+# and exporting all-enabled would model them as unconditional -- wrong whenever the carry is clear.
+# With no vpmask constructor for those values, any instruction carrying IFC/IFNC simply fails to
+# match a vpmask-consuming constructor and falls through to the pcodeop, which is the honest
+# outcome. Add the two constructors only once the carry flag has been probed.
 
 vpred: Vpred48 is (Vopsize=0 & Vpred48) ...
 	{ local tmp:1 = Vpred48; export tmp; }

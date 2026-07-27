@@ -73,6 +73,16 @@ define register offset=0x8000 size=64 [
 # vpu-probe/findings-lookup.md). 16 lanes x 32 bits; UACC writes the low half, UACCH the high.
 define register offset=0x9000 size=64 [ VACC ];
 
+# Per-lane vector condition flags: bit L is lane L's flag, so one 16-bit register per condition.
+# MEASURED (findings-alu.md): predication is a genuine per-lane predicate; the flags carry both a
+# zero and a sign bit; the sign is that of the ELEMENT, not of a wider intermediate; and IFZ/IFNN
+# are exact complements of IFNZ/IFN. Confirmed by setting the flags with `mov` -- already measured
+# to compute b -- over a row staged with known zero, positive and negative values, then reading
+# them back through a conditional move: all four conditions matched predictions made before the run.
+# VFC is declared for completeness but the CARRY flag has NOT been measured; nothing may consume it
+# until it has.
+define register offset=0x9100 size=2 [ VFZ VFN VFC ];
+
 define context contextreg
   # common fields
   chkcc    = (28,31)	# condition code to be checked
@@ -284,6 +294,7 @@ define token vecaux(32)
   Vcboffa  = ( 4, 4)
   Vrowa    = ( 0, 3)
   Vpred80  = (29,31)
+  Vpredm   = (29,31)   # semantic twin of Vpred80: same bits, so it adds no constraint
   Vsru     = (22,28)
 
   # vector addressing
@@ -1877,6 +1888,25 @@ vsetf: Vsetf80 is (Vopsize=1 & Vsetf80) ...
 	{ local tmp:1 = Vsetf80; export tmp; }
 
 # Vector predication
+# Per-lane enable mask for the 80-bit predicated forms. Bit L enables lane L, so a body gates each
+# lane on (mask >> L) & 1 and ONE constructor covers all eight conditions. The alternative -- a
+# constructor per condition -- would multiply the generated ALU by seven, and it was the .sla size
+# limit that forced the previous round of coverage trimming.
+#
+# Field values come from the display table above: 0 unconditional, 1 NV (never), then IFZ, IFNZ,
+# IFN, IFNN, IFC, IFNC.
+vpmask: is Vopsize=1 & Vpredm=0 ... { local m:2 = 0xffff; export m; }
+vpmask: is Vopsize=1 & Vpredm=1 ... { local m:2 = 0x0000; export m; }
+vpmask: is Vopsize=1 & Vpredm=2 ... { export VFZ; }
+vpmask: is Vopsize=1 & Vpredm=3 ... { local m:2 = ~VFZ; export m; }
+vpmask: is Vopsize=1 & Vpredm=4 ... { export VFN; }
+vpmask: is Vopsize=1 & Vpredm=5 ... { local m:2 = ~VFN; export m; }
+# IFC/IFNC read a flag no measurement covers, so they export all-enabled rather than a guess: that
+# keeps such an instruction from being silently modelled as a no-op. Constructors using vpmask must
+# still fall back to a pcodeop for these two until the carry flag is probed.
+vpmask: is Vopsize=1 & Vpredm=6 ... { local m:2 = 0xffff; export m; }
+vpmask: is Vopsize=1 & Vpredm=7 ... { local m:2 = 0xffff; export m; }
+
 vpred: Vpred48 is (Vopsize=0 & Vpred48) ...
 	{ local tmp:1 = Vpred48; export tmp; }
 vpred: Vpred80 is Vopsize=1 ; Vpred80

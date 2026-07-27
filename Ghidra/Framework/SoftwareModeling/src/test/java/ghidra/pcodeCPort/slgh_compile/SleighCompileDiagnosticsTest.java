@@ -249,17 +249,31 @@ public class SleighCompileDiagnosticsTest extends AbstractGenericTest {
 	}
 
 	/**
-	 * A size mismatch between the inputs of a binary operator. Today the message names the table,
-	 * the line and the operator, which is what this pins down; it does not name the conflicting
-	 * sizes, which is what makes the common case hard to act on.
+	 * A size mismatch between the inputs of a binary operator. The conflicting sizes are the whole
+	 * content of the complaint: {@code printOpError} cannot always name the operands, since
+	 * {@code getOperandSymbol} returns null for temporaries and literals, so without the sizes the
+	 * message degrades to a bare "Problem".
 	 */
 	@Test
-	public void testSizeRestrictionNamesOperatorAndTable() throws Exception {
+	public void testSizeRestrictionNamesTheConflictingSizes() throws Exception {
 		Diagnostics diagnostics = compile("""
 				:bad is op8=0x02 { r0 = r0 + oddSized; }
 				""");
 
-		assertError(diagnostics, "size restriction", "instruction", "Addition");
+		assertError(diagnostics, "size restriction", "instruction", "Addition", "4", "6");
+	}
+
+	/**
+	 * A boolean-output operator given a wider destination. The message says the size should be 1, so
+	 * it should also say what the size actually was.
+	 */
+	@Test
+	public void testBooleanSizeRestrictionReportsActualSize() throws Exception {
+		Diagnostics diagnostics = compile("""
+				:bad is op8=0x07 { r0 = r1 == r2; }
+				""");
+
+		assertError(diagnostics, "boolean", "size is 4");
 	}
 
 	/**

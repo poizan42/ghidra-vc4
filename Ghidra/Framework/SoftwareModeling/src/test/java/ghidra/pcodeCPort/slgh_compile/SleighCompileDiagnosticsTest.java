@@ -309,15 +309,36 @@ public class SleighCompileDiagnosticsTest extends AbstractGenericTest {
 
 	/**
 	 * Truncation applied to a parenthesised expression. The grammar allows {@code :size} only on a
-	 * variable or a constant, so this is a plain syntax error -- but "unexpected COLON" gives no
-	 * hint that the fix is to assign the expression to an intermediate first.
+	 * variable or a constant, so this is a plain syntax error -- and "unexpected COLON" on its own
+	 * gives no hint that the fix is to assign the expression to an intermediate first.
 	 */
 	@Test
-	public void testTruncationOnExpressionIsReported() throws Exception {
+	public void testTruncationOnExpressionIsExplained() throws Exception {
 		Diagnostics diagnostics = compile("""
 				:bad is op8=0x04 { r0 = (r0 + 1):2; }
 				""");
 
-		assertError(diagnostics, "unexpected COLON");
+		assertError(diagnostics, "unexpected COLON", "truncation", "variable");
+	}
+
+	/**
+	 * The hint above must be specific to the truncation case, not appended to syntax errors at
+	 * large. Note the limit of this check: a missing semicolon reaches the parser as a
+	 * {@code NoViableAltException} rather than the {@code MissingTokenException} the hint is
+	 * attached to, so this guards against an unconditional hint rather than against a wrong
+	 * token pair.
+	 */
+	@Test
+	public void testUnrelatedSyntaxErrorGetsNoTruncationHint() throws Exception {
+		Diagnostics diagnostics = compile("""
+				:bad is op8=0x04 { r0 = r0 + 1 }
+				""");
+
+		assertNotEquals("a missing semicolon should fail the compile", 0,
+			diagnostics.returnCode());
+		for (String message : diagnostics.errors()) {
+			assertFalse("truncation hint leaked into an unrelated error: " + message,
+				message.contains("truncation ':size'"));
+		}
 	}
 }

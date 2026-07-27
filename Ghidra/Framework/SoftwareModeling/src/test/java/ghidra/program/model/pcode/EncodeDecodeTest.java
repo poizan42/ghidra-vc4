@@ -417,6 +417,47 @@ public class EncodeDecodeTest extends AbstractGenericTest {
 		addrFactory = new DefaultAddressFactory(spaces);
 	}
 
+	/**
+	 * Every other case here ingests with ingestStreamToNextTerminator, which has always thrown when
+	 * the ceiling is passed.  ingestStream is the path .sla loading uses, and it enforced the
+	 * ceiling only by starving its own reads -- so an input over the limit was truncated in silence
+	 * and only surfaced later as a decoder complaint about a malformed element.
+	 * @param maxCount is the ceiling to open the buffer with
+	 * @param streamSize is the number of bytes to offer it
+	 * @return the exception thrown, or null if the ingest was accepted
+	 */
+	private IOException ingestSized(int maxCount, int streamSize) {
+		LinkedByteBuffer buffer = new LinkedByteBuffer(maxCount, 0, "testIngestStream");
+		try {
+			buffer.ingestStream(new ByteArrayInputStream(new byte[streamSize]));
+			return null;
+		}
+		catch (IOException e) {
+			return e;
+		}
+	}
+
+	@Test
+	public void testIngestStreamRejectsOversizedInput() {
+		IOException err = ingestSized(64, 256);
+		assertNotNull("an input past the ceiling must be rejected, not truncated", err);
+		assertTrue("the message should name the ceiling, was: " + err.getMessage(),
+			err.getMessage().contains("64"));
+
+		// The ceiling landing exactly on a page boundary is the case that used to pass in complete
+		// silence: the read loop ends having filled whole pages, so nothing looks amiss at all.
+		err = ingestSized(LinkedByteBuffer.BUFFER_SIZE, 2 * LinkedByteBuffer.BUFFER_SIZE);
+		assertNotNull("an input past a page-aligned ceiling must be rejected", err);
+	}
+
+	@Test
+	public void testIngestStreamAcceptsInputWithinMax() {
+		assertNull("an input under the ceiling must be accepted", ingestSized(64, 32));
+		assertNull("an input exactly at the ceiling must be accepted", ingestSized(64, 64));
+		assertNull("a page-sized input at a page-aligned ceiling must be accepted",
+			ingestSized(LinkedByteBuffer.BUFFER_SIZE, LinkedByteBuffer.BUFFER_SIZE));
+	}
+
 	@Test
 	public void testMarshalSignedPacked() throws DecoderException, IOException {
 		PatchPackedEncode encoder = new PatchPackedEncode();

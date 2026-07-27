@@ -99,8 +99,8 @@ class ConsistencyChecker {
 				if ((vnout == 0) || (vn0 == 0)) {
 					return true;
 				}
-				printOpError(op, ct, -1, 0, "Input and output sizes must match; " +
-					op.getIn(0).getSize() + " != " + op.getOut().getSize());
+				printOpError(op, ct, -1, 0,
+					"Input and output sizes must match; " + vn0 + " != " + vnout);
 				return false;
 			case CPUI_INT_ADD:
 			case CPUI_INT_SUB:
@@ -132,15 +132,18 @@ class ConsistencyChecker {
 					return false;
 				}
 				if ((vnout != 0) && (vn0 != 0) && (vnout != vn0)) {
-					printOpError(op, ct, -1, 0, "The output and all input sizes must match");
+					printOpError(op, ct, -1, 0,
+						"The output and all input sizes must match; " + vnout + " != " + vn0);
 					return false;
 				}
 				if ((vnout != 0) && (vn1 != 0) && (vnout != vn1)) {
-					printOpError(op, ct, -1, 1, "The output and all input sizes must match");
+					printOpError(op, ct, -1, 1,
+						"The output and all input sizes must match; " + vnout + " != " + vn1);
 					return false;
 				}
 				if ((vn0 != 0) && (vn1 != 0) && (vn0 != vn1)) {
-					printOpError(op, ct, 0, 1, "The output and all input sizes must match");
+					printOpError(op, ct, 0, 1,
+						"The output and all input sizes must match; " + vn0 + " != " + vn1);
 					return false;
 				}
 				return true;
@@ -151,7 +154,8 @@ class ConsistencyChecker {
 					return false;
 				}
 				if (vnout != 1) {
-					printOpError(op, ct, -1, -1, "Output must be a boolean (size 1)");
+					printOpError(op, ct, -1, -1,
+						"Output must be a boolean (size 1); size is " + vnout);
 					return false;
 				}
 				break;
@@ -174,7 +178,8 @@ class ConsistencyChecker {
 					return false;
 				}
 				if (vnout != 1) {
-					printOpError(op, ct, -1, -1, "Output must be a boolean (size 1)");
+					printOpError(op, ct, -1, -1,
+						"Output must be a boolean (size 1); size is " + vnout);
 					return false;
 				}
 				vn0 = recoverSize(op.getIn(0).getSize(), ct);
@@ -191,7 +196,8 @@ class ConsistencyChecker {
 					return true;
 				}
 				if (vn0 != vn1) {
-					printOpError(op, ct, 0, 1, "Inputs must be the same size");
+					printOpError(op, ct, 0, 1,
+						"Inputs must be the same size; " + vn0 + " != " + vn1);
 					return false;
 				}
 				return true;
@@ -204,7 +210,8 @@ class ConsistencyChecker {
 					return false;
 				}
 				if (vnout != 1) {
-					printOpError(op, ct, -1, -1, "Output must be a boolean (size 1)");
+					printOpError(op, ct, -1, -1,
+						"Output must be a boolean (size 1); size is " + vnout);
 					return false;
 				}
 				vn0 = recoverSize(op.getIn(0).getSize(), ct);
@@ -213,7 +220,8 @@ class ConsistencyChecker {
 					return false;
 				}
 				if (vn0 != 1) {
-					printOpError(op, ct, 0, 0, "Input must be a boolean (size 1)");
+					printOpError(op, ct, 0, 0,
+						"Input must be a boolean (size 1); size is " + vn0);
 					return false;
 				}
 				return true;
@@ -224,7 +232,8 @@ class ConsistencyChecker {
 					return false;
 				}
 				if (vnout != 1) {
-					printOpError(op, ct, -1, -1, "Output must be a boolean (size 1)");
+					printOpError(op, ct, -1, -1,
+						"Output must be a boolean (size 1); size is " + vnout);
 					return false;
 				}
 				vn0 = recoverSize(op.getIn(0).getSize(), ct);
@@ -233,7 +242,8 @@ class ConsistencyChecker {
 					return false;
 				}
 				if (vn0 != 1) {
-					printOpError(op, ct, 0, 0, "Input must be a boolean (size 1)");
+					printOpError(op, ct, 0, 0,
+						"Input must be a boolean (size 1); size is " + vn0);
 					return false;
 				}
 				return true;
@@ -256,7 +266,8 @@ class ConsistencyChecker {
 					return true;
 				}
 				if (vnout != vn0) {
-					printOpError(op, ct, -1, 0, "Output and first input must be the same size");
+					printOpError(op, ct, -1, 0,
+						"Output and first input must be the same size; " + vnout + " != " + vn0);
 					return false;
 				}
 				return true;
@@ -281,7 +292,8 @@ class ConsistencyChecker {
 				}
 				else if (vnout < vn0) {
 					printOpError(op, ct, -1, 0,
-						"Output size must be strictly bigger than input size");
+						"Output size must be strictly bigger than input size; " + vnout + " < " +
+							vn0);
 					return false;
 				}
 				return true;
@@ -292,7 +304,8 @@ class ConsistencyChecker {
 					return false;
 				}
 				if (vn1 != 1) {
-					printOpError(op, ct, 1, 1, "Input must be a boolean (size 1)");
+					printOpError(op, ct, 1, 1,
+						"Input must be a boolean (size 1); size is " + vn1);
 					return false;
 				}
 				return true;
@@ -308,7 +321,8 @@ class ConsistencyChecker {
 					return false;
 				}
 				if ((vn1 != 0) && (vn1 != spc.getAddrSize())) {
-					printOpError(op, ct, 1, 1, "Pointer size must match size of space");
+					printOpError(op, ct, 1, 1, "Pointer size must match size of space; " + vn1 +
+						" != " + spc.getAddrSize() + " for space '" + spc.getName() + "'");
 					return false;
 				}
 				return true;
@@ -332,11 +346,14 @@ class ConsistencyChecker {
 					return true;
 				}
 				else if (vnout >= vn0) {
-					printOpError(op, ct, -1, 0, "Output must be strictly smaller than input");
+					printOpError(op, ct, -1, 0, "Output must be strictly smaller than input; " +
+						vnout + " >= " + vn0);
 					return false;
 				}
 				if (vnout > vn0 - vn1) {
-					printOpError(op, ct, -1, 0, "Too much truncation");
+					printOpError(op, ct, -1, 0, "Too much truncation; output size " + vnout +
+						" exceeds the " + (vn0 - vn1) + " bytes left after truncating " + vn1 +
+						" from an input of " + vn0);
 					return false;
 				}
 				return true;
@@ -684,7 +701,11 @@ class ConsistencyChecker {
 		}
 		boolean res = vn.adjustTruncation(sz, isbigendian);
 		if (!res) {
-			printOpError(op, ct, slot, slot, "Truncation operator out of bounds");
+			// Only sz is a plain number here: both the offset and the size of the varnode are
+			// handle-typed ConstTpls at this point, so printing their real fields would report
+			// unset values.
+			printOpError(op, ct, slot, slot,
+				"Truncation operator out of bounds; the original operand is only " + sz + " bytes");
 			return false;
 		}
 		return true;

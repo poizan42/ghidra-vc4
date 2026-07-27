@@ -3275,8 +3275,11 @@ int4 PcodeSnippet::lex(void)
     reportError((const Location *)0,"Syntax error");
     return false;
   }
-  if (!PcodeCompile::propagateSize(result)) {
-    reportError((const Location *)0,"Could not resolve at least 1 variable size");
+  OpTpl *unresolved = PcodeCompile::propagateSize(result);
+  if (unresolved != (OpTpl *)0) {
+    reportError((const Location *)0,
+		"Could not resolve the size of " +
+		PcodeCompile::describeUnresolvedSize(unresolved));
     return false;
   }
   return true;

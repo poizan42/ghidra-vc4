@@ -282,13 +282,39 @@ void PcodeCompile::fillinZero(OpTpl *op,const vector<OpTpl *> &ops)
   }
 }
 
+/// \brief Describe an operation still holding a zero-size VarnodeTpl, for an error message
+///
+/// A VarnodeTpl has no name at this stage -- it is a (space, offset, size) triple -- so the best
+/// available identification is which operand of which operation it is.
+/// \param op is the operation holding an unresolved VarnodeTpl
+/// \return a description naming the operand and the operation
+string PcodeCompile::describeUnresolvedSize(const OpTpl *op)
+
+{
+  ostringstream msg;
+  if ((op->getOut() != (VarnodeTpl *)0)&&(op->getOut()->isZeroSize()))
+    msg << "output";
+  else {
+    int4 i;
+    for(i=0;i<op->numInput();++i)
+      if (op->getIn(i)->isZeroSize()) {
+	msg << "input " << dec << i;
+	break;
+      }
+    if (i == op->numInput())
+      msg << "a varnode";		// should not happen, but never report nothing
+  }
+  msg << " of " << get_opname(op->getOpcode());
+  return msg.str();
+}
+
 /// \brief Propagate a size to all VarnodeTpl whose size is unknown
 ///
 /// Size information is propagated across operations and expressions as far as possible.
-/// If there are any remaining VarnodeTpl whose size is unknown, return \b false.
 /// \param ct is the set of p-code operations to propagate across
-/// \return \b true if all VarnodeTpl have a known size
-bool PcodeCompile::propagateSize(ConstructTpl *ct)
+/// \return the first OpTpl holding a VarnodeTpl whose size could not be resolved, or null if all
+///         sizes are known
+OpTpl *PcodeCompile::propagateSize(ConstructTpl *ct)
 
 {
   vector<OpTpl *> zerovec,zerovec2;
@@ -312,8 +338,10 @@ bool PcodeCompile::propagateSize(ConstructTpl *ct)
     }
     zerovec = zerovec2;
   }
-  if ( lastsize != 0 ) return false;
-  return true;
+  // The loop above stops when a pass makes no progress, and zerovec can only shrink, so a non-zero
+  // lastsize means zerovec still holds the operations that could not be sized.
+  if ( lastsize != 0 ) return zerovec.front();
+  return (OpTpl *)0;
 }
 
 /// Space for the register is allocated in the \e unique address space.

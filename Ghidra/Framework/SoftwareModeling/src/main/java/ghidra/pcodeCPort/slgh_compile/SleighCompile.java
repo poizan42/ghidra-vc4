@@ -516,7 +516,7 @@ public class SleighCompile extends SleighBase {
 		for (int i = 0; i < tables.size(); ++i) {
 			if (tables.get(i).isError()) {
 				reportError(tables.get(i).getLocation(),
-					"Problem in table: '" + tables.get(i).getName());
+					"Problem in table: '" + tables.get(i).getName() + "'");
 				errors += 1;
 			}
 			if (tables.get(i).getPattern() == null) {
@@ -1547,8 +1547,10 @@ public class SleighCompile extends SleighBase {
 						scopeString + "Unnecessary BUILD statements at " + res.second);
 				}
 
-				if (!pcode.propagateSize(cur.section)) {
-					myErrors.push_back(scopeString + "Could not resolve at least 1 variable size");
+				OpTpl unresolved = pcode.propagateSize(cur.section);
+				if (unresolved != null) {
+					myErrors.push_back(scopeString + "Could not resolve the size of " +
+						PcodeCompile.describeUnresolvedSize(unresolved));
 				}
 			}
 			if (i < 0) {		// These potential errors only apply to main section

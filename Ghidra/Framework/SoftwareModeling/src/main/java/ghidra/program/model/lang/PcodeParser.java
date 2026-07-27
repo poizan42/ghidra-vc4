@@ -215,8 +215,12 @@ public class PcodeParser extends PcodeCompile {
 		String errstring = "";
 		if (rtl != null) {
 			errstring = checkLabels();
-			if ((errstring.length() == 0) && (!propagateSize(rtl))) {
-				errstring = "   Could not resolve at least 1 variable size";
+			if (errstring.length() == 0) {
+				ghidra.pcodeCPort.semantics.OpTpl unresolved = propagateSize(rtl);
+				if (unresolved != null) {
+					errstring = "   Could not resolve the size of " +
+						describeUnresolvedSize(unresolved);
+				}
 			}
 			if ((errstring.length() == 0) && rtl.delaySlot() != 0) { // Delay slot is present in this
 				errstring = "   delayslot not permitted in pcode fragment";

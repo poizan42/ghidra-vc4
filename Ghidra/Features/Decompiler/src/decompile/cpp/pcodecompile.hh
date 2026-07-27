@@ -139,7 +139,8 @@ public:
   static void force_size(VarnodeTpl *vt,const ConstTpl &size,const vector<OpTpl *> &ops);
   static void matchSize(int4 j,OpTpl *op,bool inputonly,const vector<OpTpl *> &ops);
   static void fillinZero(OpTpl *op,const vector<OpTpl *> &ops);
-  static bool propagateSize(ConstructTpl *ct);
+  static string describeUnresolvedSize(const OpTpl *op);
+  static OpTpl *propagateSize(ConstructTpl *ct);
 };
 
 } // End namespace ghidra

@@ -163,7 +163,7 @@ public class LinkedByteBuffer {
 	 */
 	public void ingestStreamAsNeeded(InputStream stream, Position start) throws IOException {
 		asNeededStream = stream;
-		currentPos = readPage(stream, initialBuffer);
+		currentPos = readPage(stream);
 		if (currentPos < BUFFER_SIZE) {
 			pad();
 		}
@@ -207,15 +207,14 @@ public class LinkedByteBuffer {
 	}
 
 	/**
-	 * Read a page of data into the given buffer.  The buffer must already be allocated and
-	 * will be entirely filled, unless end-of-stream is reached.  The number of bytes
-	 * actually read into the buffer is returned.
+	 * Read a page of data into the current buffer.  The buffer must already be allocated and
+	 * will be entirely filled, unless end-of-stream is reached or the maxCount ceiling is hit.
+	 * The number of bytes actually read into the buffer is returned.
 	 * @param stream is the stream
-	 * @param buffer is the allocated buffer
 	 * @return the number of bytes read
 	 * @throws IOException for problems reading from the stream
 	 */
-	private int readPage(InputStream stream, ArrayIter buffer) throws IOException {
+	private int readPage(InputStream stream) throws IOException {
 		int len = maxCount - byteCount;
 		if (len > BUFFER_SIZE) {
 			len = BUFFER_SIZE;
@@ -234,14 +233,15 @@ public class LinkedByteBuffer {
 	}
 
 	/**
-	 * Read the stream until the end of stream is encountered or until maxCount bytes is reached.
+	 * Read the stream until the end of stream is encountered.
 	 * Store the bytes on the heap in BUFFER_SIZE chunks.
+	 * If the stream holds more than maxCount bytes, an exception is thrown.
 	 * @param stream is the input
-	 * @throws IOException for errors reading from the stream
+	 * @throws IOException for errors reading from the stream, or if the stream exceeds maxCount
 	 */
 	public void ingestStream(InputStream stream) throws IOException {
 		while (byteCount < maxCount) {
-			int pos = readPage(stream, currentBuffer);
+			int pos = readPage(stream);
 			if (pos < BUFFER_SIZE) {
 				currentPos += pos;
 				break;
@@ -251,6 +251,17 @@ public class LinkedByteBuffer {
 			currentBuffer = currentBuffer.next;
 			currentBuffer.array = new byte[BUFFER_SIZE];
 			currentPos = 0;
+		}
+		// The loop above stops reading once maxCount bytes are cached, but readPage also clamps
+		// its request to the bytes remaining under the ceiling.  So exceeding maxCount is not
+		// distinguishable from reaching the end of the stream unless the stream is asked for one
+		// more byte: without this check the buffer is silently truncated, endIngest() pads it so
+		// that it still looks terminable, and the failure resurfaces much later and much deeper
+		// as a decoder complaint about a malformed element.  The other two ingest methods in this
+		// class already throw in the same situation.
+		if (byteCount >= maxCount && stream.read() >= 0) {
+			throw new IOException(
+				"Maximum ingest size (" + maxCount + ") exceeded for: " + description);
 		}
 	}
 
@@ -319,7 +330,7 @@ public class LinkedByteBuffer {
 		buffer.next = currentBuffer;
 		currentBuffer.array = new byte[BUFFER_SIZE];
 		try {
-			currentPos = readPage(asNeededStream, currentBuffer);
+			currentPos = readPage(asNeededStream);
 		}
 		catch (IOException e) {
 			throw new DecoderException(e.getMessage());

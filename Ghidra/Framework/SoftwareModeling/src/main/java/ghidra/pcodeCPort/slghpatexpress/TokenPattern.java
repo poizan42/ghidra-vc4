@@ -79,6 +79,41 @@ public class TokenPattern {
 	// and set the resulting tokenlist and ellipses
 	private static int calls = 0;
 
+	/**
+	 * Build the error for two patterns that match the same number of tokens where only one of them
+	 * carries an ellipsis, so the combination has no fixed length.  The actionable part is which
+	 * side has the ellipsis and which one is therefore missing it -- "size cannot vary" alone leaves
+	 * the reader to work that out from a constructor that may combine several patterns.
+	 * @param ellipsisSide is the side carrying the ellipsis, "left" or "right"
+	 * @param ellipsisEnd is the end it sits at, "leading" or "trailing"
+	 * @param tokenCount is the number of tokens both sides match
+	 * @return the error to throw
+	 */
+	private SleighError cannotVary(String ellipsisSide, String ellipsisEnd, int tokenCount) {
+		String otherSide = "left".equals(ellipsisSide) ? "right" : "left";
+		return new SleighError(String.format(
+			"Pattern size cannot vary -- the %s pattern has a %s '...' and the %s one has none, " +
+				"but both match %d token(s) (missing '...' on the %s pattern?)",
+			ellipsisSide, ellipsisEnd, otherSide, tokenCount, otherSide), location);
+	}
+
+	/**
+	 * Build the error for two patterns that read different tokens at the same position.  Both tokens
+	 * have to be named: a spec of any size declares many, and "mismatched tokens" on its own does
+	 * not say which two disagreed or where.
+	 * @param position is the token index at which they differ
+	 * @param left is the token the left pattern reads there
+	 * @param right is the token the right pattern reads there
+	 * @return the error to throw
+	 */
+	private SleighError mismatchedTokens(int position, Token left, Token right) {
+		return new SleighError(String.format(
+			"Mismatched tokens when combining patterns -- at token %d the left pattern reads " +
+				"'%s' (size %d) and the right reads '%s' (size %d); '&' requires both sides to " +
+				"read the same tokens, use ';' to concatenate",
+			position, left.getName(), left.getSize(), right.getName(), right.getSize()), location);
+	}
+
 	private int resolveTokens(TokenPattern tok1, TokenPattern tok2) {
 		calls++;
 		boolean reversedirection = false;
@@ -121,7 +156,7 @@ public class TokenPattern {
 					tok1.toklist.size(), minsize), location);
 			}
 			else if (tok1.toklist.size() == tok2.toklist.size()) {
-				throw new SleighError("Pattern size cannot vary (missing ... ?)", location);
+				throw cannotVary("left", "leading", tok1.toklist.size());
 			}
 		}
 		else if (tok1.getRightEllipsis()) {
@@ -136,7 +171,7 @@ public class TokenPattern {
 					tok1.toklist.size(), minsize), location);
 			}
 			else if (tok1.toklist.size() == tok2.toklist.size()) {
-				throw new SleighError("Pattern size cannot vary (missing ... ?)", location);
+				throw cannotVary("left", "trailing", tok1.toklist.size());
 			}
 		}
 		else {
@@ -147,7 +182,7 @@ public class TokenPattern {
 						tok2.toklist.size(), minsize), location);
 				}
 				else if (tok1.toklist.size() == tok2.toklist.size()) {
-					throw new SleighError("Pattern size cannot vary (missing ... ?)", location);
+					throw cannotVary("right", "leading", tok2.toklist.size());
 				}
 			}
 			else if (tok2.getRightEllipsis()) {
@@ -156,7 +191,7 @@ public class TokenPattern {
 						tok2.toklist.size(), minsize), location);
 				}
 				else if (tok1.toklist.size() == tok2.toklist.size()) {
-					throw new SleighError("Pattern size cannot vary (missing ... ?)", location);
+					throw cannotVary("right", "trailing", tok2.toklist.size());
 				}
 			}
 			else {
@@ -168,9 +203,10 @@ public class TokenPattern {
 		}
 		if (reversedirection) {
 			for (int i = 0; i < minsize; ++i) {
-				if (tok1.toklist.get(tok1.toklist.size() - 1 - i) != tok2.toklist.get(tok2.toklist.size() -
-					1 - i)) {
-					throw new SleighError("Mismatched tokens when combining patterns", location);
+				Token left = tok1.toklist.get(tok1.toklist.size() - 1 - i);
+				Token right = tok2.toklist.get(tok2.toklist.size() - 1 - i);
+				if (left != right) {
+					throw mismatchedTokens(i, left, right);
 				}
 			}
 			if (tok1.toklist.size() <= tok2.toklist.size()) {
@@ -189,8 +225,10 @@ public class TokenPattern {
 		}
 		else {
 			for (int i = 0; i < minsize; ++i) {
-				if (!tok1.toklist.get(i).equals(tok2.toklist.get(i))) {
-					throw new SleighError("Mismatched tokens when combining patterns", location);
+				Token left = tok1.toklist.get(i);
+				Token right = tok2.toklist.get(i);
+				if (!left.equals(right)) {
+					throw mismatchedTokens(i, left, right);
 				}
 			}
 		}

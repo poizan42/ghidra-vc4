@@ -147,6 +147,14 @@ public class ParsingEnvironment {
 			else {
 				msg = "missing " + tokenNames[mte.getMissingType()] + ", unexpected " +
 					tokenNames[mte.getUnexpectedType()] + " at " + getTokenErrorDisplay(e.token);
+				if ((mte.getMissingType() == SleighCompiler.SEMI) &&
+					(mte.getUnexpectedType() == SleighCompiler.COLON)) {
+					// A ':size' truncation is only grammatical on a variable or an integer literal
+					// (see the size suffix in SemanticParser.g), not on a parenthesised expression.
+					// The bare "unexpected COLON" gives no clue that the fix is an intermediate.
+					msg += " (truncation ':size' applies to a variable or constant, not to a " +
+						"parenthesised expression -- assign it to a variable first?)";
+				}
 			}
 		}
 		else if (e instanceof MismatchedTokenException) {

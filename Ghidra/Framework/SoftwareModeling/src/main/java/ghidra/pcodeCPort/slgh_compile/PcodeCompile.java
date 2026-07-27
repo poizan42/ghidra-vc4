@@ -845,11 +845,13 @@ public abstract class PcodeCompile {
 		}
 	}
 
-	public boolean propagateSize(ConstructTpl ct) {
-		// Fill in size for varnodes
-		// with size 0
-		// Return first OpTpl with a size 0 varnode
-		// that cannot be filled in or NULL otherwise
+	/**
+	 * Fill in the size of any varnode still carrying size 0.
+	 * @param ct is the template whose varnodes are to be sized
+	 * @return the first OpTpl with a size 0 varnode that could not be filled in, or null if all
+	 *         sizes were resolved
+	 */
+	public OpTpl propagateSize(ConstructTpl ct) {
 		entry("propagateSize", ct);
 		VectorSTL<OpTpl> zerovec = new VectorSTL<OpTpl>(), zerovec2 = new VectorSTL<OpTpl>();
 		IteratorSTL<OpTpl> iter;
@@ -876,9 +878,50 @@ public abstract class PcodeCompile {
 			zerovec = zerovec2;
 		}
 		if (lastsize != 0) {
-			return false;
+			// The loop above stops when a pass makes no progress, and zerovec can only shrink, so
+			// a non-zero lastsize means zerovec still holds the ops that could not be sized.
+			return zerovec.front();
 		}
-		return true;
+		return null;
+	}
+
+	/**
+	 * Describe an op template that still has a zero-size varnode, for an error message.
+	 * <p>
+	 * A {@link VarnodeTpl} carries no name at this stage -- it is a (space, offset, size) triple, and
+	 * the source-level variable name is long gone -- so the best available identification is which
+	 * operand of which operation it is, plus the varnode's own {@link Location}. That location is
+	 * worth having because it points at the offending statement, where the enclosing constructor may
+	 * be many lines above.
+	 * @param op is the op template holding an unresolved varnode
+	 * @return a description naming the operand, the operation and the source location
+	 */
+	public static String describeUnresolvedSize(OpTpl op) {
+		StringBuilder sb = new StringBuilder();
+		VarnodeTpl unresolved = null;
+		if ((op.getOut() != null) && op.getOut().isZeroSize()) {
+			unresolved = op.getOut();
+			sb.append("output");
+		}
+		else {
+			for (int i = 0; i < op.numInput(); ++i) {
+				if (op.getIn(i).isZeroSize()) {
+					unresolved = op.getIn(i);
+					sb.append("input ").append(i);
+					break;
+				}
+			}
+		}
+		if (unresolved == null) {
+			sb.append("a varnode");		// should not happen, but never report nothing
+		}
+		String opName = op.getOpcode().getName();
+		sb.append(" of ").append(opName != null ? opName : op.getOpcode().name());
+		Location location = (unresolved != null) ? unresolved.location : op.location;
+		if (location != null) {
+			sb.append(" at ").append(location);
+		}
+		return sb.toString();
 	}
 
 	public static void entry(String name, Object... args) {

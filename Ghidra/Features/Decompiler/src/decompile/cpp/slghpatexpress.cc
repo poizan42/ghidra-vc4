@@ -18,6 +18,46 @@
 
 namespace ghidra {
 
+/// \brief Build the error for two same-length patterns where only one carries an ellipsis
+///
+/// The combination has no fixed length.  Which side carries the ellipsis and which is therefore
+/// missing one is the actionable part; "size cannot vary" on its own leaves the reader to work that
+/// out from a constructor that may combine several patterns.
+/// \param ellipsisSide is the side carrying the ellipsis, "left" or "right"
+/// \param ellipsisEnd is the end it sits at, "leading" or "trailing"
+/// \param tokenCount is the number of tokens both sides match
+/// \return the message to throw
+static string cannotVaryMessage(const string &ellipsisSide,const string &ellipsisEnd,int4 tokenCount)
+
+{
+  string otherSide = (ellipsisSide == "left") ? "right" : "left";
+  ostringstream msg;
+  msg << "Pattern size cannot vary -- the " << ellipsisSide << " pattern has a " << ellipsisEnd
+      << " '...' and the " << otherSide << " one has none, but both match " << dec << tokenCount
+      << " token(s) (missing '...' on the " << otherSide << " pattern?)";
+  return msg.str();
+}
+
+/// \brief Build the error for two patterns that read different tokens at the same position
+///
+/// Both tokens have to be named: a spec of any size declares many, and "mismatched tokens" alone
+/// does not say which two disagreed or where.  Note that this used to stream the Token pointers
+/// themselves, so the message showed two addresses.
+/// \param position is the token index at which they differ
+/// \param left is the token the left pattern reads there
+/// \param right is the token the right pattern reads there
+/// \return the message to throw
+static string mismatchedTokensMessage(int4 position,const Token *left,const Token *right)
+
+{
+  ostringstream msg;
+  msg << "Mismatched tokens when combining patterns -- at token " << dec << position
+      << " the left pattern reads '" << left->getName() << "' (size " << dec << left->getSize()
+      << ") and the right reads '" << right->getName() << "' (size " << dec << right->getSize()
+      << "); '&' requires both sides to read the same tokens, use ';' to concatenate";
+  return msg.str();
+}
+
 int4 TokenPattern::resolveTokens(const TokenPattern &tok1,const TokenPattern &tok2)
 
 {				// Use the token lists to decide how the two patterns
@@ -62,7 +102,7 @@ int4 TokenPattern::resolveTokens(const TokenPattern &tok1,const TokenPattern &to
       throw SleighError(msg.str());
     }
     else if (tok1.toklist.size()==tok2.toklist.size())
-      throw SleighError("Pattern size cannot vary (missing '...'?)");
+      throw SleighError(cannotVaryMessage("left","leading",(int4)tok1.toklist.size()));
   }
   else if (tok1.rightellipsis) {
     if (tok2.leftellipsis)
@@ -77,7 +117,7 @@ int4 TokenPattern::resolveTokens(const TokenPattern &tok1,const TokenPattern &to
       throw SleighError(msg.str());
     }
     else if (tok1.toklist.size()==tok2.toklist.size())
-      throw SleighError("Pattern size cannot vary (missing '...'?)");
+      throw SleighError(cannotVaryMessage("left","trailing",(int4)tok1.toklist.size()));
   }
   else {
     if (tok2.leftellipsis) {
@@ -90,7 +130,7 @@ int4 TokenPattern::resolveTokens(const TokenPattern &tok1,const TokenPattern &to
 	throw SleighError(msg.str());
       }
       else if (tok1.toklist.size()==tok2.toklist.size())
-	throw SleighError("Pattern size cannot vary (missing '...'?)");
+	throw SleighError(cannotVaryMessage("right","leading",(int4)tok2.toklist.size()));
     }
     else if (tok2.rightellipsis) {
       if (tok2.toklist.size() != minsize) {
@@ -101,7 +141,7 @@ int4 TokenPattern::resolveTokens(const TokenPattern &tok1,const TokenPattern &to
 	throw SleighError(msg.str());
       }
       else if (tok1.toklist.size()==tok2.toklist.size())
-	throw SleighError("Pattern size cannot vary (missing '...'?)");
+	throw SleighError(cannotVaryMessage("right","trailing",(int4)tok2.toklist.size()));
     }
     else {
       if (tok2.toklist.size() != tok1.toklist.size()) {
@@ -114,16 +154,12 @@ int4 TokenPattern::resolveTokens(const TokenPattern &tok1,const TokenPattern &to
     }
   }
   if (reversedirection) {
-    for(int4 i=0;i<minsize;++i)
-      if (tok1.toklist[tok1.toklist.size()-1-i] != tok2.toklist[tok2.toklist.size()-1-i]) {
-
-	ostringstream msg;
-	msg << "Mismatched tokens when combining patterns -- "
-	    << dec << tok1.toklist[tok1.toklist.size()-1-i]
-	    << " != "
-	    << dec << tok2.toklist[tok2.toklist.size()-1-i];
-	throw SleighError(msg.str());
-      }
+    for(int4 i=0;i<minsize;++i) {
+      const Token *left = tok1.toklist[tok1.toklist.size()-1-i];
+      const Token *right = tok2.toklist[tok2.toklist.size()-1-i];
+      if (left != right)
+	throw SleighError(mismatchedTokensMessage(i,left,right));
+    }
     if (tok1.toklist.size() <= tok2.toklist.size())
       for(int4 i=minsize;i<tok2.toklist.size();++i)
 	ressa += tok2.toklist[tok2.toklist.size()-1-i]->getSize();
@@ -134,15 +170,12 @@ int4 TokenPattern::resolveTokens(const TokenPattern &tok1,const TokenPattern &to
       ressa = -ressa;
   }
   else {
-    for(int4 i=0;i<minsize;++i)
-      if (tok1.toklist[i] != tok2.toklist[i]) {
-		ostringstream msg;
-	msg << "Mismatched tokens when combining patterns -- "
-	    << dec << tok1.toklist[i]
-	    << " != "
-	    << dec << tok2.toklist[i];
-	throw SleighError(msg.str());
-      }
+    for(int4 i=0;i<minsize;++i) {
+      const Token *left = tok1.toklist[i];
+      const Token *right = tok2.toklist[i];
+      if (left != right)
+	throw SleighError(mismatchedTokensMessage(i,left,right));
+    }
   }
 				// Save the results into -this-
   if (tok1.toklist.size() <= tok2.toklist.size())

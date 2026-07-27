@@ -421,6 +421,36 @@ bool ConsistencyChecker::checkOpMisuse(OpTpl *op,Constructor *ct)
 /// Many SLEIGH operators require that inputs and/or outputs are the
 /// same size, or they have other specific size requirement.
 /// Print an error and return \b false for any violations.
+/// \brief Append the two conflicting sizes to a size-restriction message
+///
+/// The sizes are the whole content of the complaint, and printOpError cannot always name the
+/// operands -- getOperandSymbol returns null for temporaries and literals -- so without them the
+/// common case degrades to a bare "Problem".
+/// \param msg is the message describing the restriction
+/// \param a is the first size
+/// \param relation is how the two sizes relate, e.g. "!="
+/// \param b is the second size
+/// \return the message with the sizes appended
+static string withSizes(const string &msg,int4 a,const string &relation,int4 b)
+
+{
+  ostringstream s;
+  s << msg << "; " << dec << a << ' ' << relation << ' ' << dec << b;
+  return s.str();
+}
+
+/// \brief Append the actual size to a message that says what the size should have been
+/// \param msg is the message describing the restriction
+/// \param a is the actual size
+/// \return the message with the size appended
+static string withSize(const string &msg,int4 a)
+
+{
+  ostringstream s;
+  s << msg << "; size is " << dec << a;
+  return s.str();
+}
+
 /// \param op is the given p-code operator
 /// \param ct is the Constructor owning the operator
 /// \return \b true if there are no size restriction violations
@@ -453,7 +483,7 @@ bool ConsistencyChecker::sizeRestriction(OpTpl *op,Constructor *ct)
     }
     if (vnout == vn0) return true;
     if ((vnout==0)||(vn0==0)) return true;
-    printOpError(op,ct,-1,0,"Input and output sizes must match");
+    printOpError(op,ct,-1,0,withSizes("Input and output sizes must match",vn0,"!=",vnout));
     return false;
   case CPUI_INT_ADD:
   case CPUI_INT_SUB:
@@ -485,15 +515,15 @@ bool ConsistencyChecker::sizeRestriction(OpTpl *op,Constructor *ct)
       return false;
     }
     if ((vnout!=0)&&(vn0!=0)&&(vnout!=vn0)) {
-      printOpError(op,ct,-1,0,"The output and all input sizes must match");
+      printOpError(op,ct,-1,0,withSizes("The output and all input sizes must match",vnout,"!=",vn0));
       return false;
     }
     if ((vnout!=0)&&(vn1!=0)&&(vnout!=vn1)) {
-      printOpError(op,ct,-1,1,"The output and all input sizes must match");
+      printOpError(op,ct,-1,1,withSizes("The output and all input sizes must match",vnout,"!=",vn1));
       return false;
     }
     if ((vn0!=0)&&(vn1!=0)&&(vn0!=vn1)) {
-      printOpError(op,ct,0,1,"The output and all input sizes must match");
+      printOpError(op,ct,0,1,withSizes("The output and all input sizes must match",vn0,"!=",vn1));
       return false;
     }
     return true;
@@ -504,7 +534,7 @@ bool ConsistencyChecker::sizeRestriction(OpTpl *op,Constructor *ct)
       return false;
     }
     if (vnout != 1) {
-      printOpError(op,ct,-1,-1,"Output must be a boolean (size 1)");
+      printOpError(op,ct,-1,-1,withSize("Output must be a boolean (size 1)",vnout));
       return false;
     }
     break;
@@ -527,7 +557,7 @@ bool ConsistencyChecker::sizeRestriction(OpTpl *op,Constructor *ct)
       return false;
     }
     if (vnout != 1) {
-      printOpError(op,ct,-1,-1,"Output must be a boolean (size 1)");
+      printOpError(op,ct,-1,-1,withSize("Output must be a boolean (size 1)",vnout));
       return false;
     }
     vn0 = recoverSize(op->getIn(0)->getSize(),ct);
@@ -542,7 +572,7 @@ bool ConsistencyChecker::sizeRestriction(OpTpl *op,Constructor *ct)
     }
     if ((vn0==0)||(vn1==0)) return true;
     if (vn0 != vn1) {
-      printOpError(op,ct,0,1,"Inputs must be the same size");
+      printOpError(op,ct,0,1,withSizes("Inputs must be the same size",vn0,"!=",vn1));
       return false;
     }
     return true;
@@ -555,7 +585,7 @@ bool ConsistencyChecker::sizeRestriction(OpTpl *op,Constructor *ct)
       return false;
     }
     if (vnout != 1) {
-      printOpError(op,ct,-1,-1,"Output must be a boolean (size 1)");
+      printOpError(op,ct,-1,-1,withSize("Output must be a boolean (size 1)",vnout));
       return false;
     }
     vn0 = recoverSize(op->getIn(0)->getSize(),ct);
@@ -564,7 +594,7 @@ bool ConsistencyChecker::sizeRestriction(OpTpl *op,Constructor *ct)
       return false;
     }
     if (vn0 != 1) {
-      printOpError(op,ct,0,0,"Input must be a boolean (size 1)");
+      printOpError(op,ct,0,0,withSize("Input must be a boolean (size 1)",vn0));
       return false;
     }
     return true;
@@ -575,7 +605,7 @@ bool ConsistencyChecker::sizeRestriction(OpTpl *op,Constructor *ct)
       return false;
     }
     if (vnout != 1) {
-      printOpError(op,ct,-1,-1,"Output must be a boolean (size 1)");
+      printOpError(op,ct,-1,-1,withSize("Output must be a boolean (size 1)",vnout));
       return false;
     }
     vn0 = recoverSize(op->getIn(0)->getSize(),ct);
@@ -584,7 +614,7 @@ bool ConsistencyChecker::sizeRestriction(OpTpl *op,Constructor *ct)
       return false;
     }
     if (vn0 != 1) {
-      printOpError(op,ct,0,0,"Input must be a boolean (size 1)");
+      printOpError(op,ct,0,0,withSize("Input must be a boolean (size 1)",vn0));
       return false;
     }
     return true;
@@ -605,7 +635,7 @@ bool ConsistencyChecker::sizeRestriction(OpTpl *op,Constructor *ct)
     }
     if ((vnout==0)||(vn0==0)) return true;
     if (vnout != vn0) {
-      printOpError(op,ct,-1,0,"Output and first input must be the same size");
+      printOpError(op,ct,-1,0,withSizes("Output and first input must be the same size",vnout,"!=",vn0));
       return false;
     }
     return true;
@@ -627,7 +657,7 @@ bool ConsistencyChecker::sizeRestriction(OpTpl *op,Constructor *ct)
       return true;
     }
     else if (vnout < vn0) {
-      printOpError(op,ct,-1,0,"Output size must be strictly bigger than input size");
+      printOpError(op,ct,-1,0,withSizes("Output size must be strictly bigger than input size",vnout,"<",vn0));
       return false;
     }
     return true;
@@ -638,7 +668,7 @@ bool ConsistencyChecker::sizeRestriction(OpTpl *op,Constructor *ct)
       return false;
     }
     if (vn1 != 1) {
-      printOpError(op,ct,1,1,"Input must be a boolean (size 1)");
+      printOpError(op,ct,1,1,withSize("Input must be a boolean (size 1)",vn1));
       return false;
     }
     return true;
@@ -653,7 +683,10 @@ bool ConsistencyChecker::sizeRestriction(OpTpl *op,Constructor *ct)
       return false;
     }
     if ((vn1!=0)&&(vn1 != spc->getAddrSize())) {
-      printOpError(op,ct,1,1,"Pointer size must match size of space");
+      ostringstream msg;
+      msg << "Pointer size must match size of space; " << dec << vn1 << " != "
+	  << dec << spc->getAddrSize() << " for space '" << spc->getName() << '\'';
+      printOpError(op,ct,1,1,msg.str());
       return false;
     }
     return true;
@@ -675,11 +708,15 @@ bool ConsistencyChecker::sizeRestriction(OpTpl *op,Constructor *ct)
       return true;
     }
     else if (vnout>=vn0) {
-      printOpError(op,ct,-1,0,"Output must be strictly smaller than input");
+      printOpError(op,ct,-1,0,withSizes("Output must be strictly smaller than input",vnout,">=",vn0));
       return false;
     }
     if (vnout>vn0-vn1) {
-      printOpError(op,ct,-1,0,"Too much truncation");
+      ostringstream msg;
+      msg << "Too much truncation; output size " << dec << vnout << " exceeds the " << dec
+	  << (vn0-vn1) << " bytes left after truncating " << dec << vn1
+	  << " from an input of " << dec << vn0;
+      printOpError(op,ct,-1,0,msg.str());
       return false;
     }
     return true;
@@ -1068,7 +1105,12 @@ bool ConsistencyChecker::checkVarnodeTruncation(Constructor *ct,int4 slot,
   }
   bool res = vn->adjustTruncation(sz,isbigendian);
   if (!res) {
-    printOpError(op,ct,slot,slot,"Truncation operator out of bounds");
+    // Only sz is a plain number here: both the offset and the size of the varnode are handle-typed
+    // ConstTpls at this point, so printing their real fields would report unset values.
+    ostringstream msg;
+    msg << "Truncation operator out of bounds; the original operand is only " << dec << sz
+	<< " bytes";
+    printOpError(op,ct,slot,slot,msg.str());
     return false;
   }
   return true;
@@ -3460,8 +3502,10 @@ bool SleighCompile::finalizeSections(Constructor *big,SectionVector *vec)
       if (res == 2)
 	errors.push_back(sectionstring + "Unnecessary BUILD statements");
   
-      if (!PcodeCompile::propagateSize(cur.section))
-	errors.push_back(sectionstring + "Could not resolve at least 1 variable size");
+      OpTpl *unresolved = PcodeCompile::propagateSize(cur.section);
+      if (unresolved != (OpTpl *)0)
+	errors.push_back(sectionstring + "Could not resolve the size of " +
+			 PcodeCompile::describeUnresolvedSize(unresolved));
     }
     if (i < 0) {		// These potential errors only apply to main section
       if (cur.section->getResult() != (HandleTpl *)0) {	// If there is an export statement

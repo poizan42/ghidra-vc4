@@ -1910,6 +1910,9 @@ vsetf: Vsetf80 is (Vopsize=1 & Vsetf80) ...
 # SAME bits (22,28) as Vsru, which is already pinned. vreginc needs no pinning at all -- its `+=`
 # cases key on Vseld=7 / Vsela=7, which a constructor naming a real widthcode cannot match.
 vmem80d: is Vopsize=1 ; (Vsru=0 & Vincd=0 & VmoffMid=0) { }
+# The ALU equivalent: pins the accumulator modifier and all three operand auto-increments, which are
+# vecaux fields and so cannot join a constructor's vec48 `&` group.
+valu80:  is Vopsize=1 ; (Vsru=0 & Vincd=0 & Vinca=0 & Vincb=0) { }
 vmem80a: is Vopsize=1 ; (Vsru=0 & Vinca=0 & VmoffMid=0) { }
 #
 # CONSUMERS MUST USE A PER-LANE CONDITIONAL BRANCH, not a branch-free select. A disabled lane

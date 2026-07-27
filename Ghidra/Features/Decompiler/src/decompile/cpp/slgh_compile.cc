@@ -3460,8 +3460,10 @@ bool SleighCompile::finalizeSections(Constructor *big,SectionVector *vec)
       if (res == 2)
 	errors.push_back(sectionstring + "Unnecessary BUILD statements");
   
-      if (!PcodeCompile::propagateSize(cur.section))
-	errors.push_back(sectionstring + "Could not resolve at least 1 variable size");
+      OpTpl *unresolved = PcodeCompile::propagateSize(cur.section);
+      if (unresolved != (OpTpl *)0)
+	errors.push_back(sectionstring + "Could not resolve the size of " +
+			 PcodeCompile::describeUnresolvedSize(unresolved));
     }
     if (i < 0) {		// These potential errors only apply to main section
       if (cur.section->getResult() != (HandleTpl *)0) {	// If there is an export statement

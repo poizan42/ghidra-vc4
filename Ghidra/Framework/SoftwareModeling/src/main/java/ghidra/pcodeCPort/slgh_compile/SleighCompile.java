@@ -1547,8 +1547,10 @@ public class SleighCompile extends SleighBase {
 						scopeString + "Unnecessary BUILD statements at " + res.second);
 				}
 
-				if (!pcode.propagateSize(cur.section)) {
-					myErrors.push_back(scopeString + "Could not resolve at least 1 variable size");
+				OpTpl unresolved = pcode.propagateSize(cur.section);
+				if (unresolved != null) {
+					myErrors.push_back(scopeString + "Could not resolve the size of " +
+						PcodeCompile.describeUnresolvedSize(unresolved));
 				}
 			}
 			if (i < 0) {		// These potential errors only apply to main section

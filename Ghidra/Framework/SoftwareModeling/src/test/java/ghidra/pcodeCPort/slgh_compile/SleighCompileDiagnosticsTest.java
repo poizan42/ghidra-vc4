@@ -264,11 +264,12 @@ public class SleighCompileDiagnosticsTest extends AbstractGenericTest {
 
 	/**
 	 * A varnode whose size cannot be inferred -- here because {@code zext} of a bare constant
-	 * constrains nothing. Reported against the constructor as a whole, not against the statement
-	 * that carries the unresolved varnode.
+	 * constrains nothing. The message must reach the offending statement, not just the constructor:
+	 * the fixture puts the constructor on line 9 and the {@code zext} on line 11 precisely so that
+	 * a message pointing at the constructor cannot pass this test.
 	 */
 	@Test
-	public void testUnresolvedSizeIsReported() throws Exception {
+	public void testUnresolvedSizeNamesTheOperandAndStatement() throws Exception {
 		Diagnostics diagnostics = compile("""
 				:bad is op8=0x03 {
 					r0 = r0 + 1;
@@ -276,7 +277,7 @@ public class SleighCompileDiagnosticsTest extends AbstractGenericTest {
 				}
 				""");
 
-		assertError(diagnostics, "could not resolve", "variable size");
+		assertError(diagnostics, "could not resolve", "input 0", "zext", ":11");
 	}
 
 	/**

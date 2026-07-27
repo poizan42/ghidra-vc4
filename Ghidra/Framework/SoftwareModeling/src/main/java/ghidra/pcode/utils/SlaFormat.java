@@ -40,8 +40,20 @@ public class SlaFormat {
 
 	/**
 	 * Absolute limit on the number of bytes in a .sla file
+	 * <p>
+	 * VideoCore fork: raised from 1 &lt;&lt; 24 to 1 &lt;&lt; 28. The VideoCore vector unit needs
+	 * per-lane semantics unrolled 16 ways across the (op x width x widthcode x operand-form)
+	 * cross-product, which puts vc4.sla at roughly 16.8 MB packed -- just over the old limit.
+	 * <p>
+	 * Note that exceeding this limit does not produce a useful diagnostic:
+	 * {@link ghidra.program.model.pcode.LinkedByteBuffer#ingestStream} loops
+	 * {@code while (count < maxCount)} and so stops SILENTLY at the cap, leaving the stream
+	 * truncated mid-record. The decoder then fails far from the real cause, with a
+	 * "Format violation" out of {@code PackedDecode.closeElement}. A spec over the limit
+	 * therefore compiles without complaint and only fails at load time, with an error that
+	 * points at the packed format rather than at the size.
 	 */
-	public static final int MAX_FILE_SIZE = 1 << 24;		// 16 Megabytes
+	public static final int MAX_FILE_SIZE = 1 << 28;		// 256 Megabytes
 	// Attributes
 
 	// ATTRIB_CONTENT = 1 is reserved

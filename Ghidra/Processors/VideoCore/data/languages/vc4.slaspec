@@ -1904,8 +1904,13 @@ vsetf: Vsetf80 is (Vopsize=1 & Vsetf80) ...
 # COROLLARY FOR CALLERS: a constructor must NOT put vecaux fields in its own `&` group alongside
 # vec48 fields; that is "Mismatched tokens when combining patterns". Constrain them through a
 # concatenated helper subtable instead -- see vmem80d/vmem80a below.
-vmem80d: is Vopsize=1 ; (Vsru=0 & Vincd=0) { }
-vmem80a: is Vopsize=1 ; (Vsru=0 & Vinca=0) { }
+# Also pins vregoff to its zero case. The 80-bit base is `vregbase + vregoff`, and the `+off` form
+# has never been probed, so the offset fields are held at 0 rather than modelled: VmoffMid here,
+# VmoffLo in the referring constructor's vec48 group, and VmoffHi for free because it occupies the
+# SAME bits (22,28) as Vsru, which is already pinned. vreginc needs no pinning at all -- its `+=`
+# cases key on Vseld=7 / Vsela=7, which a constructor naming a real widthcode cannot match.
+vmem80d: is Vopsize=1 ; (Vsru=0 & Vincd=0 & VmoffMid=0) { }
+vmem80a: is Vopsize=1 ; (Vsru=0 & Vinca=0 & VmoffMid=0) { }
 #
 # CONSUMERS MUST USE A PER-LANE CONDITIONAL BRANCH, not a branch-free select. A disabled lane
 # performs NO memory access at all (measured, findings-lookup.md), so a predicated store cannot be

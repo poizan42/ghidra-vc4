@@ -4543,8 +4543,8 @@ with : Vop=0x3e ... {
   # v8ld, predicated: 8-bit register element at byte-in-lane 0
   :v8ld vargd, vmemargb^vflags
 	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -4615,8 +4615,8 @@ with : Vop=0x3e ... {
   # v8ld, predicated: 8-bit register element at byte-in-lane 1
   :v8ld vargd, vmemargb^vflags
 	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -4687,8 +4687,8 @@ with : Vop=0x3e ... {
   # v8ld, predicated: 8-bit register element at byte-in-lane 2
   :v8ld vargd, vmemargb^vflags
 	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -4759,8 +4759,8 @@ with : Vop=0x3e ... {
   # v8ld, predicated: 8-bit register element at byte-in-lane 3
   :v8ld vargd, vmemargb^vflags
 	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -4831,8 +4831,8 @@ with : Vop=0x3e ... {
   # v8ld, predicated: 16-bit register element at byte-in-lane 0
   :v8ld vargd, vmemargb^vflags
 	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -4903,8 +4903,8 @@ with : Vop=0x3e ... {
   # v8ld, predicated: 16-bit register element at byte-in-lane 2
   :v8ld vargd, vmemargb^vflags
 	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -4975,8 +4975,8 @@ with : Vop=0x3e ... {
   # v8ld, predicated: 32-bit register element at byte-in-lane 0
   :v8ld vargd, vmemargb^vflags
 	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -5047,8 +5047,8 @@ with : Vop=0x3e ... {
   # v16ld, predicated: 8-bit register element at byte-in-lane 0
   :v16ld vargd, vmemargb^vflags
 	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -5135,8 +5135,8 @@ with : Vop=0x3e ... {
   # v16ld, predicated: 8-bit register element at byte-in-lane 1
   :v16ld vargd, vmemargb^vflags
 	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -5223,8 +5223,8 @@ with : Vop=0x3e ... {
   # v16ld, predicated: 8-bit register element at byte-in-lane 2
   :v16ld vargd, vmemargb^vflags
 	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -5311,8 +5311,8 @@ with : Vop=0x3e ... {
   # v16ld, predicated: 8-bit register element at byte-in-lane 3
   :v16ld vargd, vmemargb^vflags
 	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -5399,8 +5399,8 @@ with : Vop=0x3e ... {
   # v16ld, predicated: 16-bit register element at byte-in-lane 0
   :v16ld vargd, vmemargb^vflags
 	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -5471,8 +5471,8 @@ with : Vop=0x3e ... {
   # v16ld, predicated: 16-bit register element at byte-in-lane 2
   :v16ld vargd, vmemargb^vflags
 	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -5543,8 +5543,8 @@ with : Vop=0x3e ... {
   # v16ld, predicated: 32-bit register element at byte-in-lane 0
   :v16ld vargd, vmemargb^vflags
 	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -5615,8 +5615,8 @@ with : Vop=0x3e ... {
   # v32ld, predicated: 8-bit register element at byte-in-lane 0
   :v32ld vargd, vmemargb^vflags
 	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -5703,8 +5703,8 @@ with : Vop=0x3e ... {
   # v32ld, predicated: 8-bit register element at byte-in-lane 1
   :v32ld vargd, vmemargb^vflags
 	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -5791,8 +5791,8 @@ with : Vop=0x3e ... {
   # v32ld, predicated: 8-bit register element at byte-in-lane 2
   :v32ld vargd, vmemargb^vflags
 	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -5879,8 +5879,8 @@ with : Vop=0x3e ... {
   # v32ld, predicated: 8-bit register element at byte-in-lane 3
   :v32ld vargd, vmemargb^vflags
 	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -5967,8 +5967,8 @@ with : Vop=0x3e ... {
   # v32ld, predicated: 16-bit register element at byte-in-lane 0
   :v32ld vargd, vmemargb^vflags
 	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -6055,8 +6055,8 @@ with : Vop=0x3e ... {
   # v32ld, predicated: 16-bit register element at byte-in-lane 2
   :v32ld vargd, vmemargb^vflags
 	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -6143,8 +6143,8 @@ with : Vop=0x3e ... {
   # v32ld, predicated: 32-bit register element at byte-in-lane 0
   :v32ld vargd, vmemargb^vflags
 	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -6215,8 +6215,8 @@ with : Vop=0x3e ... {
   # v8lookupm, predicated: 8-bit register element at byte-in-lane 0
   :v8lookupm vargd, vmemargb^vflags
 	is (Vmop=1 & Vmwidth=0 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -6287,8 +6287,8 @@ with : Vop=0x3e ... {
   # v8lookupm, predicated: 8-bit register element at byte-in-lane 1
   :v8lookupm vargd, vmemargb^vflags
 	is (Vmop=1 & Vmwidth=0 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -6359,8 +6359,8 @@ with : Vop=0x3e ... {
   # v8lookupm, predicated: 8-bit register element at byte-in-lane 2
   :v8lookupm vargd, vmemargb^vflags
 	is (Vmop=1 & Vmwidth=0 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -6431,8 +6431,8 @@ with : Vop=0x3e ... {
   # v8lookupm, predicated: 8-bit register element at byte-in-lane 3
   :v8lookupm vargd, vmemargb^vflags
 	is (Vmop=1 & Vmwidth=0 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -6503,8 +6503,8 @@ with : Vop=0x3e ... {
   # v8lookupm, predicated: 16-bit register element at byte-in-lane 0
   :v8lookupm vargd, vmemargb^vflags
 	is (Vmop=1 & Vmwidth=0 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -6575,8 +6575,8 @@ with : Vop=0x3e ... {
   # v8lookupm, predicated: 16-bit register element at byte-in-lane 2
   :v8lookupm vargd, vmemargb^vflags
 	is (Vmop=1 & Vmwidth=0 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -6647,8 +6647,8 @@ with : Vop=0x3e ... {
   # v8lookupm, predicated: 32-bit register element at byte-in-lane 0
   :v8lookupm vargd, vmemargb^vflags
 	is (Vmop=1 & Vmwidth=0 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -6719,8 +6719,8 @@ with : Vop=0x3e ... {
   # v16lookupm, predicated: 8-bit register element at byte-in-lane 0
   :v16lookupm vargd, vmemargb^vflags
 	is (Vmop=1 & Vmwidth=1 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -6807,8 +6807,8 @@ with : Vop=0x3e ... {
   # v16lookupm, predicated: 8-bit register element at byte-in-lane 1
   :v16lookupm vargd, vmemargb^vflags
 	is (Vmop=1 & Vmwidth=1 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -6895,8 +6895,8 @@ with : Vop=0x3e ... {
   # v16lookupm, predicated: 8-bit register element at byte-in-lane 2
   :v16lookupm vargd, vmemargb^vflags
 	is (Vmop=1 & Vmwidth=1 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -6983,8 +6983,8 @@ with : Vop=0x3e ... {
   # v16lookupm, predicated: 8-bit register element at byte-in-lane 3
   :v16lookupm vargd, vmemargb^vflags
 	is (Vmop=1 & Vmwidth=1 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -7071,8 +7071,8 @@ with : Vop=0x3e ... {
   # v16lookupm, predicated: 16-bit register element at byte-in-lane 0
   :v16lookupm vargd, vmemargb^vflags
 	is (Vmop=1 & Vmwidth=1 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -7143,8 +7143,8 @@ with : Vop=0x3e ... {
   # v16lookupm, predicated: 16-bit register element at byte-in-lane 2
   :v16lookupm vargd, vmemargb^vflags
 	is (Vmop=1 & Vmwidth=1 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -7215,8 +7215,8 @@ with : Vop=0x3e ... {
   # v16lookupm, predicated: 32-bit register element at byte-in-lane 0
   :v16lookupm vargd, vmemargb^vflags
 	is (Vmop=1 & Vmwidth=1 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -7287,8 +7287,8 @@ with : Vop=0x3e ... {
   # v32lookupm, predicated: 8-bit register element at byte-in-lane 0
   :v32lookupm vargd, vmemargb^vflags
 	is (Vmop=1 & Vmwidth=2 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -7375,8 +7375,8 @@ with : Vop=0x3e ... {
   # v32lookupm, predicated: 8-bit register element at byte-in-lane 1
   :v32lookupm vargd, vmemargb^vflags
 	is (Vmop=1 & Vmwidth=2 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -7463,8 +7463,8 @@ with : Vop=0x3e ... {
   # v32lookupm, predicated: 8-bit register element at byte-in-lane 2
   :v32lookupm vargd, vmemargb^vflags
 	is (Vmop=1 & Vmwidth=2 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -7551,8 +7551,8 @@ with : Vop=0x3e ... {
   # v32lookupm, predicated: 8-bit register element at byte-in-lane 3
   :v32lookupm vargd, vmemargb^vflags
 	is (Vmop=1 & Vmwidth=2 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -7639,8 +7639,8 @@ with : Vop=0x3e ... {
   # v32lookupm, predicated: 16-bit register element at byte-in-lane 0
   :v32lookupm vargd, vmemargb^vflags
 	is (Vmop=1 & Vmwidth=2 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -7727,8 +7727,8 @@ with : Vop=0x3e ... {
   # v32lookupm, predicated: 16-bit register element at byte-in-lane 2
   :v32lookupm vargd, vmemargb^vflags
 	is (Vmop=1 & Vmwidth=2 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -7815,8 +7815,8 @@ with : Vop=0x3e ... {
   # v32lookupm, predicated: 32-bit register element at byte-in-lane 0
   :v32lookupm vargd, vmemargb^vflags
 	is (Vmop=1 & Vmwidth=2 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -7887,8 +7887,8 @@ with : Vop=0x3e ... {
   # v8lookupml, predicated: 8-bit register element at byte-in-lane 0
   :v8lookupml vargd, vmemargb^vflags
 	is (Vmop=2 & Vmwidth=0 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -7975,8 +7975,8 @@ with : Vop=0x3e ... {
   # v8lookupml, predicated: 8-bit register element at byte-in-lane 1
   :v8lookupml vargd, vmemargb^vflags
 	is (Vmop=2 & Vmwidth=0 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -8063,8 +8063,8 @@ with : Vop=0x3e ... {
   # v8lookupml, predicated: 8-bit register element at byte-in-lane 2
   :v8lookupml vargd, vmemargb^vflags
 	is (Vmop=2 & Vmwidth=0 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -8151,8 +8151,8 @@ with : Vop=0x3e ... {
   # v8lookupml, predicated: 8-bit register element at byte-in-lane 3
   :v8lookupml vargd, vmemargb^vflags
 	is (Vmop=2 & Vmwidth=0 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -8239,8 +8239,8 @@ with : Vop=0x3e ... {
   # v8lookupml, predicated: 16-bit register element at byte-in-lane 0
   :v8lookupml vargd, vmemargb^vflags
 	is (Vmop=2 & Vmwidth=0 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -8327,8 +8327,8 @@ with : Vop=0x3e ... {
   # v8lookupml, predicated: 16-bit register element at byte-in-lane 2
   :v8lookupml vargd, vmemargb^vflags
 	is (Vmop=2 & Vmwidth=0 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -8415,8 +8415,8 @@ with : Vop=0x3e ... {
   # v8lookupml, predicated: 32-bit register element at byte-in-lane 0
   :v8lookupml vargd, vmemargb^vflags
 	is (Vmop=2 & Vmwidth=0 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -8503,8 +8503,8 @@ with : Vop=0x3e ... {
   # v16lookupml, predicated: 8-bit register element at byte-in-lane 0
   :v16lookupml vargd, vmemargb^vflags
 	is (Vmop=2 & Vmwidth=1 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -8607,8 +8607,8 @@ with : Vop=0x3e ... {
   # v16lookupml, predicated: 8-bit register element at byte-in-lane 1
   :v16lookupml vargd, vmemargb^vflags
 	is (Vmop=2 & Vmwidth=1 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -8711,8 +8711,8 @@ with : Vop=0x3e ... {
   # v16lookupml, predicated: 8-bit register element at byte-in-lane 2
   :v16lookupml vargd, vmemargb^vflags
 	is (Vmop=2 & Vmwidth=1 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -8815,8 +8815,8 @@ with : Vop=0x3e ... {
   # v16lookupml, predicated: 8-bit register element at byte-in-lane 3
   :v16lookupml vargd, vmemargb^vflags
 	is (Vmop=2 & Vmwidth=1 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -8919,8 +8919,8 @@ with : Vop=0x3e ... {
   # v16lookupml, predicated: 16-bit register element at byte-in-lane 0
   :v16lookupml vargd, vmemargb^vflags
 	is (Vmop=2 & Vmwidth=1 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -9007,8 +9007,8 @@ with : Vop=0x3e ... {
   # v16lookupml, predicated: 16-bit register element at byte-in-lane 2
   :v16lookupml vargd, vmemargb^vflags
 	is (Vmop=2 & Vmwidth=1 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -9095,8 +9095,8 @@ with : Vop=0x3e ... {
   # v16lookupml, predicated: 32-bit register element at byte-in-lane 0
   :v16lookupml vargd, vmemargb^vflags
 	is (Vmop=2 & Vmwidth=1 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -9183,8 +9183,8 @@ with : Vop=0x3e ... {
   # v32lookupml, predicated: 8-bit register element at byte-in-lane 0
   :v32lookupml vargd, vmemargb^vflags
 	is (Vmop=2 & Vmwidth=2 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -9287,8 +9287,8 @@ with : Vop=0x3e ... {
   # v32lookupml, predicated: 8-bit register element at byte-in-lane 1
   :v32lookupml vargd, vmemargb^vflags
 	is (Vmop=2 & Vmwidth=2 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -9391,8 +9391,8 @@ with : Vop=0x3e ... {
   # v32lookupml, predicated: 8-bit register element at byte-in-lane 2
   :v32lookupml vargd, vmemargb^vflags
 	is (Vmop=2 & Vmwidth=2 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -9495,8 +9495,8 @@ with : Vop=0x3e ... {
   # v32lookupml, predicated: 8-bit register element at byte-in-lane 3
   :v32lookupml vargd, vmemargb^vflags
 	is (Vmop=2 & Vmwidth=2 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -9599,8 +9599,8 @@ with : Vop=0x3e ... {
   # v32lookupml, predicated: 16-bit register element at byte-in-lane 0
   :v32lookupml vargd, vmemargb^vflags
 	is (Vmop=2 & Vmwidth=2 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -9703,8 +9703,8 @@ with : Vop=0x3e ... {
   # v32lookupml, predicated: 16-bit register element at byte-in-lane 2
   :v32lookupml vargd, vmemargb^vflags
 	is (Vmop=2 & Vmwidth=2 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -9807,8 +9807,8 @@ with : Vop=0x3e ... {
   # v32lookupml, predicated: 32-bit register element at byte-in-lane 0
   :v32lookupml vargd, vmemargb^vflags
 	is (Vmop=2 & Vmwidth=2 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & VdRow) ... & vargd & vmemargb & vflags & vpmask & vmem80d & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local e0:2 = (en >> 0) & 1;
     if (e0 == 0) goto <s0>;
@@ -9895,8 +9895,8 @@ with : Vop=0x3e ... {
   # v8st, predicated: 8-bit register element at byte-in-lane 0
   :v8st varga, vmemargb^vflags
 	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -9968,8 +9968,8 @@ with : Vop=0x3e ... {
   # v8st, predicated: 8-bit register element at byte-in-lane 1
   :v8st varga, vmemargb^vflags
 	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -10041,8 +10041,8 @@ with : Vop=0x3e ... {
   # v8st, predicated: 8-bit register element at byte-in-lane 2
   :v8st varga, vmemargb^vflags
 	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -10114,8 +10114,8 @@ with : Vop=0x3e ... {
   # v8st, predicated: 8-bit register element at byte-in-lane 3
   :v8st varga, vmemargb^vflags
 	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -10187,8 +10187,8 @@ with : Vop=0x3e ... {
   # v8st, predicated: 16-bit register element at byte-in-lane 0
   :v8st varga, vmemargb^vflags
 	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -10276,8 +10276,8 @@ with : Vop=0x3e ... {
   # v8st, predicated: 16-bit register element at byte-in-lane 2
   :v8st varga, vmemargb^vflags
 	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -10365,8 +10365,8 @@ with : Vop=0x3e ... {
   # v8st, predicated: 32-bit register element at byte-in-lane 0
   :v8st varga, vmemargb^vflags
 	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -10454,8 +10454,8 @@ with : Vop=0x3e ... {
   # v16st, predicated: 8-bit register element at byte-in-lane 0
   :v16st varga, vmemargb^vflags
 	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -10527,8 +10527,8 @@ with : Vop=0x3e ... {
   # v16st, predicated: 8-bit register element at byte-in-lane 1
   :v16st varga, vmemargb^vflags
 	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -10600,8 +10600,8 @@ with : Vop=0x3e ... {
   # v16st, predicated: 8-bit register element at byte-in-lane 2
   :v16st varga, vmemargb^vflags
 	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -10673,8 +10673,8 @@ with : Vop=0x3e ... {
   # v16st, predicated: 8-bit register element at byte-in-lane 3
   :v16st varga, vmemargb^vflags
 	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -10746,8 +10746,8 @@ with : Vop=0x3e ... {
   # v16st, predicated: 16-bit register element at byte-in-lane 0
   :v16st varga, vmemargb^vflags
 	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -10819,8 +10819,8 @@ with : Vop=0x3e ... {
   # v16st, predicated: 16-bit register element at byte-in-lane 2
   :v16st varga, vmemargb^vflags
 	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -10892,8 +10892,8 @@ with : Vop=0x3e ... {
   # v16st, predicated: 32-bit register element at byte-in-lane 0
   :v16st varga, vmemargb^vflags
 	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -10981,8 +10981,8 @@ with : Vop=0x3e ... {
   # v32st, predicated: 8-bit register element at byte-in-lane 0
   :v32st varga, vmemargb^vflags
 	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -11054,8 +11054,8 @@ with : Vop=0x3e ... {
   # v32st, predicated: 8-bit register element at byte-in-lane 1
   :v32st varga, vmemargb^vflags
 	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -11127,8 +11127,8 @@ with : Vop=0x3e ... {
   # v32st, predicated: 8-bit register element at byte-in-lane 2
   :v32st varga, vmemargb^vflags
 	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -11200,8 +11200,8 @@ with : Vop=0x3e ... {
   # v32st, predicated: 8-bit register element at byte-in-lane 3
   :v32st varga, vmemargb^vflags
 	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -11273,8 +11273,8 @@ with : Vop=0x3e ... {
   # v32st, predicated: 16-bit register element at byte-in-lane 0
   :v32st varga, vmemargb^vflags
 	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -11346,8 +11346,8 @@ with : Vop=0x3e ... {
   # v32st, predicated: 16-bit register element at byte-in-lane 2
   :v32st varga, vmemargb^vflags
 	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -11419,8 +11419,8 @@ with : Vop=0x3e ... {
   # v32st, predicated: 32-bit register element at byte-in-lane 0
   :v32st varga, vmemargb^vflags
 	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -11492,8 +11492,8 @@ with : Vop=0x3e ... {
   # v8indexwritem, predicated: 8-bit register element at byte-in-lane 0
   :v8indexwritem varga, vmemargb^vflags
 	is (Vmop=5 & Vmwidth=0 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -11565,8 +11565,8 @@ with : Vop=0x3e ... {
   # v8indexwritem, predicated: 8-bit register element at byte-in-lane 1
   :v8indexwritem varga, vmemargb^vflags
 	is (Vmop=5 & Vmwidth=0 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -11638,8 +11638,8 @@ with : Vop=0x3e ... {
   # v8indexwritem, predicated: 8-bit register element at byte-in-lane 2
   :v8indexwritem varga, vmemargb^vflags
 	is (Vmop=5 & Vmwidth=0 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -11711,8 +11711,8 @@ with : Vop=0x3e ... {
   # v8indexwritem, predicated: 8-bit register element at byte-in-lane 3
   :v8indexwritem varga, vmemargb^vflags
 	is (Vmop=5 & Vmwidth=0 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -11784,8 +11784,8 @@ with : Vop=0x3e ... {
   # v8indexwritem, predicated: 16-bit register element at byte-in-lane 0
   :v8indexwritem varga, vmemargb^vflags
 	is (Vmop=5 & Vmwidth=0 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -11873,8 +11873,8 @@ with : Vop=0x3e ... {
   # v8indexwritem, predicated: 16-bit register element at byte-in-lane 2
   :v8indexwritem varga, vmemargb^vflags
 	is (Vmop=5 & Vmwidth=0 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -11962,8 +11962,8 @@ with : Vop=0x3e ... {
   # v8indexwritem, predicated: 32-bit register element at byte-in-lane 0
   :v8indexwritem varga, vmemargb^vflags
 	is (Vmop=5 & Vmwidth=0 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -12051,8 +12051,8 @@ with : Vop=0x3e ... {
   # v16indexwritem, predicated: 8-bit register element at byte-in-lane 0
   :v16indexwritem varga, vmemargb^vflags
 	is (Vmop=5 & Vmwidth=1 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -12124,8 +12124,8 @@ with : Vop=0x3e ... {
   # v16indexwritem, predicated: 8-bit register element at byte-in-lane 1
   :v16indexwritem varga, vmemargb^vflags
 	is (Vmop=5 & Vmwidth=1 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -12197,8 +12197,8 @@ with : Vop=0x3e ... {
   # v16indexwritem, predicated: 8-bit register element at byte-in-lane 2
   :v16indexwritem varga, vmemargb^vflags
 	is (Vmop=5 & Vmwidth=1 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -12270,8 +12270,8 @@ with : Vop=0x3e ... {
   # v16indexwritem, predicated: 8-bit register element at byte-in-lane 3
   :v16indexwritem varga, vmemargb^vflags
 	is (Vmop=5 & Vmwidth=1 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -12343,8 +12343,8 @@ with : Vop=0x3e ... {
   # v16indexwritem, predicated: 16-bit register element at byte-in-lane 0
   :v16indexwritem varga, vmemargb^vflags
 	is (Vmop=5 & Vmwidth=1 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -12416,8 +12416,8 @@ with : Vop=0x3e ... {
   # v16indexwritem, predicated: 16-bit register element at byte-in-lane 2
   :v16indexwritem varga, vmemargb^vflags
 	is (Vmop=5 & Vmwidth=1 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -12489,8 +12489,8 @@ with : Vop=0x3e ... {
   # v16indexwritem, predicated: 32-bit register element at byte-in-lane 0
   :v16indexwritem varga, vmemargb^vflags
 	is (Vmop=5 & Vmwidth=1 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -12578,8 +12578,8 @@ with : Vop=0x3e ... {
   # v32indexwritem, predicated: 8-bit register element at byte-in-lane 0
   :v32indexwritem varga, vmemargb^vflags
 	is (Vmop=5 & Vmwidth=2 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -12651,8 +12651,8 @@ with : Vop=0x3e ... {
   # v32indexwritem, predicated: 8-bit register element at byte-in-lane 1
   :v32indexwritem varga, vmemargb^vflags
 	is (Vmop=5 & Vmwidth=2 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -12724,8 +12724,8 @@ with : Vop=0x3e ... {
   # v32indexwritem, predicated: 8-bit register element at byte-in-lane 2
   :v32indexwritem varga, vmemargb^vflags
 	is (Vmop=5 & Vmwidth=2 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -12797,8 +12797,8 @@ with : Vop=0x3e ... {
   # v32indexwritem, predicated: 8-bit register element at byte-in-lane 3
   :v32indexwritem varga, vmemargb^vflags
 	is (Vmop=5 & Vmwidth=2 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -12870,8 +12870,8 @@ with : Vop=0x3e ... {
   # v32indexwritem, predicated: 16-bit register element at byte-in-lane 0
   :v32indexwritem varga, vmemargb^vflags
 	is (Vmop=5 & Vmwidth=2 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -12943,8 +12943,8 @@ with : Vop=0x3e ... {
   # v32indexwritem, predicated: 16-bit register element at byte-in-lane 2
   :v32indexwritem varga, vmemargb^vflags
 	is (Vmop=5 & Vmwidth=2 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -13016,8 +13016,8 @@ with : Vop=0x3e ... {
   # v32indexwritem, predicated: 32-bit register element at byte-in-lane 0
   :v32indexwritem varga, vmemargb^vflags
 	is (Vmop=5 & Vmwidth=2 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -13089,8 +13089,8 @@ with : Vop=0x3e ... {
   # v8indexwriteml, predicated: 8-bit register element at byte-in-lane 0
   :v8indexwriteml varga, vmemargb^vflags
 	is (Vmop=6 & Vmwidth=0 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -13178,8 +13178,8 @@ with : Vop=0x3e ... {
   # v8indexwriteml, predicated: 8-bit register element at byte-in-lane 1
   :v8indexwriteml varga, vmemargb^vflags
 	is (Vmop=6 & Vmwidth=0 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -13267,8 +13267,8 @@ with : Vop=0x3e ... {
   # v8indexwriteml, predicated: 8-bit register element at byte-in-lane 2
   :v8indexwriteml varga, vmemargb^vflags
 	is (Vmop=6 & Vmwidth=0 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -13356,8 +13356,8 @@ with : Vop=0x3e ... {
   # v8indexwriteml, predicated: 8-bit register element at byte-in-lane 3
   :v8indexwriteml varga, vmemargb^vflags
 	is (Vmop=6 & Vmwidth=0 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -13445,8 +13445,8 @@ with : Vop=0x3e ... {
   # v8indexwriteml, predicated: 16-bit register element at byte-in-lane 0
   :v8indexwriteml varga, vmemargb^vflags
 	is (Vmop=6 & Vmwidth=0 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -13550,8 +13550,8 @@ with : Vop=0x3e ... {
   # v8indexwriteml, predicated: 16-bit register element at byte-in-lane 2
   :v8indexwriteml varga, vmemargb^vflags
 	is (Vmop=6 & Vmwidth=0 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -13655,8 +13655,8 @@ with : Vop=0x3e ... {
   # v8indexwriteml, predicated: 32-bit register element at byte-in-lane 0
   :v8indexwriteml varga, vmemargb^vflags
 	is (Vmop=6 & Vmwidth=0 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -13760,8 +13760,8 @@ with : Vop=0x3e ... {
   # v16indexwriteml, predicated: 8-bit register element at byte-in-lane 0
   :v16indexwriteml varga, vmemargb^vflags
 	is (Vmop=6 & Vmwidth=1 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -13849,8 +13849,8 @@ with : Vop=0x3e ... {
   # v16indexwriteml, predicated: 8-bit register element at byte-in-lane 1
   :v16indexwriteml varga, vmemargb^vflags
 	is (Vmop=6 & Vmwidth=1 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -13938,8 +13938,8 @@ with : Vop=0x3e ... {
   # v16indexwriteml, predicated: 8-bit register element at byte-in-lane 2
   :v16indexwriteml varga, vmemargb^vflags
 	is (Vmop=6 & Vmwidth=1 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -14027,8 +14027,8 @@ with : Vop=0x3e ... {
   # v16indexwriteml, predicated: 8-bit register element at byte-in-lane 3
   :v16indexwriteml varga, vmemargb^vflags
 	is (Vmop=6 & Vmwidth=1 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -14116,8 +14116,8 @@ with : Vop=0x3e ... {
   # v16indexwriteml, predicated: 16-bit register element at byte-in-lane 0
   :v16indexwriteml varga, vmemargb^vflags
 	is (Vmop=6 & Vmwidth=1 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -14205,8 +14205,8 @@ with : Vop=0x3e ... {
   # v16indexwriteml, predicated: 16-bit register element at byte-in-lane 2
   :v16indexwriteml varga, vmemargb^vflags
 	is (Vmop=6 & Vmwidth=1 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -14294,8 +14294,8 @@ with : Vop=0x3e ... {
   # v16indexwriteml, predicated: 32-bit register element at byte-in-lane 0
   :v16indexwriteml varga, vmemargb^vflags
 	is (Vmop=6 & Vmwidth=1 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -14399,8 +14399,8 @@ with : Vop=0x3e ... {
   # v32indexwriteml, predicated: 8-bit register element at byte-in-lane 0
   :v32indexwriteml varga, vmemargb^vflags
 	is (Vmop=6 & Vmwidth=2 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -14488,8 +14488,8 @@ with : Vop=0x3e ... {
   # v32indexwriteml, predicated: 8-bit register element at byte-in-lane 1
   :v32indexwriteml varga, vmemargb^vflags
 	is (Vmop=6 & Vmwidth=2 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -14577,8 +14577,8 @@ with : Vop=0x3e ... {
   # v32indexwriteml, predicated: 8-bit register element at byte-in-lane 2
   :v32indexwriteml varga, vmemargb^vflags
 	is (Vmop=6 & Vmwidth=2 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -14666,8 +14666,8 @@ with : Vop=0x3e ... {
   # v32indexwriteml, predicated: 8-bit register element at byte-in-lane 3
   :v32indexwriteml varga, vmemargb^vflags
 	is (Vmop=6 & Vmwidth=2 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -14755,8 +14755,8 @@ with : Vop=0x3e ... {
   # v32indexwriteml, predicated: 16-bit register element at byte-in-lane 0
   :v32indexwriteml varga, vmemargb^vflags
 	is (Vmop=6 & Vmwidth=2 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -14844,8 +14844,8 @@ with : Vop=0x3e ... {
   # v32indexwriteml, predicated: 16-bit register element at byte-in-lane 2
   :v32indexwriteml varga, vmemargb^vflags
 	is (Vmop=6 & Vmwidth=2 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;
@@ -14933,8 +14933,8 @@ with : Vop=0x3e ... {
   # v32indexwriteml, predicated: 32-bit register element at byte-in-lane 0
   :v32indexwriteml varga, vmemargb^vflags
 	is (Vmop=6 & Vmwidth=2 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=0
-	    & Vhasimm=0 & Vselb=7 & VRm & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a {
-    local base:4 = VRm;
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vpmask & vmem80a & vregbase {
+    local base:4 = vregbase;
     local en:2 = vpmask;
     local src:64 = varow;
     local e0:2 = (en >> 0) & 1;

@@ -134805,4 +134805,18 @@ with : Vop=0x3d ... {
     local p_15:4 = pa_15 * pb_15;
     VdRow[480,32] = p_15;
   }
+
+  # bitplanes with the destination absent (Vseld=7) and SETF: flags only.
+  # Vsetf48=1 and Vseld=7 are what make this the flag-setting idiom rather than a
+  # value-producing bitplanes; the general form keeps its pcodeop.
+  :v^Vawidth^"bitplanes" vargd, vargb^vflags
+	is (Vaop=1 & Vawidth & Vdir=0 & Vseld=7 & Vsetf48=1
+	    & Vhasimm=0 & Vselb=7 & VRm) ... & vargd & vargb & vflags {
+    # Lane L's result is all-ones iff bit L of B is set, so Z is the complement of the
+    # mask and N is the mask itself. Sixteen lanes, two assignments.
+    local mask:2 = VRm[0,16];
+    VFN = mask;
+    local inv:2 = ~mask;
+    VFZ = inv;
+  }
 }

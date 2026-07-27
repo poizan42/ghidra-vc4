@@ -280,29 +280,30 @@ public class SleighCompileDiagnosticsTest extends AbstractGenericTest {
 	}
 
 	/**
-	 * Fields from two differently-sized tokens combined with {@code &}. Reported against the table
-	 * and line, but without naming either token.
+	 * Fields from two differently-sized tokens combined with {@code &}. Both tokens must be named:
+	 * "mismatched tokens" alone does not say which two disagreed, and a real spec declares many.
 	 */
 	@Test
-	public void testMismatchedTokensIsReported() throws Exception {
+	public void testMismatchedTokensNamesBothTokens() throws Exception {
 		Diagnostics diagnostics = compile("""
 				:bad is op8=0x05 & op16=0x0605 { }
 				""");
 
-		assertError(diagnostics, "mismatched tokens", "instruction");
+		assertError(diagnostics, "mismatched tokens", "instruction", "byteTok", "wordTok");
 	}
 
 	/**
-	 * A pattern whose length is not fixed, where a fixed length is required. Reported without either
-	 * of the two lengths that disagreed.
+	 * A pattern whose length is not fixed, where a fixed length is required. Which side carries the
+	 * ellipsis is the actionable part, so the message must distinguish the two sides rather than
+	 * just stating that the size varies.
 	 */
 	@Test
-	public void testVaryingPatternSizeIsReported() throws Exception {
+	public void testVaryingPatternSizeIdentifiesTheSideMissingTheEllipsis() throws Exception {
 		Diagnostics diagnostics = compile("""
 				:bad is op8=0x06 ... & op16=0x4342 { }
 				""");
 
-		assertError(diagnostics, "pattern size cannot vary", "instruction");
+		assertError(diagnostics, "pattern size cannot vary", "instruction", "left", "right");
 	}
 
 	/**

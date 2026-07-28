@@ -357,20 +357,25 @@ public class SleighCompileDiagnosticsTest extends AbstractGenericTest {
 	}
 
 	/**
-	 * An outlined macro is not inlined, so its call survives into the body as a reference into the
-	 * macro table. The {@code .sla} now carries that table and the reader restores it, but the
-	 * runtime does not expand the call yet, so a body would reach the decompiler containing a bare
-	 * CAST -- corrupt semantics rather than a missing feature. Until the runtime catches up, that
-	 * must be refused rather than emitted.
+	 * An outlined macro compiles cleanly and produces a file. Its call survives into the body as a
+	 * reference into the macro table, which the format carries and the runtime expands, so there is
+	 * nothing left to refuse.
+	 * <p>
+	 * That the expansion is <em>correct</em> is not something a diagnostics test can show; it is
+	 * established by comparing the built p-code against the inlined equivalent, including a body
+	 * called twice in one instruction.
 	 */
 	@Test
-	public void testOutlinedMacroIsRefusedUntilTheRuntimeExpandsIt() throws Exception {
+	public void testOutlinedMacroCompiles() throws Exception {
 		Diagnostics diagnostics = compile("""
 				outlined macro lane(dst, a, b) { dst = a + b; }
-				:bad is op8=0x22 { lane(r0, r1, r2); }
+				:good is op8=0x22 { lane(r0, r1, r2); }
 				""");
 
-		assertError(diagnostics, "outlined macro", "lane", "cannot be used yet");
+		assertEquals("an outlined macro should compile: " + diagnostics, 0,
+			diagnostics.returnCode());
+		assertTrue("an outlined macro should report no errors: " + diagnostics,
+			diagnostics.errors().isEmpty());
 	}
 
 	/**

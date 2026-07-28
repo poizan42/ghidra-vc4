@@ -41,6 +41,8 @@ public class ParserWalker {
 	private ConstructState point;		// The current node being visited
 	private int depth;					// Depth of current node within the tree
 	private int breadcrumb[];			// Path of operands from the root
+	private FixedHandle[] macroFrame;	// Parameters of the `outlined` macro being expanded, or null
+	private final java.util.ArrayList<FixedHandle[]> macroFrameStack = new java.util.ArrayList<>();
 
 	public ParserWalker(SleighParserContext c) {
 		context = c;
@@ -138,7 +140,38 @@ public class ParserWalker {
 	}
 
 	public FixedHandle getFixedHandle(int i) {
+		if (macroFrame != null) {
+			// Inside an `outlined` macro body, a handle index names one of the macro's parameters
+			// rather than one of the surrounding constructor's operands.
+			return macroFrame[i];
+		}
 		return context.getFixedHandle(point.getSubState(i));
+	}
+
+	/**
+	 * Bind the parameters of an `outlined` macro for the duration of its body.
+	 * <p>
+	 * This is what makes expansion work without touching the templates. A macro body refers to its
+	 * parameters as handle indices, exactly as a constructor body refers to its operands, and every
+	 * template resolves a handle through {@link #getFixedHandle}. Rebinding that one lookup is
+	 * therefore enough -- the alternative, rewriting the varnodes the way the compiler's
+	 * {@code MacroBuilder} does, would mutate templates that are decoded once and shared by every
+	 * instruction in the program.
+	 * <p>
+	 * Frames nest, so a macro body may call another macro. The caller must resolve its arguments
+	 * <em>before</em> pushing, since they belong to the enclosing context.
+	 * @param params is the resolved location of each argument, in parameter order
+	 */
+	public void pushMacroFrame(FixedHandle[] params) {
+		macroFrameStack.add(macroFrame);
+		macroFrame = params;
+	}
+
+	/**
+	 * Undo the most recent {@link #pushMacroFrame}.
+	 */
+	public void popMacroFrame() {
+		macroFrame = macroFrameStack.remove(macroFrameStack.size() - 1);
 	}
 
 	public FixedHandle getParentHandle() {

@@ -433,6 +433,59 @@ public abstract class PcodeEmit {
 	 * @param vntpl is the varnode template
 	 * @param vn is the resulting concrete varnode
 	 */
+	/**
+	 * Expand a call to an `outlined` macro, whose body is stored once in the .sla.
+	 * <p>
+	 * The arguments are resolved <em>before</em> the frame is pushed, because they belong to the
+	 * calling context; the body then resolves its parameters through
+	 * {@link ParserWalker#getFixedHandle}, exactly as a constructor body resolves its operands. No
+	 * template is modified: they are decoded once and shared by every instruction, so the
+	 * substitution has to live in the lookup rather than in the data.
+	 * @param op is the call placeholder, input 0 being the macro index and the rest the arguments
+	 * @param secnum is the p-code section being built
+	 */
+	private void appendMacro(OpTpl op, int secnum)
+			throws UnknownInstructionException, MemoryAccessException, IOException {
+		VarnodeTpl[] in = op.getInput();
+		int index = (int) in[0].getOffset().getReal();
+		ConstructTpl body = language.getMacro(index);
+
+		FixedHandle[] params = new FixedHandle[in.length - 1];
+		for (int i = 1; i < in.length; ++i) {
+			VarnodeTpl argtpl = in[i];
+			if (argtpl.isDynamic(walker)) {
+				// Would need a LOAD emitted into a temporary and the parameter bound to that; the
+				// compiler refuses the analogous case, so refuse it here rather than mis-emit.
+				throw new SleighException(
+					"Outlined macro called with a dynamic argument, which is not supported");
+			}
+			VarnodeData arg = new VarnodeData();
+			generateLocation(argtpl, arg);
+			FixedHandle hand = new FixedHandle();
+			hand.space = arg.space;
+			hand.size = arg.size;
+			hand.offset_space = null;		// static: the location is the value's own address
+			hand.offset_offset = arg.offset;
+			hand.offset_size = 0;
+			params[i - 1] = hand;
+		}
+
+		// The body's temporaries are NOT relocated per instantiation, deliberately. The sleigh
+		// compiler reuses one set of offsets across every inlining of a macro, and measurement
+		// confirms it: inlining this same body twice reuses the same temp both times. Matching that
+		// is what makes `outlined` semantics-preserving -- the emitted p-code is identical to the
+		// inlined form, temporaries included. It is safe for the same reason it is safe there: a
+		// macro's locals are scoped to its body, and instantiations are emitted sequentially, so a
+		// temporary is always written before it is read within the instantiation that owns it.
+		walker.pushMacroFrame(params);
+		try {
+			build(body, secnum);
+		}
+		finally {
+			walker.popMacroFrame();
+		}
+	}
+
 	private void generateLocation(VarnodeTpl vntpl, VarnodeData vn) {
 		vn.space = vntpl.getSpace().fixSpace(walker);
 		vn.size = (int) vntpl.getSize().fix(walker);
@@ -724,6 +777,9 @@ public abstract class PcodeEmit {
 					break;
 				case PcodeOp.PTRSUB:			// Crossbuild placeholder
 					appendCrossBuild(op, secnum);
+					break;
+				case PcodeOp.CAST:				// Outlined macro call placeholder
+					appendMacro(op, secnum);
 					break;
 				default:
 					if (inDelaySlot || (flowOverride == null) || !dumpFlowOverride(op)) {

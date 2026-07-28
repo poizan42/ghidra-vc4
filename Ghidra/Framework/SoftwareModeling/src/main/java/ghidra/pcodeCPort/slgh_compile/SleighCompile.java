@@ -824,10 +824,6 @@ public class SleighCompile extends SleighBase {
 	// Do all post processing on the parsed data structures
 	private void process() {
 		entry("process");
-		checkOutlinedMacrosSerialisable();
-		if (errors > 0) {
-			return;
-		}
 		checkNops();
 		checkCaseSensitivity();
 		if (getDefaultSpace() == null) {
@@ -1498,15 +1494,6 @@ public class SleighCompile extends SleighBase {
 		return true;
 	}
 
-	/**
-	 * Refuse to build a language whose bodies still contain an outlined macro call.
-	 * <p>
-	 * The format now carries the macro table and the reader restores it, but
-	 * {@code PcodeEmit.build} still has no case for the call, so a body would reach the decompiler
-	 * and the emulator containing a bare CAST. That would present as corrupt semantics rather than
-	 * as a missing feature, which is the worst way for unfinished work to fail. Remove this once
-	 * the runtime expands the call.
-	 */
 	@Override
 	protected void encodeMacroTable(Encoder encoder) throws IOException {
 		if (outlinedMacros.isEmpty()) {
@@ -1521,16 +1508,6 @@ public class SleighCompile extends SleighBase {
 			macrotable.get(i).encode(encoder, -1);
 		}
 		encoder.closeElement(ELEM_MACRO_TABLE);
-	}
-
-	private void checkOutlinedMacrosSerialisable() {
-		for (MacroSymbol sym : outlinedMacros.values()) {
-			reportError(sym.getLocation(), String.format(
-				"Outlined macro '%s' cannot be used yet: the .sla now carries the macro table, but " +
-					"the runtime does not expand the call, so the body would reach the decompiler " +
-					"as a bare CAST. Drop 'outlined' until that lands.",
-				sym.getName()));
-		}
 	}
 
 	private boolean expandMacros(ConstructTpl ctpl) {

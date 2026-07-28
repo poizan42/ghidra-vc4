@@ -79,8 +79,9 @@ define register offset=0x9000 size=64 [ VACC ];
 # are exact complements of IFNZ/IFN. Confirmed by setting the flags with `mov` -- already measured
 # to compute b -- over a row staged with known zero, positive and negative values, then reading
 # them back through a conditional move: all four conditions matched predictions made before the run.
-# VFC is declared for completeness but the CARRY flag has NOT been measured; nothing may consume it
-# until it has.
+# VFC is the per-lane carry: unsigned carry out of the top bit, measured 2026-07-27 (see the note on
+# vpmask). It is read by IFC/IFNC and written by `add`-SETF; no other operation's carry has been
+# measured, so nothing else writes it yet.
 define register offset=0x9100 size=2 [ VFZ VFN VFC ];
 
 define context contextreg
@@ -1926,11 +1927,31 @@ vpmask: is Vopsize=1 ; Vpredm=2 { export VFZ; }
 vpmask: is Vopsize=1 ; Vpredm=3 { local m:2 = ~VFZ; export m; }
 vpmask: is Vopsize=1 ; Vpredm=4 { export VFN; }
 vpmask: is Vopsize=1 ; Vpredm=5 { local m:2 = ~VFN; export m; }
-# Vpredm 6 and 7 (IFC/IFNC) are DELIBERATELY ABSENT. They read a carry flag no measurement covers,
-# and exporting all-enabled would model them as unconditional -- wrong whenever the carry is clear.
-# With no vpmask constructor for those values, any instruction carrying IFC/IFNC simply fails to
-# match a vpmask-consuming constructor and falls through to the pcodeop, which is the honest
-# outcome. Add the two constructors only once the carry flag has been probed.
+# IFC and IFNC. MEASURED (findings-alu.md, vpu-sem/gen-carryflag-probes.py): the carry flag is
+# unsigned carry out of the top bit and IFNC is its EXACT complement, so IFC is VFC and IFNC is ~VFC.
+# All six masks were predicted before the run and all six matched, with the four already-known
+# conditions re-read over the same data as an apparatus check.
+#
+# THESE TWO WERE ABSENT UNTIL 2026-07-28, AND LEAVING THEM OUT WAS NOT THE SAFE CHOICE IT LOOKED LIKE.
+# The reasoning was that an instruction carrying IFC/IFNC would "fall through to the pcodeop". It does
+# not. A generated 80-bit family consumes vpmask, and sleigh's decision tree commits to that
+# constructor on the pattern bits it can test and then fails to RESOLVE the vpmask operand -- it does
+# not backtrack to the generic pcodeop constructor. So the instruction did not decode at all, which is
+# strictly worse than a pcodeop: a linear sweep loses everything after it. Demonstrated by sweeping
+# Vpredm 0..7 over one encoding (0..5 decoded, 6 and 7 did not) and confirmed by the contrast with
+# Vaop=1, which no generated family claims and which therefore reached the fallback and decoded for
+# all eight values.
+#
+# The asymmetry is worth remembering: valu80 has ONE constructor, so its pattern constrains the
+# parent's and the CLRA/UACC forms correctly route to the fallback. vpmask has several, so its union
+# contributes nothing the decision tree can route on.
+#
+# What still is not modelled is the PRODUCER. Only `add`-SETF writes VFC, because `add` is the only
+# operation whose carry has been measured; after a `sub`/`mov`/load SETF, VFC holds whatever set it
+# last. vpu-sem/gen-setfcarry-probes.py is the batch that closes that. This is the same shape of gap
+# VFZ/VFN had before SETF was modelled -- the consumer is right, the producer set is incomplete.
+vpmask: is Vopsize=1 ; Vpredm=6 { export VFC; }
+vpmask: is Vopsize=1 ; Vpredm=7 { local m:2 = ~VFC; export m; }
 
 vpred: Vpred48 is (Vopsize=0 & Vpred48) ...
 	{ local tmp:1 = Vpred48; export tmp; }

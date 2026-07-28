@@ -251,6 +251,7 @@ void SleighBase::encode(Encoder &encoder) const
     encodeSlaSpace(encoder,spc);
   }
   encoder.closeElement(sla::ELEM_SPACES);
+  encodeMacroTable(encoder);
   symtab.encode(encoder);
   encoder.closeElement(sla::ELEM_SLEIGH);
 }
@@ -369,6 +370,17 @@ void SleighBase::decode(Decoder &decoder)
     throw LowlevelError(".sla file has wrong format");
   indexer.decode(decoder);
   decodeSlaSpaces(decoder,this);
+  // Optional: only a language declaring an `outlined` macro writes this element, so its absence is
+  // normal rather than an error. It precedes the symbol table because Decoder cannot seek back.
+  if (decoder.peekElement() == sla::ELEM_MACRO_TABLE) {
+    uint4 macel = decoder.openElement(sla::ELEM_MACRO_TABLE);
+    while(decoder.peekElement() != 0) {
+      ConstructTpl *tpl = new ConstructTpl();
+      tpl->decode(decoder);
+      macroTable.push_back(tpl);
+    }
+    decoder.closeElement(macel);
+  }
   symtab.decode(decoder,this);
   decoder.closeElement(el);
   root = (SubtableSymbol *)symtab.getGlobalScope()->findSymbol("instruction");

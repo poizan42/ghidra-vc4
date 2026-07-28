@@ -31,12 +31,15 @@ public class SlaFormat {
 	 * FORMAT_VERSION will be incremented whenever the format of the .sla
 	 * files change.
 	 * <p>
+	 * Version 5: July 2026 (fork): added the macro table, so an `outlined` macro body is stored
+	 *            once and its call sites reference it, rather than the body being inlined into
+	 *            every one of them.<br>
 	 * Version 4: Compressed and packed file format
 	 * Version 3: January 2021: added source file information for each constructor. <br>
 	 * Version 2: April 2019: Changed numbering of Overlay spaces.<br>
 	 * Version 1: Initial version.<br>
 	 */
-	public static final int FORMAT_VERSION = 4;
+	public static final int FORMAT_VERSION = 5;
 
 	/**
 	 * Absolute limit on the number of bytes in a .sla file
@@ -203,6 +206,13 @@ public class SlaFormat {
 	public static final ElementId ELEM_CONST_FLOWDEST = new ElementId("const_flowdest", 87);
 	public static final ElementId ELEM_CONST_FLOWDEST_SIZE =
 		new ElementId("const_flowdest_size", 88);
+	/**
+	 * Holds the body of every `outlined` macro, in macro-index order, so a call site can carry a
+	 * reference instead of a copy of the body. A call is an ordinary op_tpl with opcode CAST whose
+	 * first input is the index into this table -- the same representation the sleigh compiler
+	 * already used internally before expansion -- so the call itself needs no element of its own.
+	 */
+	public static final ElementId ELEM_MACRO_TABLE = new ElementId("macro_table", 89);
 
 	/**
 	 * Try to read the header bytes of the .sla format from the given stream. If the header bytes

@@ -72,6 +72,14 @@ protected:
   AddrSpace *decodeSlaSpace(Decoder &decoder,const Translate *trans); ///< Add a space parsed from a .sla file
   void decodeSlaSpaces(Decoder &decoder,const Translate *trans); ///< Restore address spaces from a .sla file
   void decode(Decoder &decoder);	/// Decode a SELIGH specification from a stream
+  /// \brief Write the bodies of any `outlined` macros, ahead of the symbol table that references them
+  ///
+  /// Only a compiler holds macro bodies, so this writes nothing by default.  Note the C++ sleigh
+  /// compiler has no `outlined` keyword -- that front end exists only in the Java compiler -- so
+  /// nothing here overrides this.  The decoder below still reads the table, so a .sla produced by
+  /// the Java compiler loads correctly in the C++ tools.
+  virtual void encodeMacroTable(Encoder &encoder) const {}
+  vector<ConstructTpl *> macroTable;	///< Bodies of `outlined` macros, indexed as CAST calls reference them
 public:
   static const uint4 MAX_UNIQUE_SIZE;    ///< Maximum size of a varnode in the unique space (should match value in SleighBase.java)
   SleighBase(void);		///< Construct an uninitialized translator

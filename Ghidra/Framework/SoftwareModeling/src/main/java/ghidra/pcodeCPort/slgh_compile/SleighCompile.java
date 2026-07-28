@@ -38,6 +38,9 @@ import ghidra.pcodeCPort.slghsymbol.*;
 import ghidra.pcodeCPort.space.*;
 import ghidra.pcodeCPort.utils.Utils;
 import ghidra.program.model.lang.SpaceNames;
+import static ghidra.pcode.utils.SlaFormat.ELEM_MACRO_TABLE;
+
+import ghidra.program.model.pcode.Encoder;
 import ghidra.program.model.pcode.PackedEncode;
 import ghidra.program.model.pcode.XmlEncode;
 import ghidra.sleigh.grammar.*;
@@ -1498,17 +1501,33 @@ public class SleighCompile extends SleighBase {
 	/**
 	 * Refuse to build a language whose bodies still contain an outlined macro call.
 	 * <p>
-	 * The front end can already leave the call in place, but the {@code .sla} format has no way to
-	 * carry the macro table and {@code PcodeEmit.build} has no case for the call, so a file written
-	 * now would decode into a body containing a bare CAST. That would present as corrupt semantics
-	 * rather than as a missing feature, which is the worst way for an unfinished feature to fail.
-	 * Remove this once the format carries the table and the runtime expands it.
+	 * The format now carries the macro table and the reader restores it, but
+	 * {@code PcodeEmit.build} still has no case for the call, so a body would reach the decompiler
+	 * and the emulator containing a bare CAST. That would present as corrupt semantics rather than
+	 * as a missing feature, which is the worst way for unfinished work to fail. Remove this once
+	 * the runtime expands the call.
 	 */
+	@Override
+	protected void encodeMacroTable(Encoder encoder) throws IOException {
+		if (outlinedMacros.isEmpty()) {
+			// Nothing references a macro body, so write nothing at all rather than an empty element.
+			// That keeps a language without outlined macros byte-identical apart from the version.
+			return;
+		}
+		encoder.openElement(ELEM_MACRO_TABLE);
+		// Every entry is written, including inlined macros, so that a position in this table is the
+		// index a CAST call already carries. Filtering to outlined macros alone would renumber them.
+		for (int i = 0; i < macrotable.size(); ++i) {
+			macrotable.get(i).encode(encoder, -1);
+		}
+		encoder.closeElement(ELEM_MACRO_TABLE);
+	}
+
 	private void checkOutlinedMacrosSerialisable() {
 		for (MacroSymbol sym : outlinedMacros.values()) {
 			reportError(sym.getLocation(), String.format(
-				"Outlined macro '%s' cannot be written to a .sla yet: the format does not carry the " +
-					"macro table and the runtime has no case for the call, so the body would decode " +
+				"Outlined macro '%s' cannot be used yet: the .sla now carries the macro table, but " +
+					"the runtime does not expand the call, so the body would reach the decompiler " +
 					"as a bare CAST. Drop 'outlined' until that lands.",
 				sym.getName()));
 		}

@@ -209,7 +209,21 @@ public abstract class SleighBase extends Translate implements NamedSymbolProvide
 			spc.encode(encoder);
 		}
 		encoder.closeElement(ELEM_SPACES);
+		encodeMacroTable(encoder);
 		symtab.encode(encoder);
 		encoder.closeElement(ELEM_SLEIGH);
+	}
+
+	/**
+	 * Write the bodies of any `outlined` macros, before the symbol table that references them.
+	 * <p>
+	 * Only the compiler holds a macro table, so the base class writes nothing. The ordering is
+	 * deliberate: {@code PackedDecode} cannot seek, so anything the constructors refer to has to
+	 * appear ahead of them in the stream.
+	 * @param encoder is the stream to write to
+	 * @throws IOException for errors writing to the stream
+	 */
+	protected void encodeMacroTable(Encoder encoder) throws IOException {
+		// nothing to write unless a subclass has macros
 	}
 }

@@ -34,6 +34,7 @@ import ghidra.app.plugin.processors.generic.MemoryBlockDefinition;
 import ghidra.app.plugin.processors.sleigh.expression.ContextField;
 import ghidra.app.plugin.processors.sleigh.expression.PatternValue;
 import ghidra.app.plugin.processors.sleigh.symbol.*;
+import ghidra.app.plugin.processors.sleigh.template.ConstructTpl;
 import ghidra.framework.Application;
 import ghidra.pcode.utils.SlaFormat;
 import ghidra.program.model.address.*;
@@ -75,6 +76,9 @@ public class SleighLanguage implements Language {
 	private final SleighLanguageDescription description;
 	private ParallelInstructionLanguageHelper parallelHelper;
 	private SourceFileIndexer indexer;  //used to provide source file info for constructors
+	// Bodies of `outlined` macros, indexed as the CAST call sites reference them. Empty for a
+	// language that declares none, which is every language that predates the feature.
+	private ConstructTpl[] macroTable;
 
 	/**
 	 * Symbols used by sleigh
@@ -843,6 +847,47 @@ public class SleighLanguage implements Language {
 		
 	}
 
+	/**
+	 * Read the bodies of any `outlined` macros, if the file carries them.
+	 * <p>
+	 * The element is optional: a language with no outlined macro writes none, so its absence is
+	 * normal and must not be treated as an error. It is peeked rather than opened unconditionally
+	 * because the symbol table follows it in the stream and {@link Decoder} cannot seek backwards.
+	 * @param decoder is the stream to read from
+	 * @throws DecoderException for a malformed table
+	 */
+	private void decodeMacroTable(Decoder decoder) throws DecoderException {
+		if (decoder.peekElement() != ELEM_MACRO_TABLE.id()) {
+			macroTable = new ConstructTpl[0];
+			return;
+		}
+		int el = decoder.openElement(ELEM_MACRO_TABLE);
+		ArrayList<ConstructTpl> macros = new ArrayList<>();
+		while (decoder.peekElement() != 0) {
+			ConstructTpl tpl = new ConstructTpl();
+			tpl.decode(decoder);
+			macros.add(tpl);
+		}
+		decoder.closeElement(el);
+		macroTable = macros.toArray(ConstructTpl[]::new);
+	}
+
+	/**
+	 * {@return the body of the macro at the given index}
+	 * <p>
+	 * A p-code body can contain a call to an `outlined` macro, represented as an op with the CAST
+	 * opcode whose first input is an index into this table. Resolving that call is how the body,
+	 * stored once, reaches every one of its call sites.
+	 * @param index is the macro index carried by the call
+	 */
+	public ConstructTpl getMacro(int index) {
+		if ((macroTable == null) || (index < 0) || (index >= macroTable.length)) {
+			throw new SleighException(
+				"Reference to macro " + index + " but the .sla holds no such macro body");
+		}
+		return macroTable[index];
+	}
+
 	private void decode(Decoder decoder) throws DecoderException {
 		int el = decoder.openElement(ELEM_SLEIGH);
 		int version = 0;
@@ -886,6 +931,7 @@ public class SleighLanguage implements Language {
 		indexer = new SourceFileIndexer();
 		indexer.decode(decoder);
 		parseSpaces(decoder);
+		decodeMacroTable(decoder);
 		symtab = new SymbolTable();
 		symtab.decode(decoder, this);
 		root =

@@ -18,7 +18,7 @@
 namespace ghidra {
 namespace sla {
 const int4 FORMAT_SCOPE = 1;
-const int4 FORMAT_VERSION = 4;
+const int4 FORMAT_VERSION = 5;
 
 // ATTRIB_CONTEXT = 1 is reserved
 AttributeId ATTRIB_VAL = AttributeId("val", 2, FORMAT_SCOPE);
@@ -166,6 +166,7 @@ ElementId ELEM_CONST_FLOWREF = ElementId("const_flowref", 85, FORMAT_SCOPE);
 ElementId ELEM_CONST_FLOWREF_SIZE = ElementId("const_flowref_size", 86, FORMAT_SCOPE);
 ElementId ELEM_CONST_FLOWDEST = ElementId("const_flowdest", 87, FORMAT_SCOPE);
 ElementId ELEM_CONST_FLOWDEST_SIZE = ElementId("const_flowdest_size", 88, FORMAT_SCOPE);
+ElementId ELEM_MACRO_TABLE = ElementId("macro_table", 89, FORMAT_SCOPE);
 
 /// The bytes of the header are read from the stream and verified against the required form and current version.
 /// If the form matches, \b true is returned.  No additional bytes are read.

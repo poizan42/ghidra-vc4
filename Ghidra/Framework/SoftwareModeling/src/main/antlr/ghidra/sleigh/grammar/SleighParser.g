@@ -222,6 +222,9 @@ constructorlike
 
 macrodef
 	:	lc=KEY_MACRO identifier lp=LPAREN arguments[$lp] RPAREN semanticbody -> ^(OP_MACRO[$lc, "macro"] identifier arguments semanticbody)
+	// An `outlined` macro is not inlined at compile time; the call survives into the .sla as a
+	// reference into the macro table and is expanded when p-code is built.
+	|	lo=KEY_OUTLINED KEY_MACRO identifier lp=LPAREN arguments[$lp] RPAREN semanticbody -> ^(OP_MACRO_OUTLINED[$lo, "outlined macro"] identifier arguments semanticbody)
 	;
 
 arguments[Token lc]
@@ -568,6 +571,7 @@ key_as_id
 	|	lc=KEY_NAMES		-> ^(OP_IDENTIFIER[$lc, "KEY_NAMES"] KEY_NAMES)
 	|	lc=KEY_NOFLOW		-> ^(OP_IDENTIFIER[$lc, "KEY_NOFLOW"] KEY_NOFLOW)
 	|	lc=KEY_OFFSET		-> ^(OP_IDENTIFIER[$lc, "KEY_OFFSET"] KEY_OFFSET)
+	|	lc=KEY_OUTLINED		-> ^(OP_IDENTIFIER[$lc, "KEY_OUTLINED"] KEY_OUTLINED)
 	|	lc=KEY_PCODEOP		-> ^(OP_IDENTIFIER[$lc, "KEY_PCODEOP"] KEY_PCODEOP)
 	|	lc=KEY_RETURN		-> ^(OP_IDENTIFIER[$lc, "KEY_RETURN"] KEY_RETURN)
 	|	lc=KEY_SIGNED		-> ^(OP_IDENTIFIER[$lc, "KEY_SIGNED"] KEY_SIGNED)

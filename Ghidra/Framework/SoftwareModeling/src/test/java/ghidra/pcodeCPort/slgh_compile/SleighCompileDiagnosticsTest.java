@@ -322,6 +322,72 @@ public class SleighCompileDiagnosticsTest extends AbstractGenericTest {
 	}
 
 	/**
+	 * A plain macro still inlines. This is the regression guard for the {@code outlined} work: the
+	 * default path must be untouched.
+	 */
+	@Test
+	public void testPlainMacroStillCompiles() throws Exception {
+		Diagnostics diagnostics = compile("""
+				macro lane(dst, a, b) { dst = a + b; }
+				:good is op8=0x20 { lane(r0, r1, r2); }
+				""");
+
+		assertEquals("a plain macro should compile: " + diagnostics, 0, diagnostics.returnCode());
+		assertTrue("a plain macro should report no errors: " + diagnostics,
+			diagnostics.errors().isEmpty());
+	}
+
+	/**
+	 * {@code outlined} is a new keyword, so it must not stop being usable as an ordinary name --
+	 * the grammar re-admits it through the keyword-as-identifier alternation.
+	 */
+	@Test
+	public void testOutlinedIsStillUsableAsAnIdentifier() throws Exception {
+		Diagnostics diagnostics = compile("""
+				:good is op8=0x21 {
+					local outlined:4 = r1 + 1;
+					r0 = outlined;
+				}
+				""");
+
+		assertEquals("'outlined' must still work as a name: " + diagnostics, 0,
+			diagnostics.returnCode());
+		assertTrue("'outlined' as a name should report no errors: " + diagnostics,
+			diagnostics.errors().isEmpty());
+	}
+
+	/**
+	 * An outlined macro is not inlined, so its call survives into the body as a reference into the
+	 * macro table. Nothing can serialise that yet, and a {@code .sla} written now would decode as a
+	 * body containing a bare CAST -- corrupt semantics rather than a missing feature. Until the
+	 * format and the runtime catch up, that must be refused rather than written.
+	 */
+	@Test
+	public void testOutlinedMacroIsRefusedUntilItCanBeSerialised() throws Exception {
+		Diagnostics diagnostics = compile("""
+				outlined macro lane(dst, a, b) { dst = a + b; }
+				:bad is op8=0x22 { lane(r0, r1, r2); }
+				""");
+
+		assertError(diagnostics, "outlined macro", "lane", "cannot be written");
+	}
+
+	/**
+	 * A bit range applied to a parameter makes {@code MacroBuilder.transferOp} synthesise a SUBPIECE
+	 * into a freshly allocated temporary. An outlined body is expanded where there is no compiler
+	 * and no allocator, so this has to be refused at definition time rather than fail later.
+	 */
+	@Test
+	public void testOutlinedMacroRejectsBitRangeOnAParameter() throws Exception {
+		Diagnostics diagnostics = compile("""
+				outlined macro bad(dst, a) { dst = a[0,8]; }
+				:bad is op8=0x23 { bad(r0, r1); }
+				""");
+
+		assertError(diagnostics, "outlined macro", "bit range", "parameter");
+	}
+
+	/**
 	 * Truncation applied to a parenthesised expression. The grammar allows {@code :size} only on a
 	 * variable or a constant, so this is a plain syntax error -- and "unexpected COLON" on its own
 	 * gives no hint that the fix is to assign the expression to an intermediate first.

@@ -528,6 +528,13 @@ macrodef
 				sc.buildMacro(symbol, $macrodef::macrobody);
 			}
 		}
+	|	^(t=OP_MACRO_OUTLINED n=unbound_identifier["macro"] a=arguments {
+			symbol = sc.createMacro(find(n), n.getText(), a.first, a.second, true);
+		} s=semantic[env, null, sc.pcode, $t, false, true]) {
+			if (symbol != null) {
+				sc.buildMacro(symbol, $macrodef::macrobody);
+			}
+		}
 	;
 
 arguments returns [Pair<VectorSTL<String>,VectorSTL<Location>> value]

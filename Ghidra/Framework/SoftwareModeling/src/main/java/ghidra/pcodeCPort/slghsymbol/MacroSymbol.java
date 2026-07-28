@@ -23,16 +23,32 @@ public class MacroSymbol extends SleighSymbol {
 
 	private int index;
 	private ConstructTpl construct;
+	private boolean outlined;
 	private VectorSTL<OperandSymbol> operands = new VectorSTL<OperandSymbol>();
 
 	public MacroSymbol( Location location, String nm, int i ) {
+		this( location, nm, i, false );
+	}
+
+	public MacroSymbol( Location location, String nm, int i, boolean outlined ) {
 		super( location, nm );
 		index = i;
 		construct = null;
+		this.outlined = outlined;
 	}
 
 	public int getIndex() {
 		return index;
+	}
+
+	/**
+	 * An outlined macro is not inlined at its call sites during compilation.  The call survives as a
+	 * reference into the macro table and the body is expanded when p-code is built, so the body is
+	 * stored once rather than copied per call site.
+	 * @return true if this macro is outlined
+	 */
+	public boolean isOutlined() {
+		return outlined;
 	}
 
 	public void setConstruct( ConstructTpl ct ) {

@@ -250,6 +250,9 @@ public class SleighCompile extends SleighBase {
 	private VectorSTL<FieldContext> contexttable = new VectorSTL<>();
 	private Integer firstContextField = null;
 	private VectorSTL<ConstructTpl> macrotable = new VectorSTL<>();
+	// Macros declared `outlined`, keyed by their index into macrotable, so expandMacros can leave
+	// the call in place instead of inlining the body.
+	private final Map<Integer, MacroSymbol> outlinedMacros = new HashMap<>();
 	private VectorSTL<ghidra.pcodeCPort.context.Token> tokentable = new VectorSTL<>();
 	private VectorSTL<SubtableSymbol> tables = new VectorSTL<>();
 	private VectorSTL<SectionSymbol> sections = new VectorSTL<>();
@@ -818,6 +821,10 @@ public class SleighCompile extends SleighBase {
 	// Do all post processing on the parsed data structures
 	private void process() {
 		entry("process");
+		checkOutlinedMacrosSerialisable();
+		if (errors > 0) {
+			return;
+		}
 		checkNops();
 		checkCaseSensitivity();
 		if (getDefaultSpace() == null) {
@@ -1336,9 +1343,14 @@ public class SleighCompile extends SleighBase {
 	// create a macro symbol (with parameter names)
 	public MacroSymbol createMacro(Location location, String name, VectorSTL<String> params,
 			VectorSTL<Location> locations) {
+		return createMacro(location, name, params, locations, false);
+	}
+
+	public MacroSymbol createMacro(Location location, String name, VectorSTL<String> params,
+			VectorSTL<Location> locations, boolean outlined) {
 		entry("createMacro", location, name, params, locations);
 		curct = null; // Not currently defining a Constructor
-		curmacro = new MacroSymbol(location, name, macrotable.size());
+		curmacro = new MacroSymbol(location, name, macrotable.size(), outlined);
 		addSymbol(curmacro);
 		symtab.addScope(); // New scope for the body of the macro definition
 		pcode.resetLabelCount(); // Macros have their own labels
@@ -1483,6 +1495,25 @@ public class SleighCompile extends SleighBase {
 		return true;
 	}
 
+	/**
+	 * Refuse to build a language whose bodies still contain an outlined macro call.
+	 * <p>
+	 * The front end can already leave the call in place, but the {@code .sla} format has no way to
+	 * carry the macro table and {@code PcodeEmit.build} has no case for the call, so a file written
+	 * now would decode into a body containing a bare CAST. That would present as corrupt semantics
+	 * rather than as a missing feature, which is the worst way for an unfinished feature to fail.
+	 * Remove this once the format carries the table and the runtime expands it.
+	 */
+	private void checkOutlinedMacrosSerialisable() {
+		for (MacroSymbol sym : outlinedMacros.values()) {
+			reportError(sym.getLocation(), String.format(
+				"Outlined macro '%s' cannot be written to a .sla yet: the format does not carry the " +
+					"macro table and the runtime has no case for the call, so the body would decode " +
+					"as a bare CAST. Drop 'outlined' until that lands.",
+				sym.getName()));
+		}
+	}
+
 	private boolean expandMacros(ConstructTpl ctpl) {
 		VectorSTL<OpTpl> vec = ctpl.getOpvec();
 		VectorSTL<OpTpl> newvec = new VectorSTL<>();
@@ -1490,9 +1521,15 @@ public class SleighCompile extends SleighBase {
 		for (iter = vec.begin(); !iter.isEnd(); iter.increment()) {
 			OpTpl op = iter.get();
 			if (op.getOpcode() == OpCode.CPUI_CAST) {
+				int index = (int) op.getIn(0).getOffset().getReal();
+				if (outlinedMacros.containsKey(index)) {
+					// Leave the call in place. It is a reference into the macro table, resolved when
+					// p-code is built rather than by copying the body in here.
+					newvec.push_back(op);
+					continue;
+				}
 				MacroBuilder builder =
 					new MacroBuilder(this, op.location, newvec, ctpl.numLabels());
-				int index = (int) op.getIn(0).getOffset().getReal();
 				if (index >= macrotable.size()) {
 					return false;
 				}
@@ -1783,7 +1820,54 @@ public class SleighCompile extends SleighBase {
 		pcode.propagateSize(rtl); // Propagate size information (as much as possible)
 		sym.setConstruct(rtl);
 		symtab.popScope(); // Pop local variables used to define macro
+		if (sym.isOutlined() && checkOutlinable(sym, rtl)) {
+			outlinedMacros.put(sym.getIndex(), sym);
+		}
 		macrotable.push_back(rtl);
+	}
+
+	/**
+	 * Check that a macro body can be expanded without a compiler present.
+	 * <p>
+	 * An inlined macro is expanded by {@link MacroBuilder} during compilation, which is free to
+	 * allocate a fresh temporary: when a body applies a bit-range to one of its parameters,
+	 * {@code transferOp} synthesises a SUBPIECE into a new location from {@code getUniqueAddr()}.
+	 * An outlined macro is expanded when p-code is built, where there is no compiler and no
+	 * allocator, so that case has to be refused here rather than fail at build time.
+	 * <p>
+	 * The test is the precondition of {@link VarnodeTpl#transfer}: it can only return a truncation
+	 * if some varnode's offset is a handle carrying {@code v_offset_plus}. Absent that, no
+	 * temporary is ever needed, whatever the call site passes.
+	 * @param sym is the macro being defined
+	 * @param rtl is its body
+	 * @return true if the macro can be outlined
+	 */
+	private boolean checkOutlinable(MacroSymbol sym, ConstructTpl rtl) {
+		for (IteratorSTL<OpTpl> iter = rtl.getOpvec().begin(); !iter.isEnd(); iter.increment()) {
+			OpTpl op = iter.get();
+			VarnodeTpl[] all = new VarnodeTpl[op.numInput() + 1];
+			all[0] = op.getOut();
+			for (int i = 0; i < op.numInput(); ++i) {
+				all[i + 1] = op.getIn(i);
+			}
+			for (VarnodeTpl vn : all) {
+				if (vn == null) {
+					continue;
+				}
+				ConstTpl off = vn.getOffset();
+				if ((off.getType() == ConstTpl.const_type.handle) &&
+					(off.getSelect() == ConstTpl.v_field.v_offset_plus)) {
+					reportError(op.location, String.format(
+						"Outlined macro '%s' applies a bit range to a parameter, which needs a new " +
+							"temporary when the body is expanded; expanding happens where no " +
+							"temporary can be allocated. Pass the already-narrowed varnode as the " +
+							"argument instead, or drop 'outlined'.",
+						sym.getName()));
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	@Override

@@ -80,6 +80,7 @@ tokens {
 	OP_LITTLE;
 	OP_LOCAL;
 	OP_MACRO;
+	OP_MACRO_OUTLINED;
 	OP_MULT;
 	OP_NAMES;
 	OP_NEGATE;
@@ -176,6 +177,7 @@ KEY_MACRO		:	'macro';
 KEY_NAMES		:	'names';
 KEY_NOFLOW		:	'noflow';
 KEY_OFFSET		:	'offset';
+KEY_OUTLINED	:	'outlined';
 KEY_PCODEOP		:	'pcodeop';
 KEY_RETURN		:	'return';
 KEY_SIGNED		:	'signed';

@@ -44,15 +44,19 @@ static const char *opcode_name[] = {
   "TRUNC", "CEIL", "FLOOR", "ROUND",
   "BUILD", "DELAY_SLOT", "PIECE", "SUBPIECE", "CAST",
   "LABEL", "CROSSBUILD", "SEGMENTOP", "CPOOLREF", "NEW",
-  "INSERT", "EXTRACT", "POPCOUNT", "LZCOUNT"
+  "INSERT", "ZPULL", "POPCOUNT", "LZCOUNT", "SPULL"
 };
 
+// Both arrays must hold exactly CPUI_MAX entries.  get_opname indexes opcode_name directly by
+// op-code, and get_opcode's binary search starts from max = CPUI_MAX-1, so a short array reads out
+// of bounds.  opcode_indices is sorted by name: slot 0 is an unused placeholder (the search starts
+// at 1) and slots 1..CPUI_MAX-1 hold the op-codes ordered by opcode_name.
 static const int4 opcode_indices[] = {
    0, 39, 37, 40, 38,  4,  6, 60,  7,  8,  9, 64,  5, 57,  1, 68, 66,
-  61, 71, 55, 52, 47, 48, 41, 43, 44, 49, 46, 51, 42, 53, 50, 58, 70,
-  54, 24, 19, 27, 21, 33, 11, 29, 15, 16, 32, 25, 12, 28, 35, 30,
-  23, 22, 34, 18, 13, 14, 36, 31, 20, 26, 17, 65,  2, 73, 69, 62, 72, 10, 59,
-  67,  3, 63, 56, 45
+  61, 55, 52, 47, 48, 41, 43, 44, 49, 46, 51, 42, 53, 50, 58, 70, 54,
+  24, 19, 27, 21, 33, 11, 29, 15, 16, 32, 25, 12, 28, 35, 30, 23, 22,
+  34, 18, 13, 14, 36, 31, 20, 26, 17, 65,  2, 73, 69, 62, 72, 10, 59,
+  67, 74,  3, 63, 56, 45, 71
 };
 
 /// \param opc is an OpCode value

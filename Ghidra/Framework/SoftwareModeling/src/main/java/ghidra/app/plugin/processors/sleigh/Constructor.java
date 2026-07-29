@@ -359,7 +359,7 @@ public class Constructor implements Comparable<Constructor> {
 			}
 			else {
 				ConstructTpl curtempl = new ConstructTpl();
-				int sectionid = curtempl.decode(decoder);
+				int sectionid = curtempl.decode(decoder, sleigh.getVarnodeTable());
 				if (sectionid < 0) {
 					if (templ != null) {
 						throw new DecoderException("Duplicate main template section");

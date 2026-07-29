@@ -80,7 +80,12 @@ protected:
   /// the Java compiler loads correctly in the C++ tools.
   virtual void encodeMacroTable(Encoder &encoder) const {}
   vector<ConstructTpl *> macroTable;	///< Bodies of `outlined` macros, indexed as CAST calls reference them
+  vector<VarnodeTpl *> varnodeTable;	///< Distinct varnode templates, indexed as operands reference them
 public:
+  /// \brief Get the shared table of varnode templates an operand may reference by index
+  ///
+  /// Empty for a .sla that carries no table, in which case every operand is written in full.
+  const vector<VarnodeTpl *> &getVarnodeTable(void) const { return varnodeTable; }
   static const uint4 MAX_UNIQUE_SIZE;    ///< Maximum size of a varnode in the unique space (should match value in SleighBase.java)
   SleighBase(void);		///< Construct an uninitialized translator
   bool isInitialized(void) const { return (root != (SubtableSymbol *)0); }	///< Return \b true if \b this is initialized

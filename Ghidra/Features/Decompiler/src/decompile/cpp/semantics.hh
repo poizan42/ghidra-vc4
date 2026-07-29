@@ -147,7 +147,7 @@ public:
   void changeHandleIndex(const vector<int4> &handmap);		///< Remap any handle indices for \b this
   bool adjustTruncation(int4 sz,bool isbigendian);		///< Adjust truncation given final size of the Varnode
   void encode(Encoder &encoder) const;				///< Encode \b this VarnodeTpl to an output stream
-  void decode(Decoder &decoder);				///< Decode \b this VarnodeTpl from a stream
+  void decode(Decoder &decoder,const vector<VarnodeTpl *> &table);	///< Decode \b this VarnodeTpl from a stream
 };
 
 /// \brief An \e exported value of a sub-constructor in a SLEIGH specification
@@ -211,7 +211,7 @@ public:
   void removeInput(int4 index);					///< Remove the indicated input
   void changeHandleIndex(const vector<int4> &handmap);		///< Remap any handle indices for inputs and outputs to \b this
   void encode(Encoder &encoder) const;				///< Encode \b this OpTpl to an output stream
-  void decode(Decoder &decoder);				///< Decode \b this OpTpl from a stream
+  void decode(Decoder &decoder,const vector<VarnodeTpl *> &table);	///< Decode \b this OpTpl from a stream
 };
 
 /// \brief P-code semantics for Constructor in a SLEIGH specification
@@ -244,7 +244,7 @@ public:
   void setOutput(VarnodeTpl *vn,int4 index);			///< Set the VarnodeTpl output for a particular OpTpl in the sequence
   void deleteOps(const vector<int4> &indices);			///< Delete the given set of operations
   void encode(Encoder &encoder,int4 sectionid) const;		///< Encode details of \b this semantic sequence to an output stream
-  int4 decode(Decoder &decoder);				///< Decode a semantic sequence from a stream
+  int4 decode(Decoder &decoder,const vector<VarnodeTpl *> &table);	///< Decode a semantic sequence from a stream
 };
 
 class PcodeEmit;   // Forward declaration for emitter

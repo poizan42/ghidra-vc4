@@ -35,6 +35,7 @@ import ghidra.app.plugin.processors.sleigh.expression.ContextField;
 import ghidra.app.plugin.processors.sleigh.expression.PatternValue;
 import ghidra.app.plugin.processors.sleigh.symbol.*;
 import ghidra.app.plugin.processors.sleigh.template.ConstructTpl;
+import ghidra.app.plugin.processors.sleigh.template.VarnodeTpl;
 import ghidra.framework.Application;
 import ghidra.pcode.utils.SlaFormat;
 import ghidra.program.model.address.*;
@@ -79,6 +80,7 @@ public class SleighLanguage implements Language {
 	// Bodies of `outlined` macros, indexed as the CAST call sites reference them. Empty for a
 	// language that declares none, which is every language that predates the feature.
 	private ConstructTpl[] macroTable;
+	private VarnodeTpl[] varnodeTable;
 
 	/**
 	 * Symbols used by sleigh
@@ -865,11 +867,43 @@ public class SleighLanguage implements Language {
 		ArrayList<ConstructTpl> macros = new ArrayList<>();
 		while (decoder.peekElement() != 0) {
 			ConstructTpl tpl = new ConstructTpl();
-			tpl.decode(decoder);
+			tpl.decode(decoder, varnodeTable);
 			macros.add(tpl);
 		}
 		decoder.closeElement(el);
 		macroTable = macros.toArray(ConstructTpl[]::new);
+	}
+
+	/**
+	 * Read the shared table of varnode templates, if the file carries one.
+	 * <p>
+	 * Optional and peeked, for the same reason as the macro table: a language with no repeated varnode
+	 * writes none. It has to be read BEFORE the macro table and the symbol table, both of which hold
+	 * p-code bodies that reference it, because {@link Decoder} cannot seek backwards.
+	 * @param decoder is the stream to read from
+	 * @throws DecoderException for a malformed table
+	 */
+	private void decodeVarnodeTable(Decoder decoder) throws DecoderException {
+		if (decoder.peekElement() != ELEM_VARNODE_TABLE.id()) {
+			varnodeTable = new VarnodeTpl[0];
+			return;
+		}
+		int el = decoder.openElement(ELEM_VARNODE_TABLE);
+		ArrayList<VarnodeTpl> vns = new ArrayList<>();
+		while (decoder.peekElement() != 0) {
+			// Entries are written in full, never as references -- an entry cannot refer to itself --
+			// so an empty table is passed here.
+			vns.add(VarnodeTpl.decodeVarnode(decoder, new VarnodeTpl[0]));
+		}
+		decoder.closeElement(el);
+		varnodeTable = vns.toArray(VarnodeTpl[]::new);
+	}
+
+	/**
+	 * {@return the shared varnode table, empty if this language's .sla carries none}
+	 */
+	public VarnodeTpl[] getVarnodeTable() {
+		return varnodeTable;
 	}
 
 	/**
@@ -931,6 +965,7 @@ public class SleighLanguage implements Language {
 		indexer = new SourceFileIndexer();
 		indexer.decode(decoder);
 		parseSpaces(decoder);
+		decodeVarnodeTable(decoder);
 		decodeMacroTable(decoder);
 		symtab = new SymbolTable();
 		symtab.decode(decoder, this);

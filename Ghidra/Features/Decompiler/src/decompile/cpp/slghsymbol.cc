@@ -1703,7 +1703,7 @@ void Constructor::decode(Decoder &decoder,SleighBase *trans)
     }
     else {
       unique_ptr<ConstructTpl> cur(new ConstructTpl());
-      int4 sectionid = cur->decode(decoder);
+      int4 sectionid = cur->decode(decoder,trans->getVarnodeTable());
       if (sectionid < 0) {
 	if (templ != (ConstructTpl *)0)
 	  throw LowlevelError("Duplicate main section");

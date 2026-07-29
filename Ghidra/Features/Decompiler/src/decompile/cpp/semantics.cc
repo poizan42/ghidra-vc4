@@ -587,11 +587,26 @@ void VarnodeTpl::encode(Encoder &encoder) const
   encoder.closeElement(sla::ELEM_VARNODE_TPL);
 }
 
+/// A varnode may be written in full, or as an index into the shared varnode table.  A reference is
+/// COPIED out of the table rather than shared: an OpTpl owns and deletes its operands, so sharing
+/// one entry between operands would double-free it.  (The Java reader does share, since it has a
+/// garbage collector and that is where the heap saving is wanted.)
 /// \param decoder is the input stream
-void VarnodeTpl::decode(Decoder &decoder)
+/// \param table is the shared varnode table, empty if the file carries none
+void VarnodeTpl::decode(Decoder &decoder,const vector<VarnodeTpl *> &table)
 
 {
   uint4 el = decoder.openElement(sla::ELEM_VARNODE_TPL);
+  uint4 attrib = decoder.getNextAttributeId();
+  if (attrib == sla::ATTRIB_INDEX) {
+    uintb index = decoder.readUnsignedInteger();
+    decoder.closeElement(el);
+    if (index >= table.size())
+      throw LowlevelError("Varnode reference outside the .sla varnode table");
+    *this = *table[index];
+    return;
+  }
+  decoder.rewindAttributes();
   space.decode(decoder);
   offset.decode(decoder);
   size.decode(decoder);
@@ -792,7 +807,7 @@ void OpTpl::encode(Encoder &encoder) const
 }
 
 /// \param decoder is the input stream
-void OpTpl::decode(Decoder &decoder)
+void OpTpl::decode(Decoder &decoder,const vector<VarnodeTpl *> &table)
 
 {
   uint4 el = decoder.openElement(sla::ELEM_OP_TPL);
@@ -805,12 +820,12 @@ void OpTpl::decode(Decoder &decoder)
   }
   else {
     output = new VarnodeTpl();
-    output->decode(decoder);
+    output->decode(decoder,table);
   }
   while(decoder.peekElement() != 0) {
     VarnodeTpl *vn = new VarnodeTpl();
     input.push_back(vn);
-    vn->decode(decoder);
+    vn->decode(decoder,table);
   }
   decoder.closeElement(el);
 }
@@ -998,7 +1013,7 @@ void ConstructTpl::encode(Encoder &encoder,int4 sectionid) const
 
 /// \param decoder is the stream to decode from
 /// \return the Constructor section id associated with the sequence
-int4 ConstructTpl::decode(Decoder &decoder)
+int4 ConstructTpl::decode(Decoder &decoder,const vector<VarnodeTpl *> &table)
 
 {
   uint4 el = decoder.openElement(sla::ELEM_CONSTRUCT_TPL);
@@ -1029,7 +1044,7 @@ int4 ConstructTpl::decode(Decoder &decoder)
   while(decoder.peekElement() != 0) {
     OpTpl *op = new OpTpl();
     vec.push_back(op);
-    op->decode(decoder);
+    op->decode(decoder,table);
   }
   decoder.closeElement(el);
   return sectionid;

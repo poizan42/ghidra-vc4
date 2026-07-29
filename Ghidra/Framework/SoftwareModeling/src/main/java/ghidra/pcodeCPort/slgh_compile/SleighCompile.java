@@ -33,6 +33,7 @@ import ghidra.pcodeCPort.error.LowlevelError;
 import ghidra.pcodeCPort.opcodes.OpCode;
 import ghidra.pcodeCPort.semantics.*;
 import ghidra.pcodeCPort.sleighbase.SleighBase;
+import ghidra.pcodeCPort.sleighbase.VarnodeInterner;
 import ghidra.pcodeCPort.slghpatexpress.*;
 import ghidra.pcodeCPort.slghsymbol.*;
 import ghidra.pcodeCPort.space.*;
@@ -1508,6 +1509,79 @@ public class SleighCompile extends SleighBase {
 			macrotable.get(i).encode(encoder, -1);
 		}
 		encoder.closeElement(ELEM_MACRO_TABLE);
+	}
+
+	@Override
+	protected Encoder encodeVarnodeTable(Encoder encoder) throws IOException {
+		Map<VarnodeTpl, Integer> counts = new TreeMap<>(VarnodeTpl::compareTo);
+		int total = 0;
+		for (ConstructTpl tpl : allConstructTpls()) {
+			for (IteratorSTL<OpTpl> iter = tpl.getOpvec().begin(); !iter.isEnd(); iter.increment()) {
+				OpTpl op = iter.get();
+				total += tally(counts, op.getOut());
+				for (int i = 0; i < op.numInput(); ++i) {
+					total += tally(counts, op.getIn(i));
+				}
+			}
+		}
+		// A varnode used once costs more as a table entry plus a reference than written in place, so
+		// only repeats go in the table. Keeping singletons out shrinks the table and, because the
+		// remaining indices are denser, shortens the references to everything else as well.
+		counts.values().removeIf(c -> c < 2);
+		// Reported at info level on purpose: if this ever prints a table far smaller than expected, the
+		// intern key has silently collapsed distinct templates, which is the one failure mode of this
+		// feature that produces wrong p-code rather than a bad size.
+		Msg.info(this, String.format(
+			"varnode table: %d templates written, %d distinct repeats interned", total,
+			counts.size()));
+		return VarnodeInterner.writeTable(encoder, counts);
+	}
+
+	private static int tally(Map<VarnodeTpl, Integer> counts, VarnodeTpl vn) {
+		if (vn == null) {
+			return 0;
+		}
+		counts.merge(vn, 1, Integer::sum);
+		return 1;
+	}
+
+	/**
+	 * Every p-code body in the language, which is where all varnode templates live.
+	 * <p>
+	 * `root` is deliberately separate from `tables` -- it is created directly in the constructor and
+	 * never appended -- so both have to be walked, the same shape as {@link #checkUniqueAllocation}.
+	 * The macro bodies matter just as much: with `outlined` macros a large share of the p-code lives
+	 * there rather than in the constructors, and missing them would quietly lose most of the win.
+	 */
+	private List<ConstructTpl> allConstructTpls() {
+		List<ConstructTpl> out = new ArrayList<>();
+		for (int i = 0; i < macrotable.size(); ++i) {
+			out.add(macrotable.get(i));
+		}
+		int secsize = sections.size();
+		SubtableSymbol sym = root;
+		int i = -1;
+		for (;;) {
+			int numconst = sym.getNumConstructors();
+			for (int j = 0; j < numconst; ++j) {
+				Constructor ct = sym.getConstructor(j);
+				if (ct.getTempl() != null) {
+					out.add(ct.getTempl());
+				}
+				for (int k = 0; k < secsize; ++k) {
+					ConstructTpl named = ct.getNamedTempl(k);
+					if (named != null) {
+						out.add(named);
+					}
+				}
+			}
+			i += 1;
+			if (i >= tables.size()) {
+				break;
+			}
+			sym = tables.get(i);
+		}
+		return out;
 	}
 
 	private boolean expandMacros(ConstructTpl ctpl) {

@@ -370,13 +370,26 @@ void SleighBase::decode(Decoder &decoder)
     throw LowlevelError(".sla file has wrong format");
   indexer.decode(decoder);
   decodeSlaSpaces(decoder,this);
+  // Also optional, and ahead of both the macro bodies and the symbol table because each of those
+  // holds p-code that references it. Entries themselves are always written in full, so an empty
+  // table is passed while reading them -- an entry cannot refer to itself.
+  if (decoder.peekElement() == sla::ELEM_VARNODE_TABLE) {
+    uint4 vnel = decoder.openElement(sla::ELEM_VARNODE_TABLE);
+    vector<VarnodeTpl *> empty;
+    while(decoder.peekElement() != 0) {
+      VarnodeTpl *vn = new VarnodeTpl();
+      vn->decode(decoder,empty);
+      varnodeTable.push_back(vn);
+    }
+    decoder.closeElement(vnel);
+  }
   // Optional: only a language declaring an `outlined` macro writes this element, so its absence is
   // normal rather than an error. It precedes the symbol table because Decoder cannot seek back.
   if (decoder.peekElement() == sla::ELEM_MACRO_TABLE) {
     uint4 macel = decoder.openElement(sla::ELEM_MACRO_TABLE);
     while(decoder.peekElement() != 0) {
       ConstructTpl *tpl = new ConstructTpl();
-      tpl->decode(decoder);
+      tpl->decode(decoder,varnodeTable);
       macroTable.push_back(tpl);
     }
     decoder.closeElement(macel);

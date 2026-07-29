@@ -209,8 +209,12 @@ public abstract class SleighBase extends Translate implements NamedSymbolProvide
 			spc.encode(encoder);
 		}
 		encoder.closeElement(ELEM_SPACES);
-		encodeMacroTable(encoder);
-		symtab.encode(encoder);
+		// The varnode table comes first and everything after it is written through the encoder this
+		// returns, which turns a repeated varnode into an index. Both the macro bodies and the symbol
+		// table hold varnodes, so both must be downstream of it.
+		Encoder body = encodeVarnodeTable(encoder);
+		encodeMacroTable(body);
+		symtab.encode(body);
 		encoder.closeElement(ELEM_SLEIGH);
 	}
 
@@ -225,5 +229,20 @@ public abstract class SleighBase extends Translate implements NamedSymbolProvide
 	 */
 	protected void encodeMacroTable(Encoder encoder) throws IOException {
 		// nothing to write unless a subclass has macros
+	}
+
+	/**
+	 * Write the table of distinct varnode templates, ahead of the macro bodies and symbol table that
+	 * reference it.
+	 * <p>
+	 * Only the compiler can build the table, since it needs a pass over every constructor body, so the
+	 * base class writes nothing and returns the encoder unchanged. A subclass that does write a table
+	 * returns an encoder that emits references to it -- see {@link VarnodeInterner}.
+	 * @param encoder is the stream to write to
+	 * @return the encoder the rest of the file should be written through
+	 * @throws IOException for errors writing to the stream
+	 */
+	protected Encoder encodeVarnodeTable(Encoder encoder) throws IOException {
+		return encoder;
 	}
 }

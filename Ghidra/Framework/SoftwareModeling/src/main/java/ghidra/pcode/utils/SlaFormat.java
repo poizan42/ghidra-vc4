@@ -31,6 +31,9 @@ public class SlaFormat {
 	 * FORMAT_VERSION will be incremented whenever the format of the .sla
 	 * files change.
 	 * <p>
+	 * Version 6: July 2026 (fork): added the varnode table, so a repeated varnode template is
+	 *            stored once and its uses carry an index into it. Measured on the VideoCore spec:
+	 *            1,383,725 varnode templates, only 112,075 distinct.<br>
 	 * Version 5: July 2026 (fork): added the macro table, so an `outlined` macro body is stored
 	 *            once and its call sites reference it, rather than the body being inlined into
 	 *            every one of them.<br>
@@ -39,7 +42,7 @@ public class SlaFormat {
 	 * Version 2: April 2019: Changed numbering of Overlay spaces.<br>
 	 * Version 1: Initial version.<br>
 	 */
-	public static final int FORMAT_VERSION = 5;
+	public static final int FORMAT_VERSION = 6;
 
 	/**
 	 * Absolute limit on the number of bytes in a .sla file
@@ -213,6 +216,19 @@ public class SlaFormat {
 	 * already used internally before expansion -- so the call itself needs no element of its own.
 	 */
 	public static final ElementId ELEM_MACRO_TABLE = new ElementId("macro_table", 89);
+	/**
+	 * Holds every distinct varnode template, so a use can carry an index into this table instead of
+	 * a copy. Ordered by DESCENDING use count: {@code PackedEncode.writeInteger} spends no payload
+	 * byte on index 0 and one on 1..127, and the distribution is heavily skewed, so ordering is worth
+	 * about 1.5 MB on the VideoCore spec for nothing.
+	 * <p>
+	 * A reference is an ordinary {@link #ELEM_VARNODE_TPL} carrying {@link #ATTRIB_INDEX} and no
+	 * children, rather than an element of its own. Two reasons: it costs less on the wire (both ids
+	 * are below 32, so both headers are one byte), and it leaves every {@code peekElement() != 0}
+	 * child loop in the format working unchanged -- those loops do not check ids, so a new element
+	 * would have had to be added to each of them, and a miss would silently truncate an operand list.
+	 */
+	public static final ElementId ELEM_VARNODE_TABLE = new ElementId("varnode_table", 90);
 
 	/**
 	 * Try to read the header bytes of the .sla format from the given stream. If the header bytes

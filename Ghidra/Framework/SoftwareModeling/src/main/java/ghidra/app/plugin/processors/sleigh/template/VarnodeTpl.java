@@ -70,15 +70,46 @@ public class VarnodeTpl {
 		return (offset.getType() == ConstTpl.J_RELATIVE);
 	}
 
-	public void decode(Decoder decoder) throws DecoderException {
+	/**
+	 * Read one varnode template, which the file may carry either in full or as an index into the
+	 * shared varnode table.
+	 * <p>
+	 * A reference RETURNS THE TABLE'S OWN INSTANCE rather than a copy, so a template used a thousand
+	 * times occupies one object on the heap. That is safe because this class is immutable once
+	 * decoded -- it has no setters, and everything constructor-specific is resolved at build time
+	 * through {@link ghidra.app.plugin.processors.sleigh.ParserWalker}.
+	 * <p>
+	 * The two forms are told apart by an attribute rather than by a distinct element, which is what
+	 * lets every {@code peekElement() != 0} operand loop in this package stay as it was.
+	 *
+	 * @param decoder is the stream
+	 * @param table is the shared varnode table, empty if the file carries none
+	 * @return the decoded template, possibly shared
+	 * @throws DecoderException for errors in the encoding
+	 */
+	public static VarnodeTpl decodeVarnode(Decoder decoder, VarnodeTpl[] table)
+			throws DecoderException {
 		int el = decoder.openElement(ELEM_VARNODE_TPL);
-		space = new ConstTpl();
-		space.decode(decoder);
-		offset = new ConstTpl();
-		offset.decode(decoder);
-		size = new ConstTpl();
-		size.decode(decoder);
+		int attrib = decoder.getNextAttributeId();
+		if (attrib == ATTRIB_INDEX.id()) {
+			int index = (int) decoder.readUnsignedInteger();
+			decoder.closeElement(el);
+			if ((index < 0) || (index >= table.length)) {
+				throw new DecoderException(
+					"Varnode reference " + index + " but the .sla holds no such table entry");
+			}
+			return table[index];
+		}
+		decoder.rewindAttributes();
+		VarnodeTpl res = new VarnodeTpl();
+		res.space = new ConstTpl();
+		res.space.decode(decoder);
+		res.offset = new ConstTpl();
+		res.offset.decode(decoder);
+		res.size = new ConstTpl();
+		res.size.decode(decoder);
 		decoder.closeElement(el);
+		return res;
 	}
 
 	@Override

@@ -56,7 +56,12 @@ public class OpTpl {
 		return opcode;
 	}
 
-	public void decode(Decoder decoder) throws DecoderException {
+	/**
+	 * @param decoder is the stream
+	 * @param table is the shared varnode table an operand may reference by index
+	 * @throws DecoderException for errors in the encoding
+	 */
+	public void decode(Decoder decoder, VarnodeTpl[] table) throws DecoderException {
 		int el = decoder.openElement(ELEM_OP_TPL);
 		opcode = decoder.readOpcode(ATTRIB_CODE);
 		int outel = decoder.peekElement();
@@ -66,14 +71,15 @@ public class OpTpl {
 			output = null;
 		}
 		else {
-			output = new VarnodeTpl();
-			output.decode(decoder);
+			output = VarnodeTpl.decodeVarnode(decoder, table);
 		}
 		ArrayList<Object> inputlist = new ArrayList<>();
+		// Still a bare sentinel loop: a reference is a <varnode_tpl> like any other, so this needed
+		// no change. That is the whole reason the reference form reuses the element rather than
+		// introducing one -- every loop of this shape in the package would otherwise have to learn
+		// about a second id, and a miss would silently drop operands.
 		while (decoder.peekElement() != 0) {
-			VarnodeTpl vn = new VarnodeTpl();
-			vn.decode(decoder);
-			inputlist.add(vn);
+			inputlist.add(VarnodeTpl.decodeVarnode(decoder, table));
 		}
 		input = new VarnodeTpl[inputlist.size()];
 		inputlist.toArray(input);

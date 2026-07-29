@@ -22,6 +22,7 @@ import java.io.IOException;
 import generic.stl.VectorSTL;
 import ghidra.pcodeCPort.semantics.ConstTpl.const_type;
 import ghidra.pcodeCPort.semantics.ConstTpl.v_field;
+import ghidra.pcodeCPort.sleighbase.VarnodeInterner;
 import ghidra.pcodeCPort.space.spacetype;
 import ghidra.program.model.pcode.Encoder;
 import ghidra.sleigh.grammar.Location;
@@ -186,6 +187,14 @@ public class VarnodeTpl {
 	}
 
 	public void encode(Encoder encoder) throws IOException {
+		// When a varnode table is being written, a template that appears in it is emitted as a bare
+		// index instead of its three ConstTpl children. This is the only method in the whole encode
+		// path that had to change, which is why the table travels on the encoder rather than as an
+		// argument -- see VarnodeInterner.
+		VarnodeInterner interner = VarnodeInterner.of(encoder);
+		if (interner != null && interner.writeReference(this)) {
+			return;
+		}
 		encoder.openElement(ELEM_VARNODE_TPL);
 		space.encode(encoder);
 		offset.encode(encoder);

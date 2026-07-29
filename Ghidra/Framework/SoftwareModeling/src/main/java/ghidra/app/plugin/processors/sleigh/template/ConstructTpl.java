@@ -101,7 +101,7 @@ public class ConstructTpl {
 	 * @return the constructor section id described by the tag
 	 * @throws DecoderException for errors in the encoding
 	 */
-	public int decode(Decoder decoder) throws DecoderException {
+	public int decode(Decoder decoder, VarnodeTpl[] table) throws DecoderException {
 		int sectionid = -1;
 		numlabels = 0;
 		int el = decoder.openElement(ELEM_CONSTRUCT_TPL);
@@ -128,7 +128,7 @@ public class ConstructTpl {
 		ArrayList<Object> oplist = new ArrayList<>();
 		while (decoder.peekElement() != 0) {
 			OpTpl op = new OpTpl();
-			op.decode(decoder);
+			op.decode(decoder, table);
 			oplist.add(op);
 		}
 		vec = new OpTpl[oplist.size()];

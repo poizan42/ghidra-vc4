@@ -169,6 +169,16 @@ public class ConstTpl {
 				if (select != op2.select) {
 					return false;
 				}
+				// value_real is part of the serialised form for v_offset_plus and only for it --
+				// encode() writes it as ATTRIB_PLUS in exactly that case. Leaving it out here made two
+				// templates that encode DIFFERENTLY compare equal, which is harmless while nothing
+				// keys on the comparison and fatal the moment something does: an intern table would
+				// merge them and every use of the second would resolve to the first. For any other
+				// select, value_real is leftover state that is never written, so comparing it would
+				// split entries that are genuinely identical on the wire.
+				if (select == v_field.v_offset_plus && value_real != op2.value_real) {
+					return false;
+				}
 				break;
 			case spaceid:
 				return (spaceid == op2.spaceid);
@@ -190,7 +200,17 @@ public class ConstTpl {
 				if (handle_index != op2.handle_index) {
 					return (handle_index - op2.handle_index);
 				}
-				return select.compareTo(op2.select);
+				if (select != op2.select) {
+					return select.compareTo(op2.select);
+				}
+				// See equals(): value_real is encoded as ATTRIB_PLUS for v_offset_plus alone, so it
+				// belongs in the ordering for that select and nowhere else. compareTo has to agree
+				// with equals for a TreeMap-based intern table to be sound.
+				if (select == v_field.v_offset_plus) {
+					long hdiff = value_real - op2.value_real;
+					return hdiff < 0 ? -1 : (hdiff > 0 ? 1 : 0);
+				}
+				return 0;
 
 			case spaceid:
 				return (spaceid.compareTo(op2.spaceid));

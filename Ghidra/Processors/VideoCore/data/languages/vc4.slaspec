@@ -1842,14 +1842,32 @@ vsizeb: 8 is epsilon { local tmp:1 = 8; export tmp; }
 vsizeb: 16 is VselbHi=2 { local tmp:1 = 16; export tmp; }
 vsizeb: 32 is Vselb=6 { local tmp:1 = 32; export tmp;}
 
+# The H/V letter, PER OPERAND. This used to be `Vdir` on all three, which is right for the 48-bit form
+# -- where Vdir=(28,28) is one bit governing every operand -- and wrong for the 80-bit form, where
+# Vdird(28), Vdira(18) and Vdirb(38) are independent. A mixed instruction therefore rendered every
+# operand with the DESTINATION's letter: `v16add H16(40,0),H16(41,0),V16(0,0)` printed its vertical B as
+# `H16(0x0,0x0)` while decoding the coordinates vertically. The coordinates were always per-operand
+# correct (see the Vdira=1 / Vdirb=1 blocks above); only the letter lied.
+#
+# Two consequences worth recording. A reader had no way to see the difference, and any survey that
+# detects the V direction from the printed text UNDERCOUNTS -- which is why the 1,928 figure in
+# findings-alu.md is a floor. Both subtables are total over Vopsize, so neither can make an instruction
+# undecodable the way an incomplete vpmask did.
+vdirld: Vdir  is (Vopsize=0 & Vdir)  ... {}
+vdirld: Vdird is (Vopsize=1 & Vdird) ... {}
+vdirla: Vdir  is (Vopsize=0 & Vdir)  ... {}
+vdirla: Vdira is (Vopsize=1 & Vdira) ... {}
+vdirlb: Vdir  is (Vopsize=0 & Vdir)  ... {}
+vdirlb: Vdirb is (Vopsize=1 & Vdirb) ... {}
+
 # Vector row/column address
-vrowd: Vdir^vsized(vdy,vdx) is Vdir ... & vsized & vdy & vdx {}
+vrowd: vdirld^vsized(vdy,vdx) is vdirld ... & vsized & vdy & vdx {}
 vrowd: "-" is Vseld=7 {}
 
-vrowa: Vdir^vsizea(vay,vax) is Vdir ... & vsizea & vay & vax {}
+vrowa: vdirla^vsizea(vay,vax) is vdirla ... & vsizea & vay & vax {}
 vrowa: "-" is Vsela=7 {}
 
-vrowb: Vdir^vsizeb(vby,vbx) is Vdir ... & vsizeb & vby & vbx {}
+vrowb: vdirlb^vsizeb(vby,vbx) is vdirlb ... & vsizeb & vby & vbx {}
 vrowb: "-" is Vselb=7 {}
 
 # Vector offsets

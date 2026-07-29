@@ -1943,6 +1943,22 @@ vmem80d: is Vopsize=1 ; (Vsru=0 & Vincd=0 & VmoffMid=0) { }
 # from agree=8 back to agree=2/unmodelled=6 before the distinction was understood.
 valu80:  is Vopsize=1 ; (Vsru=0 & Vincd=0 & Vinca=0 & Vincb=0
                          & VRoffd=15 & VRoffa=15 & VRoffb=15) { }
+
+# The same, for a constructor whose B operand is an IMMEDIATE. There is no B row to offset, and the bits
+# that would describe one are the immediate:
+#
+#     Vimm16Hi = (16,21)   ==   Vcboffb(16) + Vincb(17) + VRoffb(18,21)
+#
+# so pinning any of those three constrains the immediate's top six bits instead of pinning an addressing
+# mode. valu80 pins Vincb=0 and VRoffb=15, which together confine Vimm16Hi to 0b1111xx, i.e. -4..-1 --
+# admitting only huge negative immediates. Measured on start.elf: of the 1,712 80-bit sites with an
+# immediate B, just 141 have VRoffb=15, so that pin alone would reject 92% of them.
+#
+# This is the same per-operand-role lesson as vsetfu's VRoffd above, one field further along: a pin
+# belongs to the role the field plays in THIS form, not to the field's name in some other form.
+# VRoffd and VRoffa are still pinned, because a destination or A row offset is real here and unmodelled.
+valu80imm: is Vopsize=1 ; (Vsru=0 & Vincd=0 & Vinca=0
+                           & VRoffd=15 & VRoffa=15) { }
 vmem80a: is Vopsize=1 ; (Vsru=0 & Vinca=0 & VmoffMid=0) { }
 #
 # CONSUMERS MUST USE A PER-LANE CONDITIONAL BRANCH, not a branch-free select. A disabled lane

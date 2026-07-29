@@ -66,7 +66,13 @@ outlined macro vpredwrite4(dst, nv, en, lane) {
 # Unpredicated 80-bit ALU with no SRU and no auto-increment, for the flags-only SETF family.
 # Vpredm and Vsru live in the vecaux token, so they cannot be constrained in a vec48 `&` group;
 # this is the same trick valu80 uses.
-vsetfu: is Vopsize=1 ; (Vpredm=0 & Vsru=0 & Vincd=0 & Vinca=0 & Vincb=0) { }
+# The SOURCE row offsets are pinned absent (15 encodes "none"): a real offset there makes the
+# accessed row Vd + rN, chosen at run time, which these bodies do not model. VRoffd is
+# deliberately NOT pinned -- this family's destination is absent (Vseld=7), so the field is a
+# don't-care, and gas leaves it at 0 rather than 15. Pinning it excluded the flag-setters the
+# conformance recordings use and took hw-carryflag from agree=8 back to agree=2/unmodelled=6.
+vsetfu: is Vopsize=1 ; (Vpredm=0 & Vsru=0 & Vincd=0 & Vinca=0 & Vincb=0
+                        & VRoffa=15 & VRoffb=15) { }
 
 # Whole-lane bodies, stored once each. See the `whole-lane outlining` comment in gen-alu.py.
 # pd is the destination element, pa/pb the source elements, and for the predicated forms pen

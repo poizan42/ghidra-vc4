@@ -1913,7 +1913,18 @@ vsetf: Vsetf80 is (Vopsize=1 & Vsetf80) ...
 vmem80d: is Vopsize=1 ; (Vsru=0 & Vincd=0 & VmoffMid=0) { }
 # The ALU equivalent: pins the accumulator modifier and all three operand auto-increments, which are
 # vecaux fields and so cannot join a constructor's vec48 `&` group.
-valu80:  is Vopsize=1 ; (Vsru=0 & Vincd=0 & Vinca=0 & Vincb=0) { }
+# valu80 additionally pins the RUNTIME ROW OFFSETS absent. VRoffd/VRoffa/VRoffb encode "no offset" as
+# 15; anything else makes the accessed row `Vd + rN`, chosen at run time, which these bodies do not
+# model. Leaving them free meant the predicated family matched such encodings and read the wrong row,
+# silently -- 116 instructions in start.elf.
+#
+# All three are pinned here because this subtable serves constructors that HAVE a destination row.
+# vsetfu, for the flags-only forms whose destination is absent, deliberately does not pin VRoffd: with
+# no destination the field is a don't-care, and gas leaves it at 0 rather than 15, so pinning it there
+# excludes the very flag-setters the conformance recordings use. Getting that wrong took hw-carryflag
+# from agree=8 back to agree=2/unmodelled=6 before the distinction was understood.
+valu80:  is Vopsize=1 ; (Vsru=0 & Vincd=0 & Vinca=0 & Vincb=0
+                         & VRoffd=15 & VRoffa=15 & VRoffb=15) { }
 vmem80a: is Vopsize=1 ; (Vsru=0 & Vinca=0 & VmoffMid=0) { }
 #
 # CONSUMERS MUST USE A PER-LANE CONDITIONAL BRANCH, not a branch-free select. A disabled lane

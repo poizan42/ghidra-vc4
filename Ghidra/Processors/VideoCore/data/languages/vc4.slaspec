@@ -70,7 +70,13 @@ define register offset=0x8000 size=64 [
   VR48 VR49 VR50 VR51 VR52 VR53 VR54 VR55 VR56 VR57 VR58 VR59 VR60 VR61 VR62 VR63 ];
 
 # Per-lane accumulator, the index source for lookupml/indexwriteml (measured -- see
-# vpu-probe/findings-lookup.md). 16 lanes x 32 bits; UACC writes the low half, UACCH the high.
+# vpu-probe/findings-lookup.md). 16 lanes x 32 bits.
+#
+# The "UACC writes the low half, UACCH the high" that used to stand here was loose. MEASURED since,
+# on the monitor: UACC is `acc += operand` and UACCH is `acc += operand << 16` -- an addition of a
+# SHIFTED operand, not a write into a separate half. `v32mov -,HY(20,0) UACCH` on a seed of L+1 gave
+# (0x0010 + L) << 16 | (L + 1), with the seed still in the low halfword. See findings-alu.md, "The
+# accumulator branch, MEASURED". The accumulator ops are not modelled yet; the SRU half of Vsru is.
 define register offset=0x9000 size=64 [ VACC ];
 
 # Per-lane vector condition flags: bit L is lane L's flag, so one 16-bit register per condition.
@@ -297,6 +303,14 @@ define token vecaux(32)
   Vpred80  = (29,31)
   Vpredm   = (29,31)   # semantic twin of Vpred80: same bits, so it adds no constraint
   Vsru     = (22,28)
+  # Vsru is a TAGGED UNION (measured, findings-alu.md). Bit 6 set selects the scalar reduction
+  # unit: bits 3-5 are the function and bits 0-2 the destination register r0..r7. Bit 6 clear with
+  # ENA set is the accumulator branch, whose bits binutils names SRU 0x40 / ENA 0x20 / HIGH 0x10 /
+  # SIGN 0x08 / CLRA 0x04 / WBA 0x02 / SUB 0x01 (cpu/vc4.opc:36-42). Sub-fields so the reduction
+  # forms can be matched and their destination register named as an operand.
+  VsruSel  = (28,28)
+  VsruFn   = (25,27)
+  VsruReg  = (22,24)
 
   # vector addressing
   VRoffb   = (18,21)
@@ -411,6 +425,10 @@ attach names [ Vsru ] [
   " MAX r0" " MAX r1" " MAX r2" " MAX r3"
   " MAX r4" " MAX r5" " MAX r6" " MAX r7"
 ];
+
+# The SRU's destination is r0..r7 -- three bits, measured: every probe in the batch changed exactly
+# the register the mnemonic named and nothing else.
+attach variables [ VsruReg ] [ r0 r1 r2 r3 r4 r5 r6 r7 ];
 
 attach values [ Vbased Vbasea Vbaseb ] [ 0 16 32 48 0 32 0 _ ];
 

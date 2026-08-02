@@ -16,7 +16,7 @@
  */
 package ghidra.sleigh.grammar;
 
-import java.util.SortedMap;
+import java.util.Map;
 import java.util.TreeMap;
 
 public class Locator {
@@ -27,17 +27,19 @@ public class Locator {
 	}
 
 	public Location getLocation(int expandedLineNo) {
-		SortedMap<Integer, Location> headMap = map.headMap(expandedLineNo + 1);
-		Integer key;
-		Location location;
-		Location correctLocation;
-		if (headMap.size() == 0) {
+		// floorEntry, NOT headMap().size()/lastKey(). This runs once per LEXED TOKEN
+		// (AbstractSleighLexer.emit), and TreeMap.NavigableSubMap.size() is O(n) -- it walks the
+		// submap -- so the cost was O(tokens x registered positions). With the handful of positions a
+		// normal spec registers that is invisible; a spec whose preprocessor resyncs the position
+		// stream thousands of times (many @includes, or an expanding directive) goes quadratic. A
+		// 12,461-marker spec took the compile from 70 seconds to over 20 minutes, all of it here.
+		// floorEntry is O(log n) and returns exactly the same entry headMap().lastKey() did.
+		Map.Entry<Integer, Location> entry = map.floorEntry(expandedLineNo);
+		if (entry == null) {
 			return null;
 		}
-		key = headMap.lastKey();
-		location = headMap.get(key);
-		int actualLineNumber = expandedLineNo - key + location.lineno;
-		correctLocation = new Location(location.filename, actualLineNumber);
-		return correctLocation;
+		Location location = entry.getValue();
+		int actualLineNumber = expandedLineNo - entry.getKey() + location.lineno;
+		return new Location(location.filename, actualLineNumber);
 	}
 }

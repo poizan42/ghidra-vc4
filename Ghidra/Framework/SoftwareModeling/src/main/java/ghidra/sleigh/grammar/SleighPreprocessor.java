@@ -48,6 +48,15 @@ public class SleighPreprocessor implements ExpressionEnvironment {
 	private static final Pattern IF = Pattern.compile("^\\s*@if\\s+(.*)");
 	private static final Pattern ELIF = Pattern.compile("^\\s*@elif\\s+(.*)");
 	private static final Pattern ENDIF = Pattern.compile("^\\s*@endif\\s*$");
+	// @repeat VAR FROM COUNT ... @endrepeat: emit the enclosed lines COUNT times with VAR bound to
+	// FROM, FROM+1, ... Inside the body, `$(VAR)` is the loop value and `$[expr]` is folded to a
+	// single integer literal. The folding is the whole point: a SLEIGH bit-range position is one
+	// integer TOKEN (SemanticParser.g), and nothing downstream constant-folds, so `VdRow[$(L)*32,8]`
+	// would not parse -- `VdRow[$[L*32],8]` does.
+	private static final Pattern REPEAT =
+		Pattern.compile("^\\s*@repeat\\s+([0-9A-Z_a-z]+)\\s+(-?[0-9]+)\\s+([0-9]+)\\s*$");
+	private static final Pattern ENDREPEAT = Pattern.compile("^\\s*@endrepeat\\s*$");
+	private static final Pattern ARITH = Pattern.compile("\\$\\[([^\\]]*)\\]");
 	private static final Pattern ELSE = Pattern.compile("^\\s*@else\\s*$");
 
 	private final PreprocessorDefinitions definitions;
@@ -223,6 +232,42 @@ public class SleighPreprocessor implements ExpressionEnvironment {
 						setCopy(!isHandled());
 						log.trace("@else");
 					}
+					else if ((m = REPEAT.matcher(line)).matches()) {
+						if (repeatBody != null) {
+							throw new PreprocessorException("nested @repeat", file.getName(),
+								lineno, overallLineno, line);
+						}
+						if (isCopy()) {
+							repeatVar = m.group(1);
+							repeatFrom = Integer.parseInt(m.group(2));
+							repeatCount = Integer.parseInt(m.group(3));
+							repeatBody = new ArrayList<String>();
+						}
+					}
+					else if ((m = ENDREPEAT.matcher(line)).matches()) {
+						if (repeatBody == null) {
+							throw new PreprocessorException("@endrepeat outside @repeat",
+								file.getName(), lineno, overallLineno, line);
+						}
+						ArrayList<String> body = repeatBody;
+						repeatBody = null;
+						for (int i = 0; i < repeatCount; i++) {
+							for (String raw : body) {
+								writer.write(handleVariables(
+									bindRepeat(raw, repeatVar, repeatFrom + i), compatible));
+								writer.newLine();
+							}
+						}
+						// The output is now longer than the input, so resync the position stream the
+						// same way the @include branch does -- otherwise every error after this point
+						// reports a line number short by (COUNT-1) x body.
+						writer.write("#" + origLine);
+						writer.newLine();
+						lineno++;
+						overallLineno++;
+						outputPosition(writer);
+						continue;
+					}
 					else {
 						throw new PreprocessorException("unrecognized preprocessor directive",
 							file.getName(), lineno, overallLineno, line);
@@ -230,6 +275,13 @@ public class SleighPreprocessor implements ExpressionEnvironment {
 					log.trace("PRINT " + lineno() + ": commenting directive out");
 					writer.write("#" + origLine);
 					writer.newLine();
+				}
+				else if (repeatBody != null) {
+					// Buffered RAW: `$(VAR)` must not go through handleVariables yet, which would
+					// reject the loop variable as an unknown @define.
+					if (isCopy()) {
+						repeatBody.add(line);
+					}
 				}
 				else {
 					if (isCopy()) {
@@ -267,6 +319,113 @@ public class SleighPreprocessor implements ExpressionEnvironment {
 		}
 	}
 
+	/** Bind the loop variable in one buffered line: `$(VAR)` to its value, `$[expr]` folded. */
+	private String bindRepeat(String raw, String var, int value) throws PreprocessorException {
+		String out = raw.replace("$(" + var + ")", Integer.toString(value));
+		Matcher m;
+		while ((m = ARITH.matcher(out)).find()) {
+			String expr = m.group(1).replaceAll("\\b" + Pattern.quote(var) + "\\b",
+				Integer.toString(value));
+			out = out.substring(0, m.start()) + Long.toString(evalArith(expr, out)) +
+				out.substring(m.end());
+		}
+		return out;
+	}
+
+	/** Integer + - * / % with parentheses. Deliberately tiny: the generator emits these. */
+	private long evalArith(String expr, String context) throws PreprocessorException {
+		int[] pos = { 0 };
+		long v = arithSum(expr, pos, context);
+		skipWs(expr, pos);
+		if (pos[0] != expr.length()) {
+			throw new PreprocessorException("trailing junk in $[" + expr + "]", file.getName(),
+				lineno, overallLineno, context);
+		}
+		return v;
+	}
+
+	private void skipWs(String e, int[] p) {
+		while (p[0] < e.length() && Character.isWhitespace(e.charAt(p[0]))) {
+			p[0]++;
+		}
+	}
+
+	private long arithSum(String e, int[] p, String ctx) throws PreprocessorException {
+		long v = arithTerm(e, p, ctx);
+		while (true) {
+			skipWs(e, p);
+			if (p[0] < e.length() && (e.charAt(p[0]) == '+' || e.charAt(p[0]) == '-')) {
+				char op = e.charAt(p[0]++);
+				long r = arithTerm(e, p, ctx);
+				v = op == '+' ? v + r : v - r;
+			}
+			else {
+				return v;
+			}
+		}
+	}
+
+	private long arithTerm(String e, int[] p, String ctx) throws PreprocessorException {
+		long v = arithAtom(e, p, ctx);
+		while (true) {
+			skipWs(e, p);
+			if (p[0] < e.length() &&
+				(e.charAt(p[0]) == '*' || e.charAt(p[0]) == '/' || e.charAt(p[0]) == '%')) {
+				char op = e.charAt(p[0]++);
+				long r = arithAtom(e, p, ctx);
+				if (op != '*' && r == 0) {
+					throw new PreprocessorException("division by zero in $[" + e + "]",
+						file.getName(), lineno, overallLineno, ctx);
+				}
+				v = op == '*' ? v * r : op == '/' ? v / r : v % r;
+			}
+			else {
+				return v;
+			}
+		}
+	}
+
+	private long arithAtom(String e, int[] p, String ctx) throws PreprocessorException {
+		skipWs(e, p);
+		if (p[0] < e.length() && e.charAt(p[0]) == '(') {
+			p[0]++;
+			long v = arithSum(e, p, ctx);
+			skipWs(e, p);
+			if (p[0] >= e.length() || e.charAt(p[0]) != ')') {
+				throw new PreprocessorException("unbalanced ( in $[" + e + "]", file.getName(),
+					lineno, overallLineno, ctx);
+			}
+			p[0]++;
+			return v;
+		}
+		if (p[0] < e.length() && e.charAt(p[0]) == '-') {
+			p[0]++;
+			return -arithAtom(e, p, ctx);
+		}
+		int st = p[0];
+		if (p[0] + 1 < e.length() && e.charAt(p[0]) == '0' &&
+			(e.charAt(p[0] + 1) == 'x' || e.charAt(p[0] + 1) == 'X')) {
+			p[0] += 2;
+			int hs = p[0];
+			while (p[0] < e.length() && Character.digit(e.charAt(p[0]), 16) >= 0) {
+				p[0]++;
+			}
+			if (p[0] == hs) {
+				throw new PreprocessorException("bad hex in $[" + e + "]", file.getName(), lineno,
+					overallLineno, ctx);
+			}
+			return Long.parseLong(e.substring(hs, p[0]), 16);
+		}
+		while (p[0] < e.length() && Character.isDigit(e.charAt(p[0]))) {
+			p[0]++;
+		}
+		if (p[0] == st) {
+			throw new PreprocessorException("expected a number in $[" + e + "]", file.getName(),
+				lineno, overallLineno, ctx);
+		}
+		return Long.parseLong(e.substring(st, p[0]));
+	}
+
 	private String lineno() {
 		return file.getName() + ":" + lineno + "(" + overallLineno + ")";
 	}
@@ -279,6 +438,10 @@ public class SleighPreprocessor implements ExpressionEnvironment {
 	}
 
 	private final File file;
+	private ArrayList<String> repeatBody;
+	private String repeatVar;
+	private int repeatFrom;
+	private int repeatCount;
 	private String line;
 	private int lineno;
 	private int overallLineno;

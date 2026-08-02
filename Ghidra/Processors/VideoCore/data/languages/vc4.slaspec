@@ -311,6 +311,17 @@ define token vecaux(32)
   VsruSel  = (28,28)
   VsruFn   = (25,27)
   VsruReg  = (22,24)
+  # The other branch of the same union: bit 6 clear with ENA set is an ACCUMULATOR op. One named
+  # field per bit, because each is a separate measured behaviour (findings-alu.md): CLRA clears
+  # before the op, WBA gates whether the accumulator is written at all, SUB picks the direction,
+  # SIGN picks sign- vs zero-extension of a result narrower than the 32-bit lane, HIGH shifts the
+  # result left by 16. Names and positions from cpu/vc4.opc:36-42.
+  VaccEna  = (27,27)
+  VaccHigh = (26,26)
+  VaccSign = (25,25)
+  VaccClra = (24,24)
+  VaccWba  = (23,23)
+  VaccSub  = (22,22)
 
   # vector addressing
   VRoffb   = (18,21)

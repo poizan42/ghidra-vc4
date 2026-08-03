@@ -21,6 +21,7 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.antlr.runtime.*;
+import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 
 import generic.jar.ResourceFile;
@@ -1985,6 +1986,21 @@ public class SleighCompile extends SleighBase {
 		setDebugOutput(debugOutput);
 	}
 
+	/** Walk one already-parsed top-level item, then drop its subtree. */
+	private void walkItem(SleighCompiler walker, ParsingEnvironment env,
+			UnbufferedTokenStream tokens, Object tree, boolean isEndian)
+			throws RecognitionException {
+		CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
+		nodes.setTokenStream(tokens);
+		walker.setTreeNodeStream(nodes);
+		if (isEndian) {
+			walker.tree_endian(env, this);
+		}
+		else {
+			walker.tree_item(env, this);
+		}
+	}
+
 	public int run_compilation(String filein, String fileout)
 			throws IOException, RecognitionException {
 		LineArrayListWriter writer = new LineArrayListWriter();
@@ -2008,17 +2024,35 @@ public class SleighCompile extends SleighBase {
 			SleighParser parser = new SleighParser(tokens);
 			parser.setEnv(env);
 			parser.setLexer(lex);
-			SleighParser.spec_return parserRoot = parser.spec();
-			/*ANTLRUtil.debugTree(root.getTree(),
-				new PrintStream(new FileOutputStream("blargh.tree")));*/
-			CommonTreeNodeStream nodes = new CommonTreeNodeStream(parserRoot.getTree());
-			nodes.setTokenStream(tokens);
-			// ANTLRUtil.debugNodeStream(nodes, System.out);
-			SleighCompiler walker = new SleighCompiler(nodes);
-
+			// PARSE AND WALK ONE TOP-LEVEL ITEM AT A TIME, so an item's subtree becomes garbage
+			// before the next is read, instead of holding the whole spec's AST at once.
+			//
+			// MEASURED on the VideoCore spec (17,788 constructors): the old whole-file parse peaked at
+			// a 2,424 MB post-GC live set and needed a 3 GB heap; a heap histogram taken at an
+			// OutOfMemoryError showed 89.7% of it was CommonTree/CommonToken and their arrays against
+			// 1.3% compiler output, with only 1,017 constructors built -- the tree, not the tables, is
+			// the peak. Item-at-a-time brings that to 885 MB, fits a 2 GB heap, and is FASTER (2:21
+			// against 3:15). The compiled .sla is byte-identical.
+			//
+			// The dispatch between a definition and a constructorlike is ANTLR's own, from the
+			// `spec_item` rule, whose alternation is character-for-character the one inside `spec`. A
+			// hand-written LA(1)/LA(2) lookahead was tried first and rejected: it happened to be right
+			// for this spec, and being right for one spec is not a property a specification compiler
+			// should rely on.
+			//
+			// NOTE THIS ONLY PAYS IF THE SPEC HAS MANY TOP-LEVEL ITEMS. A single enormous `with`
+			// block is one item, so its whole subtree is still resident; the VideoCore generators
+			// split theirs for exactly this reason. A spec that does not is no worse off than before.
 			int parseres = -1;
 			try {
-				parseres = walker.root(env, this); // Try to parse
+				SleighCompiler walker = new SleighCompiler(new CommonTreeNodeStream(new CommonTree()));
+				SleighParser.spec_endian_return endian = parser.spec_endian();
+				walkItem(walker, env, tokens, endian.getTree(), true);
+				while (tokens.LA(1) != org.antlr.runtime.Token.EOF) {
+					SleighParser.spec_item_return item = parser.spec_item();
+					walkItem(walker, env, tokens, item.getTree(), false);
+				}
+				parseres = env.getLexingErrors() + env.getParsingErrors();
 			}
 			catch (SleighError e) {
 				reportError(e.location, e.getMessage());

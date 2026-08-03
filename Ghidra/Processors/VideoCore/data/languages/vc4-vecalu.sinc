@@ -33622,8 +33622,6 @@ vbrow: is VbHi=3 & VbLo=14 { export VR62; }
 vbrow: is VbHi=3 & VbLo=15 { export VR63; }
 
 with : Vop=0x3d ... {
-
-  # v16add
   :v16add vargd, varga, vargb^vflags
 	is (Vaop=32 & $(VA175)) ...
 	   & vargd & varga & vargb & vflags {
@@ -33912,6 +33910,8 @@ with : Vop=0x3d ... {
   }
 
   # v16even
+}
+with : Vop=0x3d ... {
   :v16even vargd, varga, vargb^vflags
 	is (Vaop=2 & $(VA175)) ...
 	   & vargd & varga & vargb & vflags {
@@ -34260,6 +34260,8 @@ with : Vop=0x3d ... {
   }
 
   # v16sub
+}
+with : Vop=0x3d ... {
   :v16sub vargd, varga, vargb^vflags
 	is (Vaop=36 & $(VA161)) ...
 	   & vargd & varga & vargb & vflags {
@@ -34636,6 +34638,8 @@ with : Vop=0x3d ... {
   }
 
   # v16sign
+}
+with : Vop=0x3d ... {
   :v16sign vargd, varga, vargb^vflags
 	is (Vaop=29 & $(VA189)) ...
 	   & vargd & varga & vargb & vflags {
@@ -34980,6 +34984,8 @@ with : Vop=0x3d ... {
   }
 
   # v16rsubs
+}
+with : Vop=0x3d ... {
   :v16rsubs vargd, varga, vargb^vflags
 	is (Vaop=41 & $(VA176)) ...
 	   & vargd & varga & vargb & vflags {
@@ -35316,6 +35322,8 @@ with : Vop=0x3d ... {
   }
 
   # v16or
+}
+with : Vop=0x3d ... {
   :v16or vargd, varga, vargb^vflags
 	is (Vaop=17 & $(VA162)) ...
 	   & vargd & varga & vargb & vflags {
@@ -35680,6 +35688,8 @@ with : Vop=0x3d ... {
   }
 
   # v16lsr
+}
+with : Vop=0x3d ... {
   :v16lsr vargd, varga, vargb^vflags
 	is (Vaop=10 & $(VA190)) ...
 	   & vargd & varga & vargb & vflags {
@@ -36048,6 +36058,8 @@ with : Vop=0x3d ... {
   }
 
   # v16count
+}
+with : Vop=0x3d ... {
   :v16count vargd, varga, vargb^vflags
 	is (Vaop=20 & $(VA177)) ...
 	   & vargd & varga & vargb & vflags {
@@ -36372,6 +36384,8 @@ with : Vop=0x3d ... {
   }
 
   # v16and
+}
+with : Vop=0x3d ... {
   :v16and vargd, varga, vargb^vflags
 	is (Vaop=16 & $(VA163)) ...
 	   & vargd & varga & vargb & vflags {
@@ -36724,6 +36738,8 @@ with : Vop=0x3d ... {
   }
 
   # v16add
+}
+with : Vop=0x3d ... {
   :v16add vargd, varga, vargb^vflags
 	is (Vaop=32 & $(VA191)) ...
 	   & vargd & varga & vargb & vflags {
@@ -37076,6 +37092,8 @@ with : Vop=0x3d ... {
   }
 
   # v16even
+}
+with : Vop=0x3d ... {
   :v16even vargd, varga, vargb^vflags
 	is (Vaop=2 & $(VA191)) ...
 	   & vargd & varga & vargb & vflags {
@@ -37404,6 +37422,8 @@ with : Vop=0x3d ... {
   }
 
   # v16sub
+}
+with : Vop=0x3d ... {
   :v16sub vargd, varga, vargb^vflags
 	is (Vaop=36 & $(VA178)) ...
 	   & vargd & varga & vargb & vflags {
@@ -37748,6 +37768,8 @@ with : Vop=0x3d ... {
   }
 
   # v16sign
+}
+with : Vop=0x3d ... {
   :v16sign vargd, varga, vargb^vflags
 	is (Vaop=29 & $(VA164)) ...
 	   & vargd & varga & vargb & vflags {
@@ -38120,6 +38142,8 @@ with : Vop=0x3d ... {
   }
 
   # v16rsubs
+}
+with : Vop=0x3d ... {
   :v16rsubs vargd, varga, vargb^vflags
 	is (Vaop=41 & $(VA192)) ...
 	   & vargd & varga & vargb & vflags {
@@ -38483,6 +38507,8 @@ with : Vop=0x3d ... {
   }
 
   # v16or
+}
+with : Vop=0x3d ... {
   :v16or vargd, varga, vargb^vflags
 	is (Vaop=17 & $(VA179)) ...
 	   & vargd & varga & vargb & vflags {
@@ -38830,6 +38856,8 @@ with : Vop=0x3d ... {
   }
 
   # v16lsr
+}
+with : Vop=0x3d ... {
   :v16lsr vargd, varga, vargb^vflags
 	is (Vaop=10 & $(VA165)) ...
 	   & vargd & varga & vargb & vflags {
@@ -39199,6 +39227,8 @@ with : Vop=0x3d ... {
   }
 
   # v16count
+}
+with : Vop=0x3d ... {
   :v16count vargd, varga, vargb^vflags
 	is (Vaop=20 & $(VA193)) ...
 	   & vargd & varga & vargb & vflags {
@@ -39585,6 +39615,8 @@ with : Vop=0x3d ... {
   }
 
   # v16and
+}
+with : Vop=0x3d ... {
   :v16and vargd, varga, vargb^vflags
 	is (Vaop=16 & $(VA180)) ...
 	   & vargd & varga & vargb & vflags {
@@ -39922,6 +39954,8 @@ with : Vop=0x3d ... {
   }
 
   # v16add
+}
+with : Vop=0x3d ... {
   :v16add vargd, varga, vargb^vflags
 	is (Vaop=32 & $(VA166)) ...
 	   & vargd & varga & vargb & vflags {
@@ -40252,6 +40286,8 @@ with : Vop=0x3d ... {
   }
 
   # v16even
+}
+with : Vop=0x3d ... {
   :v16even vargd, varga, vargb^vflags
 	is (Vaop=2 & $(VA166)) ...
 	   & vargd & varga & vargb & vflags {
@@ -40640,6 +40676,8 @@ with : Vop=0x3d ... {
   }
 
   # v16sub
+}
+with : Vop=0x3d ... {
   :v16sub vargd, varga, vargb^vflags
 	is (Vaop=36 & $(VA194)) ...
 	   & vargd & varga & vargb & vflags {
@@ -40978,6 +41016,8 @@ with : Vop=0x3d ... {
   }
 
   # v16sign
+}
+with : Vop=0x3d ... {
   :v16sign vargd, varga, vargb^vflags
 	is (Vaop=29 & $(VA181)) ...
 	   & vargd & varga & vargb & vflags {
@@ -41318,6 +41358,8 @@ with : Vop=0x3d ... {
   }
 
   # v16rsubs
+}
+with : Vop=0x3d ... {
   :v16rsubs vargd, varga, vargb^vflags
 	is (Vaop=41 & $(VA167)) ...
 	   & vargd & varga & vargb & vflags {
@@ -41686,6 +41728,8 @@ with : Vop=0x3d ... {
   }
 
   # v16or
+}
+with : Vop=0x3d ... {
   :v16or vargd, varga, vargb^vflags
 	is (Vaop=17 & $(VA195)) ...
 	   & vargd & varga & vargb & vflags {
@@ -42082,6 +42126,8 @@ with : Vop=0x3d ... {
   }
 
   # v16lsr wc0 dVaVbV
+}
+with : Vop=0x3d ... {
   :v16lsr vargd, varga, vargb^vflags
 	is (Vaop=10 & $(VA7)) ...
 	   & vargd & varga & vargb & vflags {
@@ -42497,6 +42543,8 @@ with : Vop=0x3d ... {
   }
 
   # v16count wc0 dVaV
+}
+with : Vop=0x3d ... {
   :v16count vargd, varga, vargb^vflags
 	is (Vaop=20 & $(VA42)) ...
 	   & vargd & varga & vargb & vflags {
@@ -42916,6 +42964,8 @@ with : Vop=0x3d ... {
   }
 
   # v16and wc0 dVaV
+}
+with : Vop=0x3d ... {
   :v16and vargd, varga, vargb^vflags
 	is (Vaop=16 & $(VA84)) ...
 	   & vargd & varga & vargb & vflags {
@@ -43363,6 +43413,8 @@ with : Vop=0x3d ... {
   }
 
   # v16add wc1 dVaVbV
+}
+with : Vop=0x3d ... {
   :v16add vargd, varga, vargb^vflags
 	is (Vaop=32 & $(VA8)) ...
 	   & vargd & varga & vargb & vflags {
@@ -43746,6 +43798,8 @@ with : Vop=0x3d ... {
   }
 
   # v16even wc1 dVaVbV
+}
+with : Vop=0x3d ... {
   :v16even vargd, varga, vargb^vflags
 	is (Vaop=2 & $(VA8)) ...
 	   & vargd & varga & vargb & vflags {
@@ -44161,6 +44215,8 @@ with : Vop=0x3d ... {
   }
 
   # v16sub wc1 dVaV
+}
+with : Vop=0x3d ... {
   :v16sub vargd, varga, vargb^vflags
 	is (Vaop=36 & $(VA43)) ...
 	   & vargd & varga & vargb & vflags {
@@ -44600,6 +44656,8 @@ with : Vop=0x3d ... {
   }
 
   # v16sign wc1 dVaV
+}
+with : Vop=0x3d ... {
   :v16sign vargd, varga, vargb^vflags
 	is (Vaop=29 & $(VA88)) ...
 	   & vargd & varga & vargb & vflags {
@@ -45027,6 +45085,8 @@ with : Vop=0x3d ... {
   }
 
   # v16rsubs wc2 dVaVbV
+}
+with : Vop=0x3d ... {
   :v16rsubs vargd, varga, vargb^vflags
 	is (Vaop=41 & $(VA9)) ...
 	   & vargd & varga & vargb & vflags {
@@ -45442,6 +45502,8 @@ with : Vop=0x3d ... {
   }
 
   # v16or wc2 dVaV
+}
+with : Vop=0x3d ... {
   :v16or vargd, varga, vargb^vflags
 	is (Vaop=17 & $(VA44)) ...
 	   & vargd & varga & vargb & vflags {
@@ -45870,6 +45932,8 @@ with : Vop=0x3d ... {
   }
 
   # v16lsr wc2 dVaV
+}
+with : Vop=0x3d ... {
   :v16lsr vargd, varga, vargb^vflags
 	is (Vaop=10 & $(VA92)) ...
 	   & vargd & varga & vargb & vflags {
@@ -46309,6 +46373,8 @@ with : Vop=0x3d ... {
   }
 
   # v16count wc3 dVaVbV
+}
+with : Vop=0x3d ... {
   :v16count vargd, varga, vargb^vflags
 	is (Vaop=20 & $(VA10)) ...
 	   & vargd & varga & vargb & vflags {
@@ -46724,6 +46790,8 @@ with : Vop=0x3d ... {
   }
 
   # v16and wc3 dVaV
+}
+with : Vop=0x3d ... {
   :v16and vargd, varga, vargb^vflags
 	is (Vaop=16 & $(VA45)) ...
 	   & vargd & varga & vargb & vflags {
@@ -47139,6 +47207,8 @@ with : Vop=0x3d ... {
   }
 
   # v16add wc3 dVaV
+}
+with : Vop=0x3d ... {
   :v16add vargd, varga, vargb^vflags
 	is (Vaop=32 & $(VA96)) ...
 	   & vargd & varga & vargb & vflags {
@@ -47554,6 +47624,8 @@ with : Vop=0x3d ... {
   }
 
   # v16even wc3 dVaV
+}
+with : Vop=0x3d ... {
   :v16even vargd, varga, vargb^vflags
 	is (Vaop=2 & $(VA96)) ...
 	   & vargd & varga & vargb & vflags {
@@ -47973,6 +48045,8 @@ with : Vop=0x3d ... {
   }
 
   # v16sub wc4 dVaVbV
+}
+with : Vop=0x3d ... {
   :v16sub vargd, varga, vargb^vflags
 	is (Vaop=36 & $(VA11)) ...
 	   & vargd & varga & vargb & vflags {
@@ -48388,6 +48462,8 @@ with : Vop=0x3d ... {
   }
 
   # v16sign wc4 dVaV
+}
+with : Vop=0x3d ... {
   :v16sign vargd, varga, vargb^vflags
 	is (Vaop=29 & $(VA46)) ...
 	   & vargd & varga & vargb & vflags {
@@ -48823,6 +48899,8 @@ with : Vop=0x3d ... {
   }
 
   # v16rsubs wc4 dVaV
+}
+with : Vop=0x3d ... {
   :v16rsubs vargd, varga, vargb^vflags
 	is (Vaop=41 & $(VA100)) ...
 	   & vargd & varga & vargb & vflags {
@@ -49254,6 +49332,8 @@ with : Vop=0x3d ... {
   }
 
   # v16or wc5 dVaVbV
+}
+with : Vop=0x3d ... {
   :v16or vargd, varga, vargb^vflags
 	is (Vaop=17 & $(VA12)) ...
 	   & vargd & varga & vargb & vflags {
@@ -49670,6 +49750,8 @@ with : Vop=0x3d ... {
   }
 
   # v16lsr wc5 dVaV
+}
+with : Vop=0x3d ... {
   :v16lsr vargd, varga, vargb^vflags
 	is (Vaop=10 & $(VA47)) ...
 	   & vargd & varga & vargb & vflags {
@@ -50093,6 +50175,8 @@ with : Vop=0x3d ... {
   }
 
   # v16count wc5 dVaV
+}
+with : Vop=0x3d ... {
   :v16count vargd, varga, vargb^vflags
 	is (Vaop=20 & $(VA104)) ...
 	   & vargd & varga & vargb & vflags {
@@ -50536,6 +50620,8 @@ with : Vop=0x3d ... {
   }
 
   # v16and wc6 dVaVbV
+}
+with : Vop=0x3d ... {
   :v16and vargd, varga, vargb^vflags
 	is (Vaop=16 & $(VA13)) ...
 	   & vargd & varga & vargb & vflags {
@@ -50951,6 +51037,8 @@ with : Vop=0x3d ... {
   }
 
   # v16add wc6 dVaV
+}
+with : Vop=0x3d ... {
   :v16add vargd, varga, vargb^vflags
 	is (Vaop=32 & $(VA48)) ...
 	   & vargd & varga & vargb & vflags {
@@ -51334,6 +51422,8 @@ with : Vop=0x3d ... {
   }
 
   # v16even wc6 dVaV
+}
+with : Vop=0x3d ... {
   :v16even vargd, varga, vargb^vflags
 	is (Vaop=2 & $(VA48)) ...
 	   & vargd & varga & vargb & vflags {
@@ -51777,6 +51867,8 @@ with : Vop=0x3d ... {
   }
 
   # v16sub wc6 dVaV
+}
+with : Vop=0x3d ... {
   :v16sub vargd, varga, vargb^vflags
 	is (Vaop=36 & $(VA108)) ...
 	   & vargd & varga & vargb & vflags {
@@ -52129,6 +52221,8 @@ with : Vop=0x3d ... {
   }
 
   # v32signasl
+}
+with : Vop=0x3d ... {
   :v32signasl vargd, varga, vargb^vflags
 	is (Vaop=14 & $(VA210)) ...
 	   & vargd & varga & vargb & vflags {
@@ -52470,6 +52564,8 @@ with : Vop=0x3d ... {
   }
 
   # v32shl
+}
+with : Vop=0x3d ... {
   :v32shl vargd, varga, vargb^vflags
 	is (Vaop=8 & $(VA182)) ...
 	   & vargd & varga & vargb & vflags {
@@ -52822,6 +52918,8 @@ with : Vop=0x3d ... {
   }
 
   # v32rsubc
+}
+with : Vop=0x3d ... {
   :v32rsubc vargd, varga, vargb^vflags
 	is (Vaop=42 & $(VA217)) ...
 	   & vargd & varga & vargb & vflags {
@@ -53159,6 +53257,8 @@ with : Vop=0x3d ... {
   }
 
   # v32or
+}
+with : Vop=0x3d ... {
   :v32or vargd, varga, vargb^vflags
 	is (Vaop=17 & $(VA211)) ...
 	   & vargd & varga & vargb & vflags {
@@ -53491,6 +53591,8 @@ with : Vop=0x3d ... {
   }
 
   # v32max
+}
+with : Vop=0x3d ... {
   :v32max vargd, varga, vargb^vflags
 	is (Vaop=25 & $(VA183)) ...
 	   & vargd & varga & vargb & vflags {
@@ -53843,6 +53945,8 @@ with : Vop=0x3d ... {
   }
 
   # v32dists
+}
+with : Vop=0x3d ... {
   :v32dists vargd, varga, vargb^vflags
 	is (Vaop=27 & $(VA218)) ...
 	   & vargd & varga & vargb & vflags {
@@ -54189,6 +54293,8 @@ with : Vop=0x3d ... {
   }
 
   # v32bic
+}
+with : Vop=0x3d ... {
   :v32bic vargd, varga, vargb^vflags
 	is (Vaop=19 & $(VA212)) ...
 	   & vargd & varga & vargb & vflags {
@@ -54512,6 +54618,8 @@ with : Vop=0x3d ... {
   }
 
   # v32addsc
+}
+with : Vop=0x3d ... {
   :v32addsc vargd, varga, vargb^vflags
 	is (Vaop=35 & $(VA184)) ...
 	   & vargd & varga & vargb & vflags {
@@ -54864,6 +54972,8 @@ with : Vop=0x3d ... {
   }
 
   # v32add
+}
+with : Vop=0x3d ... {
   :v32add vargd, varga, vargb^vflags
 	is (Vaop=32 & $(VA219)) ...
 	   & vargd & varga & vargb & vflags {
@@ -55187,6 +55297,8 @@ with : Vop=0x3d ... {
   }
 
   # v32interh
+}
+with : Vop=0x3d ... {
   :v32interh vargd, varga, vargb^vflags
 	is (Vaop=5 & $(VA219)) ...
 	   & vargd & varga & vargb & vflags {
@@ -55507,6 +55619,8 @@ with : Vop=0x3d ... {
   }
 
   # v32subs
+}
+with : Vop=0x3d ... {
   :v32subs vargd, varga, vargb^vflags
 	is (Vaop=37 & $(VA213)) ...
 	   & vargd & varga & vargb & vflags {
@@ -55853,6 +55967,8 @@ with : Vop=0x3d ... {
   }
 
   # v32signshl
+}
+with : Vop=0x3d ... {
   :v32signshl vargd, varga, vargb^vflags
 	is (Vaop=12 & $(VA185)) ...
 	   & vargd & varga & vargb & vflags {
@@ -56205,6 +56321,8 @@ with : Vop=0x3d ... {
   }
 
   # v32sign
+}
+with : Vop=0x3d ... {
   :v32sign vargd, varga, vargb^vflags
 	is (Vaop=29 & $(VA220)) ...
 	   & vargd & varga & vargb & vflags {
@@ -56537,6 +56655,8 @@ with : Vop=0x3d ... {
   }
 
   # v32rsubsc
+}
+with : Vop=0x3d ... {
   :v32rsubsc vargd, varga, vargb^vflags
 	is (Vaop=43 & $(VA214)) ...
 	   & vargd & varga & vargb & vflags {
@@ -56874,6 +56994,8 @@ with : Vop=0x3d ... {
   }
 
   # v32rsub
+}
+with : Vop=0x3d ... {
   :v32rsub vargd, varga, vargb^vflags
 	is (Vaop=40 & $(VA186)) ...
 	   & vargd & varga & vargb & vflags {
@@ -57226,6 +57348,8 @@ with : Vop=0x3d ... {
   }
 
   # v32mov
+}
+with : Vop=0x3d ... {
   :v32mov vargd, vargb^vflags
 	is (Vaop=0 & Vawidth=1 & Vdir=0 & Vseld=4 & Vhasoffd=0 & VdRow & Vselb=7 & Vhasimm=0 & VRm & Vsetf48=0) ...
 	   & vargd & vargb & vflags {
@@ -57567,6 +57691,8 @@ with : Vop=0x3d ... {
   }
 
   # v32lsr
+}
+with : Vop=0x3d ... {
   :v32lsr vargd, varga, vargb^vflags
 	is (Vaop=10 & $(VA215)) ...
 	   & vargd & varga & vargb & vflags {
@@ -57895,6 +58021,8 @@ with : Vop=0x3d ... {
   }
 
   # v32dist
+}
+with : Vop=0x3d ... {
   :v32dist vargd, varga, vargb^vflags
 	is (Vaop=26 & $(VA187)) ...
 	   & vargd & varga & vargb & vflags {
@@ -58247,6 +58375,8 @@ with : Vop=0x3d ... {
   }
 
   # v32asr
+}
+with : Vop=0x3d ... {
   :v32asr vargd, varga, vargb^vflags
 	is (Vaop=11 & $(VA222)) ...
 	   & vargd & varga & vargb & vflags {
@@ -58601,6 +58731,8 @@ with : Vop=0x3d ... {
   }
 
   # v32adds
+}
+with : Vop=0x3d ... {
   :v32adds vargd, varga, vargb^vflags
 	is (Vaop=33 & $(VA216)) ...
 	   & vargd & varga & vargb & vflags {
@@ -58935,6 +59067,8 @@ with : Vop=0x3d ... {
   }
 
   # v32odd
+}
+with : Vop=0x3d ... {
   :v32odd vargd, varga, vargb^vflags
 	is (Vaop=3 & $(VA216)) ...
 	   & vargd & varga & vargb & vflags {
@@ -59267,6 +59401,8 @@ with : Vop=0x3d ... {
   }
 
   # v32even
+}
+with : Vop=0x3d ... {
   :v32even vargd, varga, vargb^vflags
 	is (Vaop=2 & $(VA188)) ...
 	   & vargd & varga & vargb & vflags {
@@ -59628,6 +59764,8 @@ with : Vop=0x3d ... {
   }
 
   # v32subc
+}
+with : Vop=0x3d ... {
   :v32subc vargd, varga, vargb^vflags
 	is (Vaop=38 & $(VA223)) ...
 	   & vargd & varga & vargb & vflags {
@@ -60030,6 +60168,8 @@ with : Vop=0x3d ... {
   }
 
   # v32signasls wc0 dVaVbV
+}
+with : Vop=0x3d ... {
   :v32signasls vargd, varga, vargb^vflags
 	is (Vaop=15 & $(VA49)) ...
 	   & vargd & varga & vargb & vflags {
@@ -60445,6 +60585,8 @@ with : Vop=0x3d ... {
   }
 
   # v32shls wc0 dVaV
+}
+with : Vop=0x3d ... {
   :v32shls vargd, varga, vargb^vflags
 	is (Vaop=9 & $(VA77)) ...
 	   & vargd & varga & vargb & vflags {
@@ -60860,6 +61002,8 @@ with : Vop=0x3d ... {
   }
 
   # v32rsubs wc0 dVaV
+}
+with : Vop=0x3d ... {
   :v32rsubs vargd, varga, vargb^vflags
 	is (Vaop=41 & $(VA112)) ...
 	   & vargd & varga & vargb & vflags {
@@ -61275,6 +61419,8 @@ with : Vop=0x3d ... {
   }
 
   # v32ror wc1 dVaVbV
+}
+with : Vop=0x3d ... {
   :v32ror vargd, varga, vargb^vflags
 	is (Vaop=7 & $(VA50)) ...
 	   & vargd & varga & vargb & vflags {
@@ -61691,6 +61837,8 @@ with : Vop=0x3d ... {
   }
 
   # v32min wc1 dVaV
+}
+with : Vop=0x3d ... {
   :v32min vargd, varga, vargb^vflags
 	is (Vaop=24 & $(VA78)) ...
 	   & vargd & varga & vargb & vflags {
@@ -62106,6 +62254,8 @@ with : Vop=0x3d ... {
   }
 
   # v32eor wc1 dVaV
+}
+with : Vop=0x3d ... {
   :v32eor vargd, varga, vargb^vflags
 	is (Vaop=18 & $(VA116)) ...
 	   & vargd & varga & vargb & vflags {
@@ -62521,6 +62671,8 @@ with : Vop=0x3d ... {
   }
 
   # v32clip wc2 dVaVbV
+}
+with : Vop=0x3d ... {
   :v32clip vargd, varga, vargb^vflags
 	is (Vaop=28 & $(VA51)) ...
 	   & vargd & varga & vargb & vflags {
@@ -62936,6 +63088,8 @@ with : Vop=0x3d ... {
   }
 
   # v32and wc2 dVaV
+}
+with : Vop=0x3d ... {
   :v32and vargd, varga, vargb^vflags
 	is (Vaop=16 & $(VA79)) ...
 	   & vargd & varga & vargb & vflags {
@@ -63351,6 +63505,8 @@ with : Vop=0x3d ... {
   }
 
   # v32addc wc2 dVaV
+}
+with : Vop=0x3d ... {
   :v32addc vargd, varga, vargb^vflags
 	is (Vaop=34 & $(VA120)) ...
 	   & vargd & varga & vargb & vflags {
@@ -63750,6 +63906,8 @@ with : Vop=0x3d ... {
   }
 
   # v32interl wc2 dVaV
+}
+with : Vop=0x3d ... {
   :v32interl vargd, varga, vargb^vflags
 	is (Vaop=4 & $(VA120)) ...
 	   & vargd & varga & vargb & vflags {
@@ -64149,6 +64307,8 @@ with : Vop=0x3d ... {
   }
 
   # v32subsc wc3 dVaVbV
+}
+with : Vop=0x3d ... {
   :v32subsc vargd, varga, vargb^vflags
 	is (Vaop=39 & $(VA52)) ...
 	   & vargd & varga & vargb & vflags {
@@ -64564,6 +64724,8 @@ with : Vop=0x3d ... {
   }
 
   # v32sub wc3 dVaV
+}
+with : Vop=0x3d ... {
   :v32sub vargd, varga, vargb^vflags
 	is (Vaop=36 & $(VA80)) ...
 	   & vargd & varga & vargb & vflags {
@@ -64979,6 +65141,8 @@ with : Vop=0x3d ... {
   }
 
   # v32signasl wc3 dVaV
+}
+with : Vop=0x3d ... {
   :v32signasl vargd, varga, vargb^vflags
 	is (Vaop=14 & $(VA124)) ...
 	   & vargd & varga & vargb & vflags {
@@ -65394,6 +65558,8 @@ with : Vop=0x3d ... {
   }
 
   # v32shl wc4 dVaVbV
+}
+with : Vop=0x3d ... {
   :v32shl vargd, varga, vargb^vflags
 	is (Vaop=8 & $(VA53)) ...
 	   & vargd & varga & vargb & vflags {
@@ -65809,6 +65975,8 @@ with : Vop=0x3d ... {
   }
 
   # v32rsubc wc4 dVaV
+}
+with : Vop=0x3d ... {
   :v32rsubc vargd, varga, vargb^vflags
 	is (Vaop=42 & $(VA81)) ...
 	   & vargd & varga & vargb & vflags {
@@ -66224,6 +66392,8 @@ with : Vop=0x3d ... {
   }
 
   # v32or wc4 dVaV
+}
+with : Vop=0x3d ... {
   :v32or vargd, varga, vargb^vflags
 	is (Vaop=17 & $(VA128)) ...
 	   & vargd & varga & vargb & vflags {
@@ -66640,6 +66810,8 @@ with : Vop=0x3d ... {
   }
 
   # v32max wc5 dVaVbV
+}
+with : Vop=0x3d ... {
   :v32max vargd, varga, vargb^vflags
 	is (Vaop=25 & $(VA54)) ...
 	   & vargd & varga & vargb & vflags {
@@ -67055,6 +67227,8 @@ with : Vop=0x3d ... {
   }
 
   # v32dists wc5 dVaV
+}
+with : Vop=0x3d ... {
   :v32dists vargd, varga, vargb^vflags
 	is (Vaop=27 & $(VA82)) ...
 	   & vargd & varga & vargb & vflags {
@@ -67470,6 +67644,8 @@ with : Vop=0x3d ... {
   }
 
   # v32bic wc5 dVaV
+}
+with : Vop=0x3d ... {
   :v32bic vargd, varga, vargb^vflags
 	is (Vaop=19 & $(VA132)) ...
 	   & vargd & varga & vargb & vflags {
@@ -67885,6 +68061,8 @@ with : Vop=0x3d ... {
   }
 
   # v32addsc wc6 dVaVbV
+}
+with : Vop=0x3d ... {
   :v32addsc vargd, varga, vargb^vflags
 	is (Vaop=35 & $(VA55)) ...
 	   & vargd & varga & vargb & vflags {
@@ -68300,6 +68478,8 @@ with : Vop=0x3d ... {
   }
 
   # v32add wc6 dVaV
+}
+with : Vop=0x3d ... {
   :v32add vargd, varga, vargb^vflags
 	is (Vaop=32 & $(VA83)) ...
 	   & vargd & varga & vargb & vflags {
@@ -68686,6 +68866,8 @@ with : Vop=0x3d ... {
   }
 
   # v32interh wc6 dVaV
+}
+with : Vop=0x3d ... {
   :v32interh vargd, varga, vargb^vflags
 	is (Vaop=5 & $(VA83)) ...
 	   & vargd & varga & vargb & vflags {
@@ -69098,6 +69280,8 @@ with : Vop=0x3d ... {
   }
 
   # v32subs wc6 dVaV
+}
+with : Vop=0x3d ... {
   :v32subs vargd, varga, vargb^vflags
 	is (Vaop=37 & $(VA136)) ...
 	   & vargd & varga & vargb & vflags {
@@ -70841,6 +71025,8 @@ with : Vop=0x3d ... {
   }
 
   # v16add setf wc0
+}
+with : Vop=0x3d ... {
   :v16add vargd, varga, vargb^vflags
 	is (Vaop=32 & $(VA336)) ...
 	   & vargd & varga & vargb & vflags {
@@ -71321,6 +71507,8 @@ with : Vop=0x3d ... {
   }
 
   # v16addc setf wc4
+}
+with : Vop=0x3d ... {
   :v16addc vargd, varga, vargb^vflags
 	is (Vaop=34 & $(VA347)) ...
 	   & vargd & varga & vargb & vflags {
@@ -71781,6 +71969,8 @@ with : Vop=0x3d ... {
   }
 
   # v16asr setf wc1
+}
+with : Vop=0x3d ... {
   :v16asr vargd, varga, vargb^vflags
 	is (Vaop=11 & $(VA337)) ...
 	   & vargd & varga & vargb & vflags {
@@ -72260,6 +72450,8 @@ with : Vop=0x3d ... {
   }
 
   # v16bic setf wc5
+}
+with : Vop=0x3d ... {
   :v16bic vargd, varga, vargb^vflags
 	is (Vaop=19 & $(VA348)) ...
 	   & vargd & varga & vargb & vflags {
@@ -72703,6 +72895,8 @@ with : Vop=0x3d ... {
   }
 
   # v16count setf wc2
+}
+with : Vop=0x3d ... {
   :v16count vargd, varga, vargb^vflags
 	is (Vaop=20 & $(VA338)) ...
 	   & vargd & varga & vargb & vflags {
@@ -73157,6 +73351,8 @@ with : Vop=0x3d ... {
   }
 
   # v16dist setf wc6
+}
+with : Vop=0x3d ... {
   :v16dist vargd, varga, vargb^vflags
 	is (Vaop=26 & $(VA349)) ...
 	   & vargd & varga & vargb & vflags {
@@ -73619,6 +73815,8 @@ with : Vop=0x3d ... {
   }
 
   # v16lsr setf wc3
+}
+with : Vop=0x3d ... {
   :v16lsr vargd, varga, vargb^vflags
 	is (Vaop=10 & $(VA339)) ...
 	   & vargd & varga & vargb & vflags {
@@ -74138,6 +74336,8 @@ with : Vop=0x3d ... {
   }
 
   # v16min setf wc0
+}
+with : Vop=0x3d ... {
   :v16min vargd, varga, vargb^vflags
 	is (Vaop=24 & $(VA322)) ...
 	   & vargd & varga & vargb & vflags {
@@ -74620,6 +74820,8 @@ with : Vop=0x3d ... {
   }
 
   # v16or setf wc2
+}
+with : Vop=0x3d ... {
   :v16or vargd, varga, vargb^vflags
 	is (Vaop=17 & $(VA324)) ...
 	   & vargd & varga & vargb & vflags {
@@ -75089,6 +75291,8 @@ with : Vop=0x3d ... {
   }
 
   # v16ror setf wc6
+}
+with : Vop=0x3d ... {
   :v16ror vargd, varga, vargb^vflags
 	is (Vaop=7 & $(VA342)) ...
 	   & vargd & varga & vargb & vflags {
@@ -75599,6 +75803,8 @@ with : Vop=0x3d ... {
   }
 
   # v16rsubc setf wc3
+}
+with : Vop=0x3d ... {
   :v16rsubc vargd, varga, vargb^vflags
 	is (Vaop=42 & $(VA325)) ...
 	   & vargd & varga & vargb & vflags {
@@ -76071,6 +76277,8 @@ with : Vop=0x3d ... {
   }
 
   # v16shl setf wc0
+}
+with : Vop=0x3d ... {
   :v16shl vargd, varga, vargb^vflags
 	is (Vaop=8 & $(VA343)) ...
 	   & vargd & varga & vargb & vflags {
@@ -76536,6 +76744,8 @@ with : Vop=0x3d ... {
   }
 
   # v16signasl setf wc4
+}
+with : Vop=0x3d ... {
   :v16signasl vargd, varga, vargb^vflags
 	is (Vaop=14 & $(VA326)) ...
 	   & vargd & varga & vargb & vflags {
@@ -76982,6 +77192,8 @@ with : Vop=0x3d ... {
   }
 
   # v16signshl setf wc1
+}
+with : Vop=0x3d ... {
   :v16signshl vargd, varga, vargb^vflags
 	is (Vaop=12 & $(VA344)) ...
 	   & vargd & varga & vargb & vflags {
@@ -77473,6 +77685,8 @@ with : Vop=0x3d ... {
   }
 
   # v16subc setf wc5
+}
+with : Vop=0x3d ... {
   :v16subc vargd, varga, vargb^vflags
 	is (Vaop=38 & $(VA327)) ...
 	   & vargd & varga & vargb & vflags {
@@ -78048,6 +78262,8 @@ with : Vop=0x3d ... {
   }
 
   # v16interl setf wc2
+}
+with : Vop=0x3d ... {
   :v16interl vargd, varga, vargb^vflags
 	is (Vaop=4 & $(VA324)) ...
 	   & vargd & varga & vargb & vflags {
@@ -78603,6 +78819,8 @@ with : Vop=0x3d ... {
   }
 
   # v32add setf wc6
+}
+with : Vop=0x3d ... {
   :v32add vargd, varga, vargb^vflags
 	is (Vaop=32 & $(VA370)) ...
 	   & vargd & varga & vargb & vflags {
@@ -79039,6 +79257,8 @@ with : Vop=0x3d ... {
   }
 
   # v32and setf wc3
+}
+with : Vop=0x3d ... {
   :v32and vargd, varga, vargb^vflags
 	is (Vaop=16 & $(VA360)) ...
 	   & vargd & varga & vargb & vflags {
@@ -79522,6 +79742,8 @@ with : Vop=0x3d ... {
   }
 
   # v32bic setf wc0
+}
+with : Vop=0x3d ... {
   :v32bic vargd, varga, vargb^vflags
 	is (Vaop=19 & $(VA329)) ...
 	   & vargd & varga & vargb & vflags {
@@ -79956,6 +80178,8 @@ with : Vop=0x3d ... {
   }
 
   # v32clip setf wc4
+}
+with : Vop=0x3d ... {
   :v32clip vargd, varga, vargb^vflags
 	is (Vaop=28 & $(VA361)) ...
 	   & vargd & varga & vargb & vflags {
@@ -80396,6 +80620,8 @@ with : Vop=0x3d ... {
   }
 
   # v32eor setf wc1
+}
+with : Vop=0x3d ... {
   :v32eor vargd, varga, vargb^vflags
 	is (Vaop=18 & $(VA330)) ...
 	   & vargd & varga & vargb & vflags {
@@ -80855,6 +81081,8 @@ with : Vop=0x3d ... {
   }
 
   # v32lsr setf wc5
+}
+with : Vop=0x3d ... {
   :v32lsr vargd, varga, vargb^vflags
 	is (Vaop=10 & $(VA362)) ...
 	   & vargd & varga & vargb & vflags {
@@ -81358,6 +81586,8 @@ with : Vop=0x3d ... {
   }
 
   # v32min setf wc2
+}
+with : Vop=0x3d ... {
   :v32min vargd, varga, vargb^vflags
 	is (Vaop=24 & $(VA331)) ...
 	   & vargd & varga & vargb & vflags {
@@ -81828,6 +82058,8 @@ with : Vop=0x3d ... {
   }
 
   # v32or setf wc4
+}
+with : Vop=0x3d ... {
   :v32or vargd, varga, vargb^vflags
 	is (Vaop=17 & $(VA333)) ...
 	   & vargd & varga & vargb & vflags {
@@ -82296,6 +82528,8 @@ with : Vop=0x3d ... {
   }
 
   # v32ror setf wc1
+}
+with : Vop=0x3d ... {
   :v32ror vargd, varga, vargb^vflags
 	is (Vaop=7 & $(VA365)) ...
 	   & vargd & varga & vargb & vflags {
@@ -82786,6 +83020,8 @@ with : Vop=0x3d ... {
   }
 
   # v32rsubc setf wc5
+}
+with : Vop=0x3d ... {
   :v32rsubc vargd, varga, vargb^vflags
 	is (Vaop=42 & $(VA334)) ...
 	   & vargd & varga & vargb & vflags {
@@ -83257,6 +83493,8 @@ with : Vop=0x3d ... {
   }
 
   # v32shl setf wc2
+}
+with : Vop=0x3d ... {
   :v32shl vargd, varga, vargb^vflags
 	is (Vaop=8 & $(VA366)) ...
 	   & vargd & varga & vargb & vflags {
@@ -83702,6 +83940,8 @@ with : Vop=0x3d ... {
   }
 
   # v32signasl setf wc6
+}
+with : Vop=0x3d ... {
   :v32signasl vargd, varga, vargb^vflags
 	is (Vaop=14 & $(VA335)) ...
 	   & vargd & varga & vargb & vflags {
@@ -84142,6 +84382,8 @@ with : Vop=0x3d ... {
   }
 
   # v32signshl setf wc3
+}
+with : Vop=0x3d ... {
   :v32signshl vargd, varga, vargb^vflags
 	is (Vaop=12 & $(VA367)) ...
 	   & vargd & varga & vargb & vflags {
@@ -84618,6 +84860,8 @@ with : Vop=0x3d ... {
   }
 
   # v32subc setf wc0
+}
+with : Vop=0x3d ... {
   :v32subc vargd, varga, vargb^vflags
 	is (Vaop=38 & $(VA357)) ...
 	   & vargd & varga & vargb & vflags {
@@ -85212,6 +85456,8 @@ with : Vop=0x3d ... {
   }
 
   # v32interl setf wc4
+}
+with : Vop=0x3d ... {
   :v32interl vargd, varga, vargb^vflags
 	is (Vaop=4 & $(VA333)) ...
 	   & vargd & varga & vargb & vflags {
@@ -85403,8 +85649,6 @@ with : Vop=0x3d ... {
 }
 
 with : Vop=0x3f ... {
-
-  # v16add
   :v16add vargd, varga, vargb^vflags
 	is (Vaop=32 & $(VA140)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -85725,6 +85969,8 @@ with : Vop=0x3f ... {
   }
 
   # v16even
+}
+with : Vop=0x3f ... {
   :v16even vargd, varga, vargb^vflags
 	is (Vaop=2 & $(VA140)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -86105,6 +86351,8 @@ with : Vop=0x3f ... {
   }
 
   # v16sub
+}
+with : Vop=0x3f ... {
   :v16sub vargd, varga, vargb^vflags
 	is (Vaop=36 & $(VA294)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -86555,6 +86803,8 @@ with : Vop=0x3f ... {
   }
 
   # v16sign
+}
+with : Vop=0x3f ... {
   :v16sign vargd, varga, vargb^vflags
 	is (Vaop=29 & $(VA238)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -86973,6 +87223,8 @@ with : Vop=0x3f ... {
   }
 
   # v16rsubs
+}
+with : Vop=0x3f ... {
   :v16rsubs vargd, varga, vargb^vflags
 	is (Vaop=41 & $(VA141)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -87341,6 +87593,8 @@ with : Vop=0x3f ... {
   }
 
   # v16or
+}
+with : Vop=0x3f ... {
   :v16or vargd, varga, vargb^vflags
 	is (Vaop=17 & $(VA295)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -87779,6 +88033,8 @@ with : Vop=0x3f ... {
   }
 
   # v16lsr
+}
+with : Vop=0x3f ... {
   :v16lsr vargd, varga, vargb^vflags
 	is (Vaop=10 & $(VA239)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -88221,6 +88477,8 @@ with : Vop=0x3f ... {
   }
 
   # v16count
+}
+with : Vop=0x3f ... {
   :v16count vargd, varga, vargb^vflags
 	is (Vaop=20 & $(VA142)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -88577,6 +88835,8 @@ with : Vop=0x3f ... {
   }
 
   # v16and
+}
+with : Vop=0x3f ... {
   :v16and vargd, varga, vargb^vflags
 	is (Vaop=16 & $(VA296)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -89003,6 +89263,8 @@ with : Vop=0x3f ... {
   }
 
   # v16add
+}
+with : Vop=0x3f ... {
   :v16add vargd, varga, vargb^vflags
 	is (Vaop=32 & $(VA240)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -89387,6 +89649,8 @@ with : Vop=0x3f ... {
   }
 
   # v16even
+}
+with : Vop=0x3f ... {
   :v16even vargd, varga, vargb^vflags
 	is (Vaop=2 & $(VA240)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -89789,6 +90053,8 @@ with : Vop=0x3f ... {
   }
 
   # v16sub
+}
+with : Vop=0x3f ... {
   :v16sub vargd, varga, vargb^vflags
 	is (Vaop=36 & $(VA143)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -90165,6 +90431,8 @@ with : Vop=0x3f ... {
   }
 
   # v16sign
+}
+with : Vop=0x3f ... {
   :v16sign vargd, varga, vargb^vflags
 	is (Vaop=29 & $(VA297)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -90611,6 +90879,8 @@ with : Vop=0x3f ... {
   }
 
   # v16rsubs
+}
+with : Vop=0x3f ... {
   :v16rsubs vargd, varga, vargb^vflags
 	is (Vaop=41 & $(VA241)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -91037,6 +91307,8 @@ with : Vop=0x3f ... {
   }
 
   # v16or
+}
+with : Vop=0x3f ... {
   :v16or vargd, varga, vargb^vflags
 	is (Vaop=17 & $(VA144)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -91401,6 +91673,8 @@ with : Vop=0x3f ... {
   }
 
   # v16lsr
+}
+with : Vop=0x3f ... {
   :v16lsr vargd, varga, vargb^vflags
 	is (Vaop=10 & $(VA298)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -91793,6 +92067,8 @@ with : Vop=0x3f ... {
   }
 
   # v16count
+}
+with : Vop=0x3f ... {
   :v16count vargd, varga, vargb^vflags
 	is (Vaop=20 & $(VA242)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -92201,6 +92477,8 @@ with : Vop=0x3f ... {
   }
 
   # v16and
+}
+with : Vop=0x3f ... {
   :v16and vargd, varga, vargb^vflags
 	is (Vaop=16 & $(VA145)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -92553,6 +92831,8 @@ with : Vop=0x3f ... {
   }
 
   # v16add
+}
+with : Vop=0x3f ... {
   :v16add vargd, varga, vargb^vflags
 	is (Vaop=32 & $(VA299)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -92905,6 +93185,8 @@ with : Vop=0x3f ... {
   }
 
   # v16even
+}
+with : Vop=0x3f ... {
   :v16even vargd, varga, vargb^vflags
 	is (Vaop=2 & $(VA299)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -93317,6 +93599,8 @@ with : Vop=0x3f ... {
   }
 
   # v16sub
+}
+with : Vop=0x3f ... {
   :v16sub vargd, varga, vargb^vflags
 	is (Vaop=36 & $(VA243)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -93685,6 +93969,8 @@ with : Vop=0x3f ... {
   }
 
   # v16sign
+}
+with : Vop=0x3f ... {
   :v16sign vargd, varga, vargb^vflags
 	is (Vaop=29 & $(VA146)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -94057,6 +94343,8 @@ with : Vop=0x3f ... {
   }
 
   # v16rsubs
+}
+with : Vop=0x3f ... {
   :v16rsubs vargd, varga, vargb^vflags
 	is (Vaop=41 & $(VA300)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -94457,6 +94745,8 @@ with : Vop=0x3f ... {
   }
 
   # v16or
+}
+with : Vop=0x3f ... {
   :v16or vargd, varga, vargb^vflags
 	is (Vaop=17 & $(VA244)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -94868,6 +95158,8 @@ with : Vop=0x3f ... {
   }
 
   # v16addc wc0 dVaVbH
+}
+with : Vop=0x3f ... {
   :v16addc vargd, varga, vargb^vflags
 	is (Vaop=34 & $(VA22)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -95243,6 +95535,8 @@ with : Vop=0x3f ... {
   }
 
   # v16bic wc0 dHaVbV
+}
+with : Vop=0x3f ... {
   :v16bic vargd, varga, vargb^vflags
 	is (Vaop=19 & $(VA21)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -95618,6 +95912,8 @@ with : Vop=0x3f ... {
   }
 
   # v16dists wc0 dVaVbV
+}
+with : Vop=0x3f ... {
   :v16dists vargd, varga, vargb^vflags
 	is (Vaop=27 & $(VA0)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -95993,6 +96289,8 @@ with : Vop=0x3f ... {
   }
 
   # v16or wc0 dHaHbV
+}
+with : Vop=0x3f ... {
   :v16or vargd, varga, vargb^vflags
 	is (Vaop=17 & $(VA86)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -96366,6 +96664,8 @@ with : Vop=0x3f ... {
   }
 
   # v16rsubs wc0 dVaHbV
+}
+with : Vop=0x3f ... {
   :v16rsubs vargd, varga, vargb^vflags
 	is (Vaop=41 & $(VA23)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -96742,6 +97042,8 @@ with : Vop=0x3f ... {
   }
 
   # v16signasl wc0 dHaVbH
+}
+with : Vop=0x3f ... {
   :v16signasl vargd, varga, vargb^vflags
 	is (Vaop=14 & $(VA85)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -97116,6 +97418,8 @@ with : Vop=0x3f ... {
   }
 
   # v16subc wc0 dVaVbH
+}
+with : Vop=0x3f ... {
   :v16subc vargd, varga, vargb^vflags
 	is (Vaop=38 & $(VA22)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -97629,6 +97933,8 @@ with : Vop=0x3f ... {
   }
 
   # v16interl wc0 dHaVbV
+}
+with : Vop=0x3f ... {
   :v16interl vargd, varga, vargb^vflags
 	is (Vaop=4 & $(VA21)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -98103,6 +98409,8 @@ with : Vop=0x3f ... {
   }
 
   # v16bic wc0 dVaV
+}
+with : Vop=0x3f ... {
   :v16bic vargd, varga, vargb^vflags
 	is (Vaop=19 & $(VA252)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -98498,6 +98806,8 @@ with : Vop=0x3f ... {
   }
 
   # v16rsub wc0 dHaV
+}
+with : Vop=0x3f ... {
   :v16rsub vargd, varga, vargb^vflags
 	is (Vaop=40 & $(VA266)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -98892,6 +99202,8 @@ with : Vop=0x3f ... {
   }
 
   # v16sub wc0 dVaV
+}
+with : Vop=0x3f ... {
   :v16sub vargd, varga, vargb^vflags
 	is (Vaop=36 & $(VA252)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -99393,6 +99705,8 @@ with : Vop=0x3f ... {
   }
 
   # v16addsc wc0 dVaH
+}
+with : Vop=0x3f ... {
   :v16addsc vargd, varga, vargb^vflags
 	is (Vaop=35 & $(VA197)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -99820,6 +100134,8 @@ with : Vop=0x3f ... {
   }
 
   # v16min wc0 dHaV
+}
+with : Vop=0x3f ... {
   :v16min vargd, varga, vargb^vflags
 	is (Vaop=24 & $(VA196)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -100246,6 +100562,8 @@ with : Vop=0x3f ... {
   }
 
   # v16signasl wc0 dVaH
+}
+with : Vop=0x3f ... {
   :v16signasl vargd, varga, vargb^vflags
 	is (Vaop=14 & $(VA197)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -100769,6 +101087,8 @@ with : Vop=0x3f ... {
   }
 
   # v16add wc1 dHaHbV
+}
+with : Vop=0x3f ... {
   :v16add vargd, varga, vargb^vflags
 	is (Vaop=32 & $(VA90)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -101142,6 +101462,8 @@ with : Vop=0x3f ... {
   }
 
   # v16and wc1 dVaHbV
+}
+with : Vop=0x3f ... {
   :v16and vargd, varga, vargb^vflags
 	is (Vaop=16 & $(VA26)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -101518,6 +101840,8 @@ with : Vop=0x3f ... {
   }
 
   # v16dist wc1 dHaVbH
+}
+with : Vop=0x3f ... {
   :v16dist vargd, varga, vargb^vflags
 	is (Vaop=26 & $(VA89)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -101892,6 +102216,8 @@ with : Vop=0x3f ... {
   }
 
   # v16max wc1 dVaVbH
+}
+with : Vop=0x3f ... {
   :v16max vargd, varga, vargb^vflags
 	is (Vaop=25 & $(VA25)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -102266,6 +102592,8 @@ with : Vop=0x3f ... {
   }
 
   # v16rsub wc1 dVaVbV
+}
+with : Vop=0x3f ... {
   :v16rsub vargd, varga, vargb^vflags
 	is (Vaop=40 & $(VA1)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -102641,6 +102969,8 @@ with : Vop=0x3f ... {
   }
 
   # v16shls wc1 dVaHbH
+}
+with : Vop=0x3f ... {
   :v16shls vargd, varga, vargb^vflags
 	is (Vaop=9 & $(VA91)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -103017,6 +103347,8 @@ with : Vop=0x3f ... {
   }
 
   # v16sub wc1 dHaHbV
+}
+with : Vop=0x3f ... {
   :v16sub vargd, varga, vargb^vflags
 	is (Vaop=36 & $(VA90)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -103402,6 +103734,8 @@ with : Vop=0x3f ... {
   }
 
   # v16even wc1 dVaHbV
+}
+with : Vop=0x3f ... {
   :v16even vargd, varga, vargb^vflags
 	is (Vaop=2 & $(VA26)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -103995,6 +104329,8 @@ with : Vop=0x3f ... {
   }
 
   # v16adds wc1 dVaV
+}
+with : Vop=0x3f ... {
   :v16adds vargd, varga, vargb^vflags
 	is (Vaop=33 & $(VA253)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -104390,6 +104726,8 @@ with : Vop=0x3f ... {
   }
 
   # v16max wc1 dVaH
+}
+with : Vop=0x3f ... {
   :v16max vargd, varga, vargb^vflags
 	is (Vaop=25 & $(VA269)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -104784,6 +105122,8 @@ with : Vop=0x3f ... {
   }
 
   # v16sign wc1 dVaV
+}
+with : Vop=0x3f ... {
   :v16sign vargd, varga, vargb^vflags
 	is (Vaop=29 & $(VA253)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -105269,6 +105609,8 @@ with : Vop=0x3f ... {
   }
 
   # v16odd wc1 dVaH
+}
+with : Vop=0x3f ... {
   :v16odd vargd, varga, vargb^vflags
 	is (Vaop=3 & $(VA269)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -105700,6 +106042,8 @@ with : Vop=0x3f ... {
   }
 
   # v16dists wc1 dHaV
+}
+with : Vop=0x3f ... {
   :v16dists vargd, varga, vargb^vflags
 	is (Vaop=27 & $(VA198)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -106126,6 +106470,8 @@ with : Vop=0x3f ... {
   }
 
   # v16rsubsc wc1 dVaH
+}
+with : Vop=0x3f ... {
   :v16rsubsc vargd, varga, vargb^vflags
 	is (Vaop=43 & $(VA199)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -106553,6 +106899,8 @@ with : Vop=0x3f ... {
   }
 
   # v16even wc1 dHaV
+}
+with : Vop=0x3f ... {
   :v16even vargd, varga, vargb^vflags
 	is (Vaop=2 & $(VA198)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -107042,6 +107390,8 @@ with : Vop=0x3f ... {
   }
 
   # v16adds wc2 dVaVbV
+}
+with : Vop=0x3f ... {
   :v16adds vargd, varga, vargb^vflags
 	is (Vaop=33 & $(VA2)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -107417,6 +107767,8 @@ with : Vop=0x3f ... {
   }
 
   # v16clip wc2 dVaHbH
+}
+with : Vop=0x3f ... {
   :v16clip vargd, varga, vargb^vflags
 	is (Vaop=28 & $(VA95)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -107793,6 +108145,8 @@ with : Vop=0x3f ... {
   }
 
   # v16lsr wc2 dHaHbV
+}
+with : Vop=0x3f ... {
   :v16lsr vargd, varga, vargb^vflags
 	is (Vaop=10 & $(VA94)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -108166,6 +108520,8 @@ with : Vop=0x3f ... {
   }
 
   # v16ror wc2 dHaVbH
+}
+with : Vop=0x3f ... {
   :v16ror vargd, varga, vargb^vflags
 	is (Vaop=7 & $(VA93)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -108540,6 +108896,8 @@ with : Vop=0x3f ... {
   }
 
   # v16rsubsc wc2 dVaVbH
+}
+with : Vop=0x3f ... {
   :v16rsubsc vargd, varga, vargb^vflags
 	is (Vaop=43 & $(VA28)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -108915,6 +109273,8 @@ with : Vop=0x3f ... {
   }
 
   # v16signasls wc2 dHaVbV
+}
+with : Vop=0x3f ... {
   :v16signasls vargd, varga, vargb^vflags
 	is (Vaop=15 & $(VA27)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -109290,6 +109650,8 @@ with : Vop=0x3f ... {
   }
 
   # v16subs wc2 dVaVbV
+}
+with : Vop=0x3f ... {
   :v16subs vargd, varga, vargb^vflags
 	is (Vaop=37 & $(VA2)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -109877,6 +110239,8 @@ with : Vop=0x3f ... {
   }
 
   # v16odd wc2 dVaHbH
+}
+with : Vop=0x3f ... {
   :v16odd vargd, varga, vargb^vflags
 	is (Vaop=3 & $(VA95)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -110282,6 +110646,8 @@ with : Vop=0x3f ... {
   }
 
   # v16dist wc2 dVaH
+}
+with : Vop=0x3f ... {
   :v16dist vargd, varga, vargb^vflags
 	is (Vaop=26 & $(VA271)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -110676,6 +111042,8 @@ with : Vop=0x3f ... {
   }
 
   # v16rsubs wc2 dVaV
+}
+with : Vop=0x3f ... {
   :v16rsubs vargd, varga, vargb^vflags
 	is (Vaop=41 & $(VA254)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -111071,6 +111439,8 @@ with : Vop=0x3f ... {
   }
 
   # v16subsc wc2 dVaH
+}
+with : Vop=0x3f ... {
   :v16subsc vargd, varga, vargb^vflags
 	is (Vaop=39 & $(VA271)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -111580,6 +111950,8 @@ with : Vop=0x3f ... {
   }
 
   # v16bic wc2 dHaV
+}
+with : Vop=0x3f ... {
   :v16bic vargd, varga, vargb^vflags
 	is (Vaop=19 & $(VA200)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -112006,6 +112378,8 @@ with : Vop=0x3f ... {
   }
 
   # v16ror wc2 dVaH
+}
+with : Vop=0x3f ... {
   :v16ror vargd, varga, vargb^vflags
 	is (Vaop=7 & $(VA201)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -112433,6 +112807,8 @@ with : Vop=0x3f ... {
   }
 
   # v16sub wc2 dHaV
+}
+with : Vop=0x3f ... {
   :v16sub vargd, varga, vargb^vflags
 	is (Vaop=36 & $(VA200)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -112942,6 +113318,8 @@ with : Vop=0x3f ... {
   }
 
   # v16addc wc3 dHaVbH
+}
+with : Vop=0x3f ... {
   :v16addc vargd, varga, vargb^vflags
 	is (Vaop=34 & $(VA97)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -113316,6 +113694,8 @@ with : Vop=0x3f ... {
   }
 
   # v16asr wc3 dVaVbH
+}
+with : Vop=0x3f ... {
   :v16asr vargd, varga, vargb^vflags
 	is (Vaop=11 & $(VA31)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -113691,6 +114071,8 @@ with : Vop=0x3f ... {
   }
 
   # v16dists wc3 dHaVbV
+}
+with : Vop=0x3f ... {
   :v16dists vargd, varga, vargb^vflags
 	is (Vaop=27 & $(VA30)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -114066,6 +114448,8 @@ with : Vop=0x3f ... {
   }
 
   # v16min wc3 dVaVbV
+}
+with : Vop=0x3f ... {
   :v16min vargd, varga, vargb^vflags
 	is (Vaop=24 & $(VA3)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -114441,6 +114825,8 @@ with : Vop=0x3f ... {
   }
 
   # v16rsubs wc3 dHaHbV
+}
+with : Vop=0x3f ... {
   :v16rsubs vargd, varga, vargb^vflags
 	is (Vaop=41 & $(VA98)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -114814,6 +115200,8 @@ with : Vop=0x3f ... {
   }
 
   # v16sign wc3 dVaHbV
+}
+with : Vop=0x3f ... {
   :v16sign vargd, varga, vargb^vflags
 	is (Vaop=29 & $(VA32)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -115190,6 +115578,8 @@ with : Vop=0x3f ... {
   }
 
   # v16subc wc3 dHaVbH
+}
+with : Vop=0x3f ... {
   :v16subc vargd, varga, vargb^vflags
 	is (Vaop=38 & $(VA97)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -115650,6 +116040,8 @@ with : Vop=0x3f ... {
   }
 
   # v16interh wc3 dVaVbH
+}
+with : Vop=0x3f ... {
   :v16interh vargd, varga, vargb^vflags
 	is (Vaop=5 & $(VA31)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -116174,6 +116566,8 @@ with : Vop=0x3f ... {
   }
 
   # v16asr wc3 dVaH
+}
+with : Vop=0x3f ... {
   :v16asr vargd, varga, vargb^vflags
 	is (Vaop=11 & $(VA273)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -116568,6 +116962,8 @@ with : Vop=0x3f ... {
   }
 
   # v16or wc3 dVaV
+}
+with : Vop=0x3f ... {
   :v16or vargd, varga, vargb^vflags
 	is (Vaop=17 & $(VA255)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -116963,6 +117359,8 @@ with : Vop=0x3f ... {
   }
 
   # v16signshl wc3 dVaH
+}
+with : Vop=0x3f ... {
   :v16signshl vargd, varga, vargb^vflags
 	is (Vaop=12 & $(VA273)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -117460,6 +117858,8 @@ with : Vop=0x3f ... {
   }
 
   # v16adds wc3 dHaV
+}
+with : Vop=0x3f ... {
   :v16adds vargd, varga, vargb^vflags
 	is (Vaop=33 & $(VA202)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -117886,6 +118286,8 @@ with : Vop=0x3f ... {
   }
 
   # v16lsr wc3 dVaV
+}
+with : Vop=0x3f ... {
   :v16lsr vargd, varga, vargb^vflags
 	is (Vaop=10 & $(VA150)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -118313,6 +118715,8 @@ with : Vop=0x3f ... {
   }
 
   # v16sign wc3 dHaV
+}
+with : Vop=0x3f ... {
   :v16sign vargd, varga, vargb^vflags
 	is (Vaop=29 & $(VA202)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -118813,6 +119217,8 @@ with : Vop=0x3f ... {
   }
 
   # v16interl wc3 dVaV
+}
+with : Vop=0x3f ... {
   :v16interl vargd, varga, vargb^vflags
 	is (Vaop=4 & $(VA150)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -119217,6 +119623,8 @@ with : Vop=0x3f ... {
   }
 
   # v16and wc4 dHaHbV
+}
+with : Vop=0x3f ... {
   :v16and vargd, varga, vargb^vflags
 	is (Vaop=16 & $(VA102)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -119590,6 +119998,8 @@ with : Vop=0x3f ... {
   }
 
   # v16count wc4 dVaHbV
+}
+with : Vop=0x3f ... {
   :v16count vargd, varga, vargb^vflags
 	is (Vaop=20 & $(VA35)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -119966,6 +120376,8 @@ with : Vop=0x3f ... {
   }
 
   # v16max wc4 dHaVbH
+}
+with : Vop=0x3f ... {
   :v16max vargd, varga, vargb^vflags
 	is (Vaop=25 & $(VA101)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -120339,6 +120751,8 @@ with : Vop=0x3f ... {
   }
 
   # v16rsub wc4 dHaVbV
+}
+with : Vop=0x3f ... {
   :v16rsub vargd, varga, vargb^vflags
 	is (Vaop=40 & $(VA33)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -120714,6 +121128,8 @@ with : Vop=0x3f ... {
   }
 
   # v16shl wc4 dVaVbV
+}
+with : Vop=0x3f ... {
   :v16shl vargd, varga, vargb^vflags
 	is (Vaop=8 & $(VA4)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -121089,6 +121505,8 @@ with : Vop=0x3f ... {
   }
 
   # v16signshl wc4 dVaHbH
+}
+with : Vop=0x3f ... {
   :v16signshl vargd, varga, vargb^vflags
 	is (Vaop=12 & $(VA103)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -121465,6 +121883,8 @@ with : Vop=0x3f ... {
   }
 
   # v16even wc4 dHaHbV
+}
+with : Vop=0x3f ... {
   :v16even vargd, varga, vargb^vflags
 	is (Vaop=2 & $(VA102)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -122066,6 +122486,8 @@ with : Vop=0x3f ... {
   }
 
   # v16addc wc4 dVaH
+}
+with : Vop=0x3f ... {
   :v16addc vargd, varga, vargb^vflags
 	is (Vaop=34 & $(VA275)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -122461,6 +122883,8 @@ with : Vop=0x3f ... {
   }
 
   # v16lsr wc4 dHaV
+}
+with : Vop=0x3f ... {
   :v16lsr vargd, varga, vargb^vflags
 	is (Vaop=10 & $(VA274)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -122855,6 +123279,8 @@ with : Vop=0x3f ... {
   }
 
   # v16shls wc4 dVaH
+}
+with : Vop=0x3f ... {
   :v16shls vargd, varga, vargb^vflags
 	is (Vaop=9 & $(VA275)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -123298,6 +123724,8 @@ with : Vop=0x3f ... {
   }
 
   # v16interl wc4 dHaV
+}
+with : Vop=0x3f ... {
   :v16interl vargd, varga, vargb^vflags
 	is (Vaop=4 & $(VA274)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -123766,6 +124194,8 @@ with : Vop=0x3f ... {
   }
 
   # v16count wc4 dVaV
+}
+with : Vop=0x3f ... {
   :v16count vargd, varga, vargb^vflags
 	is (Vaop=20 & $(VA151)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -124193,6 +124623,8 @@ with : Vop=0x3f ... {
   }
 
   # v16rsubs wc4 dHaV
+}
+with : Vop=0x3f ... {
   :v16rsubs vargd, varga, vargb^vflags
 	is (Vaop=41 & $(VA204)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -124619,6 +125051,8 @@ with : Vop=0x3f ... {
   }
 
   # v16subs wc4 dVaV
+}
+with : Vop=0x3f ... {
   :v16subs vargd, varga, vargb^vflags
 	is (Vaop=37 & $(VA151)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -125115,6 +125549,8 @@ with : Vop=0x3f ... {
   }
 
   # v16adds wc5 dHaVbV
+}
+with : Vop=0x3f ... {
   :v16adds vargd, varga, vargb^vflags
 	is (Vaop=33 & $(VA36)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -125490,6 +125926,8 @@ with : Vop=0x3f ... {
   }
 
   # v16bic wc5 dVaVbV
+}
+with : Vop=0x3f ... {
   :v16bic vargd, varga, vargb^vflags
 	is (Vaop=19 & $(VA5)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -125865,6 +126303,8 @@ with : Vop=0x3f ... {
   }
 
   # v16eor wc5 dVaHbH
+}
+with : Vop=0x3f ... {
   :v16eor vargd, varga, vargb^vflags
 	is (Vaop=18 & $(VA107)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -126238,6 +126678,8 @@ with : Vop=0x3f ... {
   }
 
   # v16or wc5 dVaHbV
+}
+with : Vop=0x3f ... {
   :v16or vargd, varga, vargb^vflags
 	is (Vaop=17 & $(VA38)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -126614,6 +127056,8 @@ with : Vop=0x3f ... {
   }
 
   # v16rsubsc wc5 dHaVbH
+}
+with : Vop=0x3f ... {
   :v16rsubsc vargd, varga, vargb^vflags
 	is (Vaop=43 & $(VA105)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -126988,6 +127432,8 @@ with : Vop=0x3f ... {
   }
 
   # v16signasl wc5 dVaVbH
+}
+with : Vop=0x3f ... {
   :v16signasl vargd, varga, vargb^vflags
 	is (Vaop=14 & $(VA37)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -127363,6 +127809,8 @@ with : Vop=0x3f ... {
   }
 
   # v16subs wc5 dHaVbV
+}
+with : Vop=0x3f ... {
   :v16subs vargd, varga, vargb^vflags
 	is (Vaop=37 & $(VA36)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -127928,6 +128376,8 @@ with : Vop=0x3f ... {
   }
 
   # v16interl wc5 dVaVbV
+}
+with : Vop=0x3f ... {
   :v16interl vargd, varga, vargb^vflags
 	is (Vaop=4 & $(VA5)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -128353,6 +128803,8 @@ with : Vop=0x3f ... {
   }
 
   # v16count wc5 dHaV
+}
+with : Vop=0x3f ... {
   :v16count vargd, varga, vargb^vflags
 	is (Vaop=20 & $(VA276)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -128747,6 +129199,8 @@ with : Vop=0x3f ... {
   }
 
   # v16rsubc wc5 dVaH
+}
+with : Vop=0x3f ... {
   :v16rsubc vargd, varga, vargb^vflags
 	is (Vaop=42 & $(VA277)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -129142,6 +129596,8 @@ with : Vop=0x3f ... {
   }
 
   # v16subs wc5 dHaV
+}
+with : Vop=0x3f ... {
   :v16subs vargd, varga, vargb^vflags
 	is (Vaop=37 & $(VA276)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -129646,6 +130102,8 @@ with : Vop=0x3f ... {
   }
 
   # v16and wc5 dVaV
+}
+with : Vop=0x3f ... {
   :v16and vargd, varga, vargb^vflags
 	is (Vaop=16 & $(VA152)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -130073,6 +130531,8 @@ with : Vop=0x3f ... {
   }
 
   # v16or wc5 dHaV
+}
+with : Vop=0x3f ... {
   :v16or vargd, varga, vargb^vflags
 	is (Vaop=17 & $(VA206)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -130499,6 +130959,8 @@ with : Vop=0x3f ... {
   }
 
   # v16signasls wc5 dVaV
+}
+with : Vop=0x3f ... {
   :v16signasls vargd, varga, vargb^vflags
 	is (Vaop=15 & $(VA152)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -131014,6 +131476,8 @@ with : Vop=0x3f ... {
   }
 
   # v16add wc6 dVaHbV
+}
+with : Vop=0x3f ... {
   :v16add vargd, varga, vargb^vflags
 	is (Vaop=32 & $(VA41)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -131390,6 +131854,8 @@ with : Vop=0x3f ... {
   }
 
   # v16asr wc6 dHaVbH
+}
+with : Vop=0x3f ... {
   :v16asr vargd, varga, vargb^vflags
 	is (Vaop=11 & $(VA109)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -131764,6 +132230,8 @@ with : Vop=0x3f ... {
   }
 
   # v16dist wc6 dVaVbH
+}
+with : Vop=0x3f ... {
   :v16dist vargd, varga, vargb^vflags
 	is (Vaop=26 & $(VA40)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -132139,6 +132607,8 @@ with : Vop=0x3f ... {
   }
 
   # v16min wc6 dHaVbV
+}
+with : Vop=0x3f ... {
   :v16min vargd, varga, vargb^vflags
 	is (Vaop=24 & $(VA39)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -132513,6 +132983,8 @@ with : Vop=0x3f ... {
   }
 
   # v16rsubc wc6 dVaHbH
+}
+with : Vop=0x3f ... {
   :v16rsubc vargd, varga, vargb^vflags
 	is (Vaop=42 & $(VA111)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -132889,6 +133361,8 @@ with : Vop=0x3f ... {
   }
 
   # v16sign wc6 dHaHbV
+}
+with : Vop=0x3f ... {
   :v16sign vargd, varga, vargb^vflags
 	is (Vaop=29 & $(VA110)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -133262,6 +133736,8 @@ with : Vop=0x3f ... {
   }
 
   # v16sub wc6 dVaHbV
+}
+with : Vop=0x3f ... {
   :v16sub vargd, varga, vargb^vflags
 	is (Vaop=36 & $(VA41)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -133672,6 +134148,8 @@ with : Vop=0x3f ... {
   }
 
   # v16interh wc6 dHaVbH
+}
+with : Vop=0x3f ... {
   :v16interh vargd, varga, vargb^vflags
 	is (Vaop=5 & $(VA109)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -134245,6 +134723,8 @@ with : Vop=0x3f ... {
   }
 
   # v16and wc6 dHaV
+}
+with : Vop=0x3f ... {
   :v16and vargd, varga, vargb^vflags
 	is (Vaop=16 & $(VA278)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -134639,6 +135119,8 @@ with : Vop=0x3f ... {
   }
 
   # v16min wc6 dVaV
+}
+with : Vop=0x3f ... {
   :v16min vargd, varga, vargb^vflags
 	is (Vaop=24 & $(VA258)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -135034,6 +135516,8 @@ with : Vop=0x3f ... {
   }
 
   # v16signasls wc6 dHaV
+}
+with : Vop=0x3f ... {
   :v16signasls vargd, varga, vargb^vflags
 	is (Vaop=15 & $(VA278)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -135526,6 +136010,8 @@ with : Vop=0x3f ... {
   }
 
   # v16add wc6 dVaV
+}
+with : Vop=0x3f ... {
   :v16add vargd, varga, vargb^vflags
 	is (Vaop=32 & $(VA153)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -135953,6 +136439,8 @@ with : Vop=0x3f ... {
   }
 
   # v16eor wc6 dVaH
+}
+with : Vop=0x3f ... {
   :v16eor vargd, varga, vargb^vflags
 	is (Vaop=18 & $(VA209)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -136379,6 +136867,8 @@ with : Vop=0x3f ... {
   }
 
   # v16shl wc6 dVaV
+}
+with : Vop=0x3f ... {
   :v16shl vargd, varga, vargb^vflags
 	is (Vaop=8 & $(VA153)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -136828,6 +137318,8 @@ with : Vop=0x3f ... {
   }
 
   # v16interh wc6 dVaH
+}
+with : Vop=0x3f ... {
   :v16interh vargd, varga, vargb^vflags
 	is (Vaop=5 & $(VA209)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -137369,6 +137861,8 @@ with : Vop=0x3f ... {
   }
 
   # v16addc setf wc3
+}
+with : Vop=0x3f ... {
   :v16addc vargd, varga, vargb^vflags
 	is (Vaop=34 & $(VA353)) ...
 	   & vargd & varga & vargb & vflags & vsetfu {
@@ -137849,6 +138343,8 @@ with : Vop=0x3f ... {
   }
 
   # v16bic setf wc0
+}
+with : Vop=0x3f ... {
   :v16bic vargd, varga, vargb^vflags
 	is (Vaop=19 & $(VA308)) ...
 	   & vargd & varga & vargb & vflags & vsetfu {
@@ -138293,6 +138789,8 @@ with : Vop=0x3f ... {
   }
 
   # v16count setf wc4
+}
+with : Vop=0x3f ... {
   :v16count vargd, varga, vargb^vflags
 	is (Vaop=20 & $(VA312)) ...
 	   & vargd & varga & vargb & vflags & vsetfu {
@@ -138739,6 +139237,8 @@ with : Vop=0x3f ... {
   }
 
   # v16eor setf wc1
+}
+with : Vop=0x3f ... {
   :v16eor vargd, varga, vargb^vflags
 	is (Vaop=18 & $(VA351)) ...
 	   & vargd & varga & vargb & vflags & vsetfu {
@@ -139243,6 +139743,8 @@ with : Vop=0x3f ... {
   }
 
   # v16max setf wc5
+}
+with : Vop=0x3f ... {
   :v16max vargd, varga, vargb^vflags
 	is (Vaop=25 & $(VA355)) ...
 	   & vargd & varga & vargb & vflags & vsetfu {
@@ -139713,6 +140215,8 @@ with : Vop=0x3f ... {
   }
 
   # v16or setf wc1
+}
+with : Vop=0x3f ... {
   :v16or vargd, varga, vargb^vflags
 	is (Vaop=17 & $(VA351)) ...
 	   & vargd & varga & vargb & vflags & vsetfu {
@@ -140217,6 +140721,8 @@ with : Vop=0x3f ... {
   }
 
   # v16rsub setf wc5
+}
+with : Vop=0x3f ... {
   :v16rsub vargd, varga, vargb^vflags
 	is (Vaop=40 & $(VA355)) ...
 	   & vargd & varga & vargb & vflags & vsetfu {
@@ -140697,6 +141203,8 @@ with : Vop=0x3f ... {
   }
 
   # v16sign setf wc2
+}
+with : Vop=0x3f ... {
   :v16sign vargd, varga, vargb^vflags
 	is (Vaop=29 & $(VA310)) ...
 	   & vargd & varga & vargb & vflags & vsetfu {
@@ -141141,6 +141649,8 @@ with : Vop=0x3f ... {
   }
 
   # v16signshl setf wc6
+}
+with : Vop=0x3f ... {
   :v16signshl vargd, varga, vargb^vflags
 	is (Vaop=12 & $(VA314)) ...
 	   & vargd & varga & vargb & vflags & vsetfu {
@@ -141619,6 +142129,8 @@ with : Vop=0x3f ... {
   }
 
   # v16subc setf wc3
+}
+with : Vop=0x3f ... {
   :v16subc vargd, varga, vargb^vflags
 	is (Vaop=38 & $(VA353)) ...
 	   & vargd & varga & vargb & vflags & vsetfu {
@@ -142267,6 +142779,8 @@ with : Vop=0x3f ... {
   }
 
   # v16mov sru SUMU wc0
+}
+with : Vop=0x3f ... {
   :v16mov vargd, vargb^vsru0 is (Vaop=0 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=0 & Vhasimm=0 & vbrow & Vdirb=0) ...
 	   & vargd & vargb & vsru0 {
@@ -143561,6 +144075,8 @@ with : Vop=0x3f ... {
   }
 
   # v16mov sru MAX4 wc4
+}
+with : Vop=0x3f ... {
   :v16mov vargd, vargb^vsru4 is (Vaop=0 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=4 & Vhasimm=0 & vbrow & Vdirb=0) ...
 	   & vargd & vargb & vsru4 {
@@ -145041,6 +145557,8 @@ with : Vop=0x3f ... {
   }
 
   # v16add acc SACC wc1
+}
+with : Vop=0x3f ... {
   :v16add vargd, varga, vargb^vacc1 is (Vaop=32 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=1 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=1 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc1 {
@@ -145329,6 +145847,8 @@ with : Vop=0x3f ... {
   }
 
   # v16add acc SACCH wc5
+}
+with : Vop=0x3f ... {
   :v16add vargd, varga, vargb^vacc5 is (Vaop=32 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=5 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=5 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc5 {
@@ -145617,6 +146137,8 @@ with : Vop=0x3f ... {
   }
 
   # v16add acc CLRA-UDEC wc2
+}
+with : Vop=0x3f ... {
   :v16add vargd, varga, vargb^vacc10 is (Vaop=32 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=2 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=2 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc10 {
@@ -145905,6 +146427,8 @@ with : Vop=0x3f ... {
   }
 
   # v16add acc CLRA-UDECH wc6
+}
+with : Vop=0x3f ... {
   :v16add vargd, varga, vargb^vacc14 is (Vaop=32 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc14 {
@@ -146193,6 +146717,8 @@ with : Vop=0x3f ... {
   }
 
   # v16addc acc CLRA-SACC wc3
+}
+with : Vop=0x3f ... {
   :v16addc vargd, varga, vargb^vacc3 is (Vaop=34 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=3 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=3 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc3 {
@@ -146481,6 +147007,8 @@ with : Vop=0x3f ... {
   }
 
   # v16addc acc UDEC wc0
+}
+with : Vop=0x3f ... {
   :v16addc vargd, varga, vargb^vacc8 is (Vaop=34 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=0 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=0 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -146769,6 +147297,8 @@ with : Vop=0x3f ... {
   }
 
   # v16addc acc UDECH wc4
+}
+with : Vop=0x3f ... {
   :v16addc vargd, varga, vargb^vacc12 is (Vaop=34 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=4 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc12 {
@@ -147057,6 +147587,8 @@ with : Vop=0x3f ... {
   }
 
   # v16adds acc UDEC wc6
+}
+with : Vop=0x3f ... {
   :v16adds vargd, varga, vargb^vacc8 is (Vaop=33 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -147345,6 +147877,8 @@ with : Vop=0x3f ... {
   }
 
   # v16and acc SACC wc1
+}
+with : Vop=0x3f ... {
   :v16and vargd, varga, vargb^vacc1 is (Vaop=16 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=1 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=1 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc1 {
@@ -147633,6 +148167,8 @@ with : Vop=0x3f ... {
   }
 
   # v16and acc SACCH wc5
+}
+with : Vop=0x3f ... {
   :v16and vargd, varga, vargb^vacc5 is (Vaop=16 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=5 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=5 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc5 {
@@ -147921,6 +148457,8 @@ with : Vop=0x3f ... {
   }
 
   # v16and acc CLRA-UDEC wc2
+}
+with : Vop=0x3f ... {
   :v16and vargd, varga, vargb^vacc10 is (Vaop=16 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=2 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=2 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc10 {
@@ -148209,6 +148747,8 @@ with : Vop=0x3f ... {
   }
 
   # v16and acc CLRA-UDECH wc6
+}
+with : Vop=0x3f ... {
   :v16and vargd, varga, vargb^vacc14 is (Vaop=16 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc14 {
@@ -148497,6 +149037,8 @@ with : Vop=0x3f ... {
   }
 
   # v16asr acc CLRA-SACC wc3
+}
+with : Vop=0x3f ... {
   :v16asr vargd, varga, vargb^vacc3 is (Vaop=11 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=3 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=3 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc3 {
@@ -148785,6 +149327,8 @@ with : Vop=0x3f ... {
   }
 
   # v16asr acc UDEC wc0
+}
+with : Vop=0x3f ... {
   :v16asr vargd, varga, vargb^vacc8 is (Vaop=11 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=0 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=0 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -149073,6 +149617,8 @@ with : Vop=0x3f ... {
   }
 
   # v16asr acc UDECH wc4
+}
+with : Vop=0x3f ... {
   :v16asr vargd, varga, vargb^vacc12 is (Vaop=11 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=4 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc12 {
@@ -149361,6 +149907,8 @@ with : Vop=0x3f ... {
   }
 
   # v16bic acc SACC wc1
+}
+with : Vop=0x3f ... {
   :v16bic vargd, varga, vargb^vacc1 is (Vaop=19 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=1 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=1 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc1 {
@@ -149649,6 +150197,8 @@ with : Vop=0x3f ... {
   }
 
   # v16bic acc SACCH wc5
+}
+with : Vop=0x3f ... {
   :v16bic vargd, varga, vargb^vacc5 is (Vaop=19 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=5 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=5 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc5 {
@@ -149937,6 +150487,8 @@ with : Vop=0x3f ... {
   }
 
   # v16bic acc CLRA-UDEC wc2
+}
+with : Vop=0x3f ... {
   :v16bic vargd, varga, vargb^vacc10 is (Vaop=19 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=2 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=2 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc10 {
@@ -150225,6 +150777,8 @@ with : Vop=0x3f ... {
   }
 
   # v16bic acc CLRA-UDECH wc6
+}
+with : Vop=0x3f ... {
   :v16bic vargd, varga, vargb^vacc14 is (Vaop=19 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc14 {
@@ -150513,6 +151067,8 @@ with : Vop=0x3f ... {
   }
 
   # v16clip acc CLRA-SACC wc3
+}
+with : Vop=0x3f ... {
   :v16clip vargd, varga, vargb^vacc3 is (Vaop=28 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=3 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=3 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc3 {
@@ -150801,6 +151357,8 @@ with : Vop=0x3f ... {
   }
 
   # v16clip acc UDEC wc0
+}
+with : Vop=0x3f ... {
   :v16clip vargd, varga, vargb^vacc8 is (Vaop=28 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=0 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=0 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -151089,6 +151647,8 @@ with : Vop=0x3f ... {
   }
 
   # v16clip acc UDECH wc4
+}
+with : Vop=0x3f ... {
   :v16clip vargd, varga, vargb^vacc12 is (Vaop=28 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=4 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc12 {
@@ -151377,6 +151937,8 @@ with : Vop=0x3f ... {
   }
 
   # v16count acc SACC wc1
+}
+with : Vop=0x3f ... {
   :v16count vargd, varga, vargb^vacc1 is (Vaop=20 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=1 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=1 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc1 {
@@ -151665,6 +152227,8 @@ with : Vop=0x3f ... {
   }
 
   # v16count acc SACCH wc5
+}
+with : Vop=0x3f ... {
   :v16count vargd, varga, vargb^vacc5 is (Vaop=20 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=5 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=5 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc5 {
@@ -151953,6 +152517,8 @@ with : Vop=0x3f ... {
   }
 
   # v16count acc CLRA-UDEC wc2
+}
+with : Vop=0x3f ... {
   :v16count vargd, varga, vargb^vacc10 is (Vaop=20 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=2 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=2 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc10 {
@@ -152241,6 +152807,8 @@ with : Vop=0x3f ... {
   }
 
   # v16count acc CLRA-UDECH wc6
+}
+with : Vop=0x3f ... {
   :v16count vargd, varga, vargb^vacc14 is (Vaop=20 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc14 {
@@ -152529,6 +153097,8 @@ with : Vop=0x3f ... {
   }
 
   # v16dist acc CLRA-SACC wc3
+}
+with : Vop=0x3f ... {
   :v16dist vargd, varga, vargb^vacc3 is (Vaop=26 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=3 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=3 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc3 {
@@ -152817,6 +153387,8 @@ with : Vop=0x3f ... {
   }
 
   # v16dist acc UDEC wc0
+}
+with : Vop=0x3f ... {
   :v16dist vargd, varga, vargb^vacc8 is (Vaop=26 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=0 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=0 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -153105,6 +153677,8 @@ with : Vop=0x3f ... {
   }
 
   # v16dist acc UDECH wc4
+}
+with : Vop=0x3f ... {
   :v16dist vargd, varga, vargb^vacc12 is (Vaop=26 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=4 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc12 {
@@ -153393,6 +153967,8 @@ with : Vop=0x3f ... {
   }
 
   # v16dists acc UDEC wc6
+}
+with : Vop=0x3f ... {
   :v16dists vargd, varga, vargb^vacc8 is (Vaop=27 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -153681,6 +154257,8 @@ with : Vop=0x3f ... {
   }
 
   # v16eor acc CLRA-SACC wc3
+}
+with : Vop=0x3f ... {
   :v16eor vargd, varga, vargb^vacc3 is (Vaop=18 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=3 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=3 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc3 {
@@ -153969,6 +154547,8 @@ with : Vop=0x3f ... {
   }
 
   # v16eor acc UDEC wc0
+}
+with : Vop=0x3f ... {
   :v16eor vargd, varga, vargb^vacc8 is (Vaop=18 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=0 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=0 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -154257,6 +154837,8 @@ with : Vop=0x3f ... {
   }
 
   # v16eor acc UDECH wc4
+}
+with : Vop=0x3f ... {
   :v16eor vargd, varga, vargb^vacc12 is (Vaop=18 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=4 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc12 {
@@ -154545,6 +155127,8 @@ with : Vop=0x3f ... {
   }
 
   # v16lsr acc SACC wc1
+}
+with : Vop=0x3f ... {
   :v16lsr vargd, varga, vargb^vacc1 is (Vaop=10 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=1 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=1 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc1 {
@@ -154833,6 +155417,8 @@ with : Vop=0x3f ... {
   }
 
   # v16lsr acc SACCH wc5
+}
+with : Vop=0x3f ... {
   :v16lsr vargd, varga, vargb^vacc5 is (Vaop=10 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=5 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=5 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc5 {
@@ -155121,6 +155707,8 @@ with : Vop=0x3f ... {
   }
 
   # v16lsr acc CLRA-UDEC wc2
+}
+with : Vop=0x3f ... {
   :v16lsr vargd, varga, vargb^vacc10 is (Vaop=10 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=2 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=2 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc10 {
@@ -155409,6 +155997,8 @@ with : Vop=0x3f ... {
   }
 
   # v16lsr acc CLRA-UDECH wc6
+}
+with : Vop=0x3f ... {
   :v16lsr vargd, varga, vargb^vacc14 is (Vaop=10 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc14 {
@@ -155697,6 +156287,8 @@ with : Vop=0x3f ... {
   }
 
   # v16max acc CLRA-SACC wc3
+}
+with : Vop=0x3f ... {
   :v16max vargd, varga, vargb^vacc3 is (Vaop=25 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=3 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=3 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc3 {
@@ -155985,6 +156577,8 @@ with : Vop=0x3f ... {
   }
 
   # v16max acc UDEC wc0
+}
+with : Vop=0x3f ... {
   :v16max vargd, varga, vargb^vacc8 is (Vaop=25 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=0 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=0 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -156273,6 +156867,8 @@ with : Vop=0x3f ... {
   }
 
   # v16max acc UDECH wc4
+}
+with : Vop=0x3f ... {
   :v16max vargd, varga, vargb^vacc12 is (Vaop=25 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=4 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc12 {
@@ -156561,6 +157157,8 @@ with : Vop=0x3f ... {
   }
 
   # v16min acc SACC wc1
+}
+with : Vop=0x3f ... {
   :v16min vargd, varga, vargb^vacc1 is (Vaop=24 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=1 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=1 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc1 {
@@ -156849,6 +157447,8 @@ with : Vop=0x3f ... {
   }
 
   # v16min acc SACCH wc5
+}
+with : Vop=0x3f ... {
   :v16min vargd, varga, vargb^vacc5 is (Vaop=24 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=5 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=5 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc5 {
@@ -157137,6 +157737,8 @@ with : Vop=0x3f ... {
   }
 
   # v16min acc CLRA-UDEC wc2
+}
+with : Vop=0x3f ... {
   :v16min vargd, varga, vargb^vacc10 is (Vaop=24 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=2 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=2 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc10 {
@@ -157425,6 +158027,8 @@ with : Vop=0x3f ... {
   }
 
   # v16min acc CLRA-UDECH wc6
+}
+with : Vop=0x3f ... {
   :v16min vargd, varga, vargb^vacc14 is (Vaop=24 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc14 {
@@ -157713,6 +158317,8 @@ with : Vop=0x3f ... {
   }
 
   # v16mov acc CLRA-SACC wc3
+}
+with : Vop=0x3f ... {
   :v16mov vargd, vargb^vacc3 is (Vaop=0 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=3 & Vhasimm=0 & vbrow & Vdirb=0) ...
 	   & vargd & vargb & vacc3 {
@@ -158001,6 +158607,8 @@ with : Vop=0x3f ... {
   }
 
   # v16mov acc UDEC wc0
+}
+with : Vop=0x3f ... {
   :v16mov vargd, vargb^vacc8 is (Vaop=0 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=0 & Vhasimm=0 & vbrow & Vdirb=0) ...
 	   & vargd & vargb & vacc8 {
@@ -158289,6 +158897,8 @@ with : Vop=0x3f ... {
   }
 
   # v16mov acc UDECH wc4
+}
+with : Vop=0x3f ... {
   :v16mov vargd, vargb^vacc12 is (Vaop=0 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=4 & Vhasimm=0 & vbrow & Vdirb=0) ...
 	   & vargd & vargb & vacc12 {
@@ -158577,6 +159187,8 @@ with : Vop=0x3f ... {
   }
 
   # v16or acc SACC wc1
+}
+with : Vop=0x3f ... {
   :v16or vargd, varga, vargb^vacc1 is (Vaop=17 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=1 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=1 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc1 {
@@ -158865,6 +159477,8 @@ with : Vop=0x3f ... {
   }
 
   # v16or acc SACCH wc5
+}
+with : Vop=0x3f ... {
   :v16or vargd, varga, vargb^vacc5 is (Vaop=17 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=5 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=5 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc5 {
@@ -159153,6 +159767,8 @@ with : Vop=0x3f ... {
   }
 
   # v16or acc CLRA-UDEC wc2
+}
+with : Vop=0x3f ... {
   :v16or vargd, varga, vargb^vacc10 is (Vaop=17 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=2 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=2 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc10 {
@@ -159441,6 +160057,8 @@ with : Vop=0x3f ... {
   }
 
   # v16or acc CLRA-UDECH wc6
+}
+with : Vop=0x3f ... {
   :v16or vargd, varga, vargb^vacc14 is (Vaop=17 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc14 {
@@ -159729,6 +160347,8 @@ with : Vop=0x3f ... {
   }
 
   # v16ror acc CLRA-SACC wc3
+}
+with : Vop=0x3f ... {
   :v16ror vargd, varga, vargb^vacc3 is (Vaop=7 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=3 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=3 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc3 {
@@ -160017,6 +160637,8 @@ with : Vop=0x3f ... {
   }
 
   # v16ror acc UDEC wc0
+}
+with : Vop=0x3f ... {
   :v16ror vargd, varga, vargb^vacc8 is (Vaop=7 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=0 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=0 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -160305,6 +160927,8 @@ with : Vop=0x3f ... {
   }
 
   # v16ror acc UDECH wc4
+}
+with : Vop=0x3f ... {
   :v16ror vargd, varga, vargb^vacc12 is (Vaop=7 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=4 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc12 {
@@ -160593,6 +161217,8 @@ with : Vop=0x3f ... {
   }
 
   # v16rsub acc SACC wc1
+}
+with : Vop=0x3f ... {
   :v16rsub vargd, varga, vargb^vacc1 is (Vaop=40 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=1 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=1 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc1 {
@@ -160881,6 +161507,8 @@ with : Vop=0x3f ... {
   }
 
   # v16rsub acc SACCH wc5
+}
+with : Vop=0x3f ... {
   :v16rsub vargd, varga, vargb^vacc5 is (Vaop=40 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=5 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=5 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc5 {
@@ -161169,6 +161797,8 @@ with : Vop=0x3f ... {
   }
 
   # v16rsub acc CLRA-UDEC wc2
+}
+with : Vop=0x3f ... {
   :v16rsub vargd, varga, vargb^vacc10 is (Vaop=40 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=2 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=2 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc10 {
@@ -161457,6 +162087,8 @@ with : Vop=0x3f ... {
   }
 
   # v16rsub acc CLRA-UDECH wc6
+}
+with : Vop=0x3f ... {
   :v16rsub vargd, varga, vargb^vacc14 is (Vaop=40 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc14 {
@@ -161745,6 +162377,8 @@ with : Vop=0x3f ... {
   }
 
   # v16rsubc acc CLRA-SACC wc3
+}
+with : Vop=0x3f ... {
   :v16rsubc vargd, varga, vargb^vacc3 is (Vaop=42 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=3 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=3 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc3 {
@@ -162033,6 +162667,8 @@ with : Vop=0x3f ... {
   }
 
   # v16rsubc acc UDEC wc0
+}
+with : Vop=0x3f ... {
   :v16rsubc vargd, varga, vargb^vacc8 is (Vaop=42 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=0 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=0 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -162321,6 +162957,8 @@ with : Vop=0x3f ... {
   }
 
   # v16rsubc acc UDECH wc4
+}
+with : Vop=0x3f ... {
   :v16rsubc vargd, varga, vargb^vacc12 is (Vaop=42 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=4 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc12 {
@@ -162609,6 +163247,8 @@ with : Vop=0x3f ... {
   }
 
   # v16rsubs acc UDEC wc6
+}
+with : Vop=0x3f ... {
   :v16rsubs vargd, varga, vargb^vacc8 is (Vaop=41 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -162897,6 +163537,8 @@ with : Vop=0x3f ... {
   }
 
   # v16shl acc SACC wc1
+}
+with : Vop=0x3f ... {
   :v16shl vargd, varga, vargb^vacc1 is (Vaop=8 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=1 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=1 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc1 {
@@ -163185,6 +163827,8 @@ with : Vop=0x3f ... {
   }
 
   # v16shl acc SACCH wc5
+}
+with : Vop=0x3f ... {
   :v16shl vargd, varga, vargb^vacc5 is (Vaop=8 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=5 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=5 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc5 {
@@ -163473,6 +164117,8 @@ with : Vop=0x3f ... {
   }
 
   # v16shl acc CLRA-UDEC wc2
+}
+with : Vop=0x3f ... {
   :v16shl vargd, varga, vargb^vacc10 is (Vaop=8 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=2 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=2 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc10 {
@@ -163761,6 +164407,8 @@ with : Vop=0x3f ... {
   }
 
   # v16shl acc CLRA-UDECH wc6
+}
+with : Vop=0x3f ... {
   :v16shl vargd, varga, vargb^vacc14 is (Vaop=8 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc14 {
@@ -164049,6 +164697,8 @@ with : Vop=0x3f ... {
   }
 
   # v16sign acc SACC wc1
+}
+with : Vop=0x3f ... {
   :v16sign vargd, varga, vargb^vacc1 is (Vaop=29 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=1 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=1 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc1 {
@@ -164337,6 +164987,8 @@ with : Vop=0x3f ... {
   }
 
   # v16sign acc SACCH wc5
+}
+with : Vop=0x3f ... {
   :v16sign vargd, varga, vargb^vacc5 is (Vaop=29 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=5 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=5 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc5 {
@@ -164625,6 +165277,8 @@ with : Vop=0x3f ... {
   }
 
   # v16sign acc CLRA-UDEC wc2
+}
+with : Vop=0x3f ... {
   :v16sign vargd, varga, vargb^vacc10 is (Vaop=29 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=2 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=2 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc10 {
@@ -164913,6 +165567,8 @@ with : Vop=0x3f ... {
   }
 
   # v16sign acc CLRA-UDECH wc6
+}
+with : Vop=0x3f ... {
   :v16sign vargd, varga, vargb^vacc14 is (Vaop=29 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc14 {
@@ -165201,6 +165857,8 @@ with : Vop=0x3f ... {
   }
 
   # v16signasl acc CLRA-SACC wc3
+}
+with : Vop=0x3f ... {
   :v16signasl vargd, varga, vargb^vacc3 is (Vaop=14 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=3 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=3 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc3 {
@@ -165489,6 +166147,8 @@ with : Vop=0x3f ... {
   }
 
   # v16signasl acc UDEC wc0
+}
+with : Vop=0x3f ... {
   :v16signasl vargd, varga, vargb^vacc8 is (Vaop=14 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=0 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=0 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -165777,6 +166437,8 @@ with : Vop=0x3f ... {
   }
 
   # v16signasl acc UDECH wc4
+}
+with : Vop=0x3f ... {
   :v16signasl vargd, varga, vargb^vacc12 is (Vaop=14 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=4 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc12 {
@@ -166065,6 +166727,8 @@ with : Vop=0x3f ... {
   }
 
   # v16signasls acc UDEC wc6
+}
+with : Vop=0x3f ... {
   :v16signasls vargd, varga, vargb^vacc8 is (Vaop=15 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -166353,6 +167017,8 @@ with : Vop=0x3f ... {
   }
 
   # v16signshl acc CLRA-SACC wc3
+}
+with : Vop=0x3f ... {
   :v16signshl vargd, varga, vargb^vacc3 is (Vaop=12 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=3 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=3 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc3 {
@@ -166641,6 +167307,8 @@ with : Vop=0x3f ... {
   }
 
   # v16signshl acc UDEC wc0
+}
+with : Vop=0x3f ... {
   :v16signshl vargd, varga, vargb^vacc8 is (Vaop=12 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=0 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=0 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -166929,6 +167597,8 @@ with : Vop=0x3f ... {
   }
 
   # v16signshl acc UDECH wc4
+}
+with : Vop=0x3f ... {
   :v16signshl vargd, varga, vargb^vacc12 is (Vaop=12 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=4 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc12 {
@@ -167217,6 +167887,8 @@ with : Vop=0x3f ... {
   }
 
   # v16sub acc SACC wc1
+}
+with : Vop=0x3f ... {
   :v16sub vargd, varga, vargb^vacc1 is (Vaop=36 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=1 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=1 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc1 {
@@ -167505,6 +168177,8 @@ with : Vop=0x3f ... {
   }
 
   # v16sub acc SACCH wc5
+}
+with : Vop=0x3f ... {
   :v16sub vargd, varga, vargb^vacc5 is (Vaop=36 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=5 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=5 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc5 {
@@ -167793,6 +168467,8 @@ with : Vop=0x3f ... {
   }
 
   # v16sub acc CLRA-UDEC wc2
+}
+with : Vop=0x3f ... {
   :v16sub vargd, varga, vargb^vacc10 is (Vaop=36 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=2 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=2 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc10 {
@@ -168081,6 +168757,8 @@ with : Vop=0x3f ... {
   }
 
   # v16sub acc CLRA-UDECH wc6
+}
+with : Vop=0x3f ... {
   :v16sub vargd, varga, vargb^vacc14 is (Vaop=36 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc14 {
@@ -168369,6 +169047,8 @@ with : Vop=0x3f ... {
   }
 
   # v16subc acc CLRA-SACC wc3
+}
+with : Vop=0x3f ... {
   :v16subc vargd, varga, vargb^vacc3 is (Vaop=38 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=3 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=3 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc3 {
@@ -168657,6 +169337,8 @@ with : Vop=0x3f ... {
   }
 
   # v16subc acc UDEC wc0
+}
+with : Vop=0x3f ... {
   :v16subc vargd, varga, vargb^vacc8 is (Vaop=38 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=0 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=0 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -168945,6 +169627,8 @@ with : Vop=0x3f ... {
   }
 
   # v16subc acc UDECH wc4
+}
+with : Vop=0x3f ... {
   :v16subc vargd, varga, vargb^vacc12 is (Vaop=38 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=4 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc12 {
@@ -169233,6 +169917,8 @@ with : Vop=0x3f ... {
   }
 
   # v16subs acc UDEC wc6
+}
+with : Vop=0x3f ... {
   :v16subs vargd, varga, vargb^vacc8 is (Vaop=37 & Vawidth=0 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -169529,6 +170215,8 @@ with : Vop=0x3f ... {
   }
 
   # v32dist
+}
+with : Vop=0x3f ... {
   :v32dist vargd, varga, vargb^vflags
 	is (Vaop=26 & $(VA154)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -169886,6 +170574,8 @@ with : Vop=0x3f ... {
   }
 
   # v32asr
+}
+with : Vop=0x3f ... {
   :v32asr vargd, varga, vargb^vflags
 	is (Vaop=11 & $(VA301)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -170312,6 +171002,8 @@ with : Vop=0x3f ... {
   }
 
   # v32adds
+}
+with : Vop=0x3f ... {
   :v32adds vargd, varga, vargb^vflags
 	is (Vaop=33 & $(VA245)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -170722,6 +171414,8 @@ with : Vop=0x3f ... {
   }
 
   # v32odd
+}
+with : Vop=0x3f ... {
   :v32odd vargd, varga, vargb^vflags
 	is (Vaop=3 & $(VA245)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -171059,6 +171753,8 @@ with : Vop=0x3f ... {
   }
 
   # v32even
+}
+with : Vop=0x3f ... {
   :v32even vargd, varga, vargb^vflags
 	is (Vaop=2 & $(VA155)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -171439,6 +172135,8 @@ with : Vop=0x3f ... {
   }
 
   # v32subc
+}
+with : Vop=0x3f ... {
   :v32subc vargd, varga, vargb^vflags
 	is (Vaop=38 & $(VA302)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -171865,6 +172563,8 @@ with : Vop=0x3f ... {
   }
 
   # v32signasls
+}
+with : Vop=0x3f ... {
   :v32signasls vargd, varga, vargb^vflags
 	is (Vaop=15 & $(VA246)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -172269,6 +172969,8 @@ with : Vop=0x3f ... {
   }
 
   # v32shls
+}
+with : Vop=0x3f ... {
   :v32shls vargd, varga, vargb^vflags
 	is (Vaop=9 & $(VA156)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -172640,6 +173342,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsubs
+}
+with : Vop=0x3f ... {
   :v32rsubs vargd, varga, vargb^vflags
 	is (Vaop=41 & $(VA303)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -173066,6 +173770,8 @@ with : Vop=0x3f ... {
   }
 
   # v32ror
+}
+with : Vop=0x3f ... {
   :v32ror vargd, varga, vargb^vflags
 	is (Vaop=7 & $(VA247)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -173479,6 +174185,8 @@ with : Vop=0x3f ... {
   }
 
   # v32min
+}
+with : Vop=0x3f ... {
   :v32min vargd, varga, vargb^vflags
 	is (Vaop=24 & $(VA157)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -173841,6 +174549,8 @@ with : Vop=0x3f ... {
   }
 
   # v32eor
+}
+with : Vop=0x3f ... {
   :v32eor vargd, varga, vargb^vflags
 	is (Vaop=18 & $(VA304)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -174267,6 +174977,8 @@ with : Vop=0x3f ... {
   }
 
   # v32clip
+}
+with : Vop=0x3f ... {
   :v32clip vargd, varga, vargb^vflags
 	is (Vaop=28 & $(VA248)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -174689,6 +175401,8 @@ with : Vop=0x3f ... {
   }
 
   # v32and
+}
+with : Vop=0x3f ... {
   :v32and vargd, varga, vargb^vflags
 	is (Vaop=16 & $(VA158)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -175042,6 +175756,8 @@ with : Vop=0x3f ... {
   }
 
   # v32addc
+}
+with : Vop=0x3f ... {
   :v32addc vargd, varga, vargb^vflags
 	is (Vaop=34 & $(VA305)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -175431,6 +176147,8 @@ with : Vop=0x3f ... {
   }
 
   # v32interl
+}
+with : Vop=0x3f ... {
   :v32interl vargd, varga, vargb^vflags
 	is (Vaop=4 & $(VA305)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -175820,6 +176538,8 @@ with : Vop=0x3f ... {
   }
 
   # v32subsc
+}
+with : Vop=0x3f ... {
   :v32subsc vargd, varga, vargb^vflags
 	is (Vaop=39 & $(VA249)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -176219,6 +176939,8 @@ with : Vop=0x3f ... {
   }
 
   # v32sub
+}
+with : Vop=0x3f ... {
   :v32sub vargd, varga, vargb^vflags
 	is (Vaop=36 & $(VA159)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -176595,6 +177317,8 @@ with : Vop=0x3f ... {
   }
 
   # v32signasl
+}
+with : Vop=0x3f ... {
   :v32signasl vargd, varga, vargb^vflags
 	is (Vaop=14 & $(VA306)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -177021,6 +177745,8 @@ with : Vop=0x3f ... {
   }
 
   # v32shl
+}
+with : Vop=0x3f ... {
   :v32shl vargd, varga, vargb^vflags
 	is (Vaop=8 & $(VA250)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -177429,6 +178155,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsubc
+}
+with : Vop=0x3f ... {
   :v32rsubc vargd, varga, vargb^vflags
 	is (Vaop=42 & $(VA160)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -177796,6 +178524,8 @@ with : Vop=0x3f ... {
   }
 
   # v32or
+}
+with : Vop=0x3f ... {
   :v32or vargd, varga, vargb^vflags
 	is (Vaop=17 & $(VA307)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -178180,6 +178910,8 @@ with : Vop=0x3f ... {
   }
 
   # v32max
+}
+with : Vop=0x3f ... {
   :v32max vargd, varga, vargb^vflags
 	is (Vaop=25 & $(VA251)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -178569,6 +179301,8 @@ with : Vop=0x3f ... {
   }
 
   # v32addc wc0 dHaVbV
+}
+with : Vop=0x3f ... {
   :v32addc vargd, varga, vargb^vflags
 	is (Vaop=34 & $(VA56)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -178944,6 +179678,8 @@ with : Vop=0x3f ... {
   }
 
   # v32asr wc0 dVaVbV
+}
+with : Vop=0x3f ... {
   :v32asr vargd, varga, vargb^vflags
 	is (Vaop=11 & $(VA14)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -179319,6 +180055,8 @@ with : Vop=0x3f ... {
   }
 
   # v32eor wc0 dVaHbH
+}
+with : Vop=0x3f ... {
   :v32eor vargd, varga, vargb^vflags
 	is (Vaop=18 & $(VA115)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -179692,6 +180430,8 @@ with : Vop=0x3f ... {
   }
 
   # v32or wc0 dVaHbV
+}
+with : Vop=0x3f ... {
   :v32or vargd, varga, vargb^vflags
 	is (Vaop=17 & $(VA58)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -180068,6 +180808,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsubsc wc0 dHaVbH
+}
+with : Vop=0x3f ... {
   :v32rsubsc vargd, varga, vargb^vflags
 	is (Vaop=43 & $(VA113)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -180442,6 +181184,8 @@ with : Vop=0x3f ... {
   }
 
   # v32signasl wc0 dVaVbH
+}
+with : Vop=0x3f ... {
   :v32signasl vargd, varga, vargb^vflags
 	is (Vaop=14 & $(VA57)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -180817,6 +181561,8 @@ with : Vop=0x3f ... {
   }
 
   # v32subs wc0 dHaVbV
+}
+with : Vop=0x3f ... {
   :v32subs vargd, varga, vargb^vflags
 	is (Vaop=37 & $(VA56)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -181382,6 +182128,8 @@ with : Vop=0x3f ... {
   }
 
   # v32interl wc0 dVaVbV
+}
+with : Vop=0x3f ... {
   :v32interl vargd, varga, vargb^vflags
 	is (Vaop=4 & $(VA14)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -181807,6 +182555,8 @@ with : Vop=0x3f ... {
   }
 
   # v32dist wc0 dHaV
+}
+with : Vop=0x3f ... {
   :v32dist vargd, varga, vargb^vflags
 	is (Vaop=26 & $(VA280)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -182201,6 +182951,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsubs wc0 dVaH
+}
+with : Vop=0x3f ... {
   :v32rsubs vargd, varga, vargb^vflags
 	is (Vaop=41 & $(VA281)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -182596,6 +183348,8 @@ with : Vop=0x3f ... {
   }
 
   # v32subsc wc0 dHaV
+}
+with : Vop=0x3f ... {
   :v32subsc vargd, varga, vargb^vflags
 	is (Vaop=39 & $(VA280)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -183086,6 +183840,8 @@ with : Vop=0x3f ... {
   }
 
   # v32asr wc0 dVaV
+}
+with : Vop=0x3f ... {
   :v32asr vargd, varga, vargb^vflags
 	is (Vaop=11 & $(VA168)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -183481,6 +184237,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsub wc0 dHaV
+}
+with : Vop=0x3f ... {
   :v32rsub vargd, varga, vargb^vflags
 	is (Vaop=40 & $(VA224)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -183875,6 +184633,8 @@ with : Vop=0x3f ... {
   }
 
   # v32sub wc0 dVaV
+}
+with : Vop=0x3f ... {
   :v32sub vargd, varga, vargb^vflags
 	is (Vaop=36 & $(VA168)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -184359,6 +185119,8 @@ with : Vop=0x3f ... {
   }
 
   # v32addc wc1 dVaHbH
+}
+with : Vop=0x3f ... {
   :v32addc vargd, varga, vargb^vflags
 	is (Vaop=34 & $(VA119)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -184735,6 +185497,8 @@ with : Vop=0x3f ... {
   }
 
   # v32bic wc1 dHaHbV
+}
+with : Vop=0x3f ... {
   :v32bic vargd, varga, vargb^vflags
 	is (Vaop=19 & $(VA118)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -185108,6 +185872,8 @@ with : Vop=0x3f ... {
   }
 
   # v32eor wc1 dVaHbV
+}
+with : Vop=0x3f ... {
   :v32eor vargd, varga, vargb^vflags
 	is (Vaop=18 & $(VA61)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -185482,6 +186248,8 @@ with : Vop=0x3f ... {
   }
 
   # v32or wc1 dVaVbH
+}
+with : Vop=0x3f ... {
   :v32or vargd, varga, vargb^vflags
 	is (Vaop=17 & $(VA60)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -185857,6 +186625,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsubsc wc1 dHaVbV
+}
+with : Vop=0x3f ... {
   :v32rsubsc vargd, varga, vargb^vflags
 	is (Vaop=43 & $(VA59)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -186232,6 +187002,8 @@ with : Vop=0x3f ... {
   }
 
   # v32signasl wc1 dVaVbV
+}
+with : Vop=0x3f ... {
   :v32signasl vargd, varga, vargb^vflags
 	is (Vaop=14 & $(VA15)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -186607,6 +187379,8 @@ with : Vop=0x3f ... {
   }
 
   # v32subs wc1 dVaHbH
+}
+with : Vop=0x3f ... {
   :v32subs vargd, varga, vargb^vflags
 	is (Vaop=37 & $(VA119)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -187186,6 +187960,8 @@ with : Vop=0x3f ... {
   }
 
   # v32odd wc1 dHaHbV
+}
+with : Vop=0x3f ... {
   :v32odd vargd, varga, vargb^vflags
 	is (Vaop=3 & $(VA118)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -187597,6 +188373,8 @@ with : Vop=0x3f ... {
   }
 
   # v32dist wc1 dVaH
+}
+with : Vop=0x3f ... {
   :v32dist vargd, varga, vargb^vflags
 	is (Vaop=26 & $(VA283)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -187991,6 +188769,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsubs wc1 dVaV
+}
+with : Vop=0x3f ... {
   :v32rsubs vargd, varga, vargb^vflags
 	is (Vaop=41 & $(VA260)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -188386,6 +189166,8 @@ with : Vop=0x3f ... {
   }
 
   # v32subsc wc1 dVaH
+}
+with : Vop=0x3f ... {
   :v32subsc vargd, varga, vargb^vflags
 	is (Vaop=39 & $(VA283)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -188877,6 +189659,8 @@ with : Vop=0x3f ... {
   }
 
   # v32bic wc1 dHaV
+}
+with : Vop=0x3f ... {
   :v32bic vargd, varga, vargb^vflags
 	is (Vaop=19 & $(VA226)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -189271,6 +190055,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsub wc1 dVaH
+}
+with : Vop=0x3f ... {
   :v32rsub vargd, varga, vargb^vflags
 	is (Vaop=40 & $(VA227)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -189666,6 +190452,8 @@ with : Vop=0x3f ... {
   }
 
   # v32subc wc1 dHaV
+}
+with : Vop=0x3f ... {
   :v32subc vargd, varga, vargb^vflags
 	is (Vaop=38 & $(VA226)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -190148,6 +190936,8 @@ with : Vop=0x3f ... {
   }
 
   # v32addc wc2 dVaHbV
+}
+with : Vop=0x3f ... {
   :v32addc vargd, varga, vargb^vflags
 	is (Vaop=34 & $(VA64)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -190524,6 +191314,8 @@ with : Vop=0x3f ... {
   }
 
   # v32bic wc2 dHaVbH
+}
+with : Vop=0x3f ... {
   :v32bic vargd, varga, vargb^vflags
 	is (Vaop=19 & $(VA121)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -190898,6 +191690,8 @@ with : Vop=0x3f ... {
   }
 
   # v32eor wc2 dVaVbH
+}
+with : Vop=0x3f ... {
   :v32eor vargd, varga, vargb^vflags
 	is (Vaop=18 & $(VA63)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -191272,6 +192066,8 @@ with : Vop=0x3f ... {
   }
 
   # v32or wc2 dVaVbV
+}
+with : Vop=0x3f ... {
   :v32or vargd, varga, vargb^vflags
 	is (Vaop=17 & $(VA16)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -191647,6 +192443,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsubsc wc2 dVaHbH
+}
+with : Vop=0x3f ... {
   :v32rsubsc vargd, varga, vargb^vflags
 	is (Vaop=43 & $(VA123)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -192023,6 +192821,8 @@ with : Vop=0x3f ... {
   }
 
   # v32signasls wc2 dHaHbV
+}
+with : Vop=0x3f ... {
   :v32signasls vargd, varga, vargb^vflags
 	is (Vaop=15 & $(VA122)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -192396,6 +193196,8 @@ with : Vop=0x3f ... {
   }
 
   # v32subs wc2 dVaHbV
+}
+with : Vop=0x3f ... {
   :v32subs vargd, varga, vargb^vflags
 	is (Vaop=37 & $(VA64)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -192978,6 +193780,8 @@ with : Vop=0x3f ... {
   }
 
   # v32odd wc2 dHaVbH
+}
+with : Vop=0x3f ... {
   :v32odd vargd, varga, vargb^vflags
 	is (Vaop=3 & $(VA121)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -193387,6 +194191,8 @@ with : Vop=0x3f ... {
   }
 
   # v32dist wc2 dVaV
+}
+with : Vop=0x3f ... {
   :v32dist vargd, varga, vargb^vflags
 	is (Vaop=26 & $(VA261)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -193782,6 +194588,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsubsc wc2 dHaV
+}
+with : Vop=0x3f ... {
   :v32rsubsc vargd, varga, vargb^vflags
 	is (Vaop=43 & $(VA284)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -194176,6 +194984,8 @@ with : Vop=0x3f ... {
   }
 
   # v32subsc wc2 dVaV
+}
+with : Vop=0x3f ... {
   :v32subsc vargd, varga, vargb^vflags
 	is (Vaop=39 & $(VA261)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -194667,6 +195477,8 @@ with : Vop=0x3f ... {
   }
 
   # v32bic wc2 dVaH
+}
+with : Vop=0x3f ... {
   :v32bic vargd, varga, vargb^vflags
 	is (Vaop=19 & $(VA229)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -195061,6 +195873,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsub wc2 dVaV
+}
+with : Vop=0x3f ... {
   :v32rsub vargd, varga, vargb^vflags
 	is (Vaop=40 & $(VA170)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -195456,6 +196270,8 @@ with : Vop=0x3f ... {
   }
 
   # v32subc wc2 dVaH
+}
+with : Vop=0x3f ... {
   :v32subc vargd, varga, vargb^vflags
 	is (Vaop=38 & $(VA229)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -195938,6 +196754,8 @@ with : Vop=0x3f ... {
   }
 
   # v32addc wc3 dVaVbH
+}
+with : Vop=0x3f ... {
   :v32addc vargd, varga, vargb^vflags
 	is (Vaop=34 & $(VA66)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -196313,6 +197131,8 @@ with : Vop=0x3f ... {
   }
 
   # v32bic wc3 dHaVbV
+}
+with : Vop=0x3f ... {
   :v32bic vargd, varga, vargb^vflags
 	is (Vaop=19 & $(VA65)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -196688,6 +197508,8 @@ with : Vop=0x3f ... {
   }
 
   # v32eor wc3 dVaVbV
+}
+with : Vop=0x3f ... {
   :v32eor vargd, varga, vargb^vflags
 	is (Vaop=18 & $(VA17)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -197063,6 +197885,8 @@ with : Vop=0x3f ... {
   }
 
   # v32ror wc3 dHaHbV
+}
+with : Vop=0x3f ... {
   :v32ror vargd, varga, vargb^vflags
 	is (Vaop=7 & $(VA126)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -197436,6 +198260,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsubsc wc3 dVaHbV
+}
+with : Vop=0x3f ... {
   :v32rsubsc vargd, varga, vargb^vflags
 	is (Vaop=43 & $(VA67)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -197812,6 +198638,8 @@ with : Vop=0x3f ... {
   }
 
   # v32signasls wc3 dHaVbH
+}
+with : Vop=0x3f ... {
   :v32signasls vargd, varga, vargb^vflags
 	is (Vaop=15 & $(VA125)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -198186,6 +199014,8 @@ with : Vop=0x3f ... {
   }
 
   # v32subs wc3 dVaVbH
+}
+with : Vop=0x3f ... {
   :v32subs vargd, varga, vargb^vflags
 	is (Vaop=37 & $(VA66)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -198770,6 +199600,8 @@ with : Vop=0x3f ... {
   }
 
   # v32odd wc3 dHaVbV
+}
+with : Vop=0x3f ... {
   :v32odd vargd, varga, vargb^vflags
 	is (Vaop=3 & $(VA65)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -199178,6 +200010,8 @@ with : Vop=0x3f ... {
   }
 
   # v32dists wc3 dHaV
+}
+with : Vop=0x3f ... {
   :v32dists vargd, varga, vargb^vflags
 	is (Vaop=27 & $(VA286)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -199572,6 +200406,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsubsc wc3 dVaH
+}
+with : Vop=0x3f ... {
   :v32rsubsc vargd, varga, vargb^vflags
 	is (Vaop=43 & $(VA287)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -199967,6 +200803,8 @@ with : Vop=0x3f ... {
   }
 
   # v32even wc3 dHaV
+}
+with : Vop=0x3f ... {
   :v32even vargd, varga, vargb^vflags
 	is (Vaop=2 & $(VA286)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -200457,6 +201295,8 @@ with : Vop=0x3f ... {
   }
 
   # v32bic wc3 dVaV
+}
+with : Vop=0x3f ... {
   :v32bic vargd, varga, vargb^vflags
 	is (Vaop=19 & $(VA171)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -200852,6 +201692,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsubc wc3 dHaV
+}
+with : Vop=0x3f ... {
   :v32rsubc vargd, varga, vargb^vflags
 	is (Vaop=42 & $(VA230)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -201246,6 +202088,8 @@ with : Vop=0x3f ... {
   }
 
   # v32subc wc3 dVaV
+}
+with : Vop=0x3f ... {
   :v32subc vargd, varga, vargb^vflags
 	is (Vaop=38 & $(VA171)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -201728,6 +202572,8 @@ with : Vop=0x3f ... {
   }
 
   # v32addc wc4 dVaVbV
+}
+with : Vop=0x3f ... {
   :v32addc vargd, varga, vargb^vflags
 	is (Vaop=34 & $(VA18)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -202103,6 +202949,8 @@ with : Vop=0x3f ... {
   }
 
   # v32bic wc4 dVaHbH
+}
+with : Vop=0x3f ... {
   :v32bic vargd, varga, vargb^vflags
 	is (Vaop=19 & $(VA131)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -202479,6 +203327,8 @@ with : Vop=0x3f ... {
   }
 
   # v32lsr wc4 dHaHbV
+}
+with : Vop=0x3f ... {
   :v32lsr vargd, varga, vargb^vflags
 	is (Vaop=10 & $(VA130)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -202852,6 +203702,8 @@ with : Vop=0x3f ... {
   }
 
   # v32ror wc4 dHaVbH
+}
+with : Vop=0x3f ... {
   :v32ror vargd, varga, vargb^vflags
 	is (Vaop=7 & $(VA129)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -203226,6 +204078,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsubsc wc4 dVaVbH
+}
+with : Vop=0x3f ... {
   :v32rsubsc vargd, varga, vargb^vflags
 	is (Vaop=43 & $(VA69)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -203601,6 +204455,8 @@ with : Vop=0x3f ... {
   }
 
   # v32signasls wc4 dHaVbV
+}
+with : Vop=0x3f ... {
   :v32signasls vargd, varga, vargb^vflags
 	is (Vaop=15 & $(VA68)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -203976,6 +204832,8 @@ with : Vop=0x3f ... {
   }
 
   # v32subs wc4 dVaVbV
+}
+with : Vop=0x3f ... {
   :v32subs vargd, varga, vargb^vflags
 	is (Vaop=37 & $(VA18)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -204563,6 +205421,8 @@ with : Vop=0x3f ... {
   }
 
   # v32odd wc4 dVaHbH
+}
+with : Vop=0x3f ... {
   :v32odd vargd, varga, vargb^vflags
 	is (Vaop=3 & $(VA131)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -204968,6 +205828,8 @@ with : Vop=0x3f ... {
   }
 
   # v32dists wc4 dVaH
+}
+with : Vop=0x3f ... {
   :v32dists vargd, varga, vargb^vflags
 	is (Vaop=27 & $(VA289)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -205362,6 +206224,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsubsc wc4 dVaV
+}
+with : Vop=0x3f ... {
   :v32rsubsc vargd, varga, vargb^vflags
 	is (Vaop=43 & $(VA263)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -205760,6 +206624,8 @@ with : Vop=0x3f ... {
   }
 
   # v32even wc4 dVaH
+}
+with : Vop=0x3f ... {
   :v32even vargd, varga, vargb^vflags
 	is (Vaop=2 & $(VA289)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -206248,6 +207114,8 @@ with : Vop=0x3f ... {
   }
 
   # v32clip wc4 dHaV
+}
+with : Vop=0x3f ... {
   :v32clip vargd, varga, vargb^vflags
 	is (Vaop=28 & $(VA232)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -206642,6 +207510,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsubc wc4 dVaH
+}
+with : Vop=0x3f ... {
   :v32rsubc vargd, varga, vargb^vflags
 	is (Vaop=42 & $(VA233)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -207037,6 +207907,8 @@ with : Vop=0x3f ... {
   }
 
   # v32subs wc4 dHaV
+}
+with : Vop=0x3f ... {
   :v32subs vargd, varga, vargb^vflags
 	is (Vaop=37 & $(VA232)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -207519,6 +208391,8 @@ with : Vop=0x3f ... {
   }
 
   # v32adds wc5 dHaHbV
+}
+with : Vop=0x3f ... {
   :v32adds vargd, varga, vargb^vflags
 	is (Vaop=33 & $(VA134)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -207892,6 +208766,8 @@ with : Vop=0x3f ... {
   }
 
   # v32bic wc5 dVaHbV
+}
+with : Vop=0x3f ... {
   :v32bic vargd, varga, vargb^vflags
 	is (Vaop=19 & $(VA73)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -208268,6 +209144,8 @@ with : Vop=0x3f ... {
   }
 
   # v32lsr wc5 dHaVbH
+}
+with : Vop=0x3f ... {
   :v32lsr vargd, varga, vargb^vflags
 	is (Vaop=10 & $(VA133)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -208641,6 +209519,8 @@ with : Vop=0x3f ... {
   }
 
   # v32ror wc5 dHaVbV
+}
+with : Vop=0x3f ... {
   :v32ror vargd, varga, vargb^vflags
 	is (Vaop=7 & $(VA71)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -209016,6 +209896,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsubsc wc5 dVaVbV
+}
+with : Vop=0x3f ... {
   :v32rsubsc vargd, varga, vargb^vflags
 	is (Vaop=43 & $(VA19)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -209391,6 +210273,8 @@ with : Vop=0x3f ... {
   }
 
   # v32signasls wc5 dVaHbH
+}
+with : Vop=0x3f ... {
   :v32signasls vargd, varga, vargb^vflags
 	is (Vaop=15 & $(VA135)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -209767,6 +210651,8 @@ with : Vop=0x3f ... {
   }
 
   # v32subsc wc5 dHaHbV
+}
+with : Vop=0x3f ... {
   :v32subsc vargd, varga, vargb^vflags
 	is (Vaop=39 & $(VA134)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -210355,6 +211241,8 @@ with : Vop=0x3f ... {
   }
 
   # v32odd wc5 dVaHbV
+}
+with : Vop=0x3f ... {
   :v32odd vargd, varga, vargb^vflags
 	is (Vaop=3 & $(VA73)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -210758,6 +211646,8 @@ with : Vop=0x3f ... {
   }
 
   # v32dists wc5 dVaV
+}
+with : Vop=0x3f ... {
   :v32dists vargd, varga, vargb^vflags
 	is (Vaop=27 & $(VA264)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -211153,6 +212043,8 @@ with : Vop=0x3f ... {
   }
 
   # v32shl wc5 dHaV
+}
+with : Vop=0x3f ... {
   :v32shl vargd, varga, vargb^vflags
 	is (Vaop=8 & $(VA290)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -211553,6 +212445,8 @@ with : Vop=0x3f ... {
   }
 
   # v32even wc5 dVaV
+}
+with : Vop=0x3f ... {
   :v32even vargd, varga, vargb^vflags
 	is (Vaop=2 & $(VA264)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -212038,6 +212932,8 @@ with : Vop=0x3f ... {
   }
 
   # v32clip wc5 dVaH
+}
+with : Vop=0x3f ... {
   :v32clip vargd, varga, vargb^vflags
 	is (Vaop=28 & $(VA235)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -212432,6 +213328,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsubc wc5 dVaV
+}
+with : Vop=0x3f ... {
   :v32rsubc vargd, varga, vargb^vflags
 	is (Vaop=42 & $(VA173)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -212827,6 +213725,8 @@ with : Vop=0x3f ... {
   }
 
   # v32subs wc5 dVaH
+}
+with : Vop=0x3f ... {
   :v32subs vargd, varga, vargb^vflags
 	is (Vaop=37 & $(VA235)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -213308,6 +214208,8 @@ with : Vop=0x3f ... {
   }
 
   # v32adds wc6 dHaVbH
+}
+with : Vop=0x3f ... {
   :v32adds vargd, varga, vargb^vflags
 	is (Vaop=33 & $(VA137)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -213682,6 +214584,8 @@ with : Vop=0x3f ... {
   }
 
   # v32bic wc6 dVaVbH
+}
+with : Vop=0x3f ... {
   :v32bic vargd, varga, vargb^vflags
 	is (Vaop=19 & $(VA75)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -214057,6 +214961,8 @@ with : Vop=0x3f ... {
   }
 
   # v32lsr wc6 dHaVbV
+}
+with : Vop=0x3f ... {
   :v32lsr vargd, varga, vargb^vflags
 	is (Vaop=10 & $(VA74)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -214431,6 +215337,8 @@ with : Vop=0x3f ... {
   }
 
   # v32ror wc6 dVaHbH
+}
+with : Vop=0x3f ... {
   :v32ror vargd, varga, vargb^vflags
 	is (Vaop=7 & $(VA139)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -214807,6 +215715,8 @@ with : Vop=0x3f ... {
   }
 
   # v32shl wc6 dHaHbV
+}
+with : Vop=0x3f ... {
   :v32shl vargd, varga, vargb^vflags
 	is (Vaop=8 & $(VA138)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -215180,6 +216090,8 @@ with : Vop=0x3f ... {
   }
 
   # v32signasls wc6 dVaHbV
+}
+with : Vop=0x3f ... {
   :v32signasls vargd, varga, vargb^vflags
 	is (Vaop=15 & $(VA76)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -215556,6 +216468,8 @@ with : Vop=0x3f ... {
   }
 
   # v32subsc wc6 dHaVbH
+}
+with : Vop=0x3f ... {
   :v32subsc vargd, varga, vargb^vflags
 	is (Vaop=39 & $(VA137)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -216148,6 +217062,8 @@ with : Vop=0x3f ... {
   }
 
   # v32odd wc6 dVaVbH
+}
+with : Vop=0x3f ... {
   :v32odd vargd, varga, vargb^vflags
 	is (Vaop=3 & $(VA75)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -216549,6 +217465,8 @@ with : Vop=0x3f ... {
   }
 
   # v32eor wc6 dHaV
+}
+with : Vop=0x3f ... {
   :v32eor vargd, varga, vargb^vflags
 	is (Vaop=18 & $(VA292)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -216943,6 +217861,8 @@ with : Vop=0x3f ... {
   }
 
   # v32shl wc6 dVaH
+}
+with : Vop=0x3f ... {
   :v32shl vargd, varga, vargb^vflags
 	is (Vaop=8 & $(VA293)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -217347,6 +218267,8 @@ with : Vop=0x3f ... {
   }
 
   # v32interh wc6 dHaV
+}
+with : Vop=0x3f ... {
   :v32interh vargd, varga, vargb^vflags
 	is (Vaop=5 & $(VA292)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80imm & Vimm16 {
@@ -217828,6 +218750,8 @@ with : Vop=0x3f ... {
   }
 
   # v32clip wc6 dVaV
+}
+with : Vop=0x3f ... {
   :v32clip vargd, varga, vargb^vflags
 	is (Vaop=28 & $(VA174)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -218223,6 +219147,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsubs wc6 dHaV
+}
+with : Vop=0x3f ... {
   :v32rsubs vargd, varga, vargb^vflags
 	is (Vaop=41 & $(VA236)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -218617,6 +219543,8 @@ with : Vop=0x3f ... {
   }
 
   # v32subs wc6 dVaV
+}
+with : Vop=0x3f ... {
   :v32subs vargd, varga, vargb^vflags
 	is (Vaop=37 & $(VA174)) ...
 	   & vargd & varga & vargb & vflags & vpmask & valu80 {
@@ -219154,6 +220082,8 @@ with : Vop=0x3f ... {
   }
 
   # v32addc setf wc2
+}
+with : Vop=0x3f ... {
   :v32addc vargd, varga, vargb^vflags
 	is (Vaop=34 & $(VA317)) ...
 	   & vargd & varga & vargb & vflags & vsetfu {
@@ -219596,6 +220526,8 @@ with : Vop=0x3f ... {
   }
 
   # v32asr setf wc6
+}
+with : Vop=0x3f ... {
   :v32asr vargd, varga, vargb^vflags
 	is (Vaop=11 & $(VA321)) ...
 	   & vargd & varga & vargb & vflags & vsetfu {
@@ -220045,6 +220977,8 @@ with : Vop=0x3f ... {
   }
 
   # v32clip setf wc3
+}
+with : Vop=0x3f ... {
   :v32clip vargd, varga, vargb^vflags
 	is (Vaop=28 & $(VA374)) ...
 	   & vargd & varga & vargb & vflags & vsetfu {
@@ -220479,6 +221413,8 @@ with : Vop=0x3f ... {
   }
 
   # v32lsr setf wc0
+}
+with : Vop=0x3f ... {
   :v32lsr vargd, varga, vargb^vflags
 	is (Vaop=10 & $(VA315)) ...
 	   & vargd & varga & vargb & vflags & vsetfu {
@@ -220973,6 +221909,8 @@ with : Vop=0x3f ... {
   }
 
   # v32min setf wc4
+}
+with : Vop=0x3f ... {
   :v32min vargd, varga, vargb^vflags
 	is (Vaop=24 & $(VA319)) ...
 	   & vargd & varga & vargb & vflags & vsetfu {
@@ -221424,6 +222362,8 @@ with : Vop=0x3f ... {
   }
 
   # v32ror setf wc0
+}
+with : Vop=0x3f ... {
   :v32ror vargd, varga, vargb^vflags
 	is (Vaop=7 & $(VA315)) ...
 	   & vargd & varga & vargb & vflags & vsetfu {
@@ -221910,6 +222850,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsubc setf wc4
+}
+with : Vop=0x3f ... {
   :v32rsubc vargd, varga, vargb^vflags
 	is (Vaop=42 & $(VA319)) ...
 	   & vargd & varga & vargb & vflags & vsetfu {
@@ -222369,6 +223311,8 @@ with : Vop=0x3f ... {
   }
 
   # v32sign setf wc1
+}
+with : Vop=0x3f ... {
   :v32sign vargd, varga, vargb^vflags
 	is (Vaop=29 & $(VA372)) ...
 	   & vargd & varga & vargb & vflags & vsetfu {
@@ -222803,6 +223747,8 @@ with : Vop=0x3f ... {
   }
 
   # v32signshl setf wc5
+}
+with : Vop=0x3f ... {
   :v32signshl vargd, varga, vargb^vflags
 	is (Vaop=12 & $(VA376)) ...
 	   & vargd & varga & vargb & vflags & vsetfu {
@@ -223269,6 +224215,8 @@ with : Vop=0x3f ... {
   }
 
   # v32even setf wc2
+}
+with : Vop=0x3f ... {
   :v32even vargd, varga, vargb^vflags
 	is (Vaop=2 & $(VA317)) ...
 	   & vargd & varga & vargb & vflags & vsetfu {
@@ -223897,6 +224845,8 @@ with : Vop=0x3f ... {
   }
 
   # v32mov sru SUMU wc6
+}
+with : Vop=0x3f ... {
   :v32mov vargd, vargb^vsru0 is (Vaop=0 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0) ...
 	   & vargd & vargb & vsru0 {
@@ -225491,6 +226441,8 @@ with : Vop=0x3f ... {
   }
 
   # v32mov sru IMAX wc3
+}
+with : Vop=0x3f ... {
   :v32mov vargd, vargb^vsru5 is (Vaop=0 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=3 & Vhasimm=0 & vbrow & Vdirb=0) ...
 	   & vargd & vargb & vsru5 {
@@ -226653,6 +227605,8 @@ with : Vop=0x3f ... {
   }
 
   # v32add acc CLRA-UACC wc0
+}
+with : Vop=0x3f ... {
   :v32add vargd, varga, vargb^vacc2 is (Vaop=32 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=0 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=0 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc2 {
@@ -226941,6 +227895,8 @@ with : Vop=0x3f ... {
   }
 
   # v32add acc CLRA-UACCH wc4
+}
+with : Vop=0x3f ... {
   :v32add vargd, varga, vargb^vacc6 is (Vaop=32 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=4 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc6 {
@@ -227229,6 +228185,8 @@ with : Vop=0x3f ... {
   }
 
   # v32add acc CLRA-SDEC wc1
+}
+with : Vop=0x3f ... {
   :v32add vargd, varga, vargb^vacc11 is (Vaop=32 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=1 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=1 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc11 {
@@ -227517,6 +228475,8 @@ with : Vop=0x3f ... {
   }
 
   # v32add acc CLRA-SDECH wc5
+}
+with : Vop=0x3f ... {
   :v32add vargd, varga, vargb^vacc15 is (Vaop=32 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=5 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=5 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc15 {
@@ -227805,6 +228765,8 @@ with : Vop=0x3f ... {
   }
 
   # v32addc acc UACCH wc2
+}
+with : Vop=0x3f ... {
   :v32addc vargd, varga, vargb^vacc4 is (Vaop=34 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=2 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=2 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc4 {
@@ -228093,6 +229055,8 @@ with : Vop=0x3f ... {
   }
 
   # v32addc acc UDEC wc6
+}
+with : Vop=0x3f ... {
   :v32addc vargd, varga, vargb^vacc8 is (Vaop=34 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -228381,6 +229345,8 @@ with : Vop=0x3f ... {
   }
 
   # v32addc acc SDECH wc3
+}
+with : Vop=0x3f ... {
   :v32addc vargd, varga, vargb^vacc13 is (Vaop=34 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=3 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=3 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc13 {
@@ -228669,6 +229635,8 @@ with : Vop=0x3f ... {
   }
 
   # v32and acc CLRA-UACC wc0
+}
+with : Vop=0x3f ... {
   :v32and vargd, varga, vargb^vacc2 is (Vaop=16 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=0 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=0 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc2 {
@@ -228957,6 +229925,8 @@ with : Vop=0x3f ... {
   }
 
   # v32and acc CLRA-UACCH wc4
+}
+with : Vop=0x3f ... {
   :v32and vargd, varga, vargb^vacc6 is (Vaop=16 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=4 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc6 {
@@ -229245,6 +230215,8 @@ with : Vop=0x3f ... {
   }
 
   # v32and acc CLRA-SDEC wc1
+}
+with : Vop=0x3f ... {
   :v32and vargd, varga, vargb^vacc11 is (Vaop=16 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=1 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=1 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc11 {
@@ -229533,6 +230505,8 @@ with : Vop=0x3f ... {
   }
 
   # v32and acc CLRA-SDECH wc5
+}
+with : Vop=0x3f ... {
   :v32and vargd, varga, vargb^vacc15 is (Vaop=16 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=5 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=5 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc15 {
@@ -229821,6 +230795,8 @@ with : Vop=0x3f ... {
   }
 
   # v32asr acc UACCH wc2
+}
+with : Vop=0x3f ... {
   :v32asr vargd, varga, vargb^vacc4 is (Vaop=11 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=2 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=2 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc4 {
@@ -230109,6 +231085,8 @@ with : Vop=0x3f ... {
   }
 
   # v32asr acc UDEC wc6
+}
+with : Vop=0x3f ... {
   :v32asr vargd, varga, vargb^vacc8 is (Vaop=11 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -230397,6 +231375,8 @@ with : Vop=0x3f ... {
   }
 
   # v32asr acc SDECH wc3
+}
+with : Vop=0x3f ... {
   :v32asr vargd, varga, vargb^vacc13 is (Vaop=11 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=3 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=3 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc13 {
@@ -230685,6 +231665,8 @@ with : Vop=0x3f ... {
   }
 
   # v32bic acc CLRA-UACC wc0
+}
+with : Vop=0x3f ... {
   :v32bic vargd, varga, vargb^vacc2 is (Vaop=19 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=0 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=0 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc2 {
@@ -230973,6 +231955,8 @@ with : Vop=0x3f ... {
   }
 
   # v32bic acc CLRA-UACCH wc4
+}
+with : Vop=0x3f ... {
   :v32bic vargd, varga, vargb^vacc6 is (Vaop=19 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=4 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc6 {
@@ -231261,6 +232245,8 @@ with : Vop=0x3f ... {
   }
 
   # v32bic acc CLRA-SDEC wc1
+}
+with : Vop=0x3f ... {
   :v32bic vargd, varga, vargb^vacc11 is (Vaop=19 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=1 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=1 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc11 {
@@ -231549,6 +232535,8 @@ with : Vop=0x3f ... {
   }
 
   # v32bic acc CLRA-SDECH wc5
+}
+with : Vop=0x3f ... {
   :v32bic vargd, varga, vargb^vacc15 is (Vaop=19 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=5 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=5 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc15 {
@@ -231837,6 +232825,8 @@ with : Vop=0x3f ... {
   }
 
   # v32clip acc UACCH wc2
+}
+with : Vop=0x3f ... {
   :v32clip vargd, varga, vargb^vacc4 is (Vaop=28 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=2 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=2 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc4 {
@@ -232125,6 +233115,8 @@ with : Vop=0x3f ... {
   }
 
   # v32clip acc UDEC wc6
+}
+with : Vop=0x3f ... {
   :v32clip vargd, varga, vargb^vacc8 is (Vaop=28 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -232413,6 +233405,8 @@ with : Vop=0x3f ... {
   }
 
   # v32clip acc SDECH wc3
+}
+with : Vop=0x3f ... {
   :v32clip vargd, varga, vargb^vacc13 is (Vaop=28 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=3 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=3 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc13 {
@@ -232701,6 +233695,8 @@ with : Vop=0x3f ... {
   }
 
   # v32dist acc CLRA-UACC wc0
+}
+with : Vop=0x3f ... {
   :v32dist vargd, varga, vargb^vacc2 is (Vaop=26 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=0 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=0 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc2 {
@@ -232989,6 +233985,8 @@ with : Vop=0x3f ... {
   }
 
   # v32dist acc CLRA-UACCH wc4
+}
+with : Vop=0x3f ... {
   :v32dist vargd, varga, vargb^vacc6 is (Vaop=26 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=4 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc6 {
@@ -233277,6 +234275,8 @@ with : Vop=0x3f ... {
   }
 
   # v32dist acc CLRA-SDEC wc1
+}
+with : Vop=0x3f ... {
   :v32dist vargd, varga, vargb^vacc11 is (Vaop=26 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=1 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=1 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc11 {
@@ -233565,6 +234565,8 @@ with : Vop=0x3f ... {
   }
 
   # v32dist acc CLRA-SDECH wc5
+}
+with : Vop=0x3f ... {
   :v32dist vargd, varga, vargb^vacc15 is (Vaop=26 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=5 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=5 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc15 {
@@ -233853,6 +234855,8 @@ with : Vop=0x3f ... {
   }
 
   # v32eor acc UACCH wc2
+}
+with : Vop=0x3f ... {
   :v32eor vargd, varga, vargb^vacc4 is (Vaop=18 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=2 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=2 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc4 {
@@ -234141,6 +235145,8 @@ with : Vop=0x3f ... {
   }
 
   # v32eor acc UDEC wc6
+}
+with : Vop=0x3f ... {
   :v32eor vargd, varga, vargb^vacc8 is (Vaop=18 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -234429,6 +235435,8 @@ with : Vop=0x3f ... {
   }
 
   # v32eor acc SDECH wc3
+}
+with : Vop=0x3f ... {
   :v32eor vargd, varga, vargb^vacc13 is (Vaop=18 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=3 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=3 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc13 {
@@ -234717,6 +235725,8 @@ with : Vop=0x3f ... {
   }
 
   # v32lsr acc CLRA-UACC wc0
+}
+with : Vop=0x3f ... {
   :v32lsr vargd, varga, vargb^vacc2 is (Vaop=10 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=0 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=0 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc2 {
@@ -235005,6 +236015,8 @@ with : Vop=0x3f ... {
   }
 
   # v32lsr acc CLRA-UACCH wc4
+}
+with : Vop=0x3f ... {
   :v32lsr vargd, varga, vargb^vacc6 is (Vaop=10 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=4 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc6 {
@@ -235293,6 +236305,8 @@ with : Vop=0x3f ... {
   }
 
   # v32lsr acc CLRA-SDEC wc1
+}
+with : Vop=0x3f ... {
   :v32lsr vargd, varga, vargb^vacc11 is (Vaop=10 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=1 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=1 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc11 {
@@ -235581,6 +236595,8 @@ with : Vop=0x3f ... {
   }
 
   # v32lsr acc CLRA-SDECH wc5
+}
+with : Vop=0x3f ... {
   :v32lsr vargd, varga, vargb^vacc15 is (Vaop=10 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=5 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=5 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc15 {
@@ -235869,6 +236885,8 @@ with : Vop=0x3f ... {
   }
 
   # v32max acc UACCH wc2
+}
+with : Vop=0x3f ... {
   :v32max vargd, varga, vargb^vacc4 is (Vaop=25 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=2 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=2 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc4 {
@@ -236157,6 +237175,8 @@ with : Vop=0x3f ... {
   }
 
   # v32max acc UDEC wc6
+}
+with : Vop=0x3f ... {
   :v32max vargd, varga, vargb^vacc8 is (Vaop=25 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -236445,6 +237465,8 @@ with : Vop=0x3f ... {
   }
 
   # v32max acc SDECH wc3
+}
+with : Vop=0x3f ... {
   :v32max vargd, varga, vargb^vacc13 is (Vaop=25 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=3 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=3 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc13 {
@@ -236733,6 +237755,8 @@ with : Vop=0x3f ... {
   }
 
   # v32min acc CLRA-UACC wc0
+}
+with : Vop=0x3f ... {
   :v32min vargd, varga, vargb^vacc2 is (Vaop=24 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=0 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=0 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc2 {
@@ -237021,6 +238045,8 @@ with : Vop=0x3f ... {
   }
 
   # v32min acc CLRA-UACCH wc4
+}
+with : Vop=0x3f ... {
   :v32min vargd, varga, vargb^vacc6 is (Vaop=24 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=4 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc6 {
@@ -237309,6 +238335,8 @@ with : Vop=0x3f ... {
   }
 
   # v32min acc CLRA-SDEC wc1
+}
+with : Vop=0x3f ... {
   :v32min vargd, varga, vargb^vacc11 is (Vaop=24 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=1 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=1 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc11 {
@@ -237597,6 +238625,8 @@ with : Vop=0x3f ... {
   }
 
   # v32min acc CLRA-SDECH wc5
+}
+with : Vop=0x3f ... {
   :v32min vargd, varga, vargb^vacc15 is (Vaop=24 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=5 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=5 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc15 {
@@ -237885,6 +238915,8 @@ with : Vop=0x3f ... {
   }
 
   # v32mov acc UACCH wc2
+}
+with : Vop=0x3f ... {
   :v32mov vargd, vargb^vacc4 is (Vaop=0 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=2 & Vhasimm=0 & vbrow & Vdirb=0) ...
 	   & vargd & vargb & vacc4 {
@@ -238173,6 +239205,8 @@ with : Vop=0x3f ... {
   }
 
   # v32mov acc UDEC wc6
+}
+with : Vop=0x3f ... {
   :v32mov vargd, vargb^vacc8 is (Vaop=0 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0) ...
 	   & vargd & vargb & vacc8 {
@@ -238461,6 +239495,8 @@ with : Vop=0x3f ... {
   }
 
   # v32mov acc SDECH wc3
+}
+with : Vop=0x3f ... {
   :v32mov vargd, vargb^vacc13 is (Vaop=0 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=3 & Vhasimm=0 & vbrow & Vdirb=0) ...
 	   & vargd & vargb & vacc13 {
@@ -238749,6 +239785,8 @@ with : Vop=0x3f ... {
   }
 
   # v32or acc CLRA-UACC wc0
+}
+with : Vop=0x3f ... {
   :v32or vargd, varga, vargb^vacc2 is (Vaop=17 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=0 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=0 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc2 {
@@ -239037,6 +240075,8 @@ with : Vop=0x3f ... {
   }
 
   # v32or acc CLRA-UACCH wc4
+}
+with : Vop=0x3f ... {
   :v32or vargd, varga, vargb^vacc6 is (Vaop=17 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=4 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc6 {
@@ -239325,6 +240365,8 @@ with : Vop=0x3f ... {
   }
 
   # v32or acc CLRA-SDEC wc1
+}
+with : Vop=0x3f ... {
   :v32or vargd, varga, vargb^vacc11 is (Vaop=17 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=1 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=1 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc11 {
@@ -239613,6 +240655,8 @@ with : Vop=0x3f ... {
   }
 
   # v32or acc CLRA-SDECH wc5
+}
+with : Vop=0x3f ... {
   :v32or vargd, varga, vargb^vacc15 is (Vaop=17 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=5 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=5 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc15 {
@@ -239901,6 +240945,8 @@ with : Vop=0x3f ... {
   }
 
   # v32ror acc UACCH wc2
+}
+with : Vop=0x3f ... {
   :v32ror vargd, varga, vargb^vacc4 is (Vaop=7 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=2 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=2 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc4 {
@@ -240189,6 +241235,8 @@ with : Vop=0x3f ... {
   }
 
   # v32ror acc UDEC wc6
+}
+with : Vop=0x3f ... {
   :v32ror vargd, varga, vargb^vacc8 is (Vaop=7 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -240477,6 +241525,8 @@ with : Vop=0x3f ... {
   }
 
   # v32ror acc SDECH wc3
+}
+with : Vop=0x3f ... {
   :v32ror vargd, varga, vargb^vacc13 is (Vaop=7 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=3 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=3 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc13 {
@@ -240765,6 +241815,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsub acc CLRA-UACC wc0
+}
+with : Vop=0x3f ... {
   :v32rsub vargd, varga, vargb^vacc2 is (Vaop=40 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=0 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=0 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc2 {
@@ -241053,6 +242105,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsub acc CLRA-UACCH wc4
+}
+with : Vop=0x3f ... {
   :v32rsub vargd, varga, vargb^vacc6 is (Vaop=40 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=4 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc6 {
@@ -241341,6 +242395,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsub acc CLRA-SDEC wc1
+}
+with : Vop=0x3f ... {
   :v32rsub vargd, varga, vargb^vacc11 is (Vaop=40 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=1 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=1 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc11 {
@@ -241629,6 +242685,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsub acc CLRA-SDECH wc5
+}
+with : Vop=0x3f ... {
   :v32rsub vargd, varga, vargb^vacc15 is (Vaop=40 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=5 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=5 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc15 {
@@ -241917,6 +242975,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsubc acc UACCH wc2
+}
+with : Vop=0x3f ... {
   :v32rsubc vargd, varga, vargb^vacc4 is (Vaop=42 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=2 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=2 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc4 {
@@ -242205,6 +243265,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsubc acc UDEC wc6
+}
+with : Vop=0x3f ... {
   :v32rsubc vargd, varga, vargb^vacc8 is (Vaop=42 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -242493,6 +243555,8 @@ with : Vop=0x3f ... {
   }
 
   # v32rsubc acc SDECH wc3
+}
+with : Vop=0x3f ... {
   :v32rsubc vargd, varga, vargb^vacc13 is (Vaop=42 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=3 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=3 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc13 {
@@ -242781,6 +243845,8 @@ with : Vop=0x3f ... {
   }
 
   # v32shl acc CLRA-UACC wc0
+}
+with : Vop=0x3f ... {
   :v32shl vargd, varga, vargb^vacc2 is (Vaop=8 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=0 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=0 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc2 {
@@ -243069,6 +244135,8 @@ with : Vop=0x3f ... {
   }
 
   # v32shl acc CLRA-UACCH wc4
+}
+with : Vop=0x3f ... {
   :v32shl vargd, varga, vargb^vacc6 is (Vaop=8 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=4 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc6 {
@@ -243357,6 +244425,8 @@ with : Vop=0x3f ... {
   }
 
   # v32shl acc CLRA-SDEC wc1
+}
+with : Vop=0x3f ... {
   :v32shl vargd, varga, vargb^vacc11 is (Vaop=8 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=1 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=1 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc11 {
@@ -243645,6 +244715,8 @@ with : Vop=0x3f ... {
   }
 
   # v32shl acc CLRA-SDECH wc5
+}
+with : Vop=0x3f ... {
   :v32shl vargd, varga, vargb^vacc15 is (Vaop=8 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=5 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=5 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc15 {
@@ -243933,6 +245005,8 @@ with : Vop=0x3f ... {
   }
 
   # v32sign acc UACCH wc2
+}
+with : Vop=0x3f ... {
   :v32sign vargd, varga, vargb^vacc4 is (Vaop=29 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=2 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=2 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc4 {
@@ -244221,6 +245295,8 @@ with : Vop=0x3f ... {
   }
 
   # v32sign acc UDEC wc6
+}
+with : Vop=0x3f ... {
   :v32sign vargd, varga, vargb^vacc8 is (Vaop=29 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -244509,6 +245585,8 @@ with : Vop=0x3f ... {
   }
 
   # v32sign acc SDECH wc3
+}
+with : Vop=0x3f ... {
   :v32sign vargd, varga, vargb^vacc13 is (Vaop=29 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=3 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=3 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc13 {
@@ -244797,6 +245875,8 @@ with : Vop=0x3f ... {
   }
 
   # v32signasl acc CLRA-UACC wc0
+}
+with : Vop=0x3f ... {
   :v32signasl vargd, varga, vargb^vacc2 is (Vaop=14 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=0 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=0 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc2 {
@@ -245085,6 +246165,8 @@ with : Vop=0x3f ... {
   }
 
   # v32signasl acc CLRA-UACCH wc4
+}
+with : Vop=0x3f ... {
   :v32signasl vargd, varga, vargb^vacc6 is (Vaop=14 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=4 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc6 {
@@ -245373,6 +246455,8 @@ with : Vop=0x3f ... {
   }
 
   # v32signasl acc CLRA-SDEC wc1
+}
+with : Vop=0x3f ... {
   :v32signasl vargd, varga, vargb^vacc11 is (Vaop=14 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=1 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=1 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc11 {
@@ -245661,6 +246745,8 @@ with : Vop=0x3f ... {
   }
 
   # v32signasl acc CLRA-SDECH wc5
+}
+with : Vop=0x3f ... {
   :v32signasl vargd, varga, vargb^vacc15 is (Vaop=14 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=5 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=5 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc15 {
@@ -245949,6 +247035,8 @@ with : Vop=0x3f ... {
   }
 
   # v32signshl acc UACCH wc2
+}
+with : Vop=0x3f ... {
   :v32signshl vargd, varga, vargb^vacc4 is (Vaop=12 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=2 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=2 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc4 {
@@ -246237,6 +247325,8 @@ with : Vop=0x3f ... {
   }
 
   # v32signshl acc UDEC wc6
+}
+with : Vop=0x3f ... {
   :v32signshl vargd, varga, vargb^vacc8 is (Vaop=12 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -246525,6 +247615,8 @@ with : Vop=0x3f ... {
   }
 
   # v32signshl acc SDECH wc3
+}
+with : Vop=0x3f ... {
   :v32signshl vargd, varga, vargb^vacc13 is (Vaop=12 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=3 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=3 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc13 {
@@ -246813,6 +247905,8 @@ with : Vop=0x3f ... {
   }
 
   # v32sub acc CLRA-UACC wc0
+}
+with : Vop=0x3f ... {
   :v32sub vargd, varga, vargb^vacc2 is (Vaop=36 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=0 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=0 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc2 {
@@ -247101,6 +248195,8 @@ with : Vop=0x3f ... {
   }
 
   # v32sub acc CLRA-UACCH wc4
+}
+with : Vop=0x3f ... {
   :v32sub vargd, varga, vargb^vacc6 is (Vaop=36 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=4 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=4 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc6 {
@@ -247389,6 +248485,8 @@ with : Vop=0x3f ... {
   }
 
   # v32sub acc CLRA-SDEC wc1
+}
+with : Vop=0x3f ... {
   :v32sub vargd, varga, vargb^vacc11 is (Vaop=36 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=1 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=1 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc11 {
@@ -247677,6 +248775,8 @@ with : Vop=0x3f ... {
   }
 
   # v32sub acc CLRA-SDECH wc5
+}
+with : Vop=0x3f ... {
   :v32sub vargd, varga, vargb^vacc15 is (Vaop=36 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=5 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=5 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc15 {
@@ -247965,6 +249065,8 @@ with : Vop=0x3f ... {
   }
 
   # v32subc acc UACCH wc2
+}
+with : Vop=0x3f ... {
   :v32subc vargd, varga, vargb^vacc4 is (Vaop=38 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=2 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=2 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc4 {
@@ -248253,6 +249355,8 @@ with : Vop=0x3f ... {
   }
 
   # v32subc acc UDEC wc6
+}
+with : Vop=0x3f ... {
   :v32subc vargd, varga, vargb^vacc8 is (Vaop=38 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=6 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=6 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc8 {
@@ -248541,6 +249645,8 @@ with : Vop=0x3f ... {
   }
 
   # v32subc acc SDECH wc3
+}
+with : Vop=0x3f ... {
   :v32subc vargd, varga, vargb^vacc13 is (Vaop=38 & Vawidth=1 & Vdir=0 & Vseld=7
 	   & Vsetf80=0 & Vselb=3 & Vhasimm=0 & vbrow & Vdirb=0 & Vsela=3 & Vhasoffa=0 & varow) ...
 	   & vargd & varga & vargb & vacc13 {

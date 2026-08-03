@@ -37,6 +37,26 @@ scope Block {
 	import org.antlr.runtime.tree.*;
 }
 
+// The tree-walking twin of SleighParser's spec_item / spec_endian: one item at a time, so its subtree
+// can be released before the next is parsed. env and sc are taken as parameters because `root`'s
+// @init used to be the only place they were set.
+tree_endian[ParsingEnvironment pe, SleighCompile sc]
+	@init {
+		this.env = pe;
+		this.sc = sc;
+	}
+	:	endiandef
+	;
+
+tree_item[ParsingEnvironment pe, SleighCompile sc]
+	@init {
+		this.env = pe;
+		this.sc = sc;
+	}
+	:	definition
+	|	constructorlike
+	;
+
 root[ParsingEnvironment pe, SleighCompile sc] returns [int errors]
 	@init {
 		this.env = pe;

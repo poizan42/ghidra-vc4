@@ -29,6 +29,34 @@ import DisplayParser, SemanticParser;
  * This is the root parser for a .slaspec file. Its root rule is spec.
  */
 
+// One top-level item, so a driver can parse and walk the spec incrementally instead of building the
+// whole AST first. The alternation is IDENTICAL to the one inside `spec` below, so ANTLR generates the
+// same decision -- this is deliberately not a hand-written lookahead heuristic, which would be correct
+// for one spec and silently wrong for another. `spec_eof` lets the driver detect the end without
+// consuming anything.
+//
+// WHY: the SLEIGH spec for VideoCore reached 17,788 constructors, and a heap histogram taken at an
+// OutOfMemoryError showed 89.7% of the heap was this parse tree -- CommonTree/CommonToken and their
+// arrays -- against 1.3% compiler output, with only 1,017 constructors built. The tree, not the
+// compiler's tables, is the peak. See SleighCompile.run_compilation.
+spec_item
+	:	definition
+	|	constructorlike
+	;
+
+spec_eof
+	:	EOF
+	;
+
+spec_endian
+	:	{
+			if (env.getLexingErrors() > 0) {
+				bail("Abort");
+			}
+		}
+		endiandef
+	;
+
 spec
 	@after {
 		if (env.getParsingErrors() > 0) {

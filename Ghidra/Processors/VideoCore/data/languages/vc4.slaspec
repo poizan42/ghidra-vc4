@@ -1970,6 +1970,11 @@ vsetf: Vsetf80 is (Vopsize=1 & Vsetf80) ...
 # name VdRow/vargd; the `Vselb=7` in those patterns is the ADDRESS operand, not the destination), so
 # there is no vsetfu-style case here where gas would leave the field at 0 as a don't-care.
 vmem80d: is Vopsize=1 ; (Vsru=0 & Vincd=0 & VmoffMid=0 & VRoffd=15 & Vcboffd=0) { }
+# The `++` twin (task #56): Vincd=1 instead of 0, and additionally UNPREDICATED. The predication and
+# REP probes were all run with `++` absent, where REP is unobservable anyway, so whether a lane
+# disabled by a predicate still consumes its iteration has never been measured -- Vpredm=0 keeps the
+# claim inside the evidence, and the predicated `++` encodings keep their pcodeop.
+vmem80dinc: is Vopsize=1 ; (Vpredm=0 & Vsru=0 & Vincd=1 & VmoffMid=0 & VRoffd=15 & Vcboffd=0) { }
 # The ALU equivalent: pins the accumulator modifier and all three operand auto-increments, which are
 # vecaux fields and so cannot join a constructor's vec48 `&` group.
 # valu80 additionally pins the RUNTIME ROW OFFSETS absent. VRoffd/VRoffa/VRoffb encode "no offset" as
@@ -2003,6 +2008,8 @@ valu80imm: is Vopsize=1 ; (Vsru=0 & Vincd=0 & Vinca=0
 # The A-role twin of vmem80d, pinned for the same measured reason. All 63 uses name varow/varga, so the
 # A operand is always present and the offset is never a don't-care.
 vmem80a: is Vopsize=1 ; (Vsru=0 & Vinca=0 & VmoffMid=0 & VRoffa=15 & Vcboffa=0) { }
+# The `++` twin, for the same reason as vmem80dinc.
+vmem80ainc: is Vopsize=1 ; (Vpredm=0 & Vsru=0 & Vinca=1 & VmoffMid=0 & VRoffa=15 & Vcboffa=0) { }
 #
 # CONSUMERS MUST USE A PER-LANE CONDITIONAL BRANCH, not a branch-free select. A disabled lane
 # performs NO memory access at all (measured, findings-lookup.md), so a predicated store cannot be
@@ -2104,6 +2111,12 @@ with : Vopsize=0 ... {
 }
 vflags: Vrep^vsetf^vpred^vsru
 	is (Vopsize=1 & Vrep) ... & vsetf & vpred & vsru {}
+# vflags WITHOUT Vrep, for the `++` family (#56), which CONSTRAINS Vrep to unroll by it. A field
+# cannot be constrained in a constructor and also be an operand of a subtable that constructor
+# names -- "Constraining currently undefined operand" -- so those constructors write the count into
+# the display literally and use this instead. The rendered text is identical.
+vflagsnr: vsetf^vpred^vsru
+	is Vopsize=1 ... & vsetf & vpred & vsru {}
 
 
 

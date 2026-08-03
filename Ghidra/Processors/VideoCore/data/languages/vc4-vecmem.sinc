@@ -406,6 +406,108 @@ outlined macro vml65(x_src, x_base, x_acc, x_en, x_l) {
     *:4 (a) = x_src;
     <skip>
 }
+outlined macro vml66(x_rb, x_k, x_base, x_off) {
+    local dad:4 = x_rb + x_k;
+    local a:4 = x_base + x_off;
+    *[register]:1 dad = *:1 (a);
+}
+outlined macro vml67(x_rb, x_k, x_base, x_off) {
+    local dad:4 = x_rb + x_k;
+    local a:4 = x_base + x_off;
+    *[register]:2 dad = zext(*:1 (a));
+}
+outlined macro vml68(x_rb, x_k, x_base, x_off) {
+    local dad:4 = x_rb + x_k;
+    local a:4 = x_base + x_off;
+    *[register]:4 dad = zext(*:1 (a));
+}
+outlined macro vml69(x_rb, x_k, x_base, x_off) {
+    local dad:4 = x_rb + x_k;
+    local a:4 = x_base + x_off;
+    local t:2 = *:2 (a);
+    *[register]:1 dad = t:1;
+}
+outlined macro vml70(x_rb, x_k, x_base, x_off) {
+    local dad:4 = x_rb + x_k;
+    local a:4 = x_base + x_off;
+    *[register]:2 dad = *:2 (a);
+}
+outlined macro vml71(x_rb, x_k, x_base, x_off) {
+    local dad:4 = x_rb + x_k;
+    local a:4 = x_base + x_off;
+    *[register]:4 dad = sext(*:2 (a));
+}
+outlined macro vml72(x_rb, x_k, x_base, x_off) {
+    local dad:4 = x_rb + x_k;
+    local a:4 = x_base + x_off;
+    local t:4 = *:4 (a);
+    *[register]:1 dad = t:1;
+}
+outlined macro vml73(x_rb, x_k, x_base, x_off) {
+    local dad:4 = x_rb + x_k;
+    local a:4 = x_base + x_off;
+    local t:4 = *:4 (a);
+    *[register]:2 dad = t:2;
+}
+outlined macro vml74(x_rb, x_k, x_base, x_off) {
+    local dad:4 = x_rb + x_k;
+    local a:4 = x_base + x_off;
+    *[register]:4 dad = *:4 (a);
+}
+outlined macro vml75(x_rb, x_k, x_base, x_off) {
+    local dad:4 = x_rb + x_k;
+    local a:4 = x_base + x_off;
+    local s:1 = *[register]:1 dad;
+    *:1 (a) = s;
+}
+outlined macro vml76(x_rb, x_k, x_base, x_off) {
+    local dad:4 = x_rb + x_k;
+    local a:4 = x_base + x_off;
+    local s:2 = *[register]:2 dad;
+    *:1 (a) = s:1;
+}
+outlined macro vml77(x_rb, x_k, x_base, x_off) {
+    local dad:4 = x_rb + x_k;
+    local a:4 = x_base + x_off;
+    local s:4 = *[register]:4 dad;
+    *:1 (a) = s:1;
+}
+outlined macro vml78(x_rb, x_k, x_base, x_off) {
+    local dad:4 = x_rb + x_k;
+    local a:4 = x_base + x_off;
+    local s:1 = *[register]:1 dad;
+    *:2 (a) = zext(s);
+}
+outlined macro vml79(x_rb, x_k, x_base, x_off) {
+    local dad:4 = x_rb + x_k;
+    local a:4 = x_base + x_off;
+    local s:2 = *[register]:2 dad;
+    *:2 (a) = s;
+}
+outlined macro vml80(x_rb, x_k, x_base, x_off) {
+    local dad:4 = x_rb + x_k;
+    local a:4 = x_base + x_off;
+    local s:4 = *[register]:4 dad;
+    *:2 (a) = s:2;
+}
+outlined macro vml81(x_rb, x_k, x_base, x_off) {
+    local dad:4 = x_rb + x_k;
+    local a:4 = x_base + x_off;
+    local s:1 = *[register]:1 dad;
+    *:4 (a) = zext(s);
+}
+outlined macro vml82(x_rb, x_k, x_base, x_off) {
+    local dad:4 = x_rb + x_k;
+    local a:4 = x_base + x_off;
+    local s:2 = *[register]:2 dad;
+    *:4 (a) = sext(s);
+}
+outlined macro vml83(x_rb, x_k, x_base, x_off) {
+    local dad:4 = x_rb + x_k;
+    local a:4 = x_base + x_off;
+    local s:4 = *[register]:4 dad;
+    *:4 (a) = s;
+}
 
 # The A-operand row, for stores. Va = (VaHi << 4) | VaLo across two non-contiguous
 # fields, so it cannot be an `attach variables` target the way VdRow can; enumerating
@@ -3315,6 +3417,3260 @@ with : Vop=0x3e ... {
     local en:2 = vpmask;
 @repeat L 0 16
     vml65(varow[$[32*L],32], base, VACC[$[32*L],32], en, $[1*L]:2);
+@endrepeat
+  }
+
+  # v8ld ++: 8-bit element at byte-in-lane 0, 1 iteration
+  :v8ld vargd, vmemargb""^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP2: 8-bit element at byte-in-lane 0, 2 iterations
+  :v8ld vargd, vmemargb" REP2"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=1 & Vd<63
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 32
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP4: 8-bit element at byte-in-lane 0, 4 iterations
+}
+with : Vop=0x3e ... {
+  :v8ld vargd, vmemargb" REP4"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=2 & Vd<61
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 64
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP8: 8-bit element at byte-in-lane 0, 8 iterations
+  :v8ld vargd, vmemargb" REP8"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=3 & Vd<57
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 128
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP16: 8-bit element at byte-in-lane 0, 16 iterations
+  :v8ld vargd, vmemargb" REP16"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=4 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 256
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP32: 8-bit element at byte-in-lane 0, 32 iterations
+  :v8ld vargd, vmemargb" REP32"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=5 & Vd<33
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 512
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP64: 8-bit element at byte-in-lane 0, 64 iterations
+  :v8ld vargd, vmemargb" REP64"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=6 & Vd=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 1024
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++: 8-bit element at byte-in-lane 1, 1 iteration
+  :v8ld vargd, vmemargb""^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP2: 8-bit element at byte-in-lane 1, 2 iterations
+  :v8ld vargd, vmemargb" REP2"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=1 & Vd<63
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 32
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP4: 8-bit element at byte-in-lane 1, 4 iterations
+  :v8ld vargd, vmemargb" REP4"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=2 & Vd<61
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 64
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP8: 8-bit element at byte-in-lane 1, 8 iterations
+  :v8ld vargd, vmemargb" REP8"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=3 & Vd<57
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 128
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP16: 8-bit element at byte-in-lane 1, 16 iterations
+  :v8ld vargd, vmemargb" REP16"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=4 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 256
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP32: 8-bit element at byte-in-lane 1, 32 iterations
+  :v8ld vargd, vmemargb" REP32"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=5 & Vd<33
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 512
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP64: 8-bit element at byte-in-lane 1, 64 iterations
+  :v8ld vargd, vmemargb" REP64"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=6 & Vd=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 1024
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++: 8-bit element at byte-in-lane 2, 1 iteration
+  :v8ld vargd, vmemargb""^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP2: 8-bit element at byte-in-lane 2, 2 iterations
+  :v8ld vargd, vmemargb" REP2"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=1 & Vd<63
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 32
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP4: 8-bit element at byte-in-lane 2, 4 iterations
+  :v8ld vargd, vmemargb" REP4"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=2 & Vd<61
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 64
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP8: 8-bit element at byte-in-lane 2, 8 iterations
+  :v8ld vargd, vmemargb" REP8"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=3 & Vd<57
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 128
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP16: 8-bit element at byte-in-lane 2, 16 iterations
+  :v8ld vargd, vmemargb" REP16"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=4 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 256
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP32: 8-bit element at byte-in-lane 2, 32 iterations
+  :v8ld vargd, vmemargb" REP32"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=5 & Vd<33
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 512
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP64: 8-bit element at byte-in-lane 2, 64 iterations
+  :v8ld vargd, vmemargb" REP64"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=6 & Vd=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 1024
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++: 8-bit element at byte-in-lane 3, 1 iteration
+  :v8ld vargd, vmemargb""^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP2: 8-bit element at byte-in-lane 3, 2 iterations
+  :v8ld vargd, vmemargb" REP2"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=1 & Vd<63
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 32
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP4: 8-bit element at byte-in-lane 3, 4 iterations
+  :v8ld vargd, vmemargb" REP4"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=2 & Vd<61
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 64
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP8: 8-bit element at byte-in-lane 3, 8 iterations
+  :v8ld vargd, vmemargb" REP8"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=3 & Vd<57
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 128
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP16: 8-bit element at byte-in-lane 3, 16 iterations
+  :v8ld vargd, vmemargb" REP16"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=4 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 256
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP32: 8-bit element at byte-in-lane 3, 32 iterations
+  :v8ld vargd, vmemargb" REP32"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=5 & Vd<33
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 512
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP64: 8-bit element at byte-in-lane 3, 64 iterations
+  :v8ld vargd, vmemargb" REP64"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=6 & Vd=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 1024
+    vml66(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++: 16-bit element at byte-in-lane 0, 1 iteration
+  :v8ld vargd, vmemargb""^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml67(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP2: 16-bit element at byte-in-lane 0, 2 iterations
+  :v8ld vargd, vmemargb" REP2"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=1 & Vd<63
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 32
+    vml67(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP4: 16-bit element at byte-in-lane 0, 4 iterations
+  :v8ld vargd, vmemargb" REP4"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=2 & Vd<61
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 64
+    vml67(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP8: 16-bit element at byte-in-lane 0, 8 iterations
+  :v8ld vargd, vmemargb" REP8"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=3 & Vd<57
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 128
+    vml67(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP16: 16-bit element at byte-in-lane 0, 16 iterations
+  :v8ld vargd, vmemargb" REP16"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=4 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 256
+    vml67(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP32: 16-bit element at byte-in-lane 0, 32 iterations
+  :v8ld vargd, vmemargb" REP32"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=5 & Vd<33
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 512
+    vml67(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP64: 16-bit element at byte-in-lane 0, 64 iterations
+}
+with : Vop=0x3e ... {
+  :v8ld vargd, vmemargb" REP64"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=6 & Vd=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 1024
+    vml67(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++: 16-bit element at byte-in-lane 2, 1 iteration
+  :v8ld vargd, vmemargb""^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml67(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP2: 16-bit element at byte-in-lane 2, 2 iterations
+  :v8ld vargd, vmemargb" REP2"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=1 & Vd<63
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 32
+    vml67(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP4: 16-bit element at byte-in-lane 2, 4 iterations
+  :v8ld vargd, vmemargb" REP4"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=2 & Vd<61
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 64
+    vml67(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP8: 16-bit element at byte-in-lane 2, 8 iterations
+  :v8ld vargd, vmemargb" REP8"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=3 & Vd<57
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 128
+    vml67(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP16: 16-bit element at byte-in-lane 2, 16 iterations
+  :v8ld vargd, vmemargb" REP16"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=4 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 256
+    vml67(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP32: 16-bit element at byte-in-lane 2, 32 iterations
+  :v8ld vargd, vmemargb" REP32"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=5 & Vd<33
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 512
+    vml67(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP64: 16-bit element at byte-in-lane 2, 64 iterations
+  :v8ld vargd, vmemargb" REP64"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=6 & Vd=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 1024
+    vml67(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++: 32-bit element at byte-in-lane 0, 1 iteration
+  :v8ld vargd, vmemargb""^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml68(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP2: 32-bit element at byte-in-lane 0, 2 iterations
+  :v8ld vargd, vmemargb" REP2"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=1 & Vd<63
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 32
+    vml68(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP4: 32-bit element at byte-in-lane 0, 4 iterations
+  :v8ld vargd, vmemargb" REP4"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=2 & Vd<61
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 64
+    vml68(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP8: 32-bit element at byte-in-lane 0, 8 iterations
+  :v8ld vargd, vmemargb" REP8"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=3 & Vd<57
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 128
+    vml68(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP16: 32-bit element at byte-in-lane 0, 16 iterations
+  :v8ld vargd, vmemargb" REP16"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=4 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 256
+    vml68(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP32: 32-bit element at byte-in-lane 0, 32 iterations
+  :v8ld vargd, vmemargb" REP32"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=5 & Vd<33
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 512
+    vml68(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8ld ++ REP64: 32-bit element at byte-in-lane 0, 64 iterations
+  :v8ld vargd, vmemargb" REP64"^vflagsnr
+	is (Vmop=0 & Vmwidth=0 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=6 & Vd=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 1024
+    vml68(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++: 8-bit element at byte-in-lane 0, 1 iteration
+  :v16ld vargd, vmemargb""^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP2: 8-bit element at byte-in-lane 0, 2 iterations
+  :v16ld vargd, vmemargb" REP2"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=1 & Vd<63
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 32
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP4: 8-bit element at byte-in-lane 0, 4 iterations
+  :v16ld vargd, vmemargb" REP4"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=2 & Vd<61
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 64
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP8: 8-bit element at byte-in-lane 0, 8 iterations
+  :v16ld vargd, vmemargb" REP8"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=3 & Vd<57
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 128
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP16: 8-bit element at byte-in-lane 0, 16 iterations
+  :v16ld vargd, vmemargb" REP16"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=4 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 256
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP32: 8-bit element at byte-in-lane 0, 32 iterations
+  :v16ld vargd, vmemargb" REP32"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=5 & Vd<33
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 512
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP64: 8-bit element at byte-in-lane 0, 64 iterations
+  :v16ld vargd, vmemargb" REP64"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=6 & Vd=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 1024
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++: 8-bit element at byte-in-lane 1, 1 iteration
+  :v16ld vargd, vmemargb""^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP2: 8-bit element at byte-in-lane 1, 2 iterations
+  :v16ld vargd, vmemargb" REP2"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=1 & Vd<63
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 32
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP4: 8-bit element at byte-in-lane 1, 4 iterations
+  :v16ld vargd, vmemargb" REP4"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=2 & Vd<61
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 64
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP8: 8-bit element at byte-in-lane 1, 8 iterations
+  :v16ld vargd, vmemargb" REP8"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=3 & Vd<57
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 128
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP16: 8-bit element at byte-in-lane 1, 16 iterations
+  :v16ld vargd, vmemargb" REP16"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=4 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 256
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP32: 8-bit element at byte-in-lane 1, 32 iterations
+  :v16ld vargd, vmemargb" REP32"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=5 & Vd<33
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 512
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP64: 8-bit element at byte-in-lane 1, 64 iterations
+  :v16ld vargd, vmemargb" REP64"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=6 & Vd=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 1024
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++: 8-bit element at byte-in-lane 2, 1 iteration
+  :v16ld vargd, vmemargb""^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP2: 8-bit element at byte-in-lane 2, 2 iterations
+  :v16ld vargd, vmemargb" REP2"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=1 & Vd<63
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 32
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP4: 8-bit element at byte-in-lane 2, 4 iterations
+  :v16ld vargd, vmemargb" REP4"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=2 & Vd<61
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 64
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP8: 8-bit element at byte-in-lane 2, 8 iterations
+}
+with : Vop=0x3e ... {
+  :v16ld vargd, vmemargb" REP8"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=3 & Vd<57
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 128
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP16: 8-bit element at byte-in-lane 2, 16 iterations
+  :v16ld vargd, vmemargb" REP16"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=4 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 256
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP32: 8-bit element at byte-in-lane 2, 32 iterations
+  :v16ld vargd, vmemargb" REP32"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=5 & Vd<33
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 512
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP64: 8-bit element at byte-in-lane 2, 64 iterations
+  :v16ld vargd, vmemargb" REP64"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=6 & Vd=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 1024
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++: 8-bit element at byte-in-lane 3, 1 iteration
+  :v16ld vargd, vmemargb""^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP2: 8-bit element at byte-in-lane 3, 2 iterations
+  :v16ld vargd, vmemargb" REP2"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=1 & Vd<63
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 32
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP4: 8-bit element at byte-in-lane 3, 4 iterations
+  :v16ld vargd, vmemargb" REP4"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=2 & Vd<61
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 64
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP8: 8-bit element at byte-in-lane 3, 8 iterations
+  :v16ld vargd, vmemargb" REP8"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=3 & Vd<57
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 128
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP16: 8-bit element at byte-in-lane 3, 16 iterations
+  :v16ld vargd, vmemargb" REP16"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=4 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 256
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP32: 8-bit element at byte-in-lane 3, 32 iterations
+  :v16ld vargd, vmemargb" REP32"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=5 & Vd<33
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 512
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP64: 8-bit element at byte-in-lane 3, 64 iterations
+  :v16ld vargd, vmemargb" REP64"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=6 & Vd=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 1024
+    vml69(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++: 16-bit element at byte-in-lane 0, 1 iteration
+  :v16ld vargd, vmemargb""^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml70(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP2: 16-bit element at byte-in-lane 0, 2 iterations
+  :v16ld vargd, vmemargb" REP2"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=1 & Vd<63
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 32
+    vml70(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP4: 16-bit element at byte-in-lane 0, 4 iterations
+  :v16ld vargd, vmemargb" REP4"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=2 & Vd<61
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 64
+    vml70(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP8: 16-bit element at byte-in-lane 0, 8 iterations
+  :v16ld vargd, vmemargb" REP8"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=3 & Vd<57
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 128
+    vml70(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP16: 16-bit element at byte-in-lane 0, 16 iterations
+  :v16ld vargd, vmemargb" REP16"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=4 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 256
+    vml70(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP32: 16-bit element at byte-in-lane 0, 32 iterations
+  :v16ld vargd, vmemargb" REP32"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=5 & Vd<33
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 512
+    vml70(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP64: 16-bit element at byte-in-lane 0, 64 iterations
+  :v16ld vargd, vmemargb" REP64"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=6 & Vd=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 1024
+    vml70(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++: 16-bit element at byte-in-lane 2, 1 iteration
+  :v16ld vargd, vmemargb""^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml70(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP2: 16-bit element at byte-in-lane 2, 2 iterations
+  :v16ld vargd, vmemargb" REP2"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=1 & Vd<63
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 32
+    vml70(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP4: 16-bit element at byte-in-lane 2, 4 iterations
+  :v16ld vargd, vmemargb" REP4"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=2 & Vd<61
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 64
+    vml70(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP8: 16-bit element at byte-in-lane 2, 8 iterations
+  :v16ld vargd, vmemargb" REP8"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=3 & Vd<57
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 128
+    vml70(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP16: 16-bit element at byte-in-lane 2, 16 iterations
+  :v16ld vargd, vmemargb" REP16"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=4 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 256
+    vml70(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP32: 16-bit element at byte-in-lane 2, 32 iterations
+  :v16ld vargd, vmemargb" REP32"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=5 & Vd<33
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 512
+    vml70(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP64: 16-bit element at byte-in-lane 2, 64 iterations
+  :v16ld vargd, vmemargb" REP64"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=6 & Vd=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 1024
+    vml70(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++: 32-bit element at byte-in-lane 0, 1 iteration
+  :v16ld vargd, vmemargb""^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml71(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP2: 32-bit element at byte-in-lane 0, 2 iterations
+  :v16ld vargd, vmemargb" REP2"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=1 & Vd<63
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 32
+    vml71(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP4: 32-bit element at byte-in-lane 0, 4 iterations
+  :v16ld vargd, vmemargb" REP4"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=2 & Vd<61
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 64
+    vml71(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP8: 32-bit element at byte-in-lane 0, 8 iterations
+  :v16ld vargd, vmemargb" REP8"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=3 & Vd<57
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 128
+    vml71(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP16: 32-bit element at byte-in-lane 0, 16 iterations
+  :v16ld vargd, vmemargb" REP16"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=4 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 256
+    vml71(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP32: 32-bit element at byte-in-lane 0, 32 iterations
+  :v16ld vargd, vmemargb" REP32"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=5 & Vd<33
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 512
+    vml71(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16ld ++ REP64: 32-bit element at byte-in-lane 0, 64 iterations
+  :v16ld vargd, vmemargb" REP64"^vflagsnr
+	is (Vmop=0 & Vmwidth=1 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=6 & Vd=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 1024
+    vml71(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++: 8-bit element at byte-in-lane 0, 1 iteration
+}
+with : Vop=0x3e ... {
+  :v32ld vargd, vmemargb""^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP2: 8-bit element at byte-in-lane 0, 2 iterations
+  :v32ld vargd, vmemargb" REP2"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=1 & Vd<63
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 32
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP4: 8-bit element at byte-in-lane 0, 4 iterations
+  :v32ld vargd, vmemargb" REP4"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=2 & Vd<61
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 64
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP8: 8-bit element at byte-in-lane 0, 8 iterations
+  :v32ld vargd, vmemargb" REP8"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=3 & Vd<57
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 128
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP16: 8-bit element at byte-in-lane 0, 16 iterations
+  :v32ld vargd, vmemargb" REP16"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=4 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 256
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP32: 8-bit element at byte-in-lane 0, 32 iterations
+  :v32ld vargd, vmemargb" REP32"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=5 & Vd<33
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 512
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP64: 8-bit element at byte-in-lane 0, 64 iterations
+  :v32ld vargd, vmemargb" REP64"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vrep=6 & Vd=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 1024
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++: 8-bit element at byte-in-lane 1, 1 iteration
+  :v32ld vargd, vmemargb""^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP2: 8-bit element at byte-in-lane 1, 2 iterations
+  :v32ld vargd, vmemargb" REP2"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=1 & Vd<63
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 32
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP4: 8-bit element at byte-in-lane 1, 4 iterations
+  :v32ld vargd, vmemargb" REP4"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=2 & Vd<61
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 64
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP8: 8-bit element at byte-in-lane 1, 8 iterations
+  :v32ld vargd, vmemargb" REP8"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=3 & Vd<57
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 128
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP16: 8-bit element at byte-in-lane 1, 16 iterations
+  :v32ld vargd, vmemargb" REP16"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=4 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 256
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP32: 8-bit element at byte-in-lane 1, 32 iterations
+  :v32ld vargd, vmemargb" REP32"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=5 & Vd<33
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 512
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP64: 8-bit element at byte-in-lane 1, 64 iterations
+  :v32ld vargd, vmemargb" REP64"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vrep=6 & Vd=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 1024
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++: 8-bit element at byte-in-lane 2, 1 iteration
+  :v32ld vargd, vmemargb""^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP2: 8-bit element at byte-in-lane 2, 2 iterations
+  :v32ld vargd, vmemargb" REP2"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=1 & Vd<63
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 32
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP4: 8-bit element at byte-in-lane 2, 4 iterations
+  :v32ld vargd, vmemargb" REP4"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=2 & Vd<61
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 64
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP8: 8-bit element at byte-in-lane 2, 8 iterations
+  :v32ld vargd, vmemargb" REP8"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=3 & Vd<57
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 128
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP16: 8-bit element at byte-in-lane 2, 16 iterations
+  :v32ld vargd, vmemargb" REP16"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=4 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 256
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP32: 8-bit element at byte-in-lane 2, 32 iterations
+  :v32ld vargd, vmemargb" REP32"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=5 & Vd<33
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 512
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP64: 8-bit element at byte-in-lane 2, 64 iterations
+  :v32ld vargd, vmemargb" REP64"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vrep=6 & Vd=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 1024
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++: 8-bit element at byte-in-lane 3, 1 iteration
+  :v32ld vargd, vmemargb""^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP2: 8-bit element at byte-in-lane 3, 2 iterations
+  :v32ld vargd, vmemargb" REP2"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=1 & Vd<63
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 32
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP4: 8-bit element at byte-in-lane 3, 4 iterations
+  :v32ld vargd, vmemargb" REP4"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=2 & Vd<61
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 64
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP8: 8-bit element at byte-in-lane 3, 8 iterations
+  :v32ld vargd, vmemargb" REP8"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=3 & Vd<57
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 128
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP16: 8-bit element at byte-in-lane 3, 16 iterations
+  :v32ld vargd, vmemargb" REP16"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=4 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 256
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP32: 8-bit element at byte-in-lane 3, 32 iterations
+  :v32ld vargd, vmemargb" REP32"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=5 & Vd<33
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 512
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP64: 8-bit element at byte-in-lane 3, 64 iterations
+  :v32ld vargd, vmemargb" REP64"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vrep=6 & Vd=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 1024
+    vml72(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++: 16-bit element at byte-in-lane 0, 1 iteration
+  :v32ld vargd, vmemargb""^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml73(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP2: 16-bit element at byte-in-lane 0, 2 iterations
+  :v32ld vargd, vmemargb" REP2"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=1 & Vd<63
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 32
+    vml73(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP4: 16-bit element at byte-in-lane 0, 4 iterations
+  :v32ld vargd, vmemargb" REP4"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=2 & Vd<61
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 64
+    vml73(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP8: 16-bit element at byte-in-lane 0, 8 iterations
+  :v32ld vargd, vmemargb" REP8"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=3 & Vd<57
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 128
+    vml73(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP16: 16-bit element at byte-in-lane 0, 16 iterations
+}
+with : Vop=0x3e ... {
+  :v32ld vargd, vmemargb" REP16"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=4 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 256
+    vml73(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP32: 16-bit element at byte-in-lane 0, 32 iterations
+  :v32ld vargd, vmemargb" REP32"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=5 & Vd<33
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 512
+    vml73(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP64: 16-bit element at byte-in-lane 0, 64 iterations
+  :v32ld vargd, vmemargb" REP64"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vrep=6 & Vd=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 1024
+    vml73(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++: 16-bit element at byte-in-lane 2, 1 iteration
+  :v32ld vargd, vmemargb""^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml73(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP2: 16-bit element at byte-in-lane 2, 2 iterations
+  :v32ld vargd, vmemargb" REP2"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=1 & Vd<63
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 32
+    vml73(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP4: 16-bit element at byte-in-lane 2, 4 iterations
+  :v32ld vargd, vmemargb" REP4"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=2 & Vd<61
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 64
+    vml73(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP8: 16-bit element at byte-in-lane 2, 8 iterations
+  :v32ld vargd, vmemargb" REP8"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=3 & Vd<57
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 128
+    vml73(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP16: 16-bit element at byte-in-lane 2, 16 iterations
+  :v32ld vargd, vmemargb" REP16"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=4 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 256
+    vml73(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP32: 16-bit element at byte-in-lane 2, 32 iterations
+  :v32ld vargd, vmemargb" REP32"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=5 & Vd<33
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 512
+    vml73(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP64: 16-bit element at byte-in-lane 2, 64 iterations
+  :v32ld vargd, vmemargb" REP64"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vrep=6 & Vd=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 1024
+    vml73(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++: 32-bit element at byte-in-lane 0, 1 iteration
+  :v32ld vargd, vmemargb""^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml74(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP2: 32-bit element at byte-in-lane 0, 2 iterations
+  :v32ld vargd, vmemargb" REP2"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=1 & Vd<63
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 32
+    vml74(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP4: 32-bit element at byte-in-lane 0, 4 iterations
+  :v32ld vargd, vmemargb" REP4"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=2 & Vd<61
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 64
+    vml74(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP8: 32-bit element at byte-in-lane 0, 8 iterations
+  :v32ld vargd, vmemargb" REP8"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=3 & Vd<57
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 128
+    vml74(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP16: 32-bit element at byte-in-lane 0, 16 iterations
+  :v32ld vargd, vmemargb" REP16"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=4 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 256
+    vml74(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP32: 32-bit element at byte-in-lane 0, 32 iterations
+  :v32ld vargd, vmemargb" REP32"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=5 & Vd<33
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 512
+    vml74(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32ld ++ REP64: 32-bit element at byte-in-lane 0, 64 iterations
+  :v32ld vargd, vmemargb" REP64"^vflagsnr
+	is (Vmop=0 & Vmwidth=2 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vrep=6 & Vd=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflagsnr & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 1024
+    vml74(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++: 8-bit element at byte-in-lane 0, 1 iteration
+  :v8st varga, vmemargb""^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP2: 8-bit element at byte-in-lane 0, 2 iterations
+  :v8st varga, vmemargb" REP2"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=1 & (VaHi<3 | (VaHi=3 & VaLo<15))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 32
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP4: 8-bit element at byte-in-lane 0, 4 iterations
+  :v8st varga, vmemargb" REP4"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=2 & (VaHi<3 | (VaHi=3 & VaLo<13))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 64
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP8: 8-bit element at byte-in-lane 0, 8 iterations
+  :v8st varga, vmemargb" REP8"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=3 & (VaHi<3 | (VaHi=3 & VaLo<9))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 128
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP16: 8-bit element at byte-in-lane 0, 16 iterations
+  :v8st varga, vmemargb" REP16"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=4 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 256
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP32: 8-bit element at byte-in-lane 0, 32 iterations
+  :v8st varga, vmemargb" REP32"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=5 & (VaHi<2 | (VaHi=2 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 512
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP64: 8-bit element at byte-in-lane 0, 64 iterations
+  :v8st varga, vmemargb" REP64"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=6 & (VaHi=0 & VaLo<1)
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 1024
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++: 8-bit element at byte-in-lane 1, 1 iteration
+  :v8st varga, vmemargb""^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP2: 8-bit element at byte-in-lane 1, 2 iterations
+  :v8st varga, vmemargb" REP2"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=1 & (VaHi<3 | (VaHi=3 & VaLo<15))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 32
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP4: 8-bit element at byte-in-lane 1, 4 iterations
+  :v8st varga, vmemargb" REP4"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=2 & (VaHi<3 | (VaHi=3 & VaLo<13))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 64
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP8: 8-bit element at byte-in-lane 1, 8 iterations
+  :v8st varga, vmemargb" REP8"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=3 & (VaHi<3 | (VaHi=3 & VaLo<9))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 128
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP16: 8-bit element at byte-in-lane 1, 16 iterations
+  :v8st varga, vmemargb" REP16"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=4 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 256
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP32: 8-bit element at byte-in-lane 1, 32 iterations
+  :v8st varga, vmemargb" REP32"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=5 & (VaHi<2 | (VaHi=2 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 512
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP64: 8-bit element at byte-in-lane 1, 64 iterations
+  :v8st varga, vmemargb" REP64"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=6 & (VaHi=0 & VaLo<1)
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 1024
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++: 8-bit element at byte-in-lane 2, 1 iteration
+  :v8st varga, vmemargb""^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP2: 8-bit element at byte-in-lane 2, 2 iterations
+}
+with : Vop=0x3e ... {
+  :v8st varga, vmemargb" REP2"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=1 & (VaHi<3 | (VaHi=3 & VaLo<15))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 32
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP4: 8-bit element at byte-in-lane 2, 4 iterations
+  :v8st varga, vmemargb" REP4"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=2 & (VaHi<3 | (VaHi=3 & VaLo<13))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 64
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP8: 8-bit element at byte-in-lane 2, 8 iterations
+  :v8st varga, vmemargb" REP8"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=3 & (VaHi<3 | (VaHi=3 & VaLo<9))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 128
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP16: 8-bit element at byte-in-lane 2, 16 iterations
+  :v8st varga, vmemargb" REP16"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=4 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 256
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP32: 8-bit element at byte-in-lane 2, 32 iterations
+  :v8st varga, vmemargb" REP32"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=5 & (VaHi<2 | (VaHi=2 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 512
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP64: 8-bit element at byte-in-lane 2, 64 iterations
+  :v8st varga, vmemargb" REP64"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=6 & (VaHi=0 & VaLo<1)
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 1024
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++: 8-bit element at byte-in-lane 3, 1 iteration
+  :v8st varga, vmemargb""^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP2: 8-bit element at byte-in-lane 3, 2 iterations
+  :v8st varga, vmemargb" REP2"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=1 & (VaHi<3 | (VaHi=3 & VaLo<15))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 32
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP4: 8-bit element at byte-in-lane 3, 4 iterations
+  :v8st varga, vmemargb" REP4"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=2 & (VaHi<3 | (VaHi=3 & VaLo<13))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 64
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP8: 8-bit element at byte-in-lane 3, 8 iterations
+  :v8st varga, vmemargb" REP8"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=3 & (VaHi<3 | (VaHi=3 & VaLo<9))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 128
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP16: 8-bit element at byte-in-lane 3, 16 iterations
+  :v8st varga, vmemargb" REP16"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=4 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 256
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP32: 8-bit element at byte-in-lane 3, 32 iterations
+  :v8st varga, vmemargb" REP32"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=5 & (VaHi<2 | (VaHi=2 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 512
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP64: 8-bit element at byte-in-lane 3, 64 iterations
+  :v8st varga, vmemargb" REP64"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=6 & (VaHi=0 & VaLo<1)
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 1024
+    vml75(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++: 16-bit element at byte-in-lane 0, 1 iteration
+  :v8st varga, vmemargb""^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml76(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP2: 16-bit element at byte-in-lane 0, 2 iterations
+  :v8st varga, vmemargb" REP2"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=1 & (VaHi<3 | (VaHi=3 & VaLo<15))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 32
+    vml76(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP4: 16-bit element at byte-in-lane 0, 4 iterations
+  :v8st varga, vmemargb" REP4"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=2 & (VaHi<3 | (VaHi=3 & VaLo<13))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 64
+    vml76(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP8: 16-bit element at byte-in-lane 0, 8 iterations
+  :v8st varga, vmemargb" REP8"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=3 & (VaHi<3 | (VaHi=3 & VaLo<9))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 128
+    vml76(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP16: 16-bit element at byte-in-lane 0, 16 iterations
+  :v8st varga, vmemargb" REP16"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=4 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 256
+    vml76(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP32: 16-bit element at byte-in-lane 0, 32 iterations
+  :v8st varga, vmemargb" REP32"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=5 & (VaHi<2 | (VaHi=2 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 512
+    vml76(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP64: 16-bit element at byte-in-lane 0, 64 iterations
+  :v8st varga, vmemargb" REP64"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=6 & (VaHi=0 & VaLo<1)
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 1024
+    vml76(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++: 16-bit element at byte-in-lane 2, 1 iteration
+  :v8st varga, vmemargb""^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml76(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP2: 16-bit element at byte-in-lane 2, 2 iterations
+  :v8st varga, vmemargb" REP2"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=1 & (VaHi<3 | (VaHi=3 & VaLo<15))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 32
+    vml76(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP4: 16-bit element at byte-in-lane 2, 4 iterations
+  :v8st varga, vmemargb" REP4"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=2 & (VaHi<3 | (VaHi=3 & VaLo<13))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 64
+    vml76(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP8: 16-bit element at byte-in-lane 2, 8 iterations
+  :v8st varga, vmemargb" REP8"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=3 & (VaHi<3 | (VaHi=3 & VaLo<9))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 128
+    vml76(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP16: 16-bit element at byte-in-lane 2, 16 iterations
+  :v8st varga, vmemargb" REP16"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=4 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 256
+    vml76(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP32: 16-bit element at byte-in-lane 2, 32 iterations
+  :v8st varga, vmemargb" REP32"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=5 & (VaHi<2 | (VaHi=2 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 512
+    vml76(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP64: 16-bit element at byte-in-lane 2, 64 iterations
+  :v8st varga, vmemargb" REP64"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=6 & (VaHi=0 & VaLo<1)
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 1024
+    vml76(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++: 32-bit element at byte-in-lane 0, 1 iteration
+  :v8st varga, vmemargb""^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml77(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP2: 32-bit element at byte-in-lane 0, 2 iterations
+  :v8st varga, vmemargb" REP2"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=1 & (VaHi<3 | (VaHi=3 & VaLo<15))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 32
+    vml77(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP4: 32-bit element at byte-in-lane 0, 4 iterations
+  :v8st varga, vmemargb" REP4"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=2 & (VaHi<3 | (VaHi=3 & VaLo<13))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 64
+    vml77(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP8: 32-bit element at byte-in-lane 0, 8 iterations
+  :v8st varga, vmemargb" REP8"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=3 & (VaHi<3 | (VaHi=3 & VaLo<9))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 128
+    vml77(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP16: 32-bit element at byte-in-lane 0, 16 iterations
+  :v8st varga, vmemargb" REP16"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=4 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 256
+    vml77(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP32: 32-bit element at byte-in-lane 0, 32 iterations
+}
+with : Vop=0x3e ... {
+  :v8st varga, vmemargb" REP32"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=5 & (VaHi<2 | (VaHi=2 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 512
+    vml77(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v8st ++ REP64: 32-bit element at byte-in-lane 0, 64 iterations
+  :v8st varga, vmemargb" REP64"^vflagsnr
+	is (Vmop=4 & Vmwidth=0 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=6 & (VaHi=0 & VaLo<1)
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 1024
+    vml77(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[1*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++: 8-bit element at byte-in-lane 0, 1 iteration
+  :v16st varga, vmemargb""^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP2: 8-bit element at byte-in-lane 0, 2 iterations
+  :v16st varga, vmemargb" REP2"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=1 & (VaHi<3 | (VaHi=3 & VaLo<15))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 32
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP4: 8-bit element at byte-in-lane 0, 4 iterations
+  :v16st varga, vmemargb" REP4"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=2 & (VaHi<3 | (VaHi=3 & VaLo<13))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 64
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP8: 8-bit element at byte-in-lane 0, 8 iterations
+  :v16st varga, vmemargb" REP8"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=3 & (VaHi<3 | (VaHi=3 & VaLo<9))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 128
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP16: 8-bit element at byte-in-lane 0, 16 iterations
+  :v16st varga, vmemargb" REP16"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=4 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 256
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP32: 8-bit element at byte-in-lane 0, 32 iterations
+  :v16st varga, vmemargb" REP32"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=5 & (VaHi<2 | (VaHi=2 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 512
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP64: 8-bit element at byte-in-lane 0, 64 iterations
+  :v16st varga, vmemargb" REP64"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=6 & (VaHi=0 & VaLo<1)
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 1024
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++: 8-bit element at byte-in-lane 1, 1 iteration
+  :v16st varga, vmemargb""^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP2: 8-bit element at byte-in-lane 1, 2 iterations
+  :v16st varga, vmemargb" REP2"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=1 & (VaHi<3 | (VaHi=3 & VaLo<15))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 32
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP4: 8-bit element at byte-in-lane 1, 4 iterations
+  :v16st varga, vmemargb" REP4"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=2 & (VaHi<3 | (VaHi=3 & VaLo<13))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 64
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP8: 8-bit element at byte-in-lane 1, 8 iterations
+  :v16st varga, vmemargb" REP8"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=3 & (VaHi<3 | (VaHi=3 & VaLo<9))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 128
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP16: 8-bit element at byte-in-lane 1, 16 iterations
+  :v16st varga, vmemargb" REP16"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=4 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 256
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP32: 8-bit element at byte-in-lane 1, 32 iterations
+  :v16st varga, vmemargb" REP32"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=5 & (VaHi<2 | (VaHi=2 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 512
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP64: 8-bit element at byte-in-lane 1, 64 iterations
+  :v16st varga, vmemargb" REP64"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=6 & (VaHi=0 & VaLo<1)
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 1024
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++: 8-bit element at byte-in-lane 2, 1 iteration
+  :v16st varga, vmemargb""^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP2: 8-bit element at byte-in-lane 2, 2 iterations
+  :v16st varga, vmemargb" REP2"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=1 & (VaHi<3 | (VaHi=3 & VaLo<15))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 32
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP4: 8-bit element at byte-in-lane 2, 4 iterations
+  :v16st varga, vmemargb" REP4"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=2 & (VaHi<3 | (VaHi=3 & VaLo<13))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 64
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP8: 8-bit element at byte-in-lane 2, 8 iterations
+  :v16st varga, vmemargb" REP8"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=3 & (VaHi<3 | (VaHi=3 & VaLo<9))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 128
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP16: 8-bit element at byte-in-lane 2, 16 iterations
+  :v16st varga, vmemargb" REP16"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=4 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 256
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP32: 8-bit element at byte-in-lane 2, 32 iterations
+  :v16st varga, vmemargb" REP32"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=5 & (VaHi<2 | (VaHi=2 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 512
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP64: 8-bit element at byte-in-lane 2, 64 iterations
+  :v16st varga, vmemargb" REP64"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=6 & (VaHi=0 & VaLo<1)
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 1024
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++: 8-bit element at byte-in-lane 3, 1 iteration
+  :v16st varga, vmemargb""^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP2: 8-bit element at byte-in-lane 3, 2 iterations
+  :v16st varga, vmemargb" REP2"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=1 & (VaHi<3 | (VaHi=3 & VaLo<15))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 32
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP4: 8-bit element at byte-in-lane 3, 4 iterations
+  :v16st varga, vmemargb" REP4"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=2 & (VaHi<3 | (VaHi=3 & VaLo<13))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 64
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP8: 8-bit element at byte-in-lane 3, 8 iterations
+  :v16st varga, vmemargb" REP8"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=3 & (VaHi<3 | (VaHi=3 & VaLo<9))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 128
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP16: 8-bit element at byte-in-lane 3, 16 iterations
+  :v16st varga, vmemargb" REP16"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=4 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 256
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP32: 8-bit element at byte-in-lane 3, 32 iterations
+  :v16st varga, vmemargb" REP32"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=5 & (VaHi<2 | (VaHi=2 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 512
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP64: 8-bit element at byte-in-lane 3, 64 iterations
+  :v16st varga, vmemargb" REP64"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=6 & (VaHi=0 & VaLo<1)
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 1024
+    vml78(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++: 16-bit element at byte-in-lane 0, 1 iteration
+  :v16st varga, vmemargb""^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml79(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP2: 16-bit element at byte-in-lane 0, 2 iterations
+  :v16st varga, vmemargb" REP2"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=1 & (VaHi<3 | (VaHi=3 & VaLo<15))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 32
+    vml79(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP4: 16-bit element at byte-in-lane 0, 4 iterations
+}
+with : Vop=0x3e ... {
+  :v16st varga, vmemargb" REP4"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=2 & (VaHi<3 | (VaHi=3 & VaLo<13))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 64
+    vml79(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP8: 16-bit element at byte-in-lane 0, 8 iterations
+  :v16st varga, vmemargb" REP8"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=3 & (VaHi<3 | (VaHi=3 & VaLo<9))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 128
+    vml79(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP16: 16-bit element at byte-in-lane 0, 16 iterations
+  :v16st varga, vmemargb" REP16"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=4 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 256
+    vml79(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP32: 16-bit element at byte-in-lane 0, 32 iterations
+  :v16st varga, vmemargb" REP32"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=5 & (VaHi<2 | (VaHi=2 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 512
+    vml79(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP64: 16-bit element at byte-in-lane 0, 64 iterations
+  :v16st varga, vmemargb" REP64"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=6 & (VaHi=0 & VaLo<1)
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 1024
+    vml79(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++: 16-bit element at byte-in-lane 2, 1 iteration
+  :v16st varga, vmemargb""^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml79(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP2: 16-bit element at byte-in-lane 2, 2 iterations
+  :v16st varga, vmemargb" REP2"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=1 & (VaHi<3 | (VaHi=3 & VaLo<15))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 32
+    vml79(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP4: 16-bit element at byte-in-lane 2, 4 iterations
+  :v16st varga, vmemargb" REP4"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=2 & (VaHi<3 | (VaHi=3 & VaLo<13))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 64
+    vml79(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP8: 16-bit element at byte-in-lane 2, 8 iterations
+  :v16st varga, vmemargb" REP8"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=3 & (VaHi<3 | (VaHi=3 & VaLo<9))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 128
+    vml79(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP16: 16-bit element at byte-in-lane 2, 16 iterations
+  :v16st varga, vmemargb" REP16"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=4 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 256
+    vml79(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP32: 16-bit element at byte-in-lane 2, 32 iterations
+  :v16st varga, vmemargb" REP32"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=5 & (VaHi<2 | (VaHi=2 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 512
+    vml79(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP64: 16-bit element at byte-in-lane 2, 64 iterations
+  :v16st varga, vmemargb" REP64"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=6 & (VaHi=0 & VaLo<1)
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 1024
+    vml79(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++: 32-bit element at byte-in-lane 0, 1 iteration
+  :v16st varga, vmemargb""^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml80(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP2: 32-bit element at byte-in-lane 0, 2 iterations
+  :v16st varga, vmemargb" REP2"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=1 & (VaHi<3 | (VaHi=3 & VaLo<15))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 32
+    vml80(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP4: 32-bit element at byte-in-lane 0, 4 iterations
+  :v16st varga, vmemargb" REP4"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=2 & (VaHi<3 | (VaHi=3 & VaLo<13))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 64
+    vml80(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP8: 32-bit element at byte-in-lane 0, 8 iterations
+  :v16st varga, vmemargb" REP8"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=3 & (VaHi<3 | (VaHi=3 & VaLo<9))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 128
+    vml80(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP16: 32-bit element at byte-in-lane 0, 16 iterations
+  :v16st varga, vmemargb" REP16"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=4 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 256
+    vml80(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP32: 32-bit element at byte-in-lane 0, 32 iterations
+  :v16st varga, vmemargb" REP32"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=5 & (VaHi<2 | (VaHi=2 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 512
+    vml80(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v16st ++ REP64: 32-bit element at byte-in-lane 0, 64 iterations
+  :v16st varga, vmemargb" REP64"^vflagsnr
+	is (Vmop=4 & Vmwidth=1 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=6 & (VaHi=0 & VaLo<1)
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 1024
+    vml80(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[2*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++: 8-bit element at byte-in-lane 0, 1 iteration
+  :v32st varga, vmemargb""^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP2: 8-bit element at byte-in-lane 0, 2 iterations
+  :v32st varga, vmemargb" REP2"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=1 & (VaHi<3 | (VaHi=3 & VaLo<15))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 32
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP4: 8-bit element at byte-in-lane 0, 4 iterations
+  :v32st varga, vmemargb" REP4"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=2 & (VaHi<3 | (VaHi=3 & VaLo<13))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 64
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP8: 8-bit element at byte-in-lane 0, 8 iterations
+  :v32st varga, vmemargb" REP8"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=3 & (VaHi<3 | (VaHi=3 & VaLo<9))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 128
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP16: 8-bit element at byte-in-lane 0, 16 iterations
+  :v32st varga, vmemargb" REP16"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=4 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 256
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP32: 8-bit element at byte-in-lane 0, 32 iterations
+  :v32st varga, vmemargb" REP32"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=5 & (VaHi<2 | (VaHi=2 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 512
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP64: 8-bit element at byte-in-lane 0, 64 iterations
+  :v32st varga, vmemargb" REP64"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=0 & Vsetf80=0 & Vrep=6 & (VaHi=0 & VaLo<1)
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 1024
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++: 8-bit element at byte-in-lane 1, 1 iteration
+  :v32st varga, vmemargb""^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP2: 8-bit element at byte-in-lane 1, 2 iterations
+  :v32st varga, vmemargb" REP2"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=1 & (VaHi<3 | (VaHi=3 & VaLo<15))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 32
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP4: 8-bit element at byte-in-lane 1, 4 iterations
+  :v32st varga, vmemargb" REP4"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=2 & (VaHi<3 | (VaHi=3 & VaLo<13))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 64
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP8: 8-bit element at byte-in-lane 1, 8 iterations
+  :v32st varga, vmemargb" REP8"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=3 & (VaHi<3 | (VaHi=3 & VaLo<9))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 128
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP16: 8-bit element at byte-in-lane 1, 16 iterations
+  :v32st varga, vmemargb" REP16"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=4 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 256
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP32: 8-bit element at byte-in-lane 1, 32 iterations
+  :v32st varga, vmemargb" REP32"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=5 & (VaHi<2 | (VaHi=2 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 512
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP64: 8-bit element at byte-in-lane 1, 64 iterations
+}
+with : Vop=0x3e ... {
+  :v32st varga, vmemargb" REP64"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=1 & Vsetf80=0 & Vrep=6 & (VaHi=0 & VaLo<1)
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 1024
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 1]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++: 8-bit element at byte-in-lane 2, 1 iteration
+  :v32st varga, vmemargb""^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP2: 8-bit element at byte-in-lane 2, 2 iterations
+  :v32st varga, vmemargb" REP2"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=1 & (VaHi<3 | (VaHi=3 & VaLo<15))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 32
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP4: 8-bit element at byte-in-lane 2, 4 iterations
+  :v32st varga, vmemargb" REP4"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=2 & (VaHi<3 | (VaHi=3 & VaLo<13))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 64
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP8: 8-bit element at byte-in-lane 2, 8 iterations
+  :v32st varga, vmemargb" REP8"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=3 & (VaHi<3 | (VaHi=3 & VaLo<9))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 128
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP16: 8-bit element at byte-in-lane 2, 16 iterations
+  :v32st varga, vmemargb" REP16"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=4 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 256
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP32: 8-bit element at byte-in-lane 2, 32 iterations
+  :v32st varga, vmemargb" REP32"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=5 & (VaHi<2 | (VaHi=2 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 512
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP64: 8-bit element at byte-in-lane 2, 64 iterations
+  :v32st varga, vmemargb" REP64"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=2 & Vsetf80=0 & Vrep=6 & (VaHi=0 & VaLo<1)
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 1024
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++: 8-bit element at byte-in-lane 3, 1 iteration
+  :v32st varga, vmemargb""^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP2: 8-bit element at byte-in-lane 3, 2 iterations
+  :v32st varga, vmemargb" REP2"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=1 & (VaHi<3 | (VaHi=3 & VaLo<15))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 32
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP4: 8-bit element at byte-in-lane 3, 4 iterations
+  :v32st varga, vmemargb" REP4"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=2 & (VaHi<3 | (VaHi=3 & VaLo<13))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 64
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP8: 8-bit element at byte-in-lane 3, 8 iterations
+  :v32st varga, vmemargb" REP8"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=3 & (VaHi<3 | (VaHi=3 & VaLo<9))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 128
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP16: 8-bit element at byte-in-lane 3, 16 iterations
+  :v32st varga, vmemargb" REP16"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=4 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 256
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP32: 8-bit element at byte-in-lane 3, 32 iterations
+  :v32st varga, vmemargb" REP32"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=5 & (VaHi<2 | (VaHi=2 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 512
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP64: 8-bit element at byte-in-lane 3, 64 iterations
+  :v32st varga, vmemargb" REP64"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=3 & Vsetf80=0 & Vrep=6 & (VaHi=0 & VaLo<1)
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 1024
+    vml81(rb, $[64*(K/16) + 4*(K%16) + 3]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++: 16-bit element at byte-in-lane 0, 1 iteration
+  :v32st varga, vmemargb""^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml82(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP2: 16-bit element at byte-in-lane 0, 2 iterations
+  :v32st varga, vmemargb" REP2"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=1 & (VaHi<3 | (VaHi=3 & VaLo<15))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 32
+    vml82(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP4: 16-bit element at byte-in-lane 0, 4 iterations
+  :v32st varga, vmemargb" REP4"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=2 & (VaHi<3 | (VaHi=3 & VaLo<13))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 64
+    vml82(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP8: 16-bit element at byte-in-lane 0, 8 iterations
+  :v32st varga, vmemargb" REP8"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=3 & (VaHi<3 | (VaHi=3 & VaLo<9))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 128
+    vml82(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP16: 16-bit element at byte-in-lane 0, 16 iterations
+  :v32st varga, vmemargb" REP16"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=4 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 256
+    vml82(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP32: 16-bit element at byte-in-lane 0, 32 iterations
+  :v32st varga, vmemargb" REP32"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=5 & (VaHi<2 | (VaHi=2 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 512
+    vml82(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP64: 16-bit element at byte-in-lane 0, 64 iterations
+  :v32st varga, vmemargb" REP64"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=4 & Vsetf80=0 & Vrep=6 & (VaHi=0 & VaLo<1)
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 1024
+    vml82(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++: 16-bit element at byte-in-lane 2, 1 iteration
+  :v32st varga, vmemargb""^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml82(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP2: 16-bit element at byte-in-lane 2, 2 iterations
+  :v32st varga, vmemargb" REP2"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=1 & (VaHi<3 | (VaHi=3 & VaLo<15))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 32
+    vml82(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP4: 16-bit element at byte-in-lane 2, 4 iterations
+  :v32st varga, vmemargb" REP4"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=2 & (VaHi<3 | (VaHi=3 & VaLo<13))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 64
+    vml82(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP8: 16-bit element at byte-in-lane 2, 8 iterations
+  :v32st varga, vmemargb" REP8"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=3 & (VaHi<3 | (VaHi=3 & VaLo<9))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 128
+    vml82(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP16: 16-bit element at byte-in-lane 2, 16 iterations
+  :v32st varga, vmemargb" REP16"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=4 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 256
+    vml82(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP32: 16-bit element at byte-in-lane 2, 32 iterations
+  :v32st varga, vmemargb" REP32"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=5 & (VaHi<2 | (VaHi=2 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 512
+    vml82(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP64: 16-bit element at byte-in-lane 2, 64 iterations
+  :v32st varga, vmemargb" REP64"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=5 & Vsetf80=0 & Vrep=6 & (VaHi=0 & VaLo<1)
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 1024
+    vml82(rb, $[64*(K/16) + 4*(K%16) + 2]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++: 32-bit element at byte-in-lane 0, 1 iteration
+  :v32st varga, vmemargb""^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=0
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml83(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP2: 32-bit element at byte-in-lane 0, 2 iterations
+  :v32st varga, vmemargb" REP2"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=1 & (VaHi<3 | (VaHi=3 & VaLo<15))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 32
+    vml83(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP4: 32-bit element at byte-in-lane 0, 4 iterations
+  :v32st varga, vmemargb" REP4"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=2 & (VaHi<3 | (VaHi=3 & VaLo<13))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 64
+    vml83(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP8: 32-bit element at byte-in-lane 0, 8 iterations
+}
+with : Vop=0x3e ... {
+  :v32st varga, vmemargb" REP8"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=3 & (VaHi<3 | (VaHi=3 & VaLo<9))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 128
+    vml83(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP16: 32-bit element at byte-in-lane 0, 16 iterations
+  :v32st varga, vmemargb" REP16"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=4 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 256
+    vml83(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP32: 32-bit element at byte-in-lane 0, 32 iterations
+  :v32st varga, vmemargb" REP32"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=5 & (VaHi<2 | (VaHi=2 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 512
+    vml83(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
+@endrepeat
+  }
+
+  # v32st ++ REP64: 32-bit element at byte-in-lane 0, 64 iterations
+  :v32st varga, vmemargb" REP64"^vflagsnr
+	is (Vmop=4 & Vmwidth=2 & Vdir=0 & Vsela=6 & Vsetf80=0 & Vrep=6 & (VaHi=0 & VaLo<1)
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflagsnr & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 1024
+    vml83(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
 @endrepeat
   }
 }

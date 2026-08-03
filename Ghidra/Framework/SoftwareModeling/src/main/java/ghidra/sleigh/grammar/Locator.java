@@ -20,6 +20,11 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class Locator {
+	// PER LOCATOR, deliberately not static: one Locator serves one parse, so this dedups within a
+	// compile and then becomes garbage with the parse, keeping only the Locations actually referenced
+	// by the templates. A static cache would dedup no better and would retain every line of every
+	// spec ever compiled for the life of the JVM -- fine for the sleigh CLI, a leak inside Ghidra.
+	private final Map<String, Location> cache = new java.util.HashMap<>();
 	private TreeMap<Integer, Location> map = new TreeMap<Integer, Location>();
 
 	public void registerLocation(int expandedLineNo, Location realLocation) {
@@ -40,6 +45,11 @@ public class Locator {
 		}
 		Location location = entry.getValue();
 		int actualLineNumber = expandedLineNo - entry.getKey() + location.lineno;
-		return new Location(location.filename, actualLineNumber);
+		// INTERNED. This is called once per lexed token and each call used to allocate, so a compile
+		// of a large spec kept a lot of duplicate Location objects alive through the templates that
+		// reference them. Location is immutable and nothing compares it by identity (checked), so
+		// sharing is safe -- and it keeps the per-varnode diagnostics that PcodeCompile reports.
+		return cache.computeIfAbsent(location.filename + ":" + actualLineNumber,
+			k -> new Location(location.filename, actualLineNumber));
 	}
 }

@@ -56,7 +56,7 @@ public class VarnodeTpl {
 	}
 
 	public void setOffset(long constVal) {
-		offset = new ConstTpl(ConstTpl.const_type.real, constVal);
+		offset = ConstTpl.ofReal(constVal);
 	}
 
 	public void setRelative(long constVal) {
@@ -64,7 +64,7 @@ public class VarnodeTpl {
 	}
 
 	public void setSize(ConstTpl sz) {
-		size = new ConstTpl(sz);
+		size = ConstTpl.share(sz);
 	}
 
 	public boolean isUnnamed() {
@@ -87,16 +87,19 @@ public class VarnodeTpl {
 		// Varnode built from a handle
 		// if zerosize is true, set the size constant to zero
 		if (zerosize) {
-			size = new ConstTpl(ConstTpl.const_type.real, 0);
+			size = ConstTpl.ofReal(0);
 		}
 		unnamed_flag = false;
 	}
 
 	public VarnodeTpl(Location location, ConstTpl sp, ConstTpl off, ConstTpl sz) {
 		this.location = location;
-		space = new ConstTpl(sp);
-		offset = new ConstTpl(off);
-		size = new ConstTpl(sz);
+		// share() rather than copy: a `real` or `spaceid` ConstTpl cannot be mutated (see the audit
+		// on ConstTpl's flyweights), and these three copies per varnode template were the single
+		// largest allocation in a compile.
+		space = ConstTpl.share(sp);
+		offset = ConstTpl.share(off);
+		size = ConstTpl.share(sz);
 		unnamed_flag = false;
 	}
 

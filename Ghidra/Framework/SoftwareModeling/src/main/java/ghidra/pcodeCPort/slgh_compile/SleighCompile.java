@@ -84,7 +84,18 @@ public class SleighCompile extends SleighBase {
 		return false;
 	}
 
+	// Msg has no isTraceEnabled, so ask log4j directly, once. Trace level is not changed mid-compile.
+	private static final boolean TRACE_ENABLED =
+		org.apache.logging.log4j.LogManager.getLogger(SleighCompile.class).isTraceEnabled();
+
 	public static void entry(String name, Object... args) {
+		// Build the trace string only if anything will read it. This ran for every compiler entry --
+		// 513,925 live StringBuilders on a large spec -- and then handed the result to Msg.trace,
+		// which discards it unless trace logging is on. No effect on the peak live set; it removes a
+		// large amount of pointless allocation and the GC work that follows it.
+		if (!TRACE_ENABLED) {
+			return;
+		}
 		StringBuilder sb = new StringBuilder();
 		sb.append(name).append("(");
 		// @formatter:off
@@ -2001,62 +2012,88 @@ public class SleighCompile extends SleighBase {
 		}
 	}
 
-	public int run_compilation(String filein, String fileout)
-			throws IOException, RecognitionException {
+	/**
+	 * Preprocess and parse the whole spec, walking one top-level item at a time.
+	 * <p>
+	 * This is a separate method PRECISELY so that everything it allocates -- the preprocessed
+	 * source, the string the lexer reads it from, the lexer, the token stream and the parser --
+	 * becomes unreachable the moment it returns, which is before {@link #process()} runs. Inlined
+	 * in run_compilation those were live locals for the rest of the compilation, and on the
+	 * VideoCore spec they are not small: the preprocessed text is the fully expanded spec (17.5 MB
+	 * of characters after {@code @repeat}/{@code @define} expansion), held three times over -- as
+	 * the writer's list of lines, as the String {@code toString()} builds from it, and as the
+	 * char[] inside ANTLRStringStream.
+	 * <p>
+	 * Releasing it is free of diagnostic cost, which is why it is safe: the writer exists only so
+	 * that a LEXING or PARSING error can quote its source line ({@code ParsingEnvironment}'s
+	 * getErrorMessage is the only reader, and nothing outside that class calls getWriter()). Every
+	 * diagnostic {@code process()} raises goes through {@code MessageFormattingUtils.format} with a
+	 * {@link Location}, which carries filename and line number and never re-reads the text.
+	 *
+	 * @return the count of lexing plus parsing errors, or -1 if a SleighError aborted the parse
+	 */
+	private int parseSpec(File inputFile)
+			throws IOException, RecognitionException, PreprocessorException {
 		LineArrayListWriter writer = new LineArrayListWriter();
 		ParsingEnvironment env = new ParsingEnvironment(writer);
+		final SleighCompilePreprocessorDefinitionsAdapater definitionsAdapter =
+			new SleighCompilePreprocessorDefinitionsAdapater(this);
+		SleighPreprocessor sp = new SleighPreprocessor(definitionsAdapter, inputFile);
+		sp.process(writer);
+
+		CharStream input = new ANTLRStringStream(writer.toString());
+		SleighLexer lex = new SleighLexer(input);
+		lex.setEnv(env);
+		UnbufferedTokenStream tokens = new UnbufferedTokenStream(lex);
+		SleighParser parser = new SleighParser(tokens);
+		parser.setEnv(env);
+		parser.setLexer(lex);
+		// PARSE AND WALK ONE TOP-LEVEL ITEM AT A TIME, so an item's subtree becomes garbage
+		// before the next is read, instead of holding the whole spec's AST at once.
+		//
+		// MEASURED on the VideoCore spec (17,788 constructors): the old whole-file parse peaked at
+		// a 2,424 MB post-GC live set and needed a 3 GB heap; a heap histogram taken at an
+		// OutOfMemoryError showed 89.7% of it was CommonTree/CommonToken and their arrays against
+		// 1.3% compiler output, with only 1,017 constructors built -- the tree, not the tables, is
+		// the peak. Item-at-a-time brings that to 885 MB, fits a 2 GB heap, and is FASTER (2:21
+		// against 3:15). The compiled .sla is byte-identical.
+		//
+		// The dispatch between a definition and a constructorlike is ANTLR's own, from the
+		// `spec_item` rule, whose alternation is character-for-character the one inside `spec`. A
+		// hand-written LA(1)/LA(2) lookahead was tried first and rejected: it happened to be right
+		// for this spec, and being right for one spec is not a property a specification compiler
+		// should rely on.
+		//
+		// NOTE THIS ONLY PAYS IF THE SPEC HAS MANY TOP-LEVEL ITEMS. A single enormous `with`
+		// block is one item, so its whole subtree is still resident; the VideoCore generators
+		// split theirs for exactly this reason. A spec that does not is no worse off than before.
+		int parseres = -1;
 		try {
-			final SleighCompilePreprocessorDefinitionsAdapater definitionsAdapter =
-				new SleighCompilePreprocessorDefinitionsAdapater(this);
+			SleighCompiler walker = new SleighCompiler(new CommonTreeNodeStream(new CommonTree()));
+			SleighParser.spec_endian_return endian = parser.spec_endian();
+			walkItem(walker, env, tokens, endian.getTree(), true);
+			while (tokens.LA(1) != org.antlr.runtime.Token.EOF) {
+				SleighParser.spec_item_return item = parser.spec_item();
+				walkItem(walker, env, tokens, item.getTree(), false);
+			}
+			parseres = env.getLexingErrors() + env.getParsingErrors();
+		}
+		catch (SleighError e) {
+			reportError(e.location, e.getMessage());
+		}
+		return parseres;
+	}
+
+	public int run_compilation(String filein, String fileout)
+			throws IOException, RecognitionException {
+		try {
 			final File inputFile = new File(filein);
 			FileResolutionResult result = FileUtilities.existsAndIsCaseDependent(inputFile);
 			if (!result.isOk()) {
 				throw new BailoutException("input file \"" + inputFile +
 					"\" is not properly case dependent: " + result.getMessage());
 			}
-			SleighPreprocessor sp = new SleighPreprocessor(definitionsAdapter, inputFile);
-			sp.process(writer);
-
-			CharStream input = new ANTLRStringStream(writer.toString());
-			SleighLexer lex = new SleighLexer(input);
-			lex.setEnv(env);
-			UnbufferedTokenStream tokens = new UnbufferedTokenStream(lex);
-			SleighParser parser = new SleighParser(tokens);
-			parser.setEnv(env);
-			parser.setLexer(lex);
-			// PARSE AND WALK ONE TOP-LEVEL ITEM AT A TIME, so an item's subtree becomes garbage
-			// before the next is read, instead of holding the whole spec's AST at once.
-			//
-			// MEASURED on the VideoCore spec (17,788 constructors): the old whole-file parse peaked at
-			// a 2,424 MB post-GC live set and needed a 3 GB heap; a heap histogram taken at an
-			// OutOfMemoryError showed 89.7% of it was CommonTree/CommonToken and their arrays against
-			// 1.3% compiler output, with only 1,017 constructors built -- the tree, not the tables, is
-			// the peak. Item-at-a-time brings that to 885 MB, fits a 2 GB heap, and is FASTER (2:21
-			// against 3:15). The compiled .sla is byte-identical.
-			//
-			// The dispatch between a definition and a constructorlike is ANTLR's own, from the
-			// `spec_item` rule, whose alternation is character-for-character the one inside `spec`. A
-			// hand-written LA(1)/LA(2) lookahead was tried first and rejected: it happened to be right
-			// for this spec, and being right for one spec is not a property a specification compiler
-			// should rely on.
-			//
-			// NOTE THIS ONLY PAYS IF THE SPEC HAS MANY TOP-LEVEL ITEMS. A single enormous `with`
-			// block is one item, so its whole subtree is still resident; the VideoCore generators
-			// split theirs for exactly this reason. A spec that does not is no worse off than before.
-			int parseres = -1;
-			try {
-				SleighCompiler walker = new SleighCompiler(new CommonTreeNodeStream(new CommonTree()));
-				SleighParser.spec_endian_return endian = parser.spec_endian();
-				walkItem(walker, env, tokens, endian.getTree(), true);
-				while (tokens.LA(1) != org.antlr.runtime.Token.EOF) {
-					SleighParser.spec_item_return item = parser.spec_item();
-					walkItem(walker, env, tokens, item.getTree(), false);
-				}
-				parseres = env.getLexingErrors() + env.getParsingErrors();
-			}
-			catch (SleighError e) {
-				reportError(e.location, e.getMessage());
-			}
+			int parseres = parseSpec(inputFile);
 			if (parseres == 0) {
 				process(); // Do all the post-processing
 			}

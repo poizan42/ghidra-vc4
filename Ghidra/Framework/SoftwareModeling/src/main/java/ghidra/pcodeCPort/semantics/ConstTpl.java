@@ -63,6 +63,37 @@ public class ConstTpl {
 	private long value_real;
 	private v_field select; // Which part of handle to use as constant
 
+	// FLYWEIGHTS for the two kinds that can never be mutated. Audited: the only mutators are
+	// changeHandleIndex and transfer, BOTH of which return unless `type == const_type.handle`, and
+	// copyIntoMe is private and reached only from transfer. So a `real` or `spaceid` instance is
+	// immutable in practice and safe to share. `real` is capped because sizes and small offsets are
+	// what repeat; a large literal is not worth a map entry.
+	//
+	// WHY: measured 132 MB of a 2.42 GB compile peak on a spec with 17,788 constructors, where these
+	// objects are compiler OUTPUT and so live to the end. After the parse tree stopped dominating
+	// (item-at-a-time walking), output is the peak, which makes this the largest single remaining item.
+	private static final int REAL_CACHE_MAX = 256;
+	private static final ConstTpl[] REAL_CACHE = new ConstTpl[REAL_CACHE_MAX + 1];
+
+	static {
+		for (int i = 0; i <= REAL_CACHE_MAX; i++) {
+			REAL_CACHE[i] = new ConstTpl(const_type.real, i);
+		}
+	}
+
+	/** A shared `real` constant, or a fresh one when outside the cached range. */
+	public static ConstTpl ofReal(long val) {
+		if (val >= 0 && val <= REAL_CACHE_MAX) {
+			return REAL_CACHE[(int) val];
+		}
+		return new ConstTpl(const_type.real, val);
+	}
+
+	/** `x` itself when it is an immutable kind, else a defensive copy. */
+	public static ConstTpl share(ConstTpl x) {
+		return (x.type == const_type.real || x.type == const_type.spaceid) ? x : new ConstTpl(x);
+	}
+
 	public ConstTpl() {
 		type = const_type.real;
 		value_real = 0;

@@ -6673,4 +6673,468 @@ with : Vop=0x3e ... {
     vml83(rb, $[64*(K/16) + 4*(K%16) + 0]:4, base, $[4*(K%16)]:4);
 @endrepeat
   }
+
+  # v8lookupm ++: 16 single-element transfers, 8-bit element at byte-in-lane 0
+  :v8lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=0 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml66(rb, $[68*K + 0]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v8lookupm ++: 16 single-element transfers, 8-bit element at byte-in-lane 1
+  :v8lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=0 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml66(rb, $[68*K + 1]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v8lookupm ++: 16 single-element transfers, 8-bit element at byte-in-lane 2
+  :v8lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=0 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml66(rb, $[68*K + 2]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v8lookupm ++: 16 single-element transfers, 8-bit element at byte-in-lane 3
+  :v8lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=0 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml66(rb, $[68*K + 3]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v8lookupm ++: 16 single-element transfers, 16-bit element at byte-in-lane 0
+  :v8lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=0 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml67(rb, $[68*K + 0]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v8lookupm ++: 16 single-element transfers, 16-bit element at byte-in-lane 2
+  :v8lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=0 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml67(rb, $[68*K + 2]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v8lookupm ++: 16 single-element transfers, 32-bit element at byte-in-lane 0
+  :v8lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=0 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml68(rb, $[68*K + 0]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v16lookupm ++: 16 single-element transfers, 8-bit element at byte-in-lane 0
+  :v16lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=1 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml69(rb, $[68*K + 0]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v16lookupm ++: 16 single-element transfers, 8-bit element at byte-in-lane 1
+  :v16lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=1 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml69(rb, $[68*K + 1]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v16lookupm ++: 16 single-element transfers, 8-bit element at byte-in-lane 2
+  :v16lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=1 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml69(rb, $[68*K + 2]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v16lookupm ++: 16 single-element transfers, 8-bit element at byte-in-lane 3
+  :v16lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=1 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml69(rb, $[68*K + 3]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v16lookupm ++: 16 single-element transfers, 16-bit element at byte-in-lane 0
+  :v16lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=1 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml70(rb, $[68*K + 0]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v16lookupm ++: 16 single-element transfers, 16-bit element at byte-in-lane 2
+  :v16lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=1 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml70(rb, $[68*K + 2]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v16lookupm ++: 16 single-element transfers, 32-bit element at byte-in-lane 0
+  :v16lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=1 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml71(rb, $[68*K + 0]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v32lookupm ++: 16 single-element transfers, 8-bit element at byte-in-lane 0
+  :v32lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=2 & Vdir=0 & Vseld=0 & Vsetf80=0 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml72(rb, $[68*K + 0]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v32lookupm ++: 16 single-element transfers, 8-bit element at byte-in-lane 1
+  :v32lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=2 & Vdir=0 & Vseld=1 & Vsetf80=0 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml72(rb, $[68*K + 1]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v32lookupm ++: 16 single-element transfers, 8-bit element at byte-in-lane 2
+  :v32lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=2 & Vdir=0 & Vseld=2 & Vsetf80=0 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml72(rb, $[68*K + 2]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v32lookupm ++: 16 single-element transfers, 8-bit element at byte-in-lane 3
+  :v32lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=2 & Vdir=0 & Vseld=3 & Vsetf80=0 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml72(rb, $[68*K + 3]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v32lookupm ++: 16 single-element transfers, 16-bit element at byte-in-lane 0
+  :v32lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=2 & Vdir=0 & Vseld=4 & Vsetf80=0 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml73(rb, $[68*K + 0]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v32lookupm ++: 16 single-element transfers, 16-bit element at byte-in-lane 2
+  :v32lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=2 & Vdir=0 & Vseld=5 & Vsetf80=0 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml73(rb, $[68*K + 2]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v32lookupm ++: 16 single-element transfers, 32-bit element at byte-in-lane 0
+  :v32lookupm vargd, vmemargb^vflags
+	is (Vmop=1 & Vmwidth=2 & Vdir=0 & Vseld=6 & Vsetf80=0 & Vd<49
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Vd & VdRow & Vhasoffd=0) ... & vargd & vmemargb & vflags & vmem80dinc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (Vd * 0x40:4);
+@repeat K 0 16
+    vml74(rb, $[68*K + 0]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v8indexwritem ++: 16 single-element transfers, 8-bit element at byte-in-lane 0
+  :v8indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=0 & Vdir=0 & Vsela=0 & Vsetf80=0 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml75(rb, $[68*K + 0]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v8indexwritem ++: 16 single-element transfers, 8-bit element at byte-in-lane 1
+  :v8indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=0 & Vdir=0 & Vsela=1 & Vsetf80=0 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml75(rb, $[68*K + 1]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v8indexwritem ++: 16 single-element transfers, 8-bit element at byte-in-lane 2
+  :v8indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=0 & Vdir=0 & Vsela=2 & Vsetf80=0 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml75(rb, $[68*K + 2]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v8indexwritem ++: 16 single-element transfers, 8-bit element at byte-in-lane 3
+  :v8indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=0 & Vdir=0 & Vsela=3 & Vsetf80=0 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml75(rb, $[68*K + 3]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v8indexwritem ++: 16 single-element transfers, 16-bit element at byte-in-lane 0
+  :v8indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=0 & Vdir=0 & Vsela=4 & Vsetf80=0 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml76(rb, $[68*K + 0]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v8indexwritem ++: 16 single-element transfers, 16-bit element at byte-in-lane 2
+  :v8indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=0 & Vdir=0 & Vsela=5 & Vsetf80=0 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml76(rb, $[68*K + 2]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v8indexwritem ++: 16 single-element transfers, 32-bit element at byte-in-lane 0
+  :v8indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=0 & Vdir=0 & Vsela=6 & Vsetf80=0 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml77(rb, $[68*K + 0]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v16indexwritem ++: 16 single-element transfers, 8-bit element at byte-in-lane 0
+}
+with : Vop=0x3e ... {
+  :v16indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=1 & Vdir=0 & Vsela=0 & Vsetf80=0 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml78(rb, $[68*K + 0]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v16indexwritem ++: 16 single-element transfers, 8-bit element at byte-in-lane 1
+  :v16indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=1 & Vdir=0 & Vsela=1 & Vsetf80=0 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml78(rb, $[68*K + 1]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v16indexwritem ++: 16 single-element transfers, 8-bit element at byte-in-lane 2
+  :v16indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=1 & Vdir=0 & Vsela=2 & Vsetf80=0 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml78(rb, $[68*K + 2]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v16indexwritem ++: 16 single-element transfers, 8-bit element at byte-in-lane 3
+  :v16indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=1 & Vdir=0 & Vsela=3 & Vsetf80=0 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml78(rb, $[68*K + 3]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v16indexwritem ++: 16 single-element transfers, 16-bit element at byte-in-lane 0
+  :v16indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=1 & Vdir=0 & Vsela=4 & Vsetf80=0 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml79(rb, $[68*K + 0]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v16indexwritem ++: 16 single-element transfers, 16-bit element at byte-in-lane 2
+  :v16indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=1 & Vdir=0 & Vsela=5 & Vsetf80=0 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml79(rb, $[68*K + 2]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v16indexwritem ++: 16 single-element transfers, 32-bit element at byte-in-lane 0
+  :v16indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=1 & Vdir=0 & Vsela=6 & Vsetf80=0 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml80(rb, $[68*K + 0]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v32indexwritem ++: 16 single-element transfers, 8-bit element at byte-in-lane 0
+  :v32indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=2 & Vdir=0 & Vsela=0 & Vsetf80=0 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml81(rb, $[68*K + 0]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v32indexwritem ++: 16 single-element transfers, 8-bit element at byte-in-lane 1
+  :v32indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=2 & Vdir=0 & Vsela=1 & Vsetf80=0 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml81(rb, $[68*K + 1]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v32indexwritem ++: 16 single-element transfers, 8-bit element at byte-in-lane 2
+  :v32indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=2 & Vdir=0 & Vsela=2 & Vsetf80=0 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml81(rb, $[68*K + 2]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v32indexwritem ++: 16 single-element transfers, 8-bit element at byte-in-lane 3
+  :v32indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=2 & Vdir=0 & Vsela=3 & Vsetf80=0 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml81(rb, $[68*K + 3]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v32indexwritem ++: 16 single-element transfers, 16-bit element at byte-in-lane 0
+  :v32indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=2 & Vdir=0 & Vsela=4 & Vsetf80=0 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml82(rb, $[68*K + 0]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v32indexwritem ++: 16 single-element transfers, 16-bit element at byte-in-lane 2
+  :v32indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=2 & Vdir=0 & Vsela=5 & Vsetf80=0 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml82(rb, $[68*K + 2]:4, base, 0:4);
+@endrepeat
+  }
+
+  # v32indexwritem ++: 16 single-element transfers, 32-bit element at byte-in-lane 0
+  :v32indexwritem varga, vmemargb^vflags
+	is (Vmop=5 & Vmwidth=2 & Vdir=0 & Vsela=6 & Vsetf80=0 & (VaHi<3 | (VaHi=3 & VaLo<1))
+	    & Vhasimm=0 & Vselb=7 & VmoffLo=0 & Va & varow & Vhasoffa=0) ... & varga & vmemargb & vflags & vmem80ainc & vregbase {
+    local base:4 = vregbase;
+    local rb:4 = 0x8000:4 + (zext(Va) * 0x40:4);
+@repeat K 0 16
+    vml83(rb, $[68*K + 0]:4, base, 0:4);
+@endrepeat
+  }
 }

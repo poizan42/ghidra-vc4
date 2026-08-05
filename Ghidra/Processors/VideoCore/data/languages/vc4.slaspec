@@ -1353,8 +1353,32 @@ with aluinst: {
   :"shl"^ccsfx args is ccsfx & aluop=28 & args & argd & arga & argb {
     argd = arga << argb;
   }
-  :"brev"^ccsfx argd, argb is ccsfx & aluop=29 & args & argd & argb {
-    argd = bitrev(argb);
+  # MEASURED 2026-08-05 (`vpu-sem/recordings/hw-mon-brev.rec`, 12 brev probes, 16 of 16 readings
+  # including the 4 from `hw-mon-satacc.rec`): `brev` is a BINARY operation, and the old body had BOTH
+  # operand roles wrong. It reverses the low N bits of the FIRST SOURCE -- which in this two-operand
+  # 16-bit form is `arga`, i.e. the destination register itself -- where N comes from `argb`'s low 5
+  # bits, with N = 0 meaning 32. Bits above N are zeroed. So `argb` is a WIDTH, not a value to reverse.
+  #
+  # This is exactly the rule #94 measured for the VECTOR brev (`gen-alu.py`'s `op_brev`:
+  # `bitrev_W(a) >> ((-b) & (W-1))`), and the scalar form was simply never brought into line with it.
+  # Reversing the low N bits and zeroing the rest IS a full-width reversal shifted right by W-N, so the
+  # data-dependent part is one variable shift and only the reversal needs writing out -- log2(32)
+  # constant-mask steps, branch-free. `bitrev` above stays a pcodeop for the forms nothing has measured.
+  #
+  # WHY IT LOOKED ANOMALOUS FIRST TIME. `hw-mon-satacc.rec` probed sources 0x80000000, 0x00008000 and
+  # 0x00000000 -- all three have low 5 bits of ZERO, so all three took the N=32 path and returned the
+  # same full reversal of the destination, which read as "the source operand is ignored". The fourth
+  # source was 1, giving a 1-bit reversal. Three values that collide on `& 31` and a fourth that is the
+  # smallest non-zero width: the batch could not have been less informative about this field.
+  :"brev"^ccsfx argd, argb is ccsfx & aluop=29 & args & argd & arga & argb {
+    local bx:4 = arga;
+    bx = ((bx & 0x55555555:4) << 1 ) | ((bx >> 1 ) & 0x55555555:4);
+    bx = ((bx & 0x33333333:4) << 2 ) | ((bx >> 2 ) & 0x33333333:4);
+    bx = ((bx & 0x0f0f0f0f:4) << 4 ) | ((bx >> 4 ) & 0x0f0f0f0f:4);
+    bx = ((bx & 0x00ff00ff:4) << 8 ) | ((bx >> 8 ) & 0x00ff00ff:4);
+    bx = ((bx & 0x0000ffff:4) << 16) | ((bx >> 16) & 0x0000ffff:4);
+    # (0 - b) & 31 is (32 - N) & 31, which is 0 for N = 0 -- the full-reversal case, no special test.
+    argd = bx >> ((0:4 - argb) & 31:4);
   }
   :"asr"^ccsfx args is ccsfx & aluop=30 & args & argd & arga & argb {
     argd = arga s>> argb;

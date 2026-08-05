@@ -1330,17 +1330,25 @@ with aluinst: {
   :"lsr"^ccsfx args is ccsfx & aluop=26 & args & argd & arga & argb {
     argd = arga >> argb;
   }
+  # MEASURED 2026-08-05 (`vpu-sem/recordings/hw-mon-satacc.rec`): the index of the top set bit, and
+  # -1 for zero -- 0, 0x1f, 0xf, 0xffffffff for inputs 1, 0x80000000, 0x8000, 0. That is the SAME
+  # operation as the vector `msb` (#57, `gen-alu.py`'s `op_msb`), which is the point: the shift loop
+  # that used to be here counted leading ZEROS (it would give 31, 0, 16, 32) and was wrong at all 130
+  # scalar sites. `lzcount` counts over the input's own width, so `31 - lzcount` produces the -1 with
+  # no special case -- see `op_msb`'s docstring.
+  #
+  # The loop was also pathological to EMULATE: ~400s per probe under Ghidra's p-code emulator, and
+  # measured to be independent of the operand -- a ZERO input, which takes the forward exit on the
+  # first test and never executes the loop body at all, cost the same as a full 32 iterations. So the
+  # cost is not the iterations. Nor is it internal branches in general: `max`/`min`/`abs`/`fabs` below
+  # and the 42 predicated lane skips in `vc4-vecmem.sinc` all branch internally, run 16 lanes deep on
+  # every memory probe, and replay at normal speed. What is left is the BACKWARD branch -- a loop --
+  # costing even when it never loops. Root cause not isolated; the actionable rule is that a model
+  # written as a loop should be assumed expensive, and there is usually a branch-free form (this one
+  # is three lines shorter). Four `msb` probes made a 19-probe replay effectively non-terminating.
   :"msb"^ccsfx argd, argb is ccsfx & aluop=27 & args & argd & argb {
-    local tmp:4 = argb;
-    local idx:4 = 32;
-    <while>
-      if (tmp == 0)
-	goto <done>;
-      tmp = tmp >> 1;
-      idx = idx - 1;
-    goto <while>;
-  <done>
-    argd = idx;
+    local mz:4 = lzcount(argb);
+    argd = 31:4 - mz;
   }
   :"shl"^ccsfx args is ccsfx & aluop=28 & args & argd & arga & argb {
     argd = arga << argb;

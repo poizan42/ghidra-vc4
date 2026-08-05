@@ -1924,8 +1924,9 @@ with : Vop=0x3c ... {
   :vgetacc vargd, varga, vmemargb^vflags
 	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=0 & Vsetf48=0
 	    & Vhasimm=0 & Vselb=7 & VdRow & Vhasoffd=0) ... & vargd & varga & vmemargb & vflags {
+    local vgash:4 = r0 & 0x3f;
 @repeat L 0 16
-    VdRow[$[32*L],8] = VACC[$[32*L],8];
+    VdRow[$[32*L],8] = VACC[$[32*L],8] >> vgash;
 @endrepeat
   }
 
@@ -1933,8 +1934,9 @@ with : Vop=0x3c ... {
   :vgetacc vargd, varga, vmemargb^vflags
 	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=1 & Vsetf48=0
 	    & Vhasimm=0 & Vselb=7 & VdRow & Vhasoffd=0) ... & vargd & varga & vmemargb & vflags {
+    local vgash:4 = r0 & 0x3f;
 @repeat L 0 16
-    VdRow[$[8+32*L],8] = VACC[$[32*L],8];
+    VdRow[$[8+32*L],8] = VACC[$[32*L],8] >> vgash;
 @endrepeat
   }
 
@@ -1944,8 +1946,9 @@ with : Vop=0x3c ... {
   :vgetacc vargd, varga, vmemargb^vflags
 	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=2 & Vsetf48=0
 	    & Vhasimm=0 & Vselb=7 & VdRow & Vhasoffd=0) ... & vargd & varga & vmemargb & vflags {
+    local vgash:4 = r0 & 0x3f;
 @repeat L 0 16
-    VdRow[$[16+32*L],8] = VACC[$[32*L],8];
+    VdRow[$[16+32*L],8] = VACC[$[32*L],8] >> vgash;
 @endrepeat
   }
 
@@ -1953,8 +1956,9 @@ with : Vop=0x3c ... {
   :vgetacc vargd, varga, vmemargb^vflags
 	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=3 & Vsetf48=0
 	    & Vhasimm=0 & Vselb=7 & VdRow & Vhasoffd=0) ... & vargd & varga & vmemargb & vflags {
+    local vgash:4 = r0 & 0x3f;
 @repeat L 0 16
-    VdRow[$[24+32*L],8] = VACC[$[32*L],8];
+    VdRow[$[24+32*L],8] = VACC[$[32*L],8] >> vgash;
 @endrepeat
   }
 
@@ -1962,8 +1966,9 @@ with : Vop=0x3c ... {
   :vgetacc vargd, varga, vmemargb^vflags
 	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=4 & Vsetf48=0
 	    & Vhasimm=0 & Vselb=7 & VdRow & Vhasoffd=0) ... & vargd & varga & vmemargb & vflags {
+    local vgash:4 = r0 & 0x3f;
 @repeat L 0 16
-    VdRow[$[32*L],16] = VACC[$[32*L],16];
+    VdRow[$[32*L],16] = VACC[$[32*L],16] >> vgash;
 @endrepeat
   }
 
@@ -1971,8 +1976,9 @@ with : Vop=0x3c ... {
   :vgetacc vargd, varga, vmemargb^vflags
 	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=5 & Vsetf48=0
 	    & Vhasimm=0 & Vselb=7 & VdRow & Vhasoffd=0) ... & vargd & varga & vmemargb & vflags {
+    local vgash:4 = r0 & 0x3f;
 @repeat L 0 16
-    VdRow[$[16+32*L],16] = VACC[$[32*L],16];
+    VdRow[$[16+32*L],16] = VACC[$[32*L],16] >> vgash;
 @endrepeat
   }
 
@@ -1980,8 +1986,9 @@ with : Vop=0x3c ... {
   :vgetacc vargd, varga, vmemargb^vflags
 	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=6 & Vsetf48=0
 	    & Vhasimm=0 & Vselb=7 & VdRow & Vhasoffd=0) ... & vargd & varga & vmemargb & vflags {
+    local vgash:4 = r0 & 0x3f;
 @repeat L 0 16
-    VdRow[$[32*L],32] = VACC[$[32*L],32];
+    VdRow[$[32*L],32] = VACC[$[32*L],32] >> vgash;
 @endrepeat
   }
 }

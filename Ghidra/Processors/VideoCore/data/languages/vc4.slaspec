@@ -596,25 +596,37 @@ macro exception(num) {
   call [intloc];
 }
 
-# PROVISIONAL, and the marker matters. Hermitage's videocoreiv.arch:106 reads
-#     0000 0000 0000 0000    "; bkpt"    # provisional: raises exception 0x0e
-# -- its own author marked it provisional. Both the name and the exception number come from that
-# single line; nothing independent attests either, and the "provisional" note was lost when it was
-# transcribed here (`:sleep` below kept its marker, this did not). NOT measured, and not casually
-# measurable: the probe harness installs no exception handler, so a trap would run the firmware's
-# vector table with our register state -- the same class of hazard as reading p17, which wedges the
-# VPU 3/3.
+# MEASURED 2026-08-07: the vector is 0x0d. It was 0x0e here until then, and this comment used to
+# explain at length why that number could not be trusted; it is kept short now because the question
+# is closed. Three independent strands agree:
 #
-# What IS established, by flow analysis rather than by probing: bkpt is used DELIBERATELY, not just
-# as how 0x0000 padding renders. In start.elf, 81 isolated bkpt instructions are reached by
-# fall-through inside a function, most in the assert idiom -- a conditional branch over the trap:
+#  1. Direct measurement. The bare-metal monitor gives every one of the 128 exception vectors its own
+#     `bl exc_handler` stub, so the handler recovers the number from `lr` and prints it. A `00 00`
+#     probe reports `EXC! cf010402 20000008 cf003ff8 0000000d cec00c7c` -- vector 0x0d.
+#     (`../../../../../vpu-monitor/logs/stage3-allones.txt`; the `..excpc*.txt` sessions repeat it.)
+#  2. The firmware's own table. plans/exception-handling.md deduced 0x0d structurally before it was
+#     measured: 0x0d is the only architectural vector whose handler is a bare `nop; rti`, which is
+#     exactly what makes the bkpt-at-handler-entry debugging idiom work.
+#  3. Survivability, from the other direction (#113). A `bkpt` over the mailbox EXECUTE_CODE path is
+#     completely survivable -- the harness completes, no register changes, the mailbox keeps working
+#     -- which is only possible because 0x0d's handler returns immediately. An 0x0e trap would have
+#     landed in the catch-all bucket, whose handler does not return.
+#
+# The refuted source was Hermitage's videocoreiv.arch:106, `"; bkpt"  # provisional: raises exception
+# 0x0e`, which its own author marked provisional and which was the sole authority for both the
+# mnemonic and the number. The marker was dropped in transcription here (`:sleep` below kept its);
+# that omission is what let a guess read as a fact for two months. The MNEMONIC is still
+# single-sourced -- only the number has been measured.
+#
+# Independently established by flow analysis: bkpt is used DELIBERATELY, not just as how 0x0000
+# padding renders. In start.elf, 81 isolated bkpt instructions are reached by fall-through inside a
+# function, most in the assert idiom -- a conditional branch over the trap:
 #     beq  <after>
 #     bkpt              <- taken only when the assertion fails
 #   <after>:
-# So flow termination here is almost certainly right even though the vector number is a guess, which
-# is why the call is kept rather than replaced with a bare pcodeop.
+# So flow termination here was already right when the vector number was not.
 :bkpt is Op16=0x0000
-	{ exception(0x0e); }	# provisional -- see above
+	{ exception(0x0d); }
 :nop is Op16=0x0001 {}
 
 define pcodeop version;

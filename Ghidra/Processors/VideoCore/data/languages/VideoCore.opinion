@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Which e_machine values map to the VideoCore VPU language.
+
+    Without this file the ELF loader has no way to pick a language for a VideoCore object and the
+    import fails outright with `LoadException: No load spec found`. Naming the language explicitly
+    still works and is still supported as an override (`vpu-probe/decompile-fns.py` passed
+    language="vc4:LE:32:default" for exactly this reason), but every caller had to know that, and
+    the GUI import path had no escape hatch short of picking from the full language list by hand.
+
+    137 (EM_VIDEOCORE3) is what every image in our corpus actually carries: start.elf, start4.elf
+    from 2023 and 2026, both EEPROM bootmains, and all 35 VideoCore III .vll modules. Our own
+    binutils emits it too (`ELF_MACHINE_CODE = EM_VIDEOCORE3` in bfd/elf32-vc4.c). Certain.
+
+    Stronger than corpus agreement, the SILICON's own loader insists on it. bootmain's header
+    validator at 0x8e9ae rejects any image whose e_machine is not 137, alongside ELFCLASS32,
+    ELFDATA2LSB and ET_EXEC (docs/bcm2711-boot.md). So on this platform 137 is not merely the number
+    the toolchains happen to emit: it is the only number the boot ROM will load.
+
+    THE NUMERAL IS NOT A GENERATION MISMATCH, which is worth saying because it looks like one. The
+    III / IV / V / VI / VII numerals track the V3D/QPU block, not the VPU: the VPU stays in the
+    VideoCore IV lineage across all of them, and the hardware version word agrees (0x04000161
+    measured on BCM2711, against stock's own whitelist of five revisions, every one 0x0400xxxx). So
+    "a VC6 start4.elf" means "firmware for a part whose 3D block is VideoCore VI" and says nothing
+    about its VPU. One machine number covering every VideoCore lineage object we have is therefore
+    the expected outcome, not a defect in the numbering.
+
+    Nothing found so far suggests that mapping is wrong. #78 went looking: the 35 VC3 plugins are
+    MetaWare linked from a Symbian product line rather than Broadcom's Pi toolchain, and they
+    disassemble against our VC4 spec at 0.43% undecoded over 316,097 instructions, the same order as
+    the Pi images. Nineteen mnemonics occur there and nowhere in the Pi corpus and not one of them is
+    vector; they are known scalar opcodes carrying unseen condition suffixes, plus `.case`.
+
+    The limit worth stating next to that: it is CORPUS evidence, i.e. what two toolchains chose to
+    emit, not SILICON evidence. The only silicon level ISA measurement in this project is #106's
+    boundary (aluops 0..55 execute, 56..63 raise exception 0x03) and it was taken on BCM2711 alone.
+    Repeating that sweep on another part is what would actually test ISA identity; see task #111.
+
+    95 (EM_VIDEOCORE) is ELF_MACHINE_ALT1 in the same binutils backend, so the toolchain accepts it
+    as an alternate and something out there presumably emits it. NOTHING IN OUR CORPUS DOES, so this
+    entry is a reasonable guess rather than an observation. Recorded as such deliberately.
+
+    198 (EM_VIDEOCORE5) IS DELIBERATELY ABSENT, and the omission is load bearing.
+    Per docs/videocore-vpu-isa.md, "VideoCore V" most likely never existed as a VPU in silicon at
+    all: two independent Broadcom authored BOLT device trees agree on the complete bus master roll
+    and contain no VPU, with the `brcm,memc-client-masks` bitmaps matching the named clients exactly
+    (134/134 and 112/112), so that is an exclusion and not an argument from silence; a 300 MB OpenPLi
+    image for confirmed VideoCore V silicon (BCM7251S) holds 687 ARM ELF objects, one ARC, and zero
+    VideoCore objects; and the clock and power role our VPU fills is done there by an ARC core.
+    Number 198 was allocated to Broadcom by late 2011, roughly five years before "VideoCore V"
+    shipped as a V3D generation that inherited the name without the core.
+
+    So no object anywhere has ever reported 198. That is precisely why claiming it would be harmful
+    rather than merely wrong: if a 198 object ever does surface it is a significant find, and an
+    opinion entry here would have Ghidra quietly decode it as VC4 and destroy the signal that it is
+    something new. `No load spec found` is the correct behaviour for a number nobody emits. If one
+    turns up, docs/videocore-vpu-isa.md names vpu-probe/pi5-survey.py as the first instrument.
+-->
+
+<opinions>
+    <constraint loader="Executable and Linking Format (ELF)" compilerSpecID="default">
+        <!-- EM_VIDEOCORE3. Every VideoCore object in the corpus, and what our binutils emits. -->
+        <constraint primary="137" processor="vc4" endian="little" size="32" variant="default" />
+        <!-- EM_VIDEOCORE. binutils' ELF_MACHINE_ALT1; accepted, but unobserved in our corpus. -->
+        <constraint primary="95"  processor="vc4" endian="little" size="32" variant="default" />
+    </constraint>
+</opinions>

@@ -2019,6 +2019,14 @@ vmem80d: is Vopsize=1 ; (Vsru=0 & Vincd=0 & VmoffMid=0 & VRoffd=15 & Vcboffd=0) 
 # disabled by a predicate still consumes its iteration has never been measured -- Vpredm=0 keeps the
 # claim inside the evidence, and the predicated `++` encodings keep their pcodeop.
 vmem80dinc: is Vopsize=1 ; (Vpredm=0 & Vsru=0 & Vincd=1 & VmoffMid=0 & VRoffd=15 & Vcboffd=0) { }
+# 80-bit vgetacc (#124). VRoffd is DELIBERATELY unpinned here -- unlike vmem80d it is not a row offset
+# but a per-lane ROTATION, read through vroffd in the body (0 for the =15 sentinel, else rN mod 16).
+# Vsru=0 excludes the SUMU/SUMS reductions (#66/#97), Vpredm=0 the predicated forms, Vincd=0 the `++`
+# forms; all three are unmeasured for this op and keep their pcodeop.
+vgacc80: is Vopsize=1 ; (Vsru=0 & Vpredm=0 & Vincd=0 & VmoffMid=0 & Vcboffd=0) { }
+# The SETF variant additionally pins VRoffd=15 (no rotation): #123 measured SETF only on the plain
+# word transfer, so that is the only cell whose Z/N are modelled.
+vgacc80s: is Vopsize=1 ; (Vsru=0 & Vpredm=0 & Vincd=0 & VmoffMid=0 & Vcboffd=0 & VRoffd=15) { }
 # The ALU equivalent: pins the accumulator modifier and all three operand auto-increments, which are
 # vecaux fields and so cannot join a constructor's vec48 `&` group.
 # valu80 additionally pins the RUNTIME ROW OFFSETS absent. VRoffd/VRoffa/VRoffb encode "no offset" as

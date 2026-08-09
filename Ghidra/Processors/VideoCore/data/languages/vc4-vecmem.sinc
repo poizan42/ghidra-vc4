@@ -1923,73 +1923,507 @@ with : Vop=0x3c ... {
   # vgetacc into a 8-bit register element at byte-in-lane 0
   :vgetacc vargd, varga, vmemargb^vflags
 	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=0 & Vsetf48=0
-	    & Vhasimm=0 & Vselb=7 & VdRow & VRm) ... & vargd & varga & vmemargb & vflags {
+	    & Vhasimm=0 & Vselb=7 & VdRow & VRm & Vsetf48=0) ... & vargd & varga & vmemargb & vflags {
     local vgash:4 = VRm & 0x3f;
 @repeat L 0 16
     VdRow[$[32*L],8] = VACC[$[32*L],8] >> vgash;
 @endrepeat
   }
 
+  # vgetacc SETF into a 8-bit register element at byte-in-lane 0
+  :vgetacc vargd, varga, vmemargb^vflags
+	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=0 & Vsetf48=1
+	    & Vhasimm=0 & Vselb=7 & VdRow & VRm) ... & vargd & varga & vmemargb & vflags {
+    local vgash:4 = VRm & 0x3f;
+@repeat L 0 16
+    VdRow[$[32*L],8] = VACC[$[32*L],8] >> vgash;
+@endrepeat
+    local z:2 = 0;
+    local n:2 = 0;
+    local v0:4 = VACC[0,32] >> vgash;
+    z = z | (zext(v0 == 0:4) << 0:2);
+    n = n | (zext(v0 s< 0:4) << 0:2);
+    local v1:4 = VACC[32,32] >> vgash;
+    z = z | (zext(v1 == 0:4) << 1:2);
+    n = n | (zext(v1 s< 0:4) << 1:2);
+    local v2:4 = VACC[64,32] >> vgash;
+    z = z | (zext(v2 == 0:4) << 2:2);
+    n = n | (zext(v2 s< 0:4) << 2:2);
+    local v3:4 = VACC[96,32] >> vgash;
+    z = z | (zext(v3 == 0:4) << 3:2);
+    n = n | (zext(v3 s< 0:4) << 3:2);
+    local v4:4 = VACC[128,32] >> vgash;
+    z = z | (zext(v4 == 0:4) << 4:2);
+    n = n | (zext(v4 s< 0:4) << 4:2);
+    local v5:4 = VACC[160,32] >> vgash;
+    z = z | (zext(v5 == 0:4) << 5:2);
+    n = n | (zext(v5 s< 0:4) << 5:2);
+    local v6:4 = VACC[192,32] >> vgash;
+    z = z | (zext(v6 == 0:4) << 6:2);
+    n = n | (zext(v6 s< 0:4) << 6:2);
+    local v7:4 = VACC[224,32] >> vgash;
+    z = z | (zext(v7 == 0:4) << 7:2);
+    n = n | (zext(v7 s< 0:4) << 7:2);
+    local v8:4 = VACC[256,32] >> vgash;
+    z = z | (zext(v8 == 0:4) << 8:2);
+    n = n | (zext(v8 s< 0:4) << 8:2);
+    local v9:4 = VACC[288,32] >> vgash;
+    z = z | (zext(v9 == 0:4) << 9:2);
+    n = n | (zext(v9 s< 0:4) << 9:2);
+    local v10:4 = VACC[320,32] >> vgash;
+    z = z | (zext(v10 == 0:4) << 10:2);
+    n = n | (zext(v10 s< 0:4) << 10:2);
+    local v11:4 = VACC[352,32] >> vgash;
+    z = z | (zext(v11 == 0:4) << 11:2);
+    n = n | (zext(v11 s< 0:4) << 11:2);
+    local v12:4 = VACC[384,32] >> vgash;
+    z = z | (zext(v12 == 0:4) << 12:2);
+    n = n | (zext(v12 s< 0:4) << 12:2);
+    local v13:4 = VACC[416,32] >> vgash;
+    z = z | (zext(v13 == 0:4) << 13:2);
+    n = n | (zext(v13 s< 0:4) << 13:2);
+    local v14:4 = VACC[448,32] >> vgash;
+    z = z | (zext(v14 == 0:4) << 14:2);
+    n = n | (zext(v14 s< 0:4) << 14:2);
+    local v15:4 = VACC[480,32] >> vgash;
+    z = z | (zext(v15 == 0:4) << 15:2);
+    n = n | (zext(v15 s< 0:4) << 15:2);
+    VFZ = z;
+    VFN = n;
+  }
+
   # vgetacc into a 8-bit register element at byte-in-lane 1
+}
+with : Vop=0x3c ... {
   :vgetacc vargd, varga, vmemargb^vflags
 	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=1 & Vsetf48=0
-	    & Vhasimm=0 & Vselb=7 & VdRow & VRm) ... & vargd & varga & vmemargb & vflags {
+	    & Vhasimm=0 & Vselb=7 & VdRow & VRm & Vsetf48=0) ... & vargd & varga & vmemargb & vflags {
     local vgash:4 = VRm & 0x3f;
 @repeat L 0 16
     VdRow[$[8+32*L],8] = VACC[$[32*L],8] >> vgash;
 @endrepeat
   }
 
+  # vgetacc SETF into a 8-bit register element at byte-in-lane 1
+  :vgetacc vargd, varga, vmemargb^vflags
+	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=1 & Vsetf48=1
+	    & Vhasimm=0 & Vselb=7 & VdRow & VRm) ... & vargd & varga & vmemargb & vflags {
+    local vgash:4 = VRm & 0x3f;
+@repeat L 0 16
+    VdRow[$[8+32*L],8] = VACC[$[32*L],8] >> vgash;
+@endrepeat
+    local z:2 = 0;
+    local n:2 = 0;
+    local v0:4 = VACC[0,32] >> vgash;
+    z = z | (zext(v0 == 0:4) << 0:2);
+    n = n | (zext(v0 s< 0:4) << 0:2);
+    local v1:4 = VACC[32,32] >> vgash;
+    z = z | (zext(v1 == 0:4) << 1:2);
+    n = n | (zext(v1 s< 0:4) << 1:2);
+    local v2:4 = VACC[64,32] >> vgash;
+    z = z | (zext(v2 == 0:4) << 2:2);
+    n = n | (zext(v2 s< 0:4) << 2:2);
+    local v3:4 = VACC[96,32] >> vgash;
+    z = z | (zext(v3 == 0:4) << 3:2);
+    n = n | (zext(v3 s< 0:4) << 3:2);
+    local v4:4 = VACC[128,32] >> vgash;
+    z = z | (zext(v4 == 0:4) << 4:2);
+    n = n | (zext(v4 s< 0:4) << 4:2);
+    local v5:4 = VACC[160,32] >> vgash;
+    z = z | (zext(v5 == 0:4) << 5:2);
+    n = n | (zext(v5 s< 0:4) << 5:2);
+    local v6:4 = VACC[192,32] >> vgash;
+    z = z | (zext(v6 == 0:4) << 6:2);
+    n = n | (zext(v6 s< 0:4) << 6:2);
+    local v7:4 = VACC[224,32] >> vgash;
+    z = z | (zext(v7 == 0:4) << 7:2);
+    n = n | (zext(v7 s< 0:4) << 7:2);
+    local v8:4 = VACC[256,32] >> vgash;
+    z = z | (zext(v8 == 0:4) << 8:2);
+    n = n | (zext(v8 s< 0:4) << 8:2);
+    local v9:4 = VACC[288,32] >> vgash;
+    z = z | (zext(v9 == 0:4) << 9:2);
+    n = n | (zext(v9 s< 0:4) << 9:2);
+    local v10:4 = VACC[320,32] >> vgash;
+    z = z | (zext(v10 == 0:4) << 10:2);
+    n = n | (zext(v10 s< 0:4) << 10:2);
+    local v11:4 = VACC[352,32] >> vgash;
+    z = z | (zext(v11 == 0:4) << 11:2);
+    n = n | (zext(v11 s< 0:4) << 11:2);
+    local v12:4 = VACC[384,32] >> vgash;
+    z = z | (zext(v12 == 0:4) << 12:2);
+    n = n | (zext(v12 s< 0:4) << 12:2);
+    local v13:4 = VACC[416,32] >> vgash;
+    z = z | (zext(v13 == 0:4) << 13:2);
+    n = n | (zext(v13 s< 0:4) << 13:2);
+    local v14:4 = VACC[448,32] >> vgash;
+    z = z | (zext(v14 == 0:4) << 14:2);
+    n = n | (zext(v14 s< 0:4) << 14:2);
+    local v15:4 = VACC[480,32] >> vgash;
+    z = z | (zext(v15 == 0:4) << 15:2);
+    n = n | (zext(v15 s< 0:4) << 15:2);
+    VFZ = z;
+    VFN = n;
+  }
+
   # vgetacc into a 8-bit register element at byte-in-lane 2
-}
-with : Vop=0x3c ... {
   :vgetacc vargd, varga, vmemargb^vflags
 	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=2 & Vsetf48=0
-	    & Vhasimm=0 & Vselb=7 & VdRow & VRm) ... & vargd & varga & vmemargb & vflags {
+	    & Vhasimm=0 & Vselb=7 & VdRow & VRm & Vsetf48=0) ... & vargd & varga & vmemargb & vflags {
     local vgash:4 = VRm & 0x3f;
 @repeat L 0 16
     VdRow[$[16+32*L],8] = VACC[$[32*L],8] >> vgash;
 @endrepeat
   }
 
+  # vgetacc SETF into a 8-bit register element at byte-in-lane 2
+  :vgetacc vargd, varga, vmemargb^vflags
+	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=2 & Vsetf48=1
+	    & Vhasimm=0 & Vselb=7 & VdRow & VRm) ... & vargd & varga & vmemargb & vflags {
+    local vgash:4 = VRm & 0x3f;
+@repeat L 0 16
+    VdRow[$[16+32*L],8] = VACC[$[32*L],8] >> vgash;
+@endrepeat
+    local z:2 = 0;
+    local n:2 = 0;
+    local v0:4 = VACC[0,32] >> vgash;
+    z = z | (zext(v0 == 0:4) << 0:2);
+    n = n | (zext(v0 s< 0:4) << 0:2);
+    local v1:4 = VACC[32,32] >> vgash;
+    z = z | (zext(v1 == 0:4) << 1:2);
+    n = n | (zext(v1 s< 0:4) << 1:2);
+    local v2:4 = VACC[64,32] >> vgash;
+    z = z | (zext(v2 == 0:4) << 2:2);
+    n = n | (zext(v2 s< 0:4) << 2:2);
+    local v3:4 = VACC[96,32] >> vgash;
+    z = z | (zext(v3 == 0:4) << 3:2);
+    n = n | (zext(v3 s< 0:4) << 3:2);
+    local v4:4 = VACC[128,32] >> vgash;
+    z = z | (zext(v4 == 0:4) << 4:2);
+    n = n | (zext(v4 s< 0:4) << 4:2);
+    local v5:4 = VACC[160,32] >> vgash;
+    z = z | (zext(v5 == 0:4) << 5:2);
+    n = n | (zext(v5 s< 0:4) << 5:2);
+    local v6:4 = VACC[192,32] >> vgash;
+    z = z | (zext(v6 == 0:4) << 6:2);
+    n = n | (zext(v6 s< 0:4) << 6:2);
+    local v7:4 = VACC[224,32] >> vgash;
+    z = z | (zext(v7 == 0:4) << 7:2);
+    n = n | (zext(v7 s< 0:4) << 7:2);
+    local v8:4 = VACC[256,32] >> vgash;
+    z = z | (zext(v8 == 0:4) << 8:2);
+    n = n | (zext(v8 s< 0:4) << 8:2);
+    local v9:4 = VACC[288,32] >> vgash;
+    z = z | (zext(v9 == 0:4) << 9:2);
+    n = n | (zext(v9 s< 0:4) << 9:2);
+    local v10:4 = VACC[320,32] >> vgash;
+    z = z | (zext(v10 == 0:4) << 10:2);
+    n = n | (zext(v10 s< 0:4) << 10:2);
+    local v11:4 = VACC[352,32] >> vgash;
+    z = z | (zext(v11 == 0:4) << 11:2);
+    n = n | (zext(v11 s< 0:4) << 11:2);
+    local v12:4 = VACC[384,32] >> vgash;
+    z = z | (zext(v12 == 0:4) << 12:2);
+    n = n | (zext(v12 s< 0:4) << 12:2);
+    local v13:4 = VACC[416,32] >> vgash;
+    z = z | (zext(v13 == 0:4) << 13:2);
+    n = n | (zext(v13 s< 0:4) << 13:2);
+    local v14:4 = VACC[448,32] >> vgash;
+    z = z | (zext(v14 == 0:4) << 14:2);
+    n = n | (zext(v14 s< 0:4) << 14:2);
+    local v15:4 = VACC[480,32] >> vgash;
+    z = z | (zext(v15 == 0:4) << 15:2);
+    n = n | (zext(v15 s< 0:4) << 15:2);
+    VFZ = z;
+    VFN = n;
+  }
+
   # vgetacc into a 8-bit register element at byte-in-lane 3
   :vgetacc vargd, varga, vmemargb^vflags
 	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=3 & Vsetf48=0
-	    & Vhasimm=0 & Vselb=7 & VdRow & VRm) ... & vargd & varga & vmemargb & vflags {
+	    & Vhasimm=0 & Vselb=7 & VdRow & VRm & Vsetf48=0) ... & vargd & varga & vmemargb & vflags {
     local vgash:4 = VRm & 0x3f;
 @repeat L 0 16
     VdRow[$[24+32*L],8] = VACC[$[32*L],8] >> vgash;
 @endrepeat
   }
 
+  # vgetacc SETF into a 8-bit register element at byte-in-lane 3
+  :vgetacc vargd, varga, vmemargb^vflags
+	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=3 & Vsetf48=1
+	    & Vhasimm=0 & Vselb=7 & VdRow & VRm) ... & vargd & varga & vmemargb & vflags {
+    local vgash:4 = VRm & 0x3f;
+@repeat L 0 16
+    VdRow[$[24+32*L],8] = VACC[$[32*L],8] >> vgash;
+@endrepeat
+    local z:2 = 0;
+    local n:2 = 0;
+    local v0:4 = VACC[0,32] >> vgash;
+    z = z | (zext(v0 == 0:4) << 0:2);
+    n = n | (zext(v0 s< 0:4) << 0:2);
+    local v1:4 = VACC[32,32] >> vgash;
+    z = z | (zext(v1 == 0:4) << 1:2);
+    n = n | (zext(v1 s< 0:4) << 1:2);
+    local v2:4 = VACC[64,32] >> vgash;
+    z = z | (zext(v2 == 0:4) << 2:2);
+    n = n | (zext(v2 s< 0:4) << 2:2);
+    local v3:4 = VACC[96,32] >> vgash;
+    z = z | (zext(v3 == 0:4) << 3:2);
+    n = n | (zext(v3 s< 0:4) << 3:2);
+    local v4:4 = VACC[128,32] >> vgash;
+    z = z | (zext(v4 == 0:4) << 4:2);
+    n = n | (zext(v4 s< 0:4) << 4:2);
+    local v5:4 = VACC[160,32] >> vgash;
+    z = z | (zext(v5 == 0:4) << 5:2);
+    n = n | (zext(v5 s< 0:4) << 5:2);
+    local v6:4 = VACC[192,32] >> vgash;
+    z = z | (zext(v6 == 0:4) << 6:2);
+    n = n | (zext(v6 s< 0:4) << 6:2);
+    local v7:4 = VACC[224,32] >> vgash;
+    z = z | (zext(v7 == 0:4) << 7:2);
+    n = n | (zext(v7 s< 0:4) << 7:2);
+    local v8:4 = VACC[256,32] >> vgash;
+    z = z | (zext(v8 == 0:4) << 8:2);
+    n = n | (zext(v8 s< 0:4) << 8:2);
+    local v9:4 = VACC[288,32] >> vgash;
+    z = z | (zext(v9 == 0:4) << 9:2);
+    n = n | (zext(v9 s< 0:4) << 9:2);
+    local v10:4 = VACC[320,32] >> vgash;
+    z = z | (zext(v10 == 0:4) << 10:2);
+    n = n | (zext(v10 s< 0:4) << 10:2);
+    local v11:4 = VACC[352,32] >> vgash;
+    z = z | (zext(v11 == 0:4) << 11:2);
+    n = n | (zext(v11 s< 0:4) << 11:2);
+    local v12:4 = VACC[384,32] >> vgash;
+    z = z | (zext(v12 == 0:4) << 12:2);
+    n = n | (zext(v12 s< 0:4) << 12:2);
+    local v13:4 = VACC[416,32] >> vgash;
+    z = z | (zext(v13 == 0:4) << 13:2);
+    n = n | (zext(v13 s< 0:4) << 13:2);
+    local v14:4 = VACC[448,32] >> vgash;
+    z = z | (zext(v14 == 0:4) << 14:2);
+    n = n | (zext(v14 s< 0:4) << 14:2);
+    local v15:4 = VACC[480,32] >> vgash;
+    z = z | (zext(v15 == 0:4) << 15:2);
+    n = n | (zext(v15 s< 0:4) << 15:2);
+    VFZ = z;
+    VFN = n;
+  }
+
   # vgetacc into a 16-bit register element at byte-in-lane 0
   :vgetacc vargd, varga, vmemargb^vflags
 	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=4 & Vsetf48=0
-	    & Vhasimm=0 & Vselb=7 & VdRow & VRm) ... & vargd & varga & vmemargb & vflags {
+	    & Vhasimm=0 & Vselb=7 & VdRow & VRm & Vsetf48=0) ... & vargd & varga & vmemargb & vflags {
     local vgash:4 = VRm & 0x3f;
 @repeat L 0 16
     VdRow[$[32*L],16] = VACC[$[32*L],16] >> vgash;
 @endrepeat
   }
 
+  # vgetacc SETF into a 16-bit register element at byte-in-lane 0
+  :vgetacc vargd, varga, vmemargb^vflags
+	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=4 & Vsetf48=1
+	    & Vhasimm=0 & Vselb=7 & VdRow & VRm) ... & vargd & varga & vmemargb & vflags {
+    local vgash:4 = VRm & 0x3f;
+@repeat L 0 16
+    VdRow[$[32*L],16] = VACC[$[32*L],16] >> vgash;
+@endrepeat
+    local z:2 = 0;
+    local n:2 = 0;
+    local v0:4 = VACC[0,32] >> vgash;
+    z = z | (zext(v0 == 0:4) << 0:2);
+    n = n | (zext(v0 s< 0:4) << 0:2);
+    local v1:4 = VACC[32,32] >> vgash;
+    z = z | (zext(v1 == 0:4) << 1:2);
+    n = n | (zext(v1 s< 0:4) << 1:2);
+    local v2:4 = VACC[64,32] >> vgash;
+    z = z | (zext(v2 == 0:4) << 2:2);
+    n = n | (zext(v2 s< 0:4) << 2:2);
+    local v3:4 = VACC[96,32] >> vgash;
+    z = z | (zext(v3 == 0:4) << 3:2);
+    n = n | (zext(v3 s< 0:4) << 3:2);
+    local v4:4 = VACC[128,32] >> vgash;
+    z = z | (zext(v4 == 0:4) << 4:2);
+    n = n | (zext(v4 s< 0:4) << 4:2);
+    local v5:4 = VACC[160,32] >> vgash;
+    z = z | (zext(v5 == 0:4) << 5:2);
+    n = n | (zext(v5 s< 0:4) << 5:2);
+    local v6:4 = VACC[192,32] >> vgash;
+    z = z | (zext(v6 == 0:4) << 6:2);
+    n = n | (zext(v6 s< 0:4) << 6:2);
+    local v7:4 = VACC[224,32] >> vgash;
+    z = z | (zext(v7 == 0:4) << 7:2);
+    n = n | (zext(v7 s< 0:4) << 7:2);
+    local v8:4 = VACC[256,32] >> vgash;
+    z = z | (zext(v8 == 0:4) << 8:2);
+    n = n | (zext(v8 s< 0:4) << 8:2);
+    local v9:4 = VACC[288,32] >> vgash;
+    z = z | (zext(v9 == 0:4) << 9:2);
+    n = n | (zext(v9 s< 0:4) << 9:2);
+    local v10:4 = VACC[320,32] >> vgash;
+    z = z | (zext(v10 == 0:4) << 10:2);
+    n = n | (zext(v10 s< 0:4) << 10:2);
+    local v11:4 = VACC[352,32] >> vgash;
+    z = z | (zext(v11 == 0:4) << 11:2);
+    n = n | (zext(v11 s< 0:4) << 11:2);
+    local v12:4 = VACC[384,32] >> vgash;
+    z = z | (zext(v12 == 0:4) << 12:2);
+    n = n | (zext(v12 s< 0:4) << 12:2);
+    local v13:4 = VACC[416,32] >> vgash;
+    z = z | (zext(v13 == 0:4) << 13:2);
+    n = n | (zext(v13 s< 0:4) << 13:2);
+    local v14:4 = VACC[448,32] >> vgash;
+    z = z | (zext(v14 == 0:4) << 14:2);
+    n = n | (zext(v14 s< 0:4) << 14:2);
+    local v15:4 = VACC[480,32] >> vgash;
+    z = z | (zext(v15 == 0:4) << 15:2);
+    n = n | (zext(v15 s< 0:4) << 15:2);
+    VFZ = z;
+    VFN = n;
+  }
+
   # vgetacc into a 16-bit register element at byte-in-lane 2
   :vgetacc vargd, varga, vmemargb^vflags
 	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=5 & Vsetf48=0
-	    & Vhasimm=0 & Vselb=7 & VdRow & VRm) ... & vargd & varga & vmemargb & vflags {
+	    & Vhasimm=0 & Vselb=7 & VdRow & VRm & Vsetf48=0) ... & vargd & varga & vmemargb & vflags {
     local vgash:4 = VRm & 0x3f;
 @repeat L 0 16
     VdRow[$[16+32*L],16] = VACC[$[32*L],16] >> vgash;
 @endrepeat
   }
 
+  # vgetacc SETF into a 16-bit register element at byte-in-lane 2
+  :vgetacc vargd, varga, vmemargb^vflags
+	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=5 & Vsetf48=1
+	    & Vhasimm=0 & Vselb=7 & VdRow & VRm) ... & vargd & varga & vmemargb & vflags {
+    local vgash:4 = VRm & 0x3f;
+@repeat L 0 16
+    VdRow[$[16+32*L],16] = VACC[$[32*L],16] >> vgash;
+@endrepeat
+    local z:2 = 0;
+    local n:2 = 0;
+    local v0:4 = VACC[0,32] >> vgash;
+    z = z | (zext(v0 == 0:4) << 0:2);
+    n = n | (zext(v0 s< 0:4) << 0:2);
+    local v1:4 = VACC[32,32] >> vgash;
+    z = z | (zext(v1 == 0:4) << 1:2);
+    n = n | (zext(v1 s< 0:4) << 1:2);
+    local v2:4 = VACC[64,32] >> vgash;
+    z = z | (zext(v2 == 0:4) << 2:2);
+    n = n | (zext(v2 s< 0:4) << 2:2);
+    local v3:4 = VACC[96,32] >> vgash;
+    z = z | (zext(v3 == 0:4) << 3:2);
+    n = n | (zext(v3 s< 0:4) << 3:2);
+    local v4:4 = VACC[128,32] >> vgash;
+    z = z | (zext(v4 == 0:4) << 4:2);
+    n = n | (zext(v4 s< 0:4) << 4:2);
+    local v5:4 = VACC[160,32] >> vgash;
+    z = z | (zext(v5 == 0:4) << 5:2);
+    n = n | (zext(v5 s< 0:4) << 5:2);
+    local v6:4 = VACC[192,32] >> vgash;
+    z = z | (zext(v6 == 0:4) << 6:2);
+    n = n | (zext(v6 s< 0:4) << 6:2);
+    local v7:4 = VACC[224,32] >> vgash;
+    z = z | (zext(v7 == 0:4) << 7:2);
+    n = n | (zext(v7 s< 0:4) << 7:2);
+    local v8:4 = VACC[256,32] >> vgash;
+    z = z | (zext(v8 == 0:4) << 8:2);
+    n = n | (zext(v8 s< 0:4) << 8:2);
+    local v9:4 = VACC[288,32] >> vgash;
+    z = z | (zext(v9 == 0:4) << 9:2);
+    n = n | (zext(v9 s< 0:4) << 9:2);
+    local v10:4 = VACC[320,32] >> vgash;
+    z = z | (zext(v10 == 0:4) << 10:2);
+    n = n | (zext(v10 s< 0:4) << 10:2);
+    local v11:4 = VACC[352,32] >> vgash;
+    z = z | (zext(v11 == 0:4) << 11:2);
+    n = n | (zext(v11 s< 0:4) << 11:2);
+    local v12:4 = VACC[384,32] >> vgash;
+    z = z | (zext(v12 == 0:4) << 12:2);
+    n = n | (zext(v12 s< 0:4) << 12:2);
+    local v13:4 = VACC[416,32] >> vgash;
+    z = z | (zext(v13 == 0:4) << 13:2);
+    n = n | (zext(v13 s< 0:4) << 13:2);
+    local v14:4 = VACC[448,32] >> vgash;
+    z = z | (zext(v14 == 0:4) << 14:2);
+    n = n | (zext(v14 s< 0:4) << 14:2);
+    local v15:4 = VACC[480,32] >> vgash;
+    z = z | (zext(v15 == 0:4) << 15:2);
+    n = n | (zext(v15 s< 0:4) << 15:2);
+    VFZ = z;
+    VFN = n;
+  }
+
   # vgetacc into a 32-bit register element at byte-in-lane 0
   :vgetacc vargd, varga, vmemargb^vflags
 	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=6 & Vsetf48=0
+	    & Vhasimm=0 & Vselb=7 & VdRow & VRm & Vsetf48=0) ... & vargd & varga & vmemargb & vflags {
+    local vgash:4 = VRm & 0x3f;
+@repeat L 0 16
+    VdRow[$[32*L],32] = VACC[$[32*L],32] >> vgash;
+@endrepeat
+  }
+
+  # vgetacc SETF into a 32-bit register element at byte-in-lane 0
+  :vgetacc vargd, varga, vmemargb^vflags
+	is (Vmop=24 & Vmwidth=0 & Vdir=0 & Vseld=6 & Vsetf48=1
 	    & Vhasimm=0 & Vselb=7 & VdRow & VRm) ... & vargd & varga & vmemargb & vflags {
     local vgash:4 = VRm & 0x3f;
 @repeat L 0 16
     VdRow[$[32*L],32] = VACC[$[32*L],32] >> vgash;
 @endrepeat
+    local z:2 = 0;
+    local n:2 = 0;
+    local v0:4 = VACC[0,32] >> vgash;
+    z = z | (zext(v0 == 0:4) << 0:2);
+    n = n | (zext(v0 s< 0:4) << 0:2);
+    local v1:4 = VACC[32,32] >> vgash;
+    z = z | (zext(v1 == 0:4) << 1:2);
+    n = n | (zext(v1 s< 0:4) << 1:2);
+    local v2:4 = VACC[64,32] >> vgash;
+    z = z | (zext(v2 == 0:4) << 2:2);
+    n = n | (zext(v2 s< 0:4) << 2:2);
+    local v3:4 = VACC[96,32] >> vgash;
+    z = z | (zext(v3 == 0:4) << 3:2);
+    n = n | (zext(v3 s< 0:4) << 3:2);
+    local v4:4 = VACC[128,32] >> vgash;
+    z = z | (zext(v4 == 0:4) << 4:2);
+    n = n | (zext(v4 s< 0:4) << 4:2);
+    local v5:4 = VACC[160,32] >> vgash;
+    z = z | (zext(v5 == 0:4) << 5:2);
+    n = n | (zext(v5 s< 0:4) << 5:2);
+    local v6:4 = VACC[192,32] >> vgash;
+    z = z | (zext(v6 == 0:4) << 6:2);
+    n = n | (zext(v6 s< 0:4) << 6:2);
+    local v7:4 = VACC[224,32] >> vgash;
+    z = z | (zext(v7 == 0:4) << 7:2);
+    n = n | (zext(v7 s< 0:4) << 7:2);
+    local v8:4 = VACC[256,32] >> vgash;
+    z = z | (zext(v8 == 0:4) << 8:2);
+    n = n | (zext(v8 s< 0:4) << 8:2);
+    local v9:4 = VACC[288,32] >> vgash;
+    z = z | (zext(v9 == 0:4) << 9:2);
+    n = n | (zext(v9 s< 0:4) << 9:2);
+    local v10:4 = VACC[320,32] >> vgash;
+    z = z | (zext(v10 == 0:4) << 10:2);
+    n = n | (zext(v10 s< 0:4) << 10:2);
+    local v11:4 = VACC[352,32] >> vgash;
+    z = z | (zext(v11 == 0:4) << 11:2);
+    n = n | (zext(v11 s< 0:4) << 11:2);
+    local v12:4 = VACC[384,32] >> vgash;
+    z = z | (zext(v12 == 0:4) << 12:2);
+    n = n | (zext(v12 s< 0:4) << 12:2);
+    local v13:4 = VACC[416,32] >> vgash;
+    z = z | (zext(v13 == 0:4) << 13:2);
+    n = n | (zext(v13 s< 0:4) << 13:2);
+    local v14:4 = VACC[448,32] >> vgash;
+    z = z | (zext(v14 == 0:4) << 14:2);
+    n = n | (zext(v14 s< 0:4) << 14:2);
+    local v15:4 = VACC[480,32] >> vgash;
+    z = z | (zext(v15 == 0:4) << 15:2);
+    n = n | (zext(v15 s< 0:4) << 15:2);
+    VFZ = z;
+    VFN = n;
   }
 }
 
